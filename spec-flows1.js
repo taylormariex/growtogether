@@ -1,0 +1,207 @@
+/* =====================================================================
+   Spec build · 4.1 Money Type v2  ·  4.2 Skip and Stash family
+   ===================================================================== */
+const MT2={steady:{n:'Steady Grower',line:'You like money on a rhythm. A weekly investment on payday fits you.',plan:'rec'},
+  spare:{n:'Spare-Change Saver',line:'Lots of small swipes. Round-Ups turn them into acorns without a second thought.',plan:'ru'},
+  moment:{n:'In-the-Moment Investor',line:'You invest when it feels right. A small weekly base keeps you growing in between.',plan:'both'}};
+const MTQ2=[{k:'rhythm',q:'How does money usually reach you?',o:[['pay','Every paycheck','Same days, every time'],['here','Here and there','Side gigs, freelance, a mix'],['wknd','Mostly weekends','Tips, shifts, weekend work']]},
+  {k:'spend',q:'How do you mostly pay?',o:[['card','Card swipes','Coffee, groceries, rides'],['bank','Bank transfers and bills','Rent, autopay, transfers'],['mix','A mix','A bit of everything']]},
+  {k:'feel',q:'What sounds most like you?',o:[['auto','Set it and forget it','Automatic is best'],['see','I like to see it work','Show me it adding up'],['when','I’ll do it when I can','Flexible beats fixed']]}];
+const DAYS7=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+function mtScore(a){a=a||{};if(a.spend==='card'&&a.feel!=='auto')return 'spare';if(a.feel==='when'||a.rhythm==='here')return 'moment';return 'steady'}
+function mtExit(i){S.resume={t:'Finish your Money Type',s:`${i||0} of 3 answered. Pick up right where you were.`,act:`T.mq=S.mt2.a||{};go('mt2-q',{i:${Math.min(2,i||0)}})`};save();home('gt-home')}
+function mtDots(i){return `<div class="dots" style="justify-content:center">${[0,1,2].map(k=>`<i class="${k===i?'on':''}"></i>`).join('')}</div>`}
+
+/* 0 · Detected path (opt-in) */
+def('mt2-detect',()=>({cls:'dark',html:`${topbar({close:"home('menu')"})}<div class="body center" style="display:flex;flex-direction:column">
+  <div style="position:relative;height:250px;margin:0 calc(-1*var(--pad))">${hills({dark:1})}<div class="tree" style="position:absolute;left:50%;bottom:31%;transform:translateX(-50%)"><img src="${IMG.acorn}" style="height:84px" alt=""></div>
+</div>
+  <div class="row mt16" style="justify-content:center;flex-wrap:wrap;gap:8px">${['Lots of card swipes','Paid every other Friday','Weekend spender'].map((t,i)=>`<span class="sk-chip rise d${i*2+2}">${t}</span>`).join('')}</div>
+  <div class="eyebrow mt16">From your linked card</div><div class="h1 mt8">We think we know you.</div><p class="p mt8">Does this sound like you? We only use patterns, never amounts or store names.</p></div>
+  ${foot(btn('Sounds right',"S.mt2.a={rhythm:'pay',spend:'card',feel:'see'};S.mt2.type='spare';S.mt2.src='detected';save();go('mt2-reveal')",'wh'),btn('Not quite',"T.mq={rhythm:'pay',spend:'card',feel:'see'};go('mt2-q',{i:0,pre:1})",'ghost'))}`}));
+/* 1 · Intro */
+def('mt2-intro',()=>({cls:'dark',html:`<div class="hero-wrap"><div class="sk-hero" style="height:420px;margin:0">${hills({dark:1})}<div class="tree"><div class="sway"><img class="grow-in" src="${IMG.acorn}" style="height:110px" alt=""></div></div></div>
+  <div class="top"><button class="iconbtn" onclick="home('menu')" aria-label="Close">${ic('close')}</button><button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button></div></div>
+  <div class="body center" style="padding-top:8px">${mtDots(-1)}<div class="h1 mt16">What’s your money type?</div><p class="p mt8">Three quick questions. We’ll set you up.</p>
+  <p class="mt16"><span class="sim" onclick="S.detect.on=true;S.detect.cats=S.detect.cats.length?S.detect.cats:['Coffee'];save();go('mt2-detect')">${ic('ff',12)} Prototype: card linked, detection on</span></p></div>
+  ${foot(btn('Start',"T.mq={};S.mt2={};save();go('mt2-q',{i:0})",'wh'),btn('Set up myself',"T.mp={mode:'rec'};S.mt2={type:null};go('mt2-plan')",'ghost'))}`}));
+/* 2–4 · Questions (auto-advance 350ms) */
+def('mt2-q',p=>{const i=p.i||0;const q=MTQ2[i];if(!T.mq)T.mq={};const v=T.mq[q.k];
+  return {cls:'dark',html:`${topbar({close:`mtExit(${i})`,title:''})}<div class="body"><div style="padding:6px 0 0">${mtDots(i)}</div>
+  ${p.pre?`<div class="sk-chip mt16" style="display:inline-flex">${ic('spark',14,'color:#74c947')} Pre-filled from your patterns. Change what’s wrong.</div>`:''}
+  <div class="eyebrow mt24">Question ${i+1} of 3</div><div class="mtq mt8">${q.q}</div><div class="mt24">${q.o.map(([k,l,s])=>`<div class="qcard ${v===k?'on':''}" onclick="mtAns(this,${i},'${k}',${p.pre?1:0})"><div class="grow"><div class="ql">${l}</div><div class="qs">${s}</div></div><div class="cbox ${v===k?'on':''}">${v===k?ic('check',14):''}</div></div>`).join('')}</div>
+  ${p.pre&&v?`<div class="mt16">${btn(i<2?'Looks right, next':'See my type',`mtAns(null,${i},'${v}',1)`,'line','style="color:#fff"')}</div>`:''}</div>`}});
+function mtAns(el,i,k,pre){T.mq[MTQ2[i].k]=k;haptic(8);if(el){$$('.qcard',cur()).forEach(c=>{c.classList.remove('on');c.querySelector('.cbox').classList.remove('on');c.querySelector('.cbox').innerHTML=''});el.classList.add('on');const b=el.querySelector('.cbox');b.classList.add('on');b.innerHTML=ic('check',14)}
+  setTimeout(()=>{if(i<2)go('mt2-q',{i:i+1,pre});else{S.mt2={a:Object.assign({},T.mq),type:mtScore(T.mq)};S.resume=null;save();go('mt2-reveal')}},el?350:0)}
+/* 5 · Reveal */
+def('mt2-reveal',()=>{const t=MT2[S.mt2.type||'steady'];const plan=t.plan;const ghost=plan==='ru'?['acorns']:plan==='both'?['roots','acorns']:['roots'];
+  return {cls:'dark',html:`<div class="hero-wrap">${oakStage({h:300,flush:1,weeks:0,fl:[],ghost,id:'mtT'})}<div class="top"><button class="iconbtn" onclick="back()">${ic('back')}</button><button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button></div></div>
+  <div class="body center" style="padding-top:6px"><div class="eyebrow">Your money type</div><div class="h1 mt8">You’re a ${t.n}.</div><p class="p mt8">${t.line}</p>
+  <div class="card dk mt16" style="text-align:left"><div class="row"><div class="sk-badge"><img src="${IMG[plan==='ru'?'roundup':'seedling']}" alt=""></div><div class="grow"><div class="sm" style="color:#bceaa3;font-weight:700;letter-spacing:1px;font-size:11px">RECOMMENDED FOR YOU</div>
+   <div style="font-weight:600;font-size:16px;margin-top:2px">${plan==='ru'?'Round-Ups® on your card':plan==='both'?'$5 a week, plus Round-Ups®':`$${S.mt2.a&&S.mt2.a.rhythm==='pay'?10:5} every Friday`}</div><div class="sm" style="color:var(--sk-sub)">${plan==='ru'?'Every 10 Round-Ups, an acorn.':'Grows Roots on your oak. Counts toward your streak.'}</div></div></div></div>
+  <p class="sm mt12" style="color:var(--sk-sub)">About habits only. It doesn’t change your portfolio or risk.</p></div>
+  ${foot(btn('Set it up',`T.mp={mode:'${plan}'};go('mt2-plan')`,'wh'),btn(`${ic('share',18)} Share my type`,"S.mtShared=true;T.sbT=undefined;T.sbName=undefined;go('share-b',{kind:'type'})",'ghost'))}`,
+  mount(el){const tr=$('#mtT',el);setTimeout(()=>{tr&&tr.classList.add('breathe');haptic(20)},350)}}});
+/* 6 · Plan builder */
+def('mt2-plan',()=>{const m=T.mp||(T.mp={mode:'rec'});const a=(S.mt2&&S.mt2.a)||{};if(m.amt===undefined){m.amt=a.rhythm==='pay'?10:5;m.freq='Weekly';m.day=a.rhythm==='wknd'?'Sat':'Fri';m.commit=12;m.cards=S.cards.filter(c=>c.linked).map(c=>c.id)}
+  const rec=m.mode!=='ru',ru=m.mode!=='rec';const ghost=[];if(rec)ghost.push('roots');if(ru)ghost.push('acorns');const dots=Math.max(1,Math.round(m.commit/4));const sug=a.rhythm==='wknd'?'Sat':'Fri';
+  const ok=(!ru||m.cards.length)&&(!rec||m.amt>=5);
+  return {cls:'dark',html:`<div class="hero-wrap">${oakStage({h:270,flush:1,weeks:Math.max(0,S.streak),fl:S.flourishes.filter(k=>ghost.indexOf(k)<0),ghost})}<div class="top"><button class="iconbtn" onclick="back()">${ic('back')}</button><div class="t" style="color:#fff">Your plan</div><button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button></div></div>
+  <div class="body" style="padding-top:12px"><div class="seg">${[['rec','Recurring'],['ru','Round-Ups®'],['both','Both']].map(([k,l])=>`<button class="${m.mode===k?'on':''}" onclick="T.mp.mode='${k}';refresh()">${l}</button>`).join('')}</div>
+  ${rec?`<div class="sk-sec"><div class="h4">Recurring</div></div>
+   <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="amt" style="color:#fff;font-size:44px;margin:0" onclick="keypad(T.mp.amt,v=>{T.mp.amt=v;refresh()},'Recurring')">${money(m.amt)}</div><div class="seg" style="width:170px">${['Weekly','Daily'].map(f=>`<button class="${m.freq===f?'on':''}" onclick="T.mp.freq='${f}';refresh()">${f}</button>`).join('')}</div></div>
+   <div class="chips mt12">${[5,10,25,50].map(v=>`<button class="chip ${m.amt===v?'on':''}" onclick="T.mp.amt=${v};refresh()">$${v}</button>`).join('')}<button class="chip" onclick="keypad(T.mp.amt,v=>{T.mp.amt=v;refresh()},'Recurring')">Other</button></div>
+   ${m.amt<5?`<div class="lockrow mt8">${ic('lock',16)}Recurring starts at $5.</div>`:''}
+   ${m.freq==='Weekly'?`<div class="sm mt16" style="color:var(--sk-sub)">Start day · <b style="color:#bceaa3">${sug} is suggested</b> (${a.rhythm==='wknd'?'your weekends':'your payday'})</div><div class="days mt8">${DAYS7.map(d=>`<button class="${m.day===d?'on':''}" onclick="T.mp.day='${d}';refresh()">${d}${d===sug?'<span class="me"></span>':''}</button>`).join('')}</div>`:''}
+   <div class="sm mt16" style="color:var(--sk-sub)">Grow roots for</div><div class="seg mt8">${[4,12,26,52].map(c=>`<button class="${m.commit===c?'on':''}" onclick="T.mp.commit=${c};refresh()">${c} wks</button>`).join('')}</div>
+   <div class="ghostroots">${Array.from({length:13},(_,k)=>`<i class="${k<dots?'on':''}"></i>`).join('')}</div>
+   <p class="sm mt12 center" style="color:#bceaa3">Lands every ${m.freq==='Daily'?'weekday':DAYS7.indexOf(m.day)>-1?{Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'}[m.day]:m.day}. Counts toward your streak.</p>`:''}
+  ${ru?`<div class="sk-sec"><div class="h4">Round-Ups®</div><span class="sm">moves at $5</span></div>
+   ${S.cards.filter(c=>!c.needs).map(c=>{const on=m.cards.indexOf(c.id)>-1;return `<div class="qcard ${on?'on':''}" style="padding:14px" onclick="mpCard('${c.id}')"><div class="qi">${ic('card',22)}</div><div class="grow"><div class="ql" style="font-size:15px">${c.name}</div><div class="qs">••${c.mask}${c.linked?' · linked':' · tap to link'}</div></div><div class="cbox ${on?'on':''}">${on?ic('check',14):''}</div></div>`}).join('')}
+   <div class="sk-row" onclick="toast('Primary checking: Everyday Checking ••4821')"><div class="sk-badge">${ic('bank',18,'color:#74c947')}</div><div class="grow"><div class="t">Primary checking</div><div class="s">${S.accounts[0].name} ••${S.accounts[0].mask}</div></div>${ic('chev',16,'color:rgba(255,255,255,.4)')}</div>
+   <div class="card dk mt12" style="padding:14px"><div class="row"><img src="${IMG.roundup}" style="height:30px" alt=""><div class="grow"><div style="font-weight:600;font-size:14px">Every 10 Round-Ups, an acorn.</div><div class="sm" style="color:var(--sk-sub)">They count toward your streak once a sweep invests.</div></div></div><div class="ghostroots" style="justify-content:flex-start">${Array.from({length:10},()=>'<i></i>').join('')}</div></div>
+   ${!m.cards.length?`<div class="lockrow mt12">${ic('card',16)}Pick at least one card for Round-Ups.</div>`:''}`:''}
+  <div style="height:16px"></div></div>
+  ${foot(btn('Review',"go('mt2-review')",'wh',ok?'':'disabled'))}`}});
+function mpCard(id){const m=T.mp;const c=S.cards.find(x=>x.id===id);const i=m.cards.indexOf(id);if(i>-1){m.cards.splice(i,1);refresh();return}
+  if(!c.linked){sheet(`<div class="h3">Link ${c.name}?</div><p class="p mt8">We’ll round up purchases on this card to the next dollar. You can unlink anytime.</p><div class="kv mt16"><span>Card</span><b>••${c.mask}</b></div><div class="mt24">${btn('Link card',`closeOv();S.cards.find(x=>x.id==='${id}').linked=true;T.mp.cards.push('${id}');save();setTimeout(refresh,250);toast('Card linked')`)}</div><div class="mt8">${btn('Not now','closeOv()','ghost','style="color:#555"')}</div>`);return}
+  m.cards.push(id);haptic(6);refresh()}
+/* 7 · Review */
+def('mt2-review',()=>{const m=T.mp;const rec=m.mode!=='ru',ru=m.mode!=='rec';const noBank=!S.accounts.length;
+  return {cls:'dark',html:`${topbar({title:'Review'})}<div class="body"><div class="h2" style="color:#fff">Here’s your plan.</div>
+  <div class="sk-list mt16">${rec?`<div class="li"><div class="grow k">Recurring</div><div class="v">${money(m.amt)} ${m.freq==='Daily'?'every weekday':'every '+m.day}</div></div><div class="li"><div class="grow k">Roots</div><div class="v">${m.commit} weeks</div></div>`:''}
+   ${ru?`<div class="li"><div class="grow k">Round-Ups®</div><div class="v">${m.cards.map(id=>'••'+S.cards.find(c=>c.id===id).mask).join(', ')}</div></div><div class="li"><div class="grow k">Moves</div><div class="v">When they reach $5</div></div>`:''}
+   <div class="li"><div class="grow k">From</div><div class="v">${noBank?'—':S.accounts[0].name+' ••'+S.accounts[0].mask}</div></div><div class="li"><div class="grow k">Into</div><div class="v">Invest account</div></div><div class="li"><div class="grow k">Streak</div><div class="v">${rec?'Counts when it lands':'Counts once a sweep invests'}</div></div></div>
+  ${noBank?`<div class="lockrow mt12">${ic('bank',16)}Link a bank to fund this plan. <span class="link" onclick="S.bankRet='mt2-review';go('bank-1')">Link bank</span></div>`:''}
+  <p class="sm mt16" style="color:var(--sk-sub)">Investing involves risk, including loss of principal. You can pause or change this anytime. <span class="link" style="font-size:13px">Disclosures</span></p></div>
+  <div class="foot">${holdBtn('start growing','mt2Confirm()','light')}<div class="mt8">${btn('Change','back()','ghost')}</div></div>`}});
+function mt2Confirm(){const m=T.mp;const rec=m.mode!=='ru',ru=m.mode!=='rec';const ks=[];
+  if(rec){S.recurring=true;S.amount=m.amt;S.day=m.freq==='Daily'?'weekday':m.day;S.commit=m.commit;if(addFlourish('roots'))ks.push('roots')}
+  if(ru){S.ru.on=true;m.cards.forEach(id=>S.cards.find(c=>c.id===id).linked=true);if(addFlourish('acorns'))ks.push('acorns')}
+  S.resume=null;S.mt2.done=true;save();const first=!S.invested&&!S.reset;
+  stack=stack.filter(s=>['mt2-q','mt2-reveal','mt2-plan','mt2-review','mt2-detect'].indexOf(s.id)<0);
+  go('growth',{ks,eyebrow:'You’re set up',cap:rec&&ru?'Roots and acorns.':rec?'Roots planted.':'Your first acorns are coming.',sub:rec?`${money(m.amt)} ${m.freq==='Daily'?'every weekday':'every '+m.day}.${ru?' Plus Round-Ups on your card.':''}`:'Every 10 Round-Ups, an acorn.',
+    notice:first?`Week ${Math.max(1,S.streak+1)} begins when your first investment lands.`:'',share:'type',next:'finish'})}
+
+/* ================= 4.2 Skip and Stash ================= */
+const QS_CATS=[['Coffee',6],['Takeout',14],['Rideshare',14],['Impulse buy',20],['Other',10]];
+function jarViz(j,big){const full=j.coins>=8;const lvl=Math.min(100,j.coins/8*100);const n=Math.min(12,j.coins);const sc=big?1.35:.62;
+  return `<div style="width:${110*sc}px;height:${140*sc}px;position:relative;flex-shrink:0"><div class="jar ${full?'full':''}" style="transform:scale(${sc});transform-origin:0 0;position:absolute;left:0;top:0" id="${big?'bigjar':''}"><div class="lid"></div><div class="glass"><div class="lvl" style="height:${lvl*.55}%"></div><div class="coins">${'<i></i>'.repeat(n)}</div></div></div></div>`}
+def('ss2-pick',()=>{const c=T.ssm;return {cls:'dark',html:`${topbar({close:true,title:''})}<div class="body"><div class="h1" style="color:#fff">How do you want to skip?</div><p class="p mt8">Skip something, invest the difference. Pick the shape that fits your week.</p>
+  <div class="mt24">${[['qs','Quick Stash','Skipped something? Stash it now.',`<img src="${IMG.roundup}" alt="">`,"T={};go('qs-1')"],
+    ['jar','Skip Jar','Drop a coin each time you skip. Stash when you’re ready.',`<div style="transform:scale(.36);transform-origin:50% 50%;margin:-40px">${jarViz({coins:5})}</div>`,"go(S.jars.length?'jar-home':'jar-new')"],
+    ['wk','Skip Week','A 3 or 7-day challenge. Go solo or bring a crew.',`<img src="${IMG.earn}" alt="">`,"T={};S.ret='gt-home';go('ss-why1')"]].map(([k,t,s,im,a])=>`<div class="qcard ${c===k?'on':''}" onclick="T.ssm='${k}';this.classList.add('on');haptic(8);setTimeout(()=>{${a.replace(/"/g,'&quot;')}},260)"><div class="qi" style="overflow:hidden">${im}</div><div class="grow"><div class="ql">${t}</div><div class="qs">${s}</div></div>${ic('chev',16,'color:rgba(255,255,255,.4)')}</div>`).join('')}
+   <div class="qcard dis"><div class="qi">${ic('gear',22)}</div><div class="grow"><div class="ql">Skip Rules</div><div class="qs">Stash automatically when you check in.</div></div><span class="sk-chip" style="font-size:11px">Coming soon</span></div></div>
+  <div class="sk-sec"><div class="h4">Also</div></div>
+  ${skRow(`<img src="${IMG.earn}" alt="">`,'Weekly review','Count this week’s skips in one place','nav',"go('ss-review')")}
+  ${skRow(`<img src="${IMG.learn}" alt="">`,'Skip log','Your private history','nav',"go('ss-log')")}
+  ${skRow(ic('spark',18,'color:#74c947'),'Spot my skips',S.detect.on?`On · ${S.detect.cats.join(', ')}`:'Optional · off','nav',"go(S.detect.on?'ss-settings':'ss-detect')")}
+  ${skRow(ic('bell',18,'color:#74c947'),'Reminder preview','What a check-in looks like on your lock screen','nav',"T.lk=null;go('ss-lock')")}
+  <div style="height:20px"></div></div>`}});
+/* Mode 1 · Quick Stash */
+def('qs-1',p=>{p=p||{};if(!T.qsItem){T.qsItem=p.item||'Coffee';T.qsAmt=QS_CATS.find(c=>c[0]===T.qsItem)[1]}const a=T.qsAmt;const counts=!S.invested||S.reset;const jar=T.jar&&S.jars.find(j=>j.id===T.jar);
+  return {cls:'dark',html:`${topbar({close:true,title:jar?jar.name:'Quick Stash'})}<div class="body">
+  ${T.src==='detected'?`<div class="lockrow" style="background:rgba(116,201,71,.12);color:#bceaa3">${ic('spark',16)}<div class="grow">Looks like you skipped ${T.qsItem.toLowerCase()} today.</div><span class="link" style="font-size:13px" onclick="T.src=null;S.detect.miss=(S.detect.miss||0)+1;save();back();toast('Thanks. We’ll ask less often.')">Not right</span></div>`:''}
+  <div style="position:relative;height:150px;display:flex;align-items:center;justify-content:center">
+   <div style="position:absolute;transform:scale(calc(1 - var(--p,0)*.8));opacity:calc(1 - var(--p,0)*.8);padding:14px 22px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid var(--sk-line);font-size:22px;font-weight:600;color:#fff">${jar?jar.name:T.qsItem}</div>
+   <img src="${IMG.acorn}" style="position:absolute;height:64px;opacity:var(--p,0);transform:scale(calc(.3 + var(--p,0)*.7))" alt=""></div>
+  ${jar?'':`<div class="sm" style="color:var(--sk-sub)">What did you skip?</div><div class="chips mt8">${QS_CATS.map(([c,e])=>`<button class="chip ${T.qsItem===c?'on':''}" onclick="T.qsItem='${c}';T.qsAmt=${e};refresh()">${c}</button>`).join('')}</div>`}
+  <div class="center mt24"><div class="amt" style="color:#fff;margin:0" onclick="keypad(T.qsAmt,v=>{T.qsAmt=v;refresh()},'Stash')">${money(a)}</div><div class="sm" style="color:var(--sk-sub)">${jar?`${jar.coins} skips × about ${money(jar.est)}`:'Your estimate'} · <span class="link" style="font-size:13px" onclick="keypad(T.qsAmt,v=>{T.qsAmt=v;refresh()},'Stash')">Edit</span></div></div>
+  ${a<5?`<div class="lockrow mt16">${ic('lock',16)}<div class="grow">The minimum stash is $5. Add another skip or round it up.</div><span class="link" style="font-size:13px" onclick="T.qsAmt=5;refresh()">Make it $5</span></div>`:''}
+  ${S.qsUsed?`<div class="sk-row mt16" onclick="S.qsUsed=false;refresh()"><div class="sk-badge">${ic('bank',18,'color:#74c947')}</div><div class="grow"><div class="t">From ${S.accounts[0].name} ••${S.accounts[0].mask}</div><div class="s">Into Invest · moves today</div></div><span class="sm">Change</span></div>`
+   :`<div class="vis mt16"><div><span>From</span><b>${S.accounts[0].name} ••${S.accounts[0].mask}</b></div><div><span>Into</span><b>Invest account</b></div><div><span>Moves</span><b>Today</b></div><div><span>Streak</span><b>${counts?'Counts this week':'Already counted ✓'}</b></div></div>`}
+  <p class="sm mt12 center" style="color:var(--sk-sub)">A real one-time investment. Nothing moves until you hold.</p>
+  <p class="center mt8"><span class="sim" onclick="S.offline=true;save();toast('Offline (simulated)')">${ic('ff',12)} Prototype: go offline</span></p></div>
+  <div class="foot">${a<5?btn('Hold to stash '+money(a),'','wh','disabled'):holdBtn('stash '+money(a),'qsStash()','light')}</div>`}});
+function qsStash(){if(S.offline){go('qs-offline');return}const a=T.qsAmt,item=T.qsItem,jar=T.jar&&S.jars.find(j=>j.id===T.jar);const c=creditWeek();S.qsUsed=true;S.stashThisWeek=(S.stashThisWeek||0)+1;
+  S.skipLog.unshift({t:jar?jar.name:item,amt:a,src:T.src||(jar?'jar':'quick'),when:'Today',stash:true});if(jar){jar.coins=0;jar.last=Date.now()}if(T.combo){T.combo.forEach(id=>{const j=S.jars.find(x=>x.id===id);if(j)j.coins=0})}save();
+  const rows=[['Stashed into Invest',money(a)],['Your Streak',c.counted?`Week ${c.from} → ${c.to}`:'Already counted this week']];growing().slice(0,2).forEach(g=>rows.push([`Side by side with ${nm(g.id)}`,c.counted?`Week ${g.side}`:'—']));
+  stack.pop();go('growth',{invest:true,from:c.from,to:c.to,ks:[],eyebrow:c.counted?'This week counts':'Stashed',cap:c.counted?'Skipped it. Stashed it.':'Stashed. This week was already counted.',sub:c.counted?'':'It still invests. A second stash in the same week doesn’t add a week.',list:rows,next:S.ret||'gt-home'})}
+def('qs-offline',()=>({cls:'dark',html:`${topbar({close:true})}<div class="body center" style="display:flex;flex-direction:column;justify-content:center;align-items:center">
+  <div class="sk-badge lock" style="width:72px;height:72px;border-radius:36px">${ic('link',30)}</div><div class="h2 mt24" style="color:#fff">You’re offline.</div>
+  <p class="p mt8" style="max-width:300px">Stashing needs a connection, so nothing moved. Check-ins you log now are saved and sync when you’re back.</p></div>
+  ${foot(btn('Try again',"S.offline=false;save();back();toast('Back online')",'wh'),btn('Log a skip for later',"S.offline=false;S.jars[0]&&S.jars[0].coins++;save();toast('Saved. It’ll sync.');back()",'ghost'))}`}));
+/* Mode 2 · Skip Jar */
+def('jar-home',()=>{const due=S.jars.filter(j=>j.coins>0);return {cls:'dark',html:`${topbar({title:'Skip Jars'})}<div class="body">
+  <p class="p" style="margin-top:0">A jar is a private tally, not an account. Nothing moves until you stash.</p>
+  ${S.jars.map(j=>`<div class="card dk mt12 tap" style="padding:14px" onclick="go('jar',{id:'${j.id}'})"><div class="row" style="gap:14px">${jarViz(j)}<div class="grow"><div style="font-weight:600;font-size:16px;color:#fff">${j.name}</div><div class="sm" style="color:var(--sk-sub)">${j.coins?`${j.coins} skip${j.coins===1?'':'s'} · about ${money(j.coins*j.est)}`:'Empty for now'}</div>
+   <button class="chip mt8" style="height:34px" onclick="event.stopPropagation();jarDrop('${j.id}')">Skipped it</button></div>${ic('chev',16,'color:rgba(255,255,255,.4)')}</div></div>`).join('')}
+  ${S.jars.length<3?`<div class="card dk mt12 tap" style="border:1px dashed var(--sk-line);background:transparent;padding:16px" onclick="T={};go('jar-new')"><div class="row"><div class="spot">${ic('plus',18)}</div><div class="grow"><div style="font-weight:600;color:#fff">New jar</div><div class="sm" style="color:var(--sk-sub)">${3-S.jars.length} more allowed</div></div></div></div>`:`<p class="sm mt12" style="color:var(--sk-sub)">You have 3 jars, the most at once.</p>`}
+  </div>${due.length>1?foot(btn(`Stash ${due.length} jars at once`,"T={combo:S.jars.filter(j=>j.coins>0).map(j=>j.id)};go('jar-combo')",'wh')):''}`}});
+function jarDrop(id){const j=S.jars.find(x=>x.id===id);j.coins++;j.last=Date.now();S.skipLog.unshift({t:j.name,amt:j.est,src:'self',when:'Today',stash:false});save();haptic(10);
+  const host=$('#bigjar')||null;if(host){const d=document.createElement('div');d.className='coin-drop';const r=host.getBoundingClientRect(),h=$('#screen').getBoundingClientRect();const z=zf();d.style.left=((r.left-h.left+r.width/2)/z-9)+'px';d.style.top=((r.top-h.top+r.height*.45)/z)+'px';$('#screen').appendChild(d);setTimeout(()=>{d.remove();refresh()},620)}else{toast(`Coin in ${j.name}`);refresh()}}
+def('jar',p=>{const j=S.jars.find(x=>x.id===p.id)||S.jars[0];const stale=j.stale;const full=j.coins>=8;
+  return {cls:'dark',html:`${topbar({title:j.name})}<div class="body center">
+  <div style="display:flex;justify-content:center;margin-top:10px">${jarViz(j,1)}</div>
+  <div class="h1 mt16" style="color:#fff">${j.coins?`${j.coins} skip${j.coins===1?'':'s'}`:'Empty for now'}</div><p class="p mt8">${j.coins?`About ${money(j.coins*j.est)} at ${money(j.est)} a skip. Only you see this.`:'Tap “Skipped it” each time you skip. Watch it fill.'}</p>
+  ${full?`<div class="lockrow mt12" style="background:rgba(116,201,71,.12);color:#bceaa3;justify-content:center">Your jar is full. Stash it when you’re ready.</div>`:''}
+  ${stale?`<div class="card dk mt16" style="text-align:left"><div style="font-weight:600;color:#fff">It’s been 30 days.</div><p class="sm mt4" style="color:var(--sk-sub)">No pressure. Stash what’s here, or empty the jar and start fresh.</p><div class="mt12">${btn('Empty the jar',`jarEmpty('${j.id}')`,'line','style="color:#fff;height:44px"')}</div></div>`:''}
+  <div class="row mt24" style="gap:10px"><button class="btn line" style="flex:1;color:#fff" onclick="jarDrop('${j.id}')">Skipped it</button>${j.coins?`<button class="btn wh" style="flex:1" onclick="T={jar:'${j.id}',qsItem:'${j.name}',qsAmt:${j.coins*j.est}};go('qs-1')">Stash it</button>`:''}</div>
+  <div class="sk-sec" style="text-align:left"><div class="h4">Remind me to stash</div></div><div class="seg">${[['amt','At $25'],['sun','Every Sunday'],['off','Off']].map(([k,l])=>`<button class="${(j.rem||'off')===k?'on':''}" onclick="S.jars.find(x=>x.id==='${j.id}').rem='${k}';save();refresh()">${l}</button>`).join('')}</div>
+  <div class="sk-list mt16" style="text-align:left"><div class="li"><div class="grow k">Each skip</div><div class="v" onclick="keypad(${j.est},v=>{S.jars.find(x=>x.id==='${j.id}').est=v;save();refresh()},'One skip')">${money(j.est)} · edit</div></div><div class="li"><div class="grow k">Usual time</div><div class="v">${(S.habits.find(h=>j.name.indexOf(h.name)===0)||{}).time||'None'}</div></div></div>
+  <p class="mt16"><span class="sim" onclick="S.jars.find(x=>x.id==='${j.id}').stale=true;save();refresh()">${ic('ff',12)} Prototype: 30 days later</span></p></div>`}});
+function jarEmpty(id){const j=S.jars.find(x=>x.id===id);j.coins=0;j.stale=false;save();toast('Jar emptied. Fresh start.');refresh()}
+def('jar-new',()=>{if(!T.jn){T.jn={name:'Coffee jar',hab:'Coffee',est:6,time:'Weekdays · 8am',rem:true}}const n=T.jn;
+  return {cls:'dark',html:`${topbar({title:'New jar'})}<div class="body"><div class="h2" style="color:#fff">What are you skipping?</div>
+  <div class="chips mt16">${QS_CATS.map(([c,e])=>`<button class="chip ${n.hab===c?'on':''}" onclick="T.jn.hab='${c}';T.jn.est=${e};T.jn.name='${c} jar';refresh()">${c}</button>`).join('')}</div>
+  <div class="sm mt24" style="color:var(--sk-sub)">Name</div><input class="inp mt8" value="${n.name}" oninput="T.jn.name=this.value" aria-label="Jar name">
+  <div class="sm mt16" style="color:var(--sk-sub)">About how much is one skip? Only you see this.</div><div class="chips mt8">${[4,6,10,15,20].map(v=>`<button class="chip ${n.est===v?'on':''}" onclick="T.jn.est=${v};refresh()">$${v}</button>`).join('')}<button class="chip" onclick="keypad(T.jn.est,v=>{T.jn.est=v;refresh()},'One skip')">Other</button></div>
+  <div class="sm mt16" style="color:var(--sk-sub)">Usual time (optional)</div><div class="chips mt8">${['Weekdays · 8am','Lunchtime','Evenings','No set time'].map(t=>`<button class="chip ${n.time===t?'on':''}" onclick="T.jn.time='${t}';refresh()">${t}</button>`).join('')}</div>
+  ${n.time!=='No set time'?`<div class="li mt8" style="cursor:default"><div class="grow"><div class="ttl" style="color:#fff;font-size:15px">Check-in reminder</div><div class="sub" style="color:var(--sk-sub)">One ping about 30 minutes after. Pauses after 3 unanswered.</div></div><div class="tog ${n.rem?'on':''}" onclick="T.jn.rem=!T.jn.rem;refresh()"></div></div>`:''}
+  </div>${foot(btn('Create jar',"jarCreate()",'wh',S.jars.length>=3?'disabled':''))}`}});
+function jarCreate(){const n=T.jn;const id='j'+Date.now();S.jars.push({id,name:n.name||'My jar',est:n.est,coins:0,last:Date.now()});if(!S.habits.find(h=>h.name===n.hab))S.habits.push({id:'h'+Date.now(),name:n.hab,est:n.est,time:n.time,remind:n.rem});save();replace('jar',{id})}
+def('jar-combo',()=>{const ids=T.combo||[];const tot=S.jars.filter(j=>ids.indexOf(j.id)>-1).reduce((s,j)=>s+j.coins*j.est,0);
+  return {cls:'dark',html:`${topbar({title:'Stash your jars'})}<div class="body"><div class="h2" style="color:#fff">Stash them together.</div><p class="p mt8">One investment, one hold. Each jar empties after.</p>
+  <div class="mt16">${S.jars.filter(j=>j.coins>0).map(j=>{const on=ids.indexOf(j.id)>-1;return `<div class="qcard ${on?'on':''}" onclick="const a=T.combo;const i=a.indexOf('${j.id}');i>-1?a.splice(i,1):a.push('${j.id}');refresh()"><div class="cbox ${on?'on':''}">${on?ic('check',14):''}</div><div class="grow"><div class="ql">${j.name}</div><div class="qs">${j.coins} skips · about ${money(j.coins*j.est)}</div></div></div>`}).join('')}</div>
+  <div class="center mt16"><div class="sm" style="color:var(--sk-sub)">Total</div><div class="amt" style="color:#fff;margin:4px 0">${money(tot)}</div></div></div>
+  <div class="foot">${tot>=5?holdBtn('stash '+money(tot),`T.qsAmt=${tot};T.qsItem='Jars';qsStash()`,'light'):btn('Pick at least $5','','wh','disabled')}</div>`}});
+/* Mode 3 · Skip Week extensions (length + reminder), spliced into the built flow */
+(function(){const f=SCR['ss-est'];if(!f)return;def('ss-est',p=>{const r=f(p);r.html=r.html.replace("go('ss-crew')","go('ss2-len')");return r})})();
+def('ss2-len',()=>{if(!S.ss.len)S.ss.len=7;if(S.ss.remind===undefined)S.ss.remind=true;return {cls:'dark',html:`${topbar({title:'Skip Week'})}<div class="body"><div class="h2" style="color:#fff">How long?</div><p class="p mt8">Short and winnable beats long and abandoned.</p>
+  <div class="row mt16" style="gap:10px">${[[3,'3 days','A quick win'],[7,'7 days','The full week']].map(([d,l,s])=>`<div class="qcard ${S.ss.len===d?'on':''}" style="flex:1;flex-direction:column;align-items:flex-start;margin:0" onclick="S.ss.len=${d};save();refresh()"><div class="ql" style="font-size:20px">${l}</div><div class="qs">${s}</div></div>`).join('')}</div>
+  <div class="sk-sec"><div class="h4">Daily check-in</div></div>
+  <div class="card dk"><div class="row"><div class="grow"><div style="font-weight:600;color:#fff">Remind me</div><div class="sm" style="color:var(--sk-sub)">“Skipped ${(S.ss.pick||'it').toLowerCase()} today?” with Yes and Not today right on the notification.</div></div><div class="tog ${S.ss.remind?'on':''}" onclick="S.ss.remind=!S.ss.remind;save();refresh()"></div></div>
+  ${S.ss.remind?`<div class="chips mt12">${['8:30am','12:30pm','7pm'].map(t=>`<button class="chip ${(S.ss.rt||'8:30am')===t?'on':''}" onclick="S.ss.rt='${t}';save();refresh()">${t}</button>`).join('')}</div>`:''}</div>
+  <p class="sm mt12" style="color:var(--sk-sub)">Missed a day? The Sunday review can close it out.</p></div>${foot(btn('Continue',"go('ss-crew')",'wh'),btn('Preview the reminder',"T.lk=null;go('ss-lock')",'ghost'))}`}});
+/* Lock-screen reminder (actionable without opening the app) */
+def('ss-lock',()=>{const h=(S.habits[0]||{name:'Coffee'}).name.toLowerCase();const jar=S.jars[0];const a=T.lk;
+  return {cls:'dark',html:`<div class="lockscr"><div class="clock"><div class="d">Tuesday, October 27</div><div class="tm">8:34</div></div>
+  <div class="lnote rise"><div class="hd"><div class="ai"><img src="${IMG.acorn}" alt=""></div><div class="grow"><div class="row between"><b style="font-size:14px">Acorns</b><span style="font-size:12px;color:#888">now</span></div>
+   <div style="font-weight:600;font-size:15px;margin-top:2px">${a==='yes'?'Logged. Nice skip.':a==='no'?'No problem.':`Skipped ${h} today?`}</div><div style="font-size:14px;color:#444;margin-top:2px">${a==='yes'?`${jar?jar.coins:1} skips in your ${jar?jar.name:'jar'}. Stash when you’re ready.`:a==='no'?'See you tomorrow.':`Tap Yes to drop a coin in your ${jar?jar.name:'jar'}.`}</div></div></div>
+   ${a?'':`<div class="acts"><button onclick="T.lk='yes';${jar?`S.jars[0].coins++;S.skipLog.unshift({t:S.jars[0].name,amt:S.jars[0].est,src:'reminder',when:'Today',stash:false});`:''}save();haptic(10);refresh()">Yes</button><button onclick="T.lk='no';save();refresh()">Not today</button></div>`}</div>
+  <p style="position:absolute;left:24px;right:24px;bottom:calc(var(--safeBot) + 100px);text-align:center;font-size:13px;color:rgba(255,255,255,.7)">Reminders are ones you set. They pause after 3 unanswered in a row.</p>
+  <div style="position:absolute;left:24px;right:24px;bottom:calc(var(--safeBot) + 20px)" class="row" ><button class="btn line" style="flex:1;color:#fff" onclick="S.habits.forEach(x=>x.remind=false);save();toast('Reminders muted');back()">Mute</button><button class="btn wh" style="flex:1" onclick="back()">Back to app</button></div></div>`}});
+/* Weekly review (Sunday) */
+def('ss-review',()=>{if(!T.rv){T.rv={};S.habits.forEach(h=>T.rv[h.id]=h.id==='h1'?3:0)}const tot=S.habits.reduce((s,h)=>s+(T.rv[h.id]||0)*h.est,0);
+  return {cls:'dark',html:`${topbar({close:true,title:'Sunday review'})}<div class="body"><div class="eyebrow">This week</div><div class="h1 mt8" style="color:#fff">Anything you skipped?</div><p class="p mt8">Count them here. We do the math from your own estimate.</p>
+  <div class="mt16">${S.habits.map(h=>`<div class="card dk mt8" style="padding:14px 16px"><div class="row"><div class="grow"><div style="font-weight:600;color:#fff">${h.name}</div><div class="sm" style="color:var(--sk-sub)">about ${money(h.est)} each</div></div><div class="stepper"><button onclick="T.rv['${h.id}']=Math.max(0,(T.rv['${h.id}']||0)-1);refresh()" aria-label="Fewer">−</button><b>${T.rv[h.id]||0}</b><button onclick="T.rv['${h.id}']=Math.min(7,(T.rv['${h.id}']||0)+1);haptic(5);refresh()" aria-label="More">+</button></div></div></div>`).join('')}
+   <div class="card dk mt8 tap" style="border:1px dashed var(--sk-line);background:transparent;padding:14px 16px" onclick="T={};go('jar-new')"><div class="row"><div class="spot" style="width:32px;height:32px">${ic('plus',16)}</div><div style="font-weight:600;color:#fff">Add a habit</div></div></div></div>
+  <div class="center mt24"><div class="sm" style="color:var(--sk-sub)">About</div><div class="amt" style="color:#fff;margin:4px 0">${money(tot)}</div></div></div>
+  ${foot(tot>=5?btn('Stash '+money(tot),`S.reviewDone=true;save();T={qsItem:'This week’s skips',qsAmt:${tot},src:'weekly_review'};go('qs-1')`,'wh'):btn(tot?'Stash (min $5)':'Stash','','wh','disabled'),
+    `<div class="row" style="gap:10px"><button class="btn ghost" style="flex:1" onclick="ssToJar()">Drop in my jar</button><button class="btn ghost" style="flex:1" onclick="S.reviewDone=true;save();back();toast('Nothing this week. That’s fine.')">Nothing this week</button></div>`)}`}});
+function ssToJar(){S.habits.forEach(h=>{const n=T.rv[h.id]||0;if(!n)return;let j=S.jars.find(x=>x.name.indexOf(h.name)===0);if(!j&&S.jars.length<3){j={id:'j'+Date.now(),name:h.name+' jar',est:h.est,coins:0};S.jars.push(j)}if(j)j.coins+=n});S.reviewDone=true;save();toast('Dropped in your jar');replace('jar-home')}
+/* Opt-in detection */
+def('ss-detect',()=>{if(!T.dc)T.dc=S.detect.cats.slice();return {cls:'dark',html:`${topbar({close:true})}<div class="body"><div class="eyebrow">Optional · off by default</div><div class="h1 mt8" style="color:#fff">Spot your skips so stashing takes one tap.</div>
+  <div class="sk-list mt16"><div class="li"><div class="grow"><div style="font-weight:600">What we read</div><div class="sm" style="color:var(--sk-sub)">Transactions on your linked cards, to notice when a usual purchase didn’t happen.</div></div></div></div>
+  <div class="sk-sec"><div class="h4">Pick what to watch</div></div>
+  ${['Coffee','Takeout and delivery','Rideshare','Shopping','Subscriptions'].map(c=>{const on=T.dc.indexOf(c)>-1;return `<div class="qcard ${on?'on':''}" style="padding:14px" onclick="const a=T.dc;const i=a.indexOf('${c}');i>-1?a.splice(i,1):a.push('${c}');haptic(5);refresh()"><div class="cbox ${on?'on':''}">${on?ic('check',14):''}</div><div class="ql" style="font-size:15px">${c}</div></div>`}).join('')}
+  <div class="sk-sec"><div class="h4">What never happens</div></div>
+  <div class="sk-list">${['We never move money without your tap.','Friends never see what we spot. Only check-ins you confirm.','Turn it off anytime. Your history stays.'].map(t=>`<div class="li"><span class="sk-ck" style="width:20px;height:20px">${ic('check',12)}</span><div class="grow" style="font-size:14px">${t}</div></div>`).join('')}</div>
+  <p class="sm mt12" style="color:var(--sk-sub)">Requires your consent to analyze transactions. At most 2 suggestions a week.</p></div>
+  ${foot(btn('Turn on',"S.detect={on:true,cats:T.dc.slice(),asked:true};save();back();toast('On. We’ll suggest, you confirm.')",'wh',T.dc.length?'':'disabled'),btn('Not now',"S.detect.asked=true;save();back()",'ghost'))}`}});
+def('ss-delta',()=>({cls:'dark',html:`${topbar({close:true})}<div class="body"><div class="eyebrow">Spotted this week</div><div class="h1 mt8" style="color:#fff">You spent about $23 less on delivery.</div><p class="p mt8">Compared with your usual week over the last 8. Stash the difference?</p>
+  <div class="card dk mt24"><div class="row" style="align-items:flex-end;gap:8px;height:120px">${[42,38,45,40,36,44,41,39,17].map((v,i)=>`<div style="flex:1;height:${v*2.4}px;border-radius:6px;background:${i===8?'#74c947':'rgba(255,255,255,.14)'}"></div>`).join('')}</div><div class="row between mt8"><span class="sm" style="color:var(--sk-sub)">8-week usual</span><span class="sm" style="color:#bceaa3;font-weight:600">This week</span></div></div>
+  <p class="sm mt12" style="color:var(--sk-sub)">Only you see this. If a late charge posts, nothing is taken back.</p></div>
+  ${foot(btn('Stash $23',"T={qsItem:'Delivery',qsAmt:23,src:'detected'};go('qs-1')",'wh'),btn('Not now',"back()",'ghost'))}`}));
+def('ss-settings',()=>({cls:'dark',html:`${topbar({title:'Skip and Stash'})}<div class="body">
+  <div class="sk-sec" style="margin-top:4px"><div class="h4">Habits and reminders</div></div>
+  ${S.habits.map(h=>`<div class="card dk mt8" style="padding:14px 16px"><div class="row"><div class="grow"><div style="font-weight:600;color:#fff">${h.name}</div><div class="sm" style="color:var(--sk-sub)">${h.time} · about ${money(h.est)}</div></div><div class="tog ${h.remind?'on':''}" onclick="S.habits.find(x=>x.id==='${h.id}').remind=!${h.remind};save();refresh()" aria-label="Reminder"></div></div></div>`).join('')}
+  <div class="sk-sec"><div class="h4">Spot my skips</div></div>
+  <div class="card dk">${S.detect.on?`<div style="font-weight:600;color:#fff">On · ${S.detect.cats.join(', ')}</div><p class="sm mt4" style="color:var(--sk-sub)">Suggestions only. You confirm every one.</p>
+   <div class="row mt12" style="gap:8px"><button class="btn line sm" style="color:#fff" onclick="T.dc=null;go('ss-detect')">Edit</button><button class="btn line sm" style="color:#f39bb6" onclick="S.detect.on=false;S.detect.cats=[];save();refresh();toast('Stopped. Everything is self-report again. History kept.')">Stop watching</button></div>`
+   :`<div style="font-weight:600;color:#fff">Off</div><p class="sm mt4" style="color:var(--sk-sub)">Every mode works fully without it.</p><div class="mt12">${btn('Turn on','T.dc=null;go(\'ss-detect\')','line','style="color:#fff;height:44px"')}</div>`}</div>
+  <div class="mt16">${skRow(`<img src="${IMG.learn}" alt="">`,'Skip log','Private history','nav',"go('ss-log')")}</div></div>`}));
+def('ss-log',()=>{const log=S.skipLog.length?S.skipLog:[{t:'Coffee jar',amt:6,src:'self',when:'Today',stash:false},{t:'Takeout',amt:14,src:'quick',when:'Mon',stash:true},{t:'Coffee jar',amt:6,src:'reminder',when:'Last week',stash:false}];
+  const SRC={self:'You logged it',reminder:'From a reminder',weekly_review:'Sunday review',detected:'Spotted, you confirmed',quick:'Quick Stash',jar:'From a jar'};
+  return {cls:'dark',html:`${topbar({title:'Skip log'})}<div class="body"><p class="p" style="margin-top:0">${ic('lock',14,'vertical-align:-2px')} Only you see amounts. Your crew only sees check-ins you confirm.</p>
+  <div class="jl mt16">${log.map(e=>`<div class="e ${e.stash?'':'q'}"><div class="row between"><div><div style="font-weight:600;color:#fff">${e.stash?'Stashed':'Skipped'} · ${e.t}</div><div class="sm" style="color:var(--sk-sub)">${e.when} · ${SRC[e.src]||'You logged it'}</div></div><div style="font-weight:600;color:${e.stash?'#bceaa3':'rgba(255,255,255,.6)'}">${e.stash?money(e.amt):'~'+money(e.amt)}</div></div></div>`).join('')}</div></div>`}});

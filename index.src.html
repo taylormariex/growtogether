@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Grow Together">
+<meta name="theme-color" content="#74c947">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-180.png">
+<title>Grow Together</title>
+<!--CSS-->
+</head>
+<body>
+<div id="stage">
+  <div id="side">
+    <h1>Grow Together</h1>
+    <div>Clickable prototype for Share the wealth: invite your people, share your progress, and grow side by side after sign-up.</div>
+    <div class="mt16">Best on a phone: open this page, then Share → Add to Home Screen.</div>
+    <div class="mt16">The ☰ in each screen jumps ahead 4 weeks, resets, or returns to all experiences.</div>
+    <span class="k">Placeholder names, brands and prices</span>
+  </div>
+  <div id="device"><div id="screen">
+    <div id="island"></div>
+    <div id="sbar"><span>9:41</span><span class="ic"><svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5" width="3" height="7" rx="1" fill="currentColor"/><rect x="10" y="2.5" width="3" height="9.5" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/></svg><svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3" stroke="currentColor" fill="none" opacity=".5"/><rect x="2" y="2" width="17" height="8" rx="1.8" fill="currentColor"/><rect x="24" y="4" width="1.6" height="4" rx=".8" fill="currentColor" opacity=".5"/></svg></span></div>
+    <div id="ov"></div>
+    <div id="toast" class="toast"></div>
+    <div id="banner" class="banner"></div>
+  </div></div>
+</div>
+<!--JS-->
+<script>
+(function boot(){
+  const h=location.hash.slice(1);
+  if(h&&SCR[h]){if(h==='gt-home'||h==='gt-grove'||h==='gt-ch'||h==='gt-oak'){if(!S.ffDone)jumpAhead()}home(h)}else home('menu');
+  window.addEventListener('hashchange',()=>{const k=location.hash.slice(1);if(SCR[k])home(k)});
+})();
+</script>
+</body>
+</html>

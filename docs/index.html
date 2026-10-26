@@ -913,7 +913,7 @@ ART.hills=function(opt){opt=opt||{};const dark=!!opt.dark;
 ART.STAGE_IMG=STAGE_IMG;
 })();
 /* Calm money: no confetti. A few leaves drift up instead. */
-ART.confettiBurst=ART.confetti;ART.confetti=function(el,n){const box=document.createElement('div');box.className='drift';const k=Math.min(14,Math.round((n||40)/5));for(let i=0;i<k;i++){const l=document.createElement('i');l.style.left=(8+Math.random()*84)+'%';l.style.animationDuration=(2.2+Math.random()*1.6)+'s';l.style.animationDelay=(Math.random()*.5)+'s';l.style.transform=`scale(${.6+Math.random()*.7})`;if(i%3==0)l.style.background='#74c947';if(i%4==0)l.style.background='#bceaa3';box.appendChild(l)}el.appendChild(box);setTimeout(()=>box.remove(),4200)};
+ART.confettiBurst=ART.confetti;ART.drift=function(el,n){const box=document.createElement('div');box.className='drift';const k=Math.min(14,Math.round((n||40)/5));for(let i=0;i<k;i++){const l=document.createElement('i');l.style.left=(8+Math.random()*84)+'%';l.style.animationDuration=(2.2+Math.random()*1.6)+'s';l.style.animationDelay=(Math.random()*.5)+'s';l.style.transform=`scale(${.6+Math.random()*.7})`;if(i%3==0)l.style.background='#74c947';if(i%4==0)l.style.background='#bceaa3';box.appendChild(l)}el.appendChild(box);setTimeout(()=>box.remove(),4200)};
 
 /* Core: state, router, UI kit, system sheets */
 const {oak,squirrel,hills,ic,confetti,sparkles,rain,acorn,AV_COL}=ART;
@@ -2059,17 +2059,17 @@ const OAK_ORDER=['roots','acorns','nest','gold','sapling','flowers','bird'];
 const ORB_SLOTS={roots:[50,14],acorns:[27,52],nest:[73,52],bird:[14,72],gold:[86,72],sapling:[12,32],flowers:[88,32]};
 const ORB_TIP={roots:()=>`Roots · ${S.commit||12} weeks of recurring`,acorns:()=>`Acorns · ${S.acornCount||0} from Round-Ups`,nest:()=>'Nest · Emergency Fund growing',gold:()=>'Gold leaves · one per month to Later',sapling:()=>`Sapling · ${(typeof S.early==='string'&&S.early)||'Ava'}’s Early account`,flowers:()=>'Wildflowers · one per Earn bonus',bird:()=>`Songbird · ${Math.max(1,S.learn||1)} course finished`};
 function skState(){spInit();if(S.reset)return 'reset';return S.invested?'done':'todo'}
-function weekLabel(){const s=skState();return s==='reset'?'Plant this week':`Week ${Math.max(1,S.streak+(s==='todo'?1:0))}${s==='done'?' ✓':''}`}
+function weekLabel(){const s=skState();return s==='reset'?'Plant this week':`Week ${Math.max(1,S.streak+(s==='todo'?1:0))}`}
 
 /* ---------- 3.5 Streak chip + week ring ---------- */
-function ringSvg(p,sz){sz=sz||24;const r=sz/2-3,c=2*Math.PI*r;return `<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" aria-hidden="true"><circle cx="${sz/2}" cy="${sz/2}" r="${r}" stroke="rgba(255,255,255,.18)" stroke-width="3" fill="none"/><circle cx="${sz/2}" cy="${sz/2}" r="${r}" stroke="#74c947" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="${c*p} ${c}" transform="rotate(-90 ${sz/2} ${sz/2})"/></svg>`}
+function ringSvg(p,sz){sz=sz||24;if(p>=1)return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#74c947"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#0a1d08" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;const r=sz/2-3,c=2*Math.PI*r;return `<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" aria-hidden="true"><circle cx="${sz/2}" cy="${sz/2}" r="${r}" stroke="rgba(255,255,255,.18)" stroke-width="3" fill="none"/><circle cx="${sz/2}" cy="${sz/2}" r="${r}" stroke="#74c947" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="${c*p} ${c}" transform="rotate(-90 ${sz/2} ${sz/2})"/></svg>`}
 function streakChip(){const s=skState();if(s==='reset')return `<button class="schip reset" onclick="go('plant')" aria-label="Plant this week">${ic('oak',18)}Plant this week</button>`;
   return `<button class="schip" onclick="${s==='done'?"toast('This week counts. See you next week.')":"T={};S.afterCount='gt-home';go('inv-1')"}" aria-label="${weekLabel()}">${ringSvg(s==='done'?1:0)}${weekLabel()}</button>`}
 
 /* ---------- 3.1 Oak Stage ---------- */
 let LP=null;
 function oakStage(o){o=o||{};spInit();const w=o.weeks!==undefined?o.weeks:S.streak;const st=rstage(w);const H=o.h||300;
-  const th=st[2]==='acorn'?Math.round(H*.27):st[2]==='seedling'?Math.round(H*.38):Math.round(H*.56);
+  const th=st[2]==='acorn'?Math.round(Math.min(78,H*.21)):st[2]==='seedling'?Math.round(Math.min(124,H*.34)):Math.round(Math.min(180,H*.52));
   const fl=(o.fl||S.flourishes).filter(k=>ORB_SLOTS[k]);
   const ghosts=[].concat(o.ghost||[]).filter(k=>ORB_SLOTS[k]&&fl.indexOf(k)<0);
   const ymax=Math.min(72,(H-150)/H*100),kk=Math.max(.3,(ymax-14)/56);const orb=(k,g)=>{const x=ORB_SLOTS[k][0],y=14+(ORB_SLOTS[k][1]-14)*kk;const cnt=k==='acorns'&&!g?`<span class="cnt">${S.acornCount||1}</span>`:'';return `<div class="orb ${g?'ghost':''}" id="orb-${k}" data-k="${k}" style="left:${x}%;bottom:${y}%" onclick="event.stopPropagation();orbTip(this,'${k}',${g?1:0})" role="button" aria-label="${FLNAME[k]||k}${g?', about to grow':''}"><img src="${IMG[FLIMG[k]]}" alt="">${cnt}</div>`};
@@ -2115,10 +2115,10 @@ def('growth',p=>{p=p||{};spInit();const ks=(p.ks||[]).filter(k=>ORB_SLOTS[k]);co
     if(p.invest&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const host=$('#screen').getBoundingClientRect();const tr=tree.getBoundingClientRect();const c=document.createElement('div');c.className='gmcoin';c.innerHTML=`<img src="${IMG.acorn}" alt="">`;el.appendChild(c);
       const z=zf();const sx=host.width/z/2-15,sy=host.height/z-120,ex=(tr.left-host.left+tr.width/2)/z-15,ey=(tr.top-host.top+tr.height*.55)/z;c.style.left='0px';c.style.top='0px';
       c.animate([{transform:`translate(${sx}px,${sy}px) scale(.8)`},{transform:`translate(${(sx+ex)/2}px,${Math.min(sy,ey)-90}px) scale(1)`,offset:.5},{transform:`translate(${ex}px,${ey}px) scale(.5)`,opacity:.2}],{duration:620,easing:'cubic-bezier(.4,0,.6,1)',fill:'forwards'}).onfinish=()=>c.remove()}
-    setTimeout(()=>{tree.classList.add('breathe');haptic(30);solidifyGhosts(el,ks,300)},p.invest?600:150);
-    setTimeout(()=>{const ch=$('#gmChip',el);if(ch&&p.invest)ch.innerHTML=`<span class="schip">${ringSvg(1)}Week ${p.to} ✓</span>`;$('#gmCap',el).style.opacity=1},p.invest?900:500);
+    setTimeout(()=>{tree.classList.add('breathe');haptic(30);solidifyGhosts(el,ks,300);ART.confetti($('#screen'),90)},p.invest?600:150);
+    setTimeout(()=>{const ch=$('#gmChip',el);if(ch&&p.invest)ch.innerHTML=`<span class="schip">${ringSvg(1)}Week ${p.to}</span>`;$('#gmCap',el).style.opacity=1},p.invest?900:500);
     setTimeout(()=>{$('#gmRow',el).classList.add('on');$('#gmRow2',el).classList.add('on');const sk=$('.gm-skip',el);if(sk)sk.remove()},1500)};
-    setTimeout(run,180);window.gmSkip=()=>{el._skipped=true;solidifyGhosts(el,ks,0);if(p.invest){const ch=$('#gmChip',el);if(ch)ch.innerHTML=`<span class="schip">${ringSvg(1)}Week ${p.to} ✓</span>`}$('#gmCap',el).style.opacity=1;$('#gmRow',el).classList.add('on');$('#gmRow2',el).classList.add('on');const sk=$('.gm-skip',el);if(sk)sk.remove()}}}});
+    setTimeout(run,180);window.gmSkip=()=>{el._skipped=true;solidifyGhosts(el,ks,0);if(p.invest){const ch=$('#gmChip',el);if(ch)ch.innerHTML=`<span class="schip">${ringSvg(1)}Week ${p.to}</span>`}$('#gmCap',el).style.opacity=1;$('#gmRow',el).classList.add('on');$('#gmRow2',el).classList.add('on');const sk=$('.gm-skip',el);if(sk)sk.remove()}}}});
 /* every success routes here */
 function growthFor(k,cap,sub,opt){opt=opt||{};const isNew=addFlourish(k);go('growth',Object.assign({ks:isNew?[k]:[],cap,sub,next:'finish'},opt))}
 def('rec-done',()=>{const c=creditWeek();S.recurring=true;const isNew=addFlourish('roots');save();return SCR.growth({invest:true,from:c.from,to:c.to,ks:isNew?['roots']:[],eyebrow:c.counted?'This week counts':'Recurring is set',cap:'Roots planted.',sub:`$${S.amount} every ${S.day}. Counts toward your streak${S.commit?` · ${S.commit}-week roots`:''}.`,next:'finish'})});

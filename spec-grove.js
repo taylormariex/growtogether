@@ -30,8 +30,9 @@ def('gt-grove',()=>{spInit();const gr=growing();const done=gr.filter(x=>!x.open)
 function gvDock(id){const gr=growing();const open=gr.filter(x=>x.open&&!S.watered[x.id]);
   const acts=a=>`<div class="gw-acts">${a.map(([ic_,l,js,cls])=>`<button class="gw-act ${cls||''}" onclick="${js}"><span class="ic">${ic(ic_,18)}</span>${l}</button>`).join('')}</div>`;
   if(!id){const done=gr.filter(x=>!x.open).length+(S.invested?1:0),tot=gr.length+1;
-    return `<div class="row"><div class="grow"><div class="h4" style="color:#fff">${open.length?`${open.map(x=>nm(x.id)).join(' and ')} ${open.length>1?'haven’t':'hasn’t'} invested yet`:S.invested?'Everyone’s growing this week':'Your week is open'}</div><div class="sm" style="color:var(--sk-sub)">${open.length?'Tap their tree to send rain as a gentle nudge.':S.invested?'Tap any tree to cheer or start a challenge.':'Invest any amount and your oak counts this week.'}</div></div>${ringSvg(done/Math.max(1,tot),40)}</div>
-    ${acts([S.invested?['share','Share',"shareOak()"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['drop',open.length?`Rain (${open.length})`:'Rain',open.length?`gvSel('${open[0].id}')`:"toast('Everyone has invested this week')",open.length?'blue':''],['flag','Challenge',"T={chp:[]};go('gt-ch-new')"],['user','Invite',"T={};go('inv-pick')"]])}`}
+    const notyet=gr.filter(x=>x.open);
+    return `<div class="row"><div class="grow"><div class="h4" style="color:#fff">${notyet.length?`${notyet.map(x=>nm(x.id)).join(' and ')} ${notyet.length>1?'haven’t':'hasn’t'} invested yet`:S.invested?'Everyone’s growing this week':'Your week is open'}</div><div class="sm" style="color:var(--sk-sub)">${!open.length&&notyet.length?`Rain sent. It only counts when ${notyet.length===1&&notyet[0].id==='mom'?'she invests':'they invest'}.`:open.length===1?`Tap Rain to send ${nm(open[0].id)==='Mom'?'her':'them'} a gentle nudge. Tap any tree to cheer.`:open.length?'Tap Rain to nudge them, or tap a tree with a drop.':S.invested?'Tap any tree to cheer or start a challenge.':'Invest any amount and your oak counts this week.'}</div></div>${ringSvg(done/Math.max(1,tot),40)}</div>
+    ${acts([S.invested?['share','Share',"shareOak()"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['drop',open.length?`Rain (${open.length})`:notyet.length?'Sent':'Rain',open.length?`gvRainAll()`:notyet.length?"toast('One rain per friend per week')":"toast('Everyone has invested this week')",open.length?'blue':''],['flag','Challenge',"T={chp:[]};go('gt-ch-new')"],['user','Invite',"T={};go('inv-pick')"]])}`}
   if(id==='me'){const st=rstage(S.streak);return `<div class="row"><img src="${IMG[st[2]]}" style="height:40px" alt=""><div class="grow"><div class="h4" style="color:#fff">You · ${st[1]}</div><div class="sm" style="color:var(--sk-sub)">${S.streak} week streak · ${S.flourishes.length} flourishes</div></div><button class="iconbtn" onclick="gvSel(null)" aria-label="Close">${ic('close',18)}</button></div>
     ${acts([S.invested?['check','Counted',"toast('This week already counts')"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['oak','My oak',"home('gt-oak')"],['share','Share',"shareOak()"],['eye','Privacy',"go('gt-privacy')"]])}`}
   const g=inGrove(id),p=PEOPLE[id];if(!g)return gvDock(null);
@@ -82,7 +83,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build BUILDSTAMP · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -110,7 +111,7 @@ function tlItems(){const w=S.streak,st=rstage(w);const it=[];
   it.push({k:'start',lab:'Welcome to Acorns',t:'Started my journey',d:'Oct 2026',side:'acorn',n:5});
   return TLV==='hi'?it.filter(x=>x.k==='streak'||x.k.indexOf('f-')===0||x.water||x.k==='start').slice(0,5):it}
 function tlCard(x){const on=CHEER[x.k];const art=x.side||x.sideImg;const ah=x.side==='oak'?56:x.side==='seedling'?52:44;
-  const heart=x.n!==undefined?`<button class="tl-h ${on?'on':''}" onclick="tlCheer(this,'${x.k}',${x.n})" aria-label="Cheer">${on?'♥':'♡'} ${x.n+(on?1:0)}</button>`:'';
+  const heart=x.n!==undefined?`<button class="tl-h ${on?'on':''}" type="button" onpointerdown="event.preventDefault()" onclick="event.preventDefault();event.stopPropagation();tlCheer(this,'${x.k}',${x.n})" aria-label="Cheer">${on?'♥':'♡'} ${x.n+(on?1:0)}</button>`:'';
   if(x.hero){const hh=x.hero==='oak'?96:x.hero==='seedling'?84:64;return `<div class="tl"><div class="tl-ring"><img src="${IMG[x.hero]}" style="height:${hh}px" alt=""></div><div class="lab">${x.lab}</div><div class="ttl">${x.t}</div><div class="meta"><span>${x.d}</span>${heart}</div></div>`}
   return `<div class="tl"><div class="tl-row"><div class="grow"><div class="lab">${x.lab}</div><div class="ttl ${x.tone==='n'?'n':''}">${x.t}</div>${x.s?`<div class="tl-s">${x.s}</div>`:''}</div>${art?`<div class="tl-art"><img src="${IMG[art]}" style="height:${ah}px;${x.water?'filter:saturate(.55) brightness(.85)':''}" alt=""></div>`:''}</div>
    ${x.water?`<button class="tl-rain" onclick="groveSheet('full')">${ic('drop',15)} Send rain</button>`:`<div class="meta"><span>${x.d}</span>${heart}</div>`}</div>`}
@@ -201,3 +202,8 @@ def('gt-why2',()=>({cls:'dark',html:whyShell(1,`
 .w2row{display:flex;gap:6px;margin-top:18px}.w2row i{flex:1;height:28px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:background .25s}
 .w2row i.on{background:#74c947;animation:orbIn .4s cubic-bezier(.3,1.6,.5,1)}.w2row i.on::after{content:"";width:9px;height:5px;border-left:2px solid #0a1d08;border-bottom:2px solid #0a1d08;transform:rotate(-45deg) translateY(-1px)}
 .dark .weeks i.on{background:#74c947}`;document.head.appendChild(st)})();
+
+function gvRainAll(){const open=growing().filter(x=>x.open&&!S.watered[x.id]&&S.waterOK[x.id]!==false&&!S.mutedWater[x.id]);if(!open.length){toast('They haven’t turned on rain');return}
+  open.forEach((g,i)=>setTimeout(()=>{const a=gvAt(g.id);rain(a.el,a.x,a.y-10);S.watered[g.id]=Date.now();const b=$('#gv-'+g.id+' .gv-drop');if(b)b.remove()},i*350));save();haptic(12);
+  toast(open.length===1?`Rain sent to ${nm(open[0].id)}. It only counts when ${open[0].id==='mom'?'she invests':'they invest'}.`:`Rain sent to ${open.length} people`);setTimeout(()=>{const d=$('#gvd');if(d)d.innerHTML=gvDock(null)},800)}
+(function(){const st=document.createElement('style');st.textContent='.gv .cloud{display:none}';document.head.appendChild(st)})();

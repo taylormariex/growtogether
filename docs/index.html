@@ -2863,6 +2863,7 @@ function render(id,params,dir){const fn=SCR[id];if(!fn){toast('Screen not built:
 
 /* ---------- Guide: one pop-up inside the phone (on start, and from ☰). No side panel, works the same on mobile ---------- */
 const RV_GO=[['Home','What Alex sees after sign-up',"jumpAhead();spInit();home('gt-home')"],['Your grove','Trees, rain and cheers',"jumpAhead();spInit();GSEL=null;home('gt-grove')"],['Invite someone','Pick a person and their day',"jumpAhead();spInit();home('gt-home');T={};go('inv-pick')"],['Money Type','Three questions, then a plan',"T={};home('mt2-intro')"],['Skip and Stash','Skip something, invest the difference',"T={};home('ss2-pick')"],['Split a paycheck','Invest, Later and Savings at once',"T={};home('mm2-pay')"],['Future Club','Notes for me or for my kid',"T={};home('fc-types')"],['Acorns Year','Monthly recaps and the year story',"T={si:0};jumpAhead();spInit();home('journal')"],['Getting invited','The friend’s side, every path',"home('sam-hub')"],['Edge states','Empty, locked, failed, expired',"home('states')"]];
+const RV_OLD=[['Money Type v1','Quiz and match',"T={};home('mt-why1')"],['Skip Week v1','7-day crew challenge',"T={};home('ss-why1')"],['Future Club capsule','Notes that open in a year',"T={};home('fc-why1')"],['Acorns Year v1','The year as stories',"T={};home('ay-1')"],['Money Manager v1','First split concept',"T={};home('mm-why1')"],['How it all connects','Ways in, products, flourishes',"home('map')"]];
 const RV_WEEK=[['todo','Not yet','Home nudges Alex to invest this week.'],['done','Invested','The week counts. Home turns to friends.'],['reset','Missed last week','Starting over. Flourishes are kept.']];
 const RV_MOMENTS=[['Mom invests','Rain falls on both oaks in the grove',"jumpAhead();spInit();GSEL=null;home('gt-grove');setTimeout(()=>gvInvests('mom'),900)"],['Jess signs up','A friend joined, their seed is waiting',"jumpAhead();spInit();S.friendJoined='jess';S.hidden={};save();home('gt-home');setTimeout(()=>banner('Jess signed up','Their tree sprouts after their first investment.',()=>groveSheet('half')),600)"],['Paycheck lands','Home offers to split it',"spInit();S.pay.detected=true;S.hidden={};save();home('gt-home')"],['A skip is spotted','Home offers a one-tap stash',"spInit();S.detect.on=true;S.detect.cats=['Coffee'];S.hidden={};save();home('gt-home')"],['4 weeks later','Grove filled in, challenges running',"jumpAhead();spInit();home('gt-home')"]];
 function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`<button class="rv-i" onclick="rvRun(${i},'${k}')"><span><b>${t}</b><em>${d}</em></span>${ic('chev',16,'opacity:.35')}</button>`).join('');
@@ -2872,9 +2873,10 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Explore</div><div class="rv-g">${row(RV_GO,'go')}</div>
   <div class="rv-sec">This week, Alex has…</div><div class="rv-seg">${RV_WEEK.map(([k,l])=>`<button class="${s===k?'on':''}" onclick="closeOv();setTimeout(()=>{demoSet('${k}');home('gt-home')},250)">${l}</button>`).join('')}</div><div class="rv-help">${(RV_WEEK.find(w=>w[0]===s)||RV_WEEK[0])[2]}</div>
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
-  <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>home('menu'),250)">All experiences</button><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
+  <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
+  <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
   <p class="rv-tip" style="margin-top:14px">Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
-function rvRun(i,k){const js=(k==='go'?RV_GO:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
+function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
 (function(){const st=document.createElement('style');st.textContent=`#side{display:none!important}#stage{justify-content:center}
@@ -2889,7 +2891,7 @@ function demoPaint(){}
 .rv-help{font-size:12px;color:#6b7a70;margin-top:6px}
 .rv-foot{display:flex;gap:8px;margin-top:20px}.rv-foot button{flex:1;height:44px;border-radius:22px;background:#f4f6f3;font-weight:600;font-size:14px;color:#191919}`;document.head.appendChild(st);
   let seen=false;try{seen=sessionStorage.getItem('gt-guide')==='1';sessionStorage.setItem('gt-guide','1')}catch(e){}
-  if(!seen)setTimeout(()=>sheet(rvHTML(true),{cls:'rvs'}),700)})();
+})();
 
 /* ---------- Timeline v2: art contained, one action per card, neutral copy for nudges ---------- */
 const plw=n=>`${n} week${n===1?'':'s'}`;
@@ -2951,6 +2953,11 @@ function whyScene(inner,h){return `<div class="sk-hero" style="height:${h||330}p
 (function(){const st=document.createElement('style');st.textContent=`.scr.chd .top .link{color:rgba(255,255,255,.7)!important}.scr.chd .btn.dk{background:#74c947;color:#0a1d08}.scr.chd .amt{color:#fff}.scr.chd .link{color:#74c947}
 .scr.chd .li{border-color:rgba(255,255,255,.08)}.scr.chd .li .ttl{color:#fff}.scr.chd .li .sub{color:var(--sk-sub)}.scr.chd .eyebrow{color:#74c947}.scr.chd .bar{background:rgba(255,255,255,.1)}
 .scr.chd [style*="background:#fff"]{background:var(--sk-card)!important;color:#fff!important}.scr.chd [style*="color:rgba(23,29,25"]{color:var(--sk-sub)!important}.scr.chd [style*="background:#eef6e8"],.scr.chd [style*="background:#f7f7f2"],.scr.chd [style*="background:var(--primaryIvory)"]{background:rgba(255,255,255,.06)!important}`;document.head.appendChild(st)})();
+
+/* The white guide is the start. The old dark menu becomes a quiet backdrop that always reopens it. */
+def('menu',()=>({cls:'dark',html:`<div class="sk-hero" style="height:62%;margin:0">${hills({dark:1})}<div class="tree"><img src="${IMG.oak}" style="height:150px" alt=""></div></div>
+  <div class="body center" style="display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:calc(var(--safeBot) + 20px)">${btn('Open the guide',"protoMenu0()",'wh')}</div>`,mount(){setTimeout(()=>{if(cur()&&cur().dataset.id==='menu')protoMenu0()},350)}}));
+function protoMenu0(){sheet(rvHTML(true),{cls:'rvs'})}
 
 
 </script>

@@ -35,9 +35,25 @@
 <!--JS-->
 <script>
 (function boot(){
-  const h=location.hash.slice(1);
-  if(h&&SCR[h]){if(h==='gt-home'||h==='gt-grove'||h==='gt-ch'||h==='gt-oak'){if(!S.ffDone)jumpAhead()}home(h)}else home('menu');
-  window.addEventListener('hashchange',()=>{const k=location.hash.slice(1);if(SCR[k])home(k)});
+  const DEEP={
+    'start':"startGT()",
+    'home':"jumpAhead();spInit();home('gt-home')",
+    'grove':"jumpAhead();spInit();GSEL=null;home('gt-grove')",
+    'invite':"jumpAhead();spInit();home('gt-home');T={};go('inv-pick')",
+    'money-type':"T={};home('mt2-intro')",
+    'skip-and-stash':"T={};home('ss2-pick')",
+    'split':"T={};home('mm2-pay')",
+    'future-club':"T={};home('fc-types')",
+    'year':"T={si:0};jumpAhead();spInit();home('journal')",
+    'invited':"home('sam-hub')",
+    'challenges':"jumpAhead();spInit();home('gt-ch')",
+    'your-oak':"jumpAhead();spInit();home('gt-oak')",
+    'edge-states':"home('states')",
+    'guide':"home('menu')"};
+  const run=js=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()};
+  const open=h=>{if(DEEP[h]){spInit();run(DEEP[h]);return true}if(h&&SCR[h]){spInit();home(h);return true}return false};
+  if(!open(location.hash.slice(1)))home('menu');
+  window.addEventListener('hashchange',()=>{closeOv(true);open(location.hash.slice(1))});
 })();
 </script>
 </body>

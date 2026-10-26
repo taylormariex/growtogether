@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(curl -X POST https://spago.internal.acorns.io/api/upload -F \"subdomain=growtogether\" -F \"owner=taylor\" -F \"publish=1\" -F \"file=@./growtogether.zip\")"
+      "Bash(curl -X POST https://spago.internal.acorns.io/api/upload -F \"subdomain=growtogether\" -F \"owner=taylor\" -F \"publish=1\" -F \"file=@./growtogether.zip\")",
+      "Bash(gh api *)"
     ]
   }
 }

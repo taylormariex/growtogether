@@ -16,12 +16,12 @@ const PEOPLE={
   leo:{name:'Leo',full:'Leo Grant',rel:'Brother',on:false,stage:1,c:6,phone:'(555) 903-5567'},
   nina:{name:'Nina',full:'Nina Alvarez',rel:'Friend',on:false,stage:1,c:7,phone:'(555) 120-9932'}
 };
-function av(id,cls){const p=PEOPLE[id];if(id==='me')return `<div class="av ${cls||''}" style="background:var(--naturalMidnightForest)">A</div>`;return `<div class="av ${cls||''}" style="background:${AV_COL[p.c%AV_COL.length]}">${p.name[0]}</div>`}
+function av(id,cls){const p=PEOPLE[id];if(id==='me')return `<div class="av ${cls||''}" style="background:var(--naturalMidnightForest)">J</div>`;return `<div class="av ${cls||''}" style="background:${AV_COL[p.c%AV_COL.length]}">${p.name[0]}</div>`}
 const nm=id=>id==='me'?'You':PEOPLE[id].name;
 
 /* ---------- state ---------- */
 const FRESH=()=>({
-  me:'Alex',week:1,streak:0,stage:0,flourishes:[],invested:false,
+  me:'Jordan',week:1,streak:0,stage:0,flourishes:[],invested:false,
   day:'Fri',amount:5,recurring:false,fund:'Everyday Checking ••4821',
   accounts:[{id:'chk',name:'Everyday Checking',mask:'4821',type:'Checking',bank:'Harbor Bank'}],
   cards:[{id:'c1',name:'Harbor Bank Debit',mask:'4821',linked:false},{id:'c2',name:'Summit Rewards Visa',mask:'0917',linked:false},{id:'c3',name:'Acorns Visa™ debit',mask:'—',linked:false,needs:true}],
@@ -138,7 +138,7 @@ function askNotif(then){
 let SHARE={};
 function share(o){ // {title, sub, story(html), link, people:[ids]}
   SHARE=o;const ppl=(o.people||['sam','mom','jess','priya','dad']).slice(0,5);
-  sheet(`<div class="sh-prev">${miniStory(o.story||'',46)}<div class="grow"><div style="font-weight:600;font-size:15px">${o.title||'Share'}</div><div class="sm">${o.link||'acorns.com/g/alex'}</div></div><button class="iconbtn" onclick="closeOv()">${ic('close',20)}</button></div>
+  sheet(`<div class="sh-prev">${miniStory(o.story||'',46)}<div class="grow"><div style="font-weight:600;font-size:15px">${o.title||'Share'}</div><div class="sm">${o.link||'acorns.com/g/jordan'}</div></div><button class="iconbtn" onclick="closeOv()">${ic('close',20)}</button></div>
   <div class="sh-people">${ppl.map(id=>`<div class="p1" onclick="shareTo('msg','${id}')">${av(id,'l')}<span>${PEOPLE[id].full.split(' ')[0]}</span></div>`).join('')}</div>
   <div class="sh-apps">
     <div class="sh-app" onclick="shareTo('msg')"><i style="background:#34c759">${ic('chat',28)}</i>Messages</div>
@@ -168,7 +168,7 @@ def('sys-msg',p=>{const to=p.person?PEOPLE[p.person].full:(SHARE.to||'');const a
   <div class="top"><button class="iconbtn" onclick="back()">${ic('close')}</button><div class="t">${app}</div><div style="width:44px"></div></div>
   <div style="padding:0 16px 10px;border-bottom:1px solid #eee" class="row"><span class="sm">To:</span><span style="font-weight:600">${to||'Choose a contact'}</span></div>
   <div class="body" style="padding-top:20px;background:#fff">
-    <div class="bub me" style="padding:0;overflow:hidden;max-width:none;width:170px;background:#e9e9eb;color:#111">${miniStory(SHARE.story||'',170).replace('border-radius','data-r')}<div style="padding:10px 12px"><div style="font-weight:600;font-size:14px">${SHARE.title||''}</div><div style="font-size:12px;color:#666">${SHARE.link||'acorns.com/g/alex'}</div></div></div>
+    <div class="bub me" style="padding:0;overflow:hidden;max-width:none;width:170px;background:#e9e9eb;color:#111">${miniStory(SHARE.story||'',170).replace('border-radius','data-r')}<div style="padding:10px 12px"><div style="font-weight:600;font-size:14px">${SHARE.title||''}</div><div style="font-size:12px;color:#666">${SHARE.link||'acorns.com/g/jordan'}</div></div></div>
     <div class="bub me mt8" id="msgtxt">${SHARE.text||S.note}</div>
   </div>
   <div class="foot"><button class="btn pri" onclick="shareSent('msg','${p.person||''}','Sent')">Send</button><p class="sm center">Simulated. Nothing is sent from the prototype.</p></div>`}});
@@ -181,5 +181,5 @@ function storyCard(o){ // {bg, eyebrow, title, sub, art, foot}
     ${o.eyebrow?`<div class="st-eye">${o.eyebrow}</div>`:''}
     <div class="st-title">${o.title||''}</div>
     ${o.sub?`<div class="st-sub">${o.sub}</div>`:''}
-    <div class="st-foot">${o.foot||'acorns.com/g/alex'}</div>
+    <div class="st-foot">${o.foot||'acorns.com/g/jordan'}</div>
   </div>`}

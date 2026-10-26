@@ -37,7 +37,7 @@ def('inv-day',()=>{const who=T.ivp==='link'?'them':nm(T.ivp);const sug='Fri';if(
   <div class="days mt12">${DAYS7.map(d=>`<button class="${T.day===d?'on':''}" onclick="T.day='${d}';haptic(5);refresh()">${d}${d===S.day?'<span class="me"></span>':''}</button>`).join('')}</div>
   <div class="sm mt24" style="color:var(--sk-sub)">Message (optional)</div><textarea class="msgbox mt8" maxlength="160" oninput="T.msg=this.value" aria-label="Message">${T.msg||''}</textarea></div>
   ${foot(btn('Review','go(\'inv-review\')','wh'))}`}});
-def('inv-review',()=>{const who=T.ivp==='link'?null:T.ivp;const card=storyCard({eyebrow:'Grow with me',title:`${S.me} saved you a spot.`,sub:`We invest on ${T.day}s. Pick your day too.`,foot:'acorns.com/j/alex'});
+def('inv-review',()=>{const who=T.ivp==='link'?null:T.ivp;const card=storyCard({eyebrow:'Grow with me',title:`${S.me} saved you a spot.`,sub:`We invest on ${T.day}s. Pick your day too.`,foot:'acorns.com/j/jordan'});
   return {cls:'dark',html:`${topbar({title:'Review'})}<div class="body"><div style="width:190px;margin:0 auto">${card}</div>
   <div class="sk-list mt16"><div class="li"><div class="grow k">To</div><div class="v">${who?PEOPLE[who].full:'Anyone with the link'}</div></div><div class="li"><div class="grow k">Their day</div><div class="v">${T.day}</div></div><div class="li"><div class="grow k">Message</div><div class="v" style="max-width:190px;font-weight:500">${(T.msg||'None')}</div></div></div>
   <p class="sm mt12" style="color:var(--sk-sub)">You send it from your own Messages. The card never shows amounts. Their tree plants after their first real investment.</p></div>
@@ -65,13 +65,13 @@ def('inv-expired',()=>({cls:'dark',html:`${topbar({close:true})}<div class="body
   <div class="spot" style="width:72px;height:72px;border-radius:36px">${ic('oak',28)}</div><div class="h2 mt24" style="color:#fff">Leo’s invite expired.</div><p class="p mt8" style="max-width:300px">Invites last 30 days. The plot is still yours. Send a fresh one, or free the spot.</p></div>
   ${foot(btn('Send a new invite',"T={ivp:'leo',day:S.day,msg:'Still saving you a spot.'};go('inv-day')",'wh'),btn('Free the spot',"S.grove=S.grove.filter(x=>x.id!=='leo');save();back();toast('Spot freed')",'ghost'))}`}));
 /* friend side: pick your day too */
-def('fr-day',()=>{if(!T.fd)T.fd='Fri';return {cls:'dark',html:`${topbar({close:"home('menu')",title:''})}<div class="body"><div class="eyebrow">Sam’s view</div><div class="h2 mt8" style="color:#fff">Alex invests on Fridays. Pick your day too.</div><p class="p mt8">Same day keeps you in rhythm. Any day still counts.</p>
-  ${hillRow([{html:`<img src="${IMG.oak}" style="height:84px">`,label:'Alex · Fri'},{html:`<img src="${IMG.acorn}" style="height:46px">`,label:`You · ${T.fd}`,me:1}],{h:210})}
+def('fr-day',()=>{if(!T.fd)T.fd='Fri';return {cls:'dark',html:`${topbar({close:"home('menu')",title:''})}<div class="body"><div class="eyebrow">Sam’s view</div><div class="h2 mt8" style="color:#fff">Jordan invests on Fridays. Pick your day too.</div><p class="p mt8">Same day keeps you in rhythm. Any day still counts.</p>
+  ${hillRow([{html:`<img src="${IMG.oak}" style="height:84px">`,label:'Jordan · Fri'},{html:`<img src="${IMG.acorn}" style="height:46px">`,label:`You · ${T.fd}`,me:1}],{h:210})}
   <div class="days mt16">${DAYS7.map(d=>`<button class="${T.fd===d?'on':''}" onclick="T.fd='${d}';refresh()">${d}${d==='Fri'?'<span class="me"></span>':''}</button>`).join('')}</div>
   <div class="vis mt16"><div><span>First investment</span><b>$5 on ${T.fd}</b></div><div><span>Streak</span><b>Week 1 starts</b></div></div></div>
   <div class="foot">${holdBtn('invest $5','go(\'fr-beside\')','light')}</div>`}});
-def('fr-beside',()=>({cls:'dark',html:`<div class="body center" style="padding-top:calc(var(--safeTop) + 30px)">${hillRow([{html:`<img src="${IMG.oak}" style="height:90px">`,label:'Alex'},{html:`<img class="grow-in" src="${IMG.seedling}" style="height:76px">`,label:'You',me:1}],{h:300})}
-  <div class="eyebrow mt16">Week 1</div><div class="h1 mt8">You’re growing beside Alex.</div><p class="p mt8">You see each other’s oaks and weeks. Never balances.</p></div>
+def('fr-beside',()=>({cls:'dark',html:`<div class="body center" style="padding-top:calc(var(--safeTop) + 30px)">${hillRow([{html:`<img src="${IMG.oak}" style="height:90px">`,label:'Jordan'},{html:`<img class="grow-in" src="${IMG.seedling}" style="height:76px">`,label:'You',me:1}],{h:300})}
+  <div class="eyebrow mt16">Week 1</div><div class="h1 mt8">You’re growing beside Jordan.</div><p class="p mt8">You see each other’s oaks and weeks. Never balances.</p></div>
   ${foot(btn('Done',"home('menu')",'wh'),btn('Find my money type',"T={};home('mt2-intro')",'ghost'))}`,mount(el){ART.confetti(el,30)}}));
 def('water-set',()=>({cls:'dark',html:`${topbar({title:'Rain'})}<div class="body"><p class="p" style="margin-top:0">When your usual day passes and you haven’t invested yet, people you allow can send rain as a gentle nudge. They never see why, and never amounts.</p>
   <div class="sk-sec"><div class="h4">Let them water me</div></div>
@@ -136,7 +136,7 @@ def('sap-set',()=>({cls:'dark',html:`${topbar({title:'Club settings'})}<div clas
 /* friend side */
 def('sapf-land',()=>({cls:'dark',html:`${topbar({close:"home('menu')",title:'acorns.com',right:'<div style="width:44px"></div>'})}<div class="body center" style="display:flex;flex-direction:column">
   <div class="sk-hero" style="height:280px">${hills({dark:1})}<div class="tree"><img src="${IMG.seedling}" style="height:120px"></div></div>
-  <div class="eyebrow mt16">From Alex</div><div class="h1 mt8">Add a note to Ava’s Future Club.</div><p class="p mt8">Ava will read it when she’s older. No account or sign-in needed to write.</p></div>
+  <div class="eyebrow mt16">From Jordan</div><div class="h1 mt8">Add a note to Ava’s Future Club.</div><p class="p mt8">Ava will read it when she’s older. No account or sign-in needed to write.</p></div>
   ${foot(btn('Write a note',"T.fn=T.fn||'';go('sapf-write')",'wh'))}`}));
 def('sapf-write',()=>({cls:'dark',html:`${topbar({title:'Your note'})}<div class="body"><textarea class="msgbox" style="min-height:160px" maxlength="300" placeholder="Something Ava should hear one day…" oninput="T.fn=this.value;$('#fnc').textContent=this.value.length+' / 300';$('#fnp').textContent=this.value||'Your note'" aria-label="Note">${T.fn||''}</textarea><div class="sm mt8" style="text-align:right;color:var(--sk-sub)" id="fnc">${(T.fn||'').length} / 300</div>
   <div class="sm mt16" style="color:var(--sk-sub)">Preview</div><div class="row mt8" style="gap:12px;align-items:flex-start"><div class="leaf" style="flex-shrink:0">Y</div><div class="card" style="background:#f9f8f1;color:#191919;flex:1;padding:14px;border-radius:16px;font-size:14px" id="fnp">${T.fn||'Your note'}</div></div>
@@ -255,7 +255,7 @@ def('menu',()=>({cls:'dark',html:`<div class="body" style="padding-top:0">
   ${skRow(`<img src="${IMG.learn}">`,'Acorns Year and Journal','Monthly recaps, the year story, share cards','nav',"T={si:0};jumpAhead();spInit();home('journal')")}
   <div class="sk-sec"><div class="h4">The other side</div></div>
   ${skRow(`<img src="${IMG.acorn}">`,'Getting invited','Every path: has Acorns, new, signed out, expired…','nav',"home('sam-hub')")}
-  ${skRow(`<img src="${IMG.seedling}">`,'Friend picks their day','“You’re growing beside Alex”','nav',"T={};home('fr-day')")}
+  ${skRow(`<img src="${IMG.seedling}">`,'Friend picks their day','“You’re growing beside Jordan”','nav',"T={};home('fr-day')")}
   ${skRow(`<img src="${IMG.early}">`,'Write a note to Ava','No sign-in, optional Giftlink','nav',"T={};home('sapf-land')")}
   <div class="sk-sec"><div class="h4">Shared pieces</div></div>
   ${skRow(`<img src="${IMG.oak}">`,'Your grove','The interactive world','nav',"jumpAhead();spInit();home('gt-grove')")}

@@ -189,8 +189,8 @@ function shareCardFor(kind,o){o=o||{};const name=o.name?S.me:'';const stg=o.stag
    type:{eyebrow:'My money type',title:(MT2[S.mt2.type]||MT2.steady).n,sub:(MT2[S.mt2.type]||MT2.steady).line},
    year:{eyebrow:'My Acorns Year',title:'41 weeks invested.',sub:`${S.flourishes.length} flourishes. ${growing().length} friends grew beside me.`},
    recap:{eyebrow:'My October',title:'Two leaves, one bird.',sub:'4 weeks invested this month.'},
-   invite:{eyebrow:'Grow with me',title:`${S.me} saved you a spot in their grove.`,sub:'One small investment a week. We both grow.'}}[kind]||{};
-  const foot=`${name?name+' · ':''}acorns.com/g/alex`;return {o:K,art,flRow,foot}}
+   invite:{eyebrow:'Grow with me',title:`${S.me} saved you a spot in her grove.`,sub:'One small investment a week. We both grow.'}}[kind]||{};
+  const foot=`${name?name+' · ':''}acorns.com/g/jordan`;return {o:K,art,flRow,foot}}
 def('share-b',p=>{spInit();const kind=p.kind||'oak';if(!T.sbT)T.sbT='story';if(T.sbName===undefined){T.sbName=false;T.sbStage=true;T.sbFl=true}
   const c=shareCardFor(kind,{name:T.sbName,stage:T.sbStage,fl:T.sbFl});const card=storyCard(Object.assign({},c.o,{art:c.art,sub:(c.o.sub||'')+c.flRow,foot:c.foot,css:T.sbT==='square'?'aspect-ratio:1/1':''}));
   const preview=T.sbT==='link'?`<div class="linkcard"><div style="height:150px;position:relative">${hills({dark:1})}<div style="position:absolute;left:50%;bottom:30%;transform:translateX(-50%)">${c.art.replace('alt=""','style="height:90px" alt=""')}</div></div><div style="padding:10px 12px"><div style="font-weight:600;font-size:14px">${c.o.title}</div><div style="font-size:12px;color:#666">acorns.com</div></div></div>`:`<div style="width:${T.sbT==='square'?250:210}px">${card}</div>`;
@@ -219,7 +219,7 @@ function protoMenu(){spInit();const s=skState();sheet(`<div class="h3">Prototype
 /* ---------- Share card v2: matches the Figma card set (light scene, white content card, lockup + link) ---------- */
 function storyCard(o){o=o||{};return `<div class="story v2" style="${o.css||''}"><div class="st2-scene">${hills({})}<div class="st2-art">${o.art||`<img src="${IMG[rstage(S.streak)[2]]}" alt="">`}</div></div>
   ${o.eyebrow?`<div class="st2-chip">${o.eyebrow}</div>`:''}
-  <div class="st2-card"><div class="st2-title">${o.title||''}</div>${o.sub?`<div class="st2-sub">${o.sub}</div>`:''}<div class="st2-foot"><span class="lk"><img src="${IMG.acorn}" alt="">acorns</span><span>${(o.foot||'acorns.com/j/alex').replace('acorns.com/g/','acorns.com/j/')}</span></div></div></div>`}
+  <div class="st2-card"><div class="st2-title">${o.title||''}</div>${o.sub?`<div class="st2-sub">${o.sub}</div>`:''}<div class="st2-foot"><span class="lk"><img src="${IMG.acorn}" alt="">acorns</span><span>${(o.foot||'acorns.com/j/jordan').replace('acorns.com/g/','acorns.com/j/')}</span></div></div></div>`}
 
 /* ---------- Home v3: layout from the Home reference (greeting hero → one NBG slot → bento → timeline) ---------- */
 function hmHello(){const s=skState(),w=S.streak,st=rstage(w);const nx=RSTAGES.find(r=>r[0]>w);const img=`<img src="${IMG[st[2]]}" alt="">`;

@@ -265,3 +265,12 @@
 .scr.chd [style*="color:var(--primarySlate)"],.scr.chd [style*="color:var(--naturalDarkForest)"]{color:var(--sk-sub)!important}
 .scr.chd .divider{background:rgba(255,255,255,.08)!important;height:1px!important;margin-left:0;margin-right:0}
 .scr.chd .card.flat{background:var(--sk-card)!important;border:1px solid var(--sk-line)}
+/* share card corners: cqw on the card itself resolved against the viewport (made it a pill on wide screens) */
+.story.v2{border-radius:20px!important;box-shadow:0 14px 32px rgba(0,0,0,.22)}
+.story.v2.sq .st2-scene{height:64%}.story.v2.sq .st2-art{top:14%;bottom:34%}.story.v2.sq .st2-art img{max-height:min(30cqw,100%)}
+.story.v2.sq .st2-card{padding:4.4cqw 5cqw}.story.v2.sq .st2-title{font-size:8.4cqw}.story.v2.sq .st2-sub{font-size:3.8cqw;margin-top:1.6cqw}.story.v2.sq .st2-foot{margin-top:3cqw}.story.v2.sq .st2-fl{margin-top:2cqw}.story.v2.sq .st2-fl img{height:5.6cqw}
+.scr.chd .field label{color:var(--sk-sub)}.scr.chd .field textarea,.scr.chd .field input,.scr.chd .field{background:rgba(255,255,255,.06)!important;color:#fff!important;border-color:var(--sk-line)!important}
+.scr.chd [style*="border-bottom:1px solid #f0f0f0"]{border-bottom-color:rgba(255,255,255,.08)!important}.scr.chd .av{box-shadow:none}
+.story.v2.sq .st2-art{top:16%;bottom:47%}.story.v2.sq .st2-art img{max-height:100%}
+.scr.chd input[type=search],.scr.chd input[placeholder*="Search"],.scr.chd .search,.scr.chd .search input{background:rgba(255,255,255,.06)!important;color:#fff!important;box-shadow:inset 0 0 0 1px var(--sk-line)!important}
+.scr.chd .badge{background:rgba(116,201,71,.16);color:#bceaa3}

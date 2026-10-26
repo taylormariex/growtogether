@@ -217,7 +217,7 @@ function protoMenu(){spInit();const s=skState();sheet(`<div class="h3">Prototype
   <div class="li" onclick="closeOv();resetAll()">${ic('close')}<div class="grow"><div class="ttl">Reset everything</div></div></div></div>`)}
 
 /* ---------- Share card v2: matches the Figma card set (light scene, white content card, lockup + link) ---------- */
-function storyCard(o){o=o||{};return `<div class="story v2" style="${o.css||''}"><div class="st2-scene">${hills({})}<div class="st2-art">${o.art||`<img src="${IMG[rstage(S.streak)[2]]}" alt="">`}</div></div>
+function storyCard(o){o=o||{};return `<div class="story v2 ${/1\s*\/\s*1/.test(o.css||'')?'sq':''}" style="${o.css||''}"><div class="st2-scene">${hills({})}<div class="st2-art">${o.art||`<img src="${IMG[rstage(S.streak)[2]]}" alt="">`}</div></div>
   ${o.eyebrow?`<div class="st2-chip">${o.eyebrow}</div>`:''}
   <div class="st2-card"><div class="st2-title">${o.title||''}</div>${o.sub?`<div class="st2-sub">${o.sub}</div>`:''}<div class="st2-foot"><span class="lk"><img src="${IMG.acorn}" alt="">acorns</span><span>${(o.foot||'acorns.com/j/jordan').replace('acorns.com/g/','acorns.com/j/')}</span></div></div></div>`}
 

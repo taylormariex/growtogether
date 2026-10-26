@@ -170,3 +170,4 @@ function protoMenu0(){sheet(rvHTML(true),{cls:'rvs'})}
 (function(){const f=SCR['gt-welcome'];if(!f)return;SCR['gt-welcome']=p=>{const r=f(p);r.mount=el=>{const b=ART.confettiBurst||ART.confetti;const s=$('#screen');b(s,120);setTimeout(()=>b(s,70),700);haptic(30)};return r}})();
 /* main user is Jordan (she/her); migrate any saved state */
 (function(){if(S&&S.me==='Alex'){S.me='Jordan';save()}})();
+['gt-people','gt-invite','gt-add','gt-manual'].forEach(id=>{const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);if(r&&!/\b(dark|green)\b/.test(r.cls||''))r.cls=((r.cls||'')+' dark chd').trim();return r}});

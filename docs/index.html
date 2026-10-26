@@ -708,6 +708,15 @@ input,textarea{font-family:inherit}
 .scr.chd [style*="color:var(--primarySlate)"],.scr.chd [style*="color:var(--naturalDarkForest)"]{color:var(--sk-sub)!important}
 .scr.chd .divider{background:rgba(255,255,255,.08)!important;height:1px!important;margin-left:0;margin-right:0}
 .scr.chd .card.flat{background:var(--sk-card)!important;border:1px solid var(--sk-line)}
+/* share card corners: cqw on the card itself resolved against the viewport (made it a pill on wide screens) */
+.story.v2{border-radius:20px!important;box-shadow:0 14px 32px rgba(0,0,0,.22)}
+.story.v2.sq .st2-scene{height:64%}.story.v2.sq .st2-art{top:14%;bottom:34%}.story.v2.sq .st2-art img{max-height:min(30cqw,100%)}
+.story.v2.sq .st2-card{padding:4.4cqw 5cqw}.story.v2.sq .st2-title{font-size:8.4cqw}.story.v2.sq .st2-sub{font-size:3.8cqw;margin-top:1.6cqw}.story.v2.sq .st2-foot{margin-top:3cqw}.story.v2.sq .st2-fl{margin-top:2cqw}.story.v2.sq .st2-fl img{height:5.6cqw}
+.scr.chd .field label{color:var(--sk-sub)}.scr.chd .field textarea,.scr.chd .field input,.scr.chd .field{background:rgba(255,255,255,.06)!important;color:#fff!important;border-color:var(--sk-line)!important}
+.scr.chd [style*="border-bottom:1px solid #f0f0f0"]{border-bottom-color:rgba(255,255,255,.08)!important}.scr.chd .av{box-shadow:none}
+.story.v2.sq .st2-art{top:16%;bottom:47%}.story.v2.sq .st2-art img{max-height:100%}
+.scr.chd input[type=search],.scr.chd input[placeholder*="Search"],.scr.chd .search,.scr.chd .search input{background:rgba(255,255,255,.06)!important;color:#fff!important;box-shadow:inset 0 0 0 1px var(--sk-line)!important}
+.scr.chd .badge{background:rgba(116,201,71,.16);color:#bceaa3}
 
 </style>
 </head>
@@ -1369,7 +1378,7 @@ def('gt-people-intro',()=>({html:`${topbar({})}
     <div class="row" style="padding:8px 0">${ic('lock',20,'color:var(--primaryForest)')}<div class="sm grow" style="color:var(--primarySlate)">Only you see your grove. Remove anyone quietly, anytime.</div></div></div>
   </div>${foot(btn('Choose from contacts',"askContacts(()=>go(S.perm.contacts==='denied'?'gt-manual':'gt-people'))"),btn('Share a link instead',"inviteLink()",'ghost'))}`}));
 function inviteLink(){share({title:`${S.me} saved you a spot`,story:inviteStory(),done:()=>{if(!S.grove.length)S.grove.push({id:'sam',status:'invited',side:0});save();setTimeout(()=>go('gt-sent'),700)}})}
-function inviteStory(){return storyCard({bg:'linear-gradient(180deg,#74c947,#38860e)',eyebrow:'Grow with me',title:`${S.me} saved you a spot in her grove.`,sub:'One small investment a week. We both grow.',art:`<div style="display:flex;align-items:flex-end;gap:6px">${oak(2,['roots'],{w:120,h:134,ground:false})}<div style="width:70px;height:70px;border-radius:35px;border:2.5px dashed rgba(255,255,255,.7);margin-bottom:8px"></div></div>`})}
+function inviteStory(){return storyCard({bg:'linear-gradient(180deg,#74c947,#38860e)',eyebrow:'Grow with me',title:`${S.me} saved you a spot in her grove.`,sub:'One small investment a week. We both grow.',art:`<div style="display:flex;align-items:flex-end;gap:6cqw"><img src="${IMG[rstage(S.streak)[2]]}" style="height:34cqw;width:auto" alt=""><div style="width:20cqw;height:20cqw;border-radius:50%;border:.7cqw dashed #74c947;background:rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;margin-bottom:1cqw;color:#3f9a1a;font-weight:700;font-size:4cqw">You?</div></div>`})}
 def('gt-people',p=>{if(!T.ppl)T.ppl=(p.pre||[]).slice();const lim=S.perm.contacts==='limited';const on=['sam','mom','dad','priya'],off=lim?['jess']:['jess','marcus','leo','nina'];
   const row=id=>{const g=inGrove(id);const sel=T.ppl.indexOf(id)>-1;return `<div class="choice ${sel?'on':''} pr" data-k="ppl" data-n="${PEOPLE[id].full.toLowerCase()}" onclick="${g?`toast('${PEOPLE[id].name} is already in your grove')`:`pick(this,'ppl','${id}',1);pplBar()`}" style="background:transparent;padding:10px 4px;margin:0;border-radius:0;box-shadow:none;border-bottom:1px solid #f0f0f0">${av(id)}<div class="grow"><div class="ttl">${PEOPLE[id].full}</div><div class="sub">${g?'In your grove':PEOPLE[id].on?'On Acorns':PEOPLE[id].phone}</div></div>${g?'<span class="badge">Added</span>':PEOPLE[id].on?'<span class="badge">On Acorns</span>':''}${g?'':'<div class="check"></div>'}</div>`};
   return {html:`${topbar({title:p.add?'Add to your grove':'Choose your people'})}
@@ -2249,7 +2258,7 @@ function protoMenu(){spInit();const s=skState();sheet(`<div class="h3">Prototype
   <div class="li" onclick="closeOv();resetAll()">${ic('close')}<div class="grow"><div class="ttl">Reset everything</div></div></div></div>`)}
 
 /* ---------- Share card v2: matches the Figma card set (light scene, white content card, lockup + link) ---------- */
-function storyCard(o){o=o||{};return `<div class="story v2" style="${o.css||''}"><div class="st2-scene">${hills({})}<div class="st2-art">${o.art||`<img src="${IMG[rstage(S.streak)[2]]}" alt="">`}</div></div>
+function storyCard(o){o=o||{};return `<div class="story v2 ${/1\s*\/\s*1/.test(o.css||'')?'sq':''}" style="${o.css||''}"><div class="st2-scene">${hills({})}<div class="st2-art">${o.art||`<img src="${IMG[rstage(S.streak)[2]]}" alt="">`}</div></div>
   ${o.eyebrow?`<div class="st2-chip">${o.eyebrow}</div>`:''}
   <div class="st2-card"><div class="st2-title">${o.title||''}</div>${o.sub?`<div class="st2-sub">${o.sub}</div>`:''}<div class="st2-foot"><span class="lk"><img src="${IMG.acorn}" alt="">acorns</span><span>${(o.foot||'acorns.com/j/jordan').replace('acorns.com/g/','acorns.com/j/')}</span></div></div></div>`}
 
@@ -2963,6 +2972,7 @@ function protoMenu0(){sheet(rvHTML(true),{cls:'rvs'})}
 (function(){const f=SCR['gt-welcome'];if(!f)return;SCR['gt-welcome']=p=>{const r=f(p);r.mount=el=>{const b=ART.confettiBurst||ART.confetti;const s=$('#screen');b(s,120);setTimeout(()=>b(s,70),700);haptic(30)};return r}})();
 /* main user is Jordan (she/her); migrate any saved state */
 (function(){if(S&&S.me==='Alex'){S.me='Jordan';save()}})();
+['gt-people','gt-invite','gt-add','gt-manual'].forEach(id=>{const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);if(r&&!/\b(dark|green)\b/.test(r.cls||''))r.cls=((r.cls||'')+' dark chd').trim();return r}});
 
 
 </script>

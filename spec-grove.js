@@ -182,3 +182,22 @@ function refresh(){const t=stack[stack.length-1];const host=$('#screen');const o
 /* likes update in place with a little pop, no re-render */
 function tlCheer(b,k,n){CHEER[k]=!CHEER[k];const on=CHEER[k];b.classList.toggle('on',on);b.innerHTML=`${on?'♥':'♡'} ${n+(on?1:0)}`;haptic(6);if(on){b.classList.remove('pop1');void b.offsetWidth;b.classList.add('pop1')}}
 (function(){const st=document.createElement('style');st.textContent=`.tl-h.pop1{animation:hpop .35s cubic-bezier(.3,1.6,.5,1)}@keyframes hpop{40%{transform:scale(1.3)}}`;document.head.appendChild(st)})();
+/* edge state "no bank linked" is only for that one review screen; everywhere else gets the account back */
+(function(){const base=spInit;spInit=function(){const r=base();const id=cur&&cur()&&cur().dataset&&cur().dataset.id;if((!S.accounts||!S.accounts.length)&&id!=='mt2-review'&&id!=='states')S.accounts=FRESH().accounts;return r}})();
+
+/* Why 2: one clear story. 8 weeks fill one by one, the number counts with them, the tree grows acorn → seedling → oak. Plays once. */
+def('gt-why2',()=>({cls:'dark',html:whyShell(1,`
+  <div class="card dk mt8 w2c"><div class="row between" style="align-items:flex-end"><div><div class="sm" style="color:var(--sk-sub)">Your Streak</div><div class="w2n" id="wk">1</div><div class="sm" style="color:var(--sk-sub)" id="wkl">week in a row</div></div>
+   <div class="w2art" id="w2art"><img src="${IMG.acorn}" style="height:64px" alt=""></div></div>
+   <div class="w2row" id="w2row">${Array.from({length:8},(_,i)=>`<i class="${i<1?'on':''}"></i>`).join('')}</div></div>
+  <div class="eyebrow rise mt32">Built on habit</div><div class="h1 rise d1 mt8">One investment a week keeps it growing.</div>
+  <p class="p rise d2 mt12">Any amount counts. $5 counts. Set it once and the weeks add up on their own.</p>`,'gt-why3'),
+  mount(el){let w=1;const art={1:['acorn',64],4:['seedling',96],8:['oak',128]};const tick=()=>{const k=$('#wk',el);if(!k||!document.body.contains(k))return;w++;if(w>8)return;
+    k.textContent=w;$('#wkl',el).textContent=`week${w===1?'':'s'} in a row`;const b=$$('#w2row i',el)[w-1];if(b)b.classList.add('on');haptic(4);
+    if(art[w]){$('#w2art',el).innerHTML=`<img class="grow-in" src="${IMG[art[w][0]]}" style="height:${art[w][1]}px" alt="">`}setTimeout(tick,w===8?0:460)};setTimeout(tick,700)}}));
+(function(){const st=document.createElement('style');st.textContent=`.w2c{padding:20px!important;background:rgba(255,255,255,.05)!important}
+.w2n{font-size:52px;font-weight:600;line-height:1.05;color:#fff;font-variant-numeric:tabular-nums}
+.w2art{height:132px;width:130px;display:flex;align-items:flex-end;justify-content:center}.w2art img{display:block;filter:drop-shadow(0 8px 8px rgba(0,0,0,.35))}
+.w2row{display:flex;gap:6px;margin-top:18px}.w2row i{flex:1;height:28px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:background .25s}
+.w2row i.on{background:#74c947;animation:orbIn .4s cubic-bezier(.3,1.6,.5,1)}.w2row i.on::after{content:"";width:9px;height:5px;border-left:2px solid #0a1d08;border-bottom:2px solid #0a1d08;transform:rotate(-45deg) translateY(-1px)}
+.dark .weeks i.on{background:#74c947}`;document.head.appendChild(st)})();

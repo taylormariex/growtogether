@@ -2975,7 +2975,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 9:40 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 9:43 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -4325,28 +4325,41 @@ function ssBadges(n,nx){return `<div class="sgx-card"><div class="sgx-ch"><div><
   <div class="sgx-bd">${SS_MS.map(([v,l,i0])=>`<div class="sgx-b ${n>=v?'on':''}"><span>${sgGlyph(i0,22,n>=v?'#fff':'#9aa69c')}</span><b>${l}</b></div>`).join('')}</div>${nx?`<div class="sgx-nb" style="margin-top:14px"><i style="width:${Math.round(n/nx[0]*100)}%"></i></div>`:''}</div>`}
 /* the app's tab bar under the hub: shown for context, taps are inert */
 function ssTabs(){return acTabs('ac-home').replace(/onclick="[^"]*"/g,'onclick="toast(\'Existing app tabs, unchanged\')"')}
-def('ss-hub',()=>{spInit();const st=ssStats();const prev=T.ssPrev!=null?T.ssPrev:Math.max(0,st.stashed-18);const nx=SS_MS.find(m=>st.skips<m[0]);
+const SS_TABS=[['stash','Stash'],['together','Together'],['progress','Progress']];
+def('ss-hub',()=>{spInit();const st=ssStats();const prev=T.ssPrev!=null?T.ssPrev:Math.max(0,st.stashed-18);const nx=SS_MS.find(m=>st.skips<m[0]);const tab=T.ssTab||'stash';
  const jars=S.jars&&S.jars.length?S.jars:[{id:'j1',name:'Coffee jar',est:6,coins:3}];
  const log=(S.skipLog&&S.skipLog.length?S.skipLog:[{t:'Coffee',amt:6,src:'quick',when:'Today',stash:true},{t:'Coffee jar',amt:6,src:'self',when:'Fri',stash:false},{t:'Takeout',amt:14,src:'quick',when:'Wed',stash:true}]).slice(0,4);
- return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Skip and Stash</b><button class="iconbtn" onclick="go('ss-settings')" aria-label="Settings">${ic('gear',20)}</button></div>
+ const sec={
+  stash:`<div class="ssx-q"><div class="ssx-qh"><b>Skipped something today?</b><em>Tap it and invest what you didn’t spend</em></div>
+   <div class="ssx-qg">${SS_QUICK.map(([n,a,k])=>`<button onclick="T={qsItem:'${n==='Something else'?'Other':n}',qsAmt:${a}};S.ret='ss-hub';go('qs-lt')"><span>${ssQIc(k)}</span><b>${n}</b><em>${n==='Something else'?'Pick it':'About $'+a}</em></button>`).join('')}</div></div>
+   <div class="sgx-card"><div class="sgx-ch"><div><b>Not ready to invest it yet?</b><em>Drop a coin in a jar. Stash the jar when it’s full.</em></div></div>
+   ${jars.map(j=>`<div class="ssx-jr" onclick="go('jar',{id:'${j.id}'})" role="button"><div class="ssx-mj">${jarViz(j,0)}</div><div class="grow"><b>${j.name}</b><em>${j.coins} skip${j.coins===1?'':'s'} · about $${j.coins*j.est}</em></div><button onclick="event.stopPropagation();T={jar:'${j.id}',qsItem:'${j.name.replace(' jar','')}',qsAmt:${Math.max(5,j.coins*j.est)}};S.ret='ss-hub';go('qs-lt')">Stash</button></div>`).join('')}
+   <button class="ssx-new" onclick="go('jar-new')">${ic('plus',16)} New jar</button></div>
+   <p class="sgx-priv">${ic('lock',12)} Only you see amounts. We never read your spending unless you turn on Spot my skips.</p>`,
+  together:`<div class="sgx-card ssx-week" onclick="go('gt-ch-detail',{id:'c-skip'})" role="button"><div class="sgx-ch"><div><b>No-delivery week</b><em>Skip Week · Day 5 of 7 · with Sam, Jess and Priya</em></div>${ic('chev',16,'opacity:.4')}</div>
+   <div class="ssx-days">${[1,1,1,1,0,0,0].map((v,i)=>`<i class="${v?'on':i===4?'td':''}">${v?ic('check',12):['M','T','W','T','F','S','S'][i]}</i>`).join('')}</div>
+   <div class="ssx-crew">${['me','sam','jess','priya'].map(id=>sgAv(id,26)).join('')}<span>Check in today</span></div></div>
+   <div class="sgx-card"><div class="sgx-ch"><div><b>Start a Skip Week</b><em>Pick one thing to skip for 3 or 7 days. Go solo or bring a crew. They see check-ins, never dollars.</em></div></div>
+   <button class="btn sg-cta" style="height:50px" onclick="T={};S.ret='ss-hub';go('ss-why1')">${ic('plus',16)} New Skip Week</button></div>
+   <p class="sgx-priv">${ic('lock',12)} People in a Skip Week only see the check-ins you confirm.</p>`,
+  progress:`${ssCal(st)}${ssBadges(st.skips,nx)}
+   <div class="sgx-card"><div class="sgx-ch"><div><b>Recent</b><em>Only you see amounts</em></div><button class="sgx-edit" onclick="go('ss-log')">All</button></div>
+   ${log.map(e=>`<div class="sgx-f"><span class="ssx-li ${e.stash?'on':''}">${e.stash?ic('check',14):ssCup(.45)}</span><span class="grow"><b>${e.stash?'Stashed':'Skipped'} · ${e.t}</b><em>${e.when}</em></span><b class="ssx-amt ${e.stash?'':'muted'}">${e.stash?'':'~'}$${e.amt}</b></div>`).join('')}</div>`};
+ return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Skip and Stash</b><button class="iconbtn" onclick="ssMore()" aria-label="More ways to skip">${ic('menu',22)}</button></div>
  <div class="sg-body sgx-body">
   <div class="ssx-hero"><div class="ssx-sky"></div><div class="ssx-hill"></div><div class="ssx-jar">${jarViz({name:'Your skips',coins:Math.min(12,Math.round(st.skips*.7))},1)}</div>
    <div class="ssx-num"><b data-count>$${st.stashed}</b><em>invested from skips</em><span>${st.skips} skips this month</span></div></div>
-  <div class="ssx-q"><div class="ssx-qh"><b>Skipped something today?</b><em>Tap it and invest what you didn’t spend</em></div>
-   <div class="ssx-qg">${SS_QUICK.map(([n,a,k])=>`<button onclick="T={qsItem:'${n==='Something else'?'Other':n}',qsAmt:${a}};S.ret='ss-hub';go('qs-lt')"><span>${ssQIc(k)}</span><b>${n}</b><em>${n==='Something else'?'Pick it':'About $'+a}</em></button>`).join('')}</div></div>
-  <div class="sgx-card ssx-week" onclick="go('gt-ch-detail',{id:'c-skip'})" role="button"><div class="sgx-ch"><div><b>No-delivery week</b><em>Skip Week · Day 5 of 7 · with Sam, Jess and Priya</em></div>${ic('chev',16,'opacity:.4')}</div>
-   <div class="ssx-days">${[1,1,1,1,0,0,0].map((v,i)=>`<i class="${v?'on':i===4?'td':''}">${v?ic('check',12):['M','T','W','T','F','S','S'][i]}</i>`).join('')}</div>
-   <div class="ssx-crew">${['me','sam','jess','priya'].map(id=>sgAv(id,26)).join('')}<span>Check in today</span></div></div>
-  <div class="sgx-card"><div class="sgx-ch"><div><b>Your jars</b><em>Drop a coin when you skip. Stash when you’re ready.</em></div></div>
-   ${jars.map(j=>`<div class="ssx-jr" onclick="go('jar',{id:'${j.id}'})" role="button"><div class="ssx-mj">${jarViz(j,0)}</div><div class="grow"><b>${j.name}</b><em>${j.coins} skip${j.coins===1?'':'s'} · about $${j.coins*j.est}</em></div><button onclick="event.stopPropagation();T={jar:'${j.id}',qsItem:'${j.name.replace(' jar','')}',qsAmt:${Math.max(5,j.coins*j.est)}};S.ret='ss-hub';go('qs-lt')">Stash</button></div>`).join('')}
-   <button class="ssx-new" onclick="go('jar-new')">${ic('plus',16)} New jar</button></div>
-  ${ssCal(st)}
-  ${ssBadges(st.skips,nx)}
-  <div class="sgx-card"><div class="sgx-ch"><div><b>More ways to skip</b></div></div><div class="ssx-ways">${[['Skip Rules','Stash on autopilot',"go('sr-intro')"],['Sunday review','Count the week’s skips',"go('ss-review')"],['Spot my skips','Optional · off',"go('ss-detect')"],['All modes','Quick Stash, jars, Skip Week',"go('ss2-pick')"]].map(([t,d,a])=>`<button onclick="${a}"><b>${t}</b><em>${d}</em></button>`).join('')}</div></div>
-  <div class="sgx-card"><div class="sgx-ch"><div><b>Recent</b><em>Only you see amounts</em></div><button class="sgx-edit" onclick="go('ss-log')">All</button></div>
-   ${log.map(e=>`<div class="sgx-f"><span class="ssx-li ${e.stash?'on':''}">${e.stash?ic('check',14):ssCup(.45)}</span><span class="grow"><b>${e.stash?'Stashed':'Skipped'} · ${e.t}</b><em>${e.when}</em></span><b class="ssx-amt ${e.stash?'':'muted'}">${e.stash?'':'~'}$${e.amt}</b></div>`).join('')}</div>
-  <p class="sgx-priv">${ic('lock',12)} Only you see amounts. People in a Skip Week only see the check-ins you confirm. We never read your spending unless you turn on Spot my skips.</p>
- </div>${ssTabs()}`,mount(el){const n=el.querySelector('[data-count]');if(n){const to=st.stashed,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/1000),e=1-Math.pow(1-k,3);n.textContent='$'+Math.round(prev+(to-prev)*e);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}T.ssPrev=null}}});
+  <div class="ssx-seg">${SS_TABS.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="T.ssTab='${k}';refresh()">${l}</button>`).join('')}</div>
+  <div class="ssx-sec" key="${tab}">${sec[tab]}</div>
+ </div>${ssTabs()}`,mount(el){const n=el.querySelector('[data-count]');if(n){const to=st.stashed,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/1000),e=1-Math.pow(1-k,3);n.textContent='$'+Math.round(prev+(to-prev)*e);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}T.ssPrev=st.stashed}}});
+/* everything optional lives behind the menu: rules, review, detection, reminders, settings */
+function ssMore(){sheet(`<div class="h3">More ways to skip</div><p class="sm mt8">Skip and Stash works with a tap. These are optional.</p><div class="mt12">
+  ${[['Skip Rules','Stash automatically when you check in “Skipped it”',"go('sr-intro')",'gear'],['Sunday review','Count the week’s skips in one place',"go('ss-review')",'cal'],['Spot my skips',S.detect&&S.detect.on?`On · ${S.detect.cats.join(', ')}`:'Off. We never read spending unless you turn this on',"go(S.detect&&S.detect.on?'ss-settings':'ss-detect')",'spark'],['Reminder preview','What a check-in looks like on your lock screen',"T.lk=null;go('ss-lock')",'bell'],['Settings','Reminders, jars and detection',"go('ss-settings')",'gear']].map(([t,d,a,i])=>`<div class="li" onclick="closeOv();setTimeout(()=>{${a.replace(/"/g,'&quot;')}},200)">${ic(i,20)}<div class="grow"><div class="ttl">${t}</div><div class="sub">${d}</div></div>${ic('chev',18,'opacity:.35')}</div>`).join('')}</div>`)}
+document.head.insertAdjacentHTML('beforeend',`<style>
+.ssx-seg{position:sticky;top:-4px;z-index:3;display:flex;gap:4px;margin:12px 0 0;padding:4px;border-radius:18px;background:#e9ede4}.ssx-seg button{flex:1;height:40px;border-radius:14px;font-size:14px;font-weight:600;color:#5d655f}.ssx-seg button.on{background:#fff;color:#191919;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.ssx-sec{animation:ssxSec .35s cubic-bezier(.2,.8,.2,1) both}@keyframes ssxSec{from{opacity:0;transform:translateY(8px)}}
+.ssx-sec>.ssx-q{margin-top:12px}
+</style>`);
 def('qs-lt',()=>{if(!T.qsItem){T.qsItem='Coffee';T.qsAmt=6}const a=T.qsAmt,jar=T.jar&&S.jars.find(j=>j.id===T.jar);const name=jar?jar.name:T.qsItem;const counts=!S.invested||S.reset;
  return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>${jar?jar.name:'Quick Stash'}</b><span style="width:44px"></span></div>
  <div class="sg-body sgx-body">

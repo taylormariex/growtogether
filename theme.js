@@ -27,7 +27,7 @@ def('gt-home',()=>{const w=S.streak;const g=S.grove;const inv=g.filter(x=>x.stat
    <div class="sk-sec"><div class="h4">Challenges</div><span class="sm" style="cursor:pointer" onclick="T={};go('gt-ch-new')">+ Start</span></div>
    ${S.invites.map(v=>skRow(av(v.from,'s').replace('class="av s"','class="av s" style="width:48px;height:48px"'),`${nm(v.from)} invited you`,`${v.title} · ${v.len} ${v.unit}`,false,`go('gt-ch-invite',{id:'${v.id}'})`)).join('')}
    ${S.challenges.length?S.challenges.map(c=>{const t=CH_TYPES[c.type];return skRow(`<span style="color:#74c947">${ic(t.icon,22)}</span>`,c.title,`${c.prog.me||0} of ${c.len} ${c.unit} · ${c.people.length} people`,(c.prog.me||0)>=c.len,`go('gt-ch-detail',{id:'${c.id}'})`)}).join(''):`<div class="sm" style="color:var(--sk-sub)">Bring people in on a no-delivery week, a Round-Ups month, or 8 weeks side by side.</div>`}
-   <div class="sk-sec"><div class="h4">Flourishes</div><span class="sm">${S.flourishes.length}/9</span></div>
+   <div class="sk-sec"><div class="h4">Oak extras</div><span class="sm">${S.flourishes.length}/9</span></div>
    <div class="row" style="gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none">${Object.keys(FL).map(flTok).join('')}</div>
    <div class="sk-sec"><div class="h4">Achievements</div><span class="sm">${RSTAGES.filter(r=>r[0]>0&&w>=r[0]).length}/7 Complete</span></div>
    <div class="sk-stats"><div class="sk-stat"><span class="sk-ic">${ic('spark',16)}</span><div class="n">${w}</div><div class="l">Current Streak</div></div><div class="sk-stat"><span class="sk-ic">${ic('flag',16)}</span><div class="n">${Math.max(w,24)}</div><div class="l">Best Streak</div></div></div>
@@ -90,13 +90,13 @@ function groveCheer(id){const el=cur();const t=$('#gt-'+id,el);if(!t){toast('Che
 /* ---------- Your oak (production list) ---------- */
 def('gt-oak',()=>({cls:'dark',html:`<div class="top" style="position:absolute;left:0;right:0;z-index:5"><button class="iconbtn" onclick="home('gt-home')">${ic('back')}</button><button class="iconbtn" onclick="shareOak()">${ic('share',22)}</button></div>
   <div class="body" style="padding-top:0">${skHero(S.streak,{sub:'Streaks sets how tall it grows. Every other healthy habit adds a flourish your grove can see.'})}
-  <div class="sk-sec"><div class="h4">Flourishes</div><span class="sm">${S.flourishes.length}/9</span></div>
+  <div class="sk-sec"><div class="h4">Oak extras</div><span class="sm">${S.flourishes.length}/9</span></div>
   ${Object.keys(FL).map(k=>{const on=S.flourishes.indexOf(k)>-1;const im=FLIMG[k]?`<img src="${IMG[FLIMG[k]]}">`:ic('drop',22,'color:#4da1ef');return skRow(on?im:'',FLNAME[k],on?'Growing on your oak':FL[k].how,on,`flourishSheet('${k}')`)}).join('')}
   <div style="height:80px"></div></div>${tabbarDk('gt-oak')}`}));
 def('fl-unlock',p=>{const f=FL[p.k];const im=FLIMG[p.k]?`<img src="${IMG[FLIMG[p.k]]}" style="height:110px">`:ic('drop',90,'color:#4da1ef');return {cls:'green',html:`${topbar({left:'<div style="width:44px"></div>'})}
   <div class="body center" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
    <div class="pop" style="width:170px;height:170px;border-radius:85px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center">${im}</div>
-   <div class="eyebrow mt24 rise">New flourish</div><div class="h1 mt8 rise d1">${FLNAME[p.k]}</div><p class="p mt12 rise d2" style="max-width:300px">${f.line}</p>
+   <div class="eyebrow mt24 rise">New on your oak</div><div class="h1 mt8 rise d1">${FLNAME[p.k]}</div><p class="p mt12 rise d2" style="max-width:300px">${f.line}</p>
    <p class="sm mt16 rise d3" style="color:rgba(255,255,255,.85)">${growing().length?`${growing().slice(0,2).map(g=>nm(g.id)).join(' and ')} will see it on your oak.`:'Your grove will see it on your oak.'} Never an amount.</p></div>
   ${foot(btn('Continue','finish()','dk'),btn(`${ic('share',20)} Share`,'shareOak()','ghost','style="color:#fff"'))}`,mount(){confetti($('#screen'),60)}}});
 function flourishSheet(k){const f=FL[k];const has=S.flourishes.indexOf(k)>-1;const im=FLIMG[k]?`<img src="${IMG[FLIMG[k]]}" style="height:84px">`:ic('drop',60,'color:#4da1ef');
@@ -146,7 +146,7 @@ def('sam-planted',()=>({cls:'dark',html:`${samDash(1,`<div class="sk-sec"><div c
 /* ---------- Money Manager split (way in) ---------- */
 def('mm-why1',()=>({cls:'green',html:`${topbar({close:"home('menu')",right:''})}<div class="body center" style="display:flex;flex-direction:column;justify-content:center;align-items:center">
   <div class="row pop" style="justify-content:center;gap:10px"><img src="${IMG.seedling}" style="height:80px"><img src="${IMG.later}" style="height:80px"><img src="${IMG.moneybag}" style="height:80px"></div>
-  <div class="eyebrow mt32">Money Manager</div><div class="h1 mt8">One paycheck. Three habits.</div><p class="p mt12" style="max-width:300px">Split each paycheck into Invest, Later and Emergency Fund at once. Three flourishes from one setup.</p></div>
+  <div class="eyebrow mt32">Money Manager</div><div class="h1 mt8">One paycheck. Three habits.</div><p class="p mt12" style="max-width:300px">Split each paycheck into Invest, Later and Emergency Fund at once. Three oak extras from one setup.</p></div>
   ${foot(btn('Set up my split',"T={mi:50,ml:30,me:20};go('mm-split')",'dk'))}`}));
 def('mm-split',()=>{if(T.mi===undefined){T.mi=50;T.ml=30;T.me=20}const r=(k,l,img)=>`<div class="card mt12"><div class="row"><img src="${IMG[img]}" style="height:36px"><div class="grow"><div class="h4">${l}</div><div class="sm">of each paycheck</div></div><b style="font-size:20px" id="l-${k}">${T[k]}%</b></div><input id="r-${k}" type="range" min="0" max="100" step="5" value="${T[k]}" style="width:100%;margin-top:12px;accent-color:#74c947" oninput="mmSet('${k}',+this.value)"></div>`;
   return {html:`${topbar({title:'Money Manager'})}${progress(1,2)}<div class="body"><div class="h2 mt8">How should we split it?</div><p class="p mt8">Of the part you set aside. Adds up to 100%.</p>${r('mi','Invest','seedling')}${r('ml','Later','later')}${r('me','Emergency Fund','moneybag')}
@@ -155,7 +155,7 @@ function mmSet(k,v){T[k]=v;const o=['mi','ml','me'].filter(x=>x!==k);let rest=10
 def('mm-review',()=>{if(T.mi===undefined){T.mi=50;T.ml=30;T.me=20}return {html:`${topbar({title:'Review'})}${progress(2,2)}<div class="body"><div class="h2 mt8">Your split</div><div class="card mt24"><div class="kv"><span>From</span><b>Direct deposit to Acorns Checking</b></div><div class="kv"><span>Invest</span><b>${T.mi}%</b></div><div class="kv"><span>Later</span><b>${T.ml}%</b></div><div class="kv"><span>Emergency Fund</span><b>${T.me}%</b></div></div>
   <div class="card flat mt16"><div class="row"><div class="sm grow" style="color:#191919"><b>Counts everywhere.</b> Each paycheck adds a week to your Streak and every side-by-side.</div></div></div></div>${foot(btn('Turn on my split',"['roots','gold','nest'].forEach(addFlourish);S.recurring=true;save();go('sys-load',{msg:'Setting up your split',next:'mm-done'})",'dk'))}`}});
 def('mm-done',()=>({cls:'green',html:`${topbar({left:'<div style="width:44px"></div>',right:''})}<div class="body center" style="display:flex;flex-direction:column;justify-content:center;align-items:center"><div class="row pop" style="gap:8px"><img src="${IMG.seedling}" style="height:70px"><img src="${IMG.later}" style="height:70px"><img src="${IMG.moneybag}" style="height:70px"></div>
-  <div class="h1 mt24">Three flourishes at once.</div><p class="p mt12" style="max-width:300px">Recurring, Later and Emergency Fund now grow on your oak. Split with a partner too?</p></div>
+  <div class="h1 mt24">Three oak extras at once.</div><p class="p mt12" style="max-width:300px">Recurring, Later and Emergency Fund now grow on your oak. Split with a partner too?</p></div>
   ${foot(btn('Invite my partner to the grove',"T={};go('gt-add')",'dk'),btn('See my oak',"home('gt-oak')",'ghost','style="color:#fff"'))}`,mount(){confetti($('#screen'),60)}}));
 
 /* ---------- menu: Acorns style ---------- */

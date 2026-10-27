@@ -35,7 +35,7 @@ const FL={
   sapling:{name:'Sapling',habit:'Acorns Early',line:'Start investing for a kid and a sapling grows beside you.',how:'Add a kid with Early',start:"startFlow('early-0')"},
   flowers:{name:'Wildflowers',habit:'Earn rewards',line:'Rewards from brands you already shop bloom at your roots.',how:'Activate an Earn offer',start:"startFlow('earn-1')"},
   bird:{name:'Songbird',habit:'Learn',line:'Finish a short lesson and a songbird lands in your oak.',how:'Read a 2-minute lesson',start:"startFlow('learn-1')"},
-  water:{name:'Rain',habit:'Water someone',line:'A gentle nudge for someone who hasn’t invested yet this week. When they invest, it rains on both oaks.',how:'Water someone in your grove',start:"go('gt-grove')"},
+  water:{name:'Rain',habit:'Send rain',line:'A gentle nudge for someone who hasn’t invested yet this week. When they invest, it rains on both oaks.',how:'Nudge someone who hasn’t invested this week',start:"go('gt-grove')"},
   tree:{name:'New tree',habit:'Grow your grove',line:'Every person who joins plants a tree on your hill.',how:'Add someone to your grove',start:"go('gt-add')"}
 };
 function startFlow(id){S.ret=stack.length?stack[stack.length-1].id:'gt-home';T={};closeOv();setTimeout(()=>go(id),closeOv?200:0)}
@@ -50,7 +50,7 @@ def('fl-unlock',p=>{const f=FL[p.k];return {cls:'dark',html:`
   <div style="position:absolute;inset:0">${hills({dark:1})}</div>
   ${topbar({left:'<div style="width:44px"></div>'})}
   <div class="body" style="position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:10px">
-    <div class="eyebrow rise">New flourish</div>
+    <div class="eyebrow rise">New on your oak</div>
     <div class="h1 rise d1 mt8">${f.name}</div>
     <p class="p rise d2 mt8" style="max-width:290px">${f.line}</p>
     <div class="grow-in d3" style="margin-top:18px" id="flo">${oak(Math.max(S.stage,2),S.flourishes,{dark:1,w:250,h:280})}</div>
@@ -181,7 +181,7 @@ def('early-2',()=>({html:`${topbar({title:'Acorns Early'})}${progress(2,3)}<div 
 def('early-3',()=>({html:`${topbar({title:'Review'})}${progress(3,3)}<div class="body"><div class="h2 mt8">Start ${T.kid}’s account</div>
   <div class="card mt24"><div class="kv"><span>For</span><b>${T.kid}</b></div><div class="kv"><span>Born</span><b>${T.kyear||'—'}</b></div><div class="kv"><span>Weekly</span><b>${T.eamt==='0'?'Not yet':'$'+T.eamt}</b></div></div></div>
   ${foot(btn('Open Early account',"S.early=T.kid;save();go('sys-load',{msg:'Planting a sapling',next:'early-done'})"))}`}));
-def('early-done',()=>({cls:'green',html:`${topbar({left:'<div style="width:44px"></div>'})}<div class="body center" style="display:flex;flex-direction:column;justify-content:center;align-items:center"><div class="pop"><img src="${IMG.early}" style="height:150px;filter:drop-shadow(0 14px 18px rgba(0,0,0,.25))"></div><div class="h1 mt8">${(typeof S.early==='string'&&S.early)||T.kid||'Their'}’s sapling is planted.</div></div>
+def('early-done',()=>({cls:'green',html:`${topbar({left:'<div style="width:44px"></div>'})}<div class="body center" style="display:flex;flex-direction:column;justify-content:center;align-items:center"><div class="pop"><img src="${IMG.early}" style="height:150px;filter:drop-shadow(0 14px 18px rgba(0,0,0,.25))"></div><div class="h1 mt8">${(typeof S.early==='string'&&S.early)||T.kid||'Your kid'}’s sapling is planted.</div></div>
   ${foot(btn('Continue',"addFlourish('sapling')?replace('fl-unlock',{k:'sapling'}):finish()",'dk'))}`}));
 
 /* ---------- Earn ---------- */

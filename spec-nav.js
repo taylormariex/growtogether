@@ -8,20 +8,14 @@
    · Registration (exists) → Money Type right after sign-up
    ===================================================================== */
 function heroCard(){spInit();const c=[];const gr=growing();const open=gr.filter(x=>x.open&&!S.watered[x.id]);
-  if(!S.mt2||!S.mt2.done)c.push({k:'mt',t:'Find your money type',s:'Three questions. The right first habit.',img:'seedling',a:"go('splash',{k:'money-type'})"});
-  if(open.length)c.push({k:'rain',t:`${nm(open[0].id)} hasn’t invested yet`,s:'Send rain as a gentle nudge.',img:'learn',a:"home('gt-grove')"});
-  c.push({k:'skip',t:'Skipped something today?',s:'Stash it and your week counts.',img:'roundup',a:"go('splash',{k:'skip-and-stash'})"});
-  c.push({k:'yr',t:'Your October recap is ready',s:'4 weeks, 1 new flourish.',img:'later',a:"T={si:0};go('recap',{m:9})"});
+  if(!S.mt2||!S.mt2.done)c.push({k:'mt',e:'Find your start',t:'Three questions find <g>your first habit</g>',img:'seedling',a:"go('splash',{k:'money-type'})"});
+  if(open.length)c.push({k:'rain',e:'Grow together',t:`${nm(open[0].id)} hasn’t invested <g>this week yet</g>`,img:'learn',a:"home('gt-grove')"});
+  c.push({k:'skip',e:'Skip and stash',t:'Skipped something today? <g>Invest it instead</g>',img:'roundup',a:"go('splash',{k:'skip-and-stash'})"});
+  c.push({k:'yr',e:'Your recap',t:'Your October recap <g>is ready</g>',img:'later',a:"T={si:0};go('recap',{m:9})"});
   const hid=S.heroHide||{};const l=c.filter(x=>!hid[x.k]);return l[(S.heroIdx||0)%Math.max(1,l.length)]||null}
-(function(){const f=SCR['ac-home'];SCR['ac-home']=p=>{const r=f(p);let h=r.html;
-  h=h.replace(/<div class="ach-sec" style="margin-top:26px">New ways to grow<\/div>[\s\S]*?<\/div>\s*<p class="ach-legal">/,'<p class="ach-legal">');
-  h=h.replace('<div class="ach-av" aria-hidden="true">','<div class="ach-yk" role="tablist"><button class="on" role="tab" aria-selected="true">You</button><button role="tab" aria-selected="false" onclick="go(\'kids\')">Kids</button></div><div class="ach-av" aria-hidden="true" style="display:none">');
-  const c=heroCard();
-  if(c)h=h.replace('<button class="ach-streak"',`<div class="ach-banner" role="region" aria-label="${c.t}"><button class="ach-bn" onclick="${c.a}"><img src="${IMG[c.img]}" alt=""><span><b>${c.t}</b><em>${c.s}</em></span></button><button class="ach-bx" onclick="event.stopPropagation();S.heroHide=S.heroHide||{};S.heroHide['${c.k}']=Date.now();save();refresh()" aria-label="Hide this">${ic('close',14)}</button></div><button class="ach-streak"`);
-  r.html=h;return r}})();
 /* Kids (existing) → Acorns Early → Future Club lives on the kid’s page */
 def('kids',()=>({cls:'lt',html:`${topbar({title:'Kids'})}<div class="body"><div class="kid-card"><div class="row"><div class="ach-av" style="background:#e7f3df;color:#2f7a12">A</div><div class="grow"><b>Ava’s Early account</b><span>Acorns Early · existing</span></div>${ic('chev',16,'opacity:.4')}</div></div>
-  <div class="kid-new" onclick="go('splash',{k:'future-club'})"><div class="as-k">New · Future Club</div><div class="row mt8" style="gap:14px"><img src="${IMG.seedling}" style="height:56px" alt=""><div class="grow"><b style="font-size:16px">Start Ava’s Future Club</b><div class="sm" style="color:#5d655f;margin-top:2px">Family adds notes for later. Each approved note blooms a leaf.</div></div></div></div>
+  <div class="kid-new" onclick="go('splash',{k:'future-club'})"><div class="as-k">Future Club</div><div class="row mt8" style="gap:14px"><img src="${IMG.seedling}" style="height:56px" alt=""><div class="grow"><b style="font-size:16px">Start Ava’s Future Club</b><div class="sm" style="color:#5d655f;margin-top:2px">Family writes Ava notes to read when she’s older. Each note you approve adds a leaf to her sapling.</div></div></div></div>
   <p class="sm mt16" style="color:#5d655f">Everything else on Kids is the existing Acorns Early experience.</p></div>`}));
 /* Streaks keeps the app nav. Grove and Challenges sit behind an in-page pill, like Community’s Explore | Stats */
 function tabbarDk(on){const t=[['gt-home','Streak'],['gt-grove','Grove'],['gt-ch','Challenges']];const cur0=on==='gt-oak'?'gt-home':on;

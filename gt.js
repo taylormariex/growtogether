@@ -127,7 +127,7 @@ def('gt-home',()=>{const g=growing(),inv=S.grove.filter(x=>x.status==='invited')
      ${S.challenges.length?S.challenges.slice(0,3).map(chRow).join(''):`<p class="sm mt8">Bring people in on something specific: a no-delivery week, Round-Ups month, or 8 weeks side by side.</p>`}
      ${S.challenges.length>3?`<div class="link mt12" onclick="home('gt-ch')">See all ${S.challenges.length}</div>`:''}
    </div>
-   <div class="card mt16 tap" onclick="home('gt-oak')"><div class="row between"><div class="h4">Flourishes</div><span class="sm">${S.flourishes.length} of 9</span></div>
+   <div class="card mt16 tap" onclick="home('gt-oak')"><div class="row between"><div class="h4">Oak extras</div><span class="sm">${S.flourishes.length} of 9</span></div>
      <div class="row mt12" style="flex-wrap:wrap;gap:6px">${Object.keys(FL).map(k=>`<span class="badge ${S.flourishes.indexOf(k)>-1?'':'gray'}">${FL[k].name}</span>`).join('')}</div></div>
    <div style="height:60px"></div>
   </div>
@@ -176,14 +176,14 @@ function personSheet(id){const g=inGrove(id);const p=PEOPLE[id];const ch=S.chall
    ${g.open?`<div class="row mt12" style="padding:12px;border-radius:14px;background:#eef6ff">${ic('drop',20,'color:var(--primarySky)')}<div class="sm grow" style="color:var(--primarySlate)">${p.name} hasn’t invested yet this week. Rain is a gentle nudge. It only counts when they invest. No amounts, ever.</div></div>`:''}
    ${ch.length?`<div class="eyebrow mt24">Challenges together</div>${ch.map(c=>`<div class="li" onclick="closeOv();setTimeout(()=>go('gt-ch-detail',{id:'${c.id}'}),220)"><div class="grow"><div class="ttl" style="font-size:15px">${c.title}</div><div class="sub">${p.name}: ${c.prog[id]||0}/${c.len} · You: ${c.prog.me||0}/${c.len}</div></div>${ic('chev',18,'opacity:.35')}</div>`).join('')}`:''}
    <div class="mt24" style="display:flex;flex-direction:column;gap:8px">
-    ${g.open?btn(`${ic('drop',20)} Water ${p.name}’s oak`,`closeOv();setTimeout(()=>go('gt-water',{id:'${id}'}),220)`):''}
+    ${g.open?btn(`${ic('drop',20)} Nudge ${p.name}`,`closeOv();setTimeout(()=>go('gt-water',{id:'${id}'}),220)`):''}
     ${btn('Start a challenge with '+p.name,`closeOv();T={chp:['${id}']};setTimeout(()=>go('gt-ch-new'),220)`,g.open?'line':'pri')}
     ${btn(`${ic('share',20)} Share our ${g.side||0} weeks`,`closeOv();setTimeout(()=>share({title:'${g.side||0} weeks side by side',story:storyCard({bg:'linear-gradient(180deg,#74c947,#38860e)',eyebrow:'Side by side',title:'${p.name} and me: ${g.side||0} weeks growing together.',art:'<div style=&quot;display:flex;align-items:flex-end&quot;>'+oak(${S.stage},[],{w:110,h:124,ground:false})+oak(${p.stage},[],{w:110,h:124,ground:false})+'</div>'})}),250)`,'line')}
     ${btn('Remove from grove',`closeOv();setTimeout(()=>alertBox('Remove ${p.name}?','${p.name} won’t be told. Your tree quietly leaves their hill too.',[{t:'Cancel'},{t:'Remove',b:1,fn:()=>{S.grove=S.grove.filter(x=>x.id!=='${id}');save();refresh();toast('Removed')}}]),260)`,'ghost','style="color:var(--primaryError)"')}
    </div>`)}
 def('gt-water',p=>{const per=PEOPLE[p.id];if(!T.wn)T.wn='Thinking of you this week';return {cls:'dark',html:`${topbar({close:true,title:'Water '+per.name+'’s oak'})}
   <div class="body"><div class="scene" style="height:300px;margin:0 calc(-1*var(--pad));border-radius:0" id="wscene">${hills({dark:1})}<div style="position:absolute;left:50%;bottom:24%;transform:translateX(-50%)" id="wtree">${oak(per.stage,PFL[p.id],{dark:1,w:200,h:224,dim:1})}</div><div style="position:absolute;right:20px;bottom:120px" class="float">${squirrel({hold:'can',w:96,flip:1})}</div></div>
-  <div class="h2 mt16" id="wt">Send ${per.name} a little rain</div><p class="p mt8" id="wp">${per.name} hasn’t invested yet this week. Rain is a soft nudge: a little rain on their oak and your note. It only counts when they invest. They never see amounts, and neither do you.</p>
+  <div class="h2 mt16" id="wt">Send ${per.name} a little rain</div><p class="p mt8" id="wp">${per.name} hasn’t invested yet this week. Rain is a gentle nudge: it falls on ${per.name}’s oak with a short note from you. Neither of you ever sees amounts.</p>
   <div class="chips mt16" id="wchips">${['Thinking of you this week','Your oak looks thirsty','We’ve got this','Same time Friday?'].map(n=>chip('wn',n,n)).join('')}</div></div>
   <div class="foot" id="wfoot">${btn(`${ic('drop',20)} Send rain`,`waterSend('${p.id}')`,'wh')}</div>`}});
 function waterSend(id){const el=cur();const s=$('#wscene',el).getBoundingClientRect(),h=$('#screen').getBoundingClientRect();rain($('#screen'),s.left-h.left+s.width/2,s.top-h.top+30);
@@ -196,7 +196,7 @@ def('gt-water-ok',p=>{const per=PEOPLE[p.id];return {cls:'dark',html:`${topbar({
   ${foot(btn('Continue',"addFlourish('water')?(S.ret='gt-grove',replace('fl-unlock',{k:'water'})):back2('gt-grove')",'wh'))}`,
   mount(el){const o=$('#wo',el).getBoundingClientRect(),h=$('#screen').getBoundingClientRect();sparkles($('#screen'),o.left-h.left+o.width/2,o.top-h.top+150,12)}}});
 def('gt-privacy',()=>{if(T.pv===undefined){T.pv=1;T.pvw=true;T.pvf=true;T.pvq=false}return {html:`${topbar({title:'What your grove sees'})}<div class="body">
-  <div class="card flat mt8"><div class="row"><div>${oak(S.stage,S.flourishes,{w:70,h:78,ground:false})}</div><div class="sm grow" style="color:var(--primarySlate)">People in your grove see your oak, your weeks, and your flourishes. That’s it.</div></div></div>
+  <div class="card flat mt8"><div class="row"><div>${oak(S.stage,S.flourishes,{w:70,h:78,ground:false})}</div><div class="sm grow" style="color:var(--primarySlate)">People in your grove see your oak, your weeks, and your oak extras. That’s it.</div></div></div>
   <div class="mt16">${tog('pvw','Streak weeks','How many weeks in a row')}${tog('pvf','Flourishes','Roots, acorns, nest and the rest')}${tog('pva','Amounts and balances','Never shared, for anyone','Amounts are never shared')}${tog('pvq','Quiet mode','Pause cheers and rain notifications')}</div>
   <div class="divider mt16"></div><div class="h4 mt24">Who can find you</div>${tog('pvc','People in my contacts on Acorns','They can invite you to their grove')}
   </div>`}});
@@ -207,7 +207,7 @@ def('gt-oak',()=>({cls:'dark',html:`<div style="position:absolute;inset:0 0 auto
   <div class="body" style="position:relative">
    <div class="center" style="height:300px;display:flex;align-items:flex-end;justify-content:center">${oak(S.stage,S.flourishes,{dark:1,w:270,h:300})}</div>
    <div class="center mt8"><div class="h2">${STAGE_NAME[S.stage]}</div><p class="sm mt8">${S.streak} week streak · ${S.flourishes.length} of 9 flourishes</p></div>
-   <p class="p mt24">Your Streak sets how tall it grows. Flourishes come from other healthy habits.</p>
+   <p class="p mt24">Your streak sets how tall it grows. Other Acorns habits add extras, like roots or a nest.</p>
    <div class="grid2 mt16">${Object.keys(FL).map(k=>{const on=S.flourishes.indexOf(k)>-1;return `<div class="card dk tap" style="padding:14px;background:${on?'rgba(116,201,71,.16)':'rgba(255,255,255,.06)'}" onclick="flourishSheet('${k}')"><div style="height:56px;display:flex;align-items:flex-end;${on?'':'filter:grayscale(1);opacity:.45'}">${oak(3,[k],{w:56,h:62,ground:false})}</div><div style="font-weight:600;margin-top:8px">${FL[k].name}</div><div class="sm" style="font-size:12px">${on?'Growing':FL[k].habit}</div></div>`}).join('')}</div>
    <div style="height:20px"></div></div>${tabbar('gt-oak')}`}));
 
@@ -242,7 +242,7 @@ window.onPick=(k,v)=>{if(k==='thing'){T.chname=`No-${v.toLowerCase()} week`;cons
 def('gt-ch-review',()=>{const t=CH_TYPES[T.cht];const ready=!t.need||(t.need==='ru'?S.ru.on:S[t.need]);const inv=S.challenges.filter(c=>c.counts==='invest').length;
   const setup={ru:"S.ret='gt-ch-review';T2=T;go('ru-1')",ef:"S.ret='gt-ch-review';go('ef-0')",later:"S.ret='gt-ch-review';go('later-1')"}[t.need];
   return {html:`${topbar({title:'Review'})}${progress(3,3)}<div class="body"><div class="h2 mt8">${T.chname}</div><p class="p mt8">${t.d}</p>
-  <div class="card mt24"><div class="kv"><span>With</span><b>${T.chp.map(nm).join(', ')}${T.chlink?' + link':''}</b></div><div class="kv"><span>Length</span><b>${T.chlen} ${t.unit}</b></div><div class="kv"><span>Starts</span><b>${T.chstart}</b></div><div class="kv"><span>Shared</span><b>${T.chdollars?'Progress and dollars':'Progress only'}</b></div></div>
+  <div class="card mt24"><div class="kv"><span>With</span><b>${T.chp.map(nm).join(', ')}${T.chlink?' + link':''}</b></div><div class="kv"><span>Length</span><b>${T.chlen} ${t.unit}</b></div><div class="kv"><span>Starts</span><b>${T.chstart||"Today"}</b></div><div class="kv"><span>Shared</span><b>${T.chdollars?'Progress and dollars':'Progress only'}</b></div></div>
   ${t.counts==='invest'?`<div class="card flat mt16"><div class="row">${ic('check',22,'color:var(--primaryForest)')}<div class="sm grow" style="color:var(--primarySlate)">Your weekly ${money(S.amount)} already counts toward ${inv} challenge${inv===1?'':'s'}. This makes ${inv+1}. Nothing extra to do.</div></div></div>`:''}
   ${ready?'':`<div class="card mt16" style="box-shadow:inset 0 0 0 2px var(--primarySunrise)"><div class="row"><div class="grow"><div class="h4">You’ll need ${t.prod}</div><div class="sm">Takes about a minute.</div></div><button class="btn dk sm" onclick="T2=T;${setup}">Set up</button></div></div>`}
   </div>${foot(btn('Start and invite',"chStart()",'pri',ready?'':'disabled'))}`}});

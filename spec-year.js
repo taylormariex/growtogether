@@ -31,7 +31,7 @@ function yCard(n,o){o=o||{};const nm=S.me,W=48,RU=312;const miss=new Set([3,9,17
      <div class="yc-sfoot"><span class="yc-btn">Start yours</span><span>acorns.com/j/${nm.toLowerCase()}</span></div></div>`];
   return C[n]()}
 /* monthly recap cards: same system, four cards */
-const RC=[{m:9,w:4,of:4,fl:'acorns',tr:1,cap:'Two leaves, one bird.'},{m:8,w:4,of:5,fl:'roots',tr:2,cap:'Roots went deep.'},{m:7,w:0,of:4,quiet:1},{m:6,w:3,of:4,fl:null,tr:1,cap:'A first friend.'},{m:5,w:2,of:5,fl:null,tr:0,cap:'An acorn, planted.'}];
+const RC=[{m:9,w:4,of:4,fl:'acorns',tr:1,cap:'Two new leaves and a songbird.'},{m:8,w:4,of:5,fl:'roots',tr:2,cap:'Recurring ran every week.'},{m:7,w:0,of:4,quiet:1},{m:6,w:3,of:4,fl:null,tr:1,cap:'Sam joined your grove.'},{m:5,w:2,of:5,fl:null,tr:0,cap:'You planted your first acorn.'}];
 function rCard(n,j,o){o=o||{};const M=MONTHS[j.m];const N=k=>`${String(k).padStart(2,'0')} / 04`;const flN=j.fl?FLNAME[j.fl]:'Steady growth';
   const C=[
   ()=>`<div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">${M} recap</span>
@@ -127,6 +127,6 @@ def('journal',()=>({cls:'dark',html:`${topbar({title:'Journal'})}<div class="bod
 def('mm2-intro',()=>({cls:'dark',html:`${topbar({close:true,title:''})}<div class="body"><div class="eyebrow">Money Manager</div><div class="h1 mt8" style="color:#fff">Split your paycheck.<br>Grow three ways.</div>
   <p class="p mt12">Choose how much of each paycheck goes where, once. Every payday, Acorns moves the slices for you, so investing, retirement and a safety net all happen without thinking about it.</p>
   <div class="mt24">${[['seedling','Invest','Your everyday investing. Keeps your streak going and grows Roots on your oak.'],['later','Later','Retirement (IRA). A gold leaf for every month you add to it.'],['moneybag','Savings','A rainy-day cushion. Builds a nest on your oak.']].map(([im,t,s])=>`<div class="qcard" style="cursor:default"><div class="qi"><img src="${IMG[im]}" alt=""></div><div class="grow"><div class="ql">${t}</div><div class="qs">${s}</div></div></div>`).join('')}</div>
-  <p class="sm mt12" style="color:var(--sk-sub)">Your grove sees the flourishes, never the amounts. You can change or pause the split anytime.</p></div>
+  <p class="sm mt12" style="color:var(--sk-sub)">Your grove sees the oak extras, never the amounts. You can change or pause the split anytime.</p></div>
   ${foot(btn('Set up my split',"go('mm2-pay')",'wh'),btn('Not now','back()','ghost'))}`}));
 (function(){const f=SCR['mm2-pay'];SCR['mm2-pay']=p=>{const r=f(p);r.html=r.html.replace('<div class="h2" style="color:#fff">One paycheck, three habits.</div><p class="p mt8">Tell us about your pay. Only you see these numbers.</p>','<div class="eyebrow">Step 1 of 3 · Your paycheck</div><div class="h2 mt8" style="color:#fff">How much, and how often?</div><p class="p mt8">We use this to work out each slice. Only you see these numbers.</p>');return r}})();

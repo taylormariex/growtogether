@@ -225,7 +225,7 @@ function storyCard(o){o=o||{};return `<div class="story v2 ${/1\s*\/\s*1/.test(o
 function hmHello(){const s=skState(),w=S.streak,st=rstage(w);const nx=RSTAGES.find(r=>r[0]>w);const img=`<img src="${IMG[st[2]]}" alt="">`;
   if(s==='reset')return `Hello, ${S.me}<br>Your oak ${img} kept every flourish. <em>Invest this week</em> and it grows from here.`;
   if(w===0)return `Hello, ${S.me}<br>Your oak starts ${img} <em>as an acorn</em>. One investment this week plants it.`;
-  return `Hello, ${S.me}<br>Your ${img} <em>${w} week streak</em> is ${s==='done'?'growing. This week counts.':'growing.'}${nx?` <em>${nx[0]-w} week${nx[0]-w===1?'':'s'}</em> to ${nx[1]}.`:''}`}
+  return `Hello, ${S.me}<br>Your ${img} <em>${w} week streak</em> is ${s==='done'?'growing. This week counts.':'growing.'}${nx?` <em>${nx[0]-w} more week${nx[0]-w===1?'':'s'}</em> until ${nx[1]}.`:''}`}
 function ringAv(id,p){const r=19,c=2*Math.PI*r;return `<div class="r"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="${r}" stroke="rgba(255,255,255,.12)" stroke-width="2.5" fill="none"/><circle cx="22" cy="22" r="${r}" stroke="#74c947" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="${c*p} ${c}" transform="rotate(-90 22 22)"/></svg>${av(id)}</div>`}
 let TLV='hi';const CHEER={};
 function tlItems(){const w=S.streak,st=rstage(w);const it=[];

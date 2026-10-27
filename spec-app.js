@@ -35,7 +35,7 @@ def('ac-ru',()=>({cls:'lt',html:`${appShot('app-roundups.jpg',[[2,2,14,6,'back()
 function acTabs(on){const t=[['ac-home','Home','home'],['ac-invest','Investing','card'],['ac-mm','Money Hub',''],['learn','Learning','spark'],['earn','Earning','flag']];
   return `<nav class="ac-tabs" aria-label="Main">${t.map(([id,l,i])=>i===''?`<button class="ac-hub" onclick="go('ac-mm')" aria-label="Money Hub"><span>$</span><em>${l}</em></button>`:`<button class="${on===id?'on':''}" onclick="${id==='ac-home'?"home('ac-home')":id==='ac-invest'?"go('ac-invest')":`toast('Existing ${l} tab, unchanged')`}">${ic(i,22)}<em>${l}</em></button>`).join('')}</nav>`}
 const FORYOU=[['grove','Your grove','Invite people and grow side by side.','oak'],['money-type','Find your money type','Three questions. The right first habit.','seedling'],['skip-and-stash','Skip it, stash it','Skipped coffee? Invest the difference.','roundup'],['invite','Invite someone','Their first investment plants a tree beside yours.','learn'],['future-club','Future Club','Notes for later, from people who care.','early'],['year','Your Acorns Year','Six cards about your year of investing.','later']];
-const IC2={};IC2.flame='<path d="M12 2c.5 3-1.6 4.6-3 6.4C7.6 10.2 7 11.7 7 13.5A5 5 0 0 0 17 14c0-2.4-1.2-3.7-2-4.6.1 1.5-.5 2.6-1.5 3 .4-3.6-.6-7.6-1.5-10.4z" fill="currentColor"/>';
+const IC2={};IC2.flame='<path fill-rule="evenodd" d="M19.48 12.35c-1.57-4.08-7.16-4.3-5.81-10.23.1-.44-.37-.78-.75-.55C9.29 3.71 6.68 8 8.87 13.62c.18.46-.36.89-.75.59-1.81-1.37-2-3.34-1.84-4.75.06-.52-.62-.77-.91-.34C4.69 10.16 4 11.84 4 14.37c.38 5.6 5.11 7.32 6.81 7.54 2.43.31 5.06-.14 6.95-1.87 2.08-1.93 2.84-5.01 1.72-7.69zm-9.28 5.03c1.44-.35 2.18-1.39 2.38-2.31.33-1.43-.96-2.83-.09-5.09.33 1.87 3.27 3.04 3.27 5.08.08 2.53-2.66 4.7-5.56 2.32z" fill="currentColor"/>';
 IC2.bars='<rect x="3.5" y="3.5" width="17" height="17" rx="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 15.5v-4M12 15.5v-7M15 15.5v-2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>';
 IC2.sun='<circle cx="12" cy="13" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 4v2M4.5 13h-2M21.5 13h-2M6.2 7.2 4.8 5.8M17.8 7.2l1.4-1.4M3 19h18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>';
 IC2.prof='<circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="10" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6.3 18.4c1.3-2 3.3-3 5.7-3s4.4 1 5.7 3" fill="none" stroke="currentColor" stroke-width="1.7"/>';
@@ -45,7 +45,8 @@ function homeBanner(){const c=typeof heroCard==='function'?heroCard():null;if(!c
 def('ac-home',()=>{spInit();const st=rstage(S.streak);const th={acorn:70,seedling:96,oak:128,ancient:148}[st[2]];
   return {cls:'lt ach',html:`<div class="ach-scroll"><div class="ah">
    <div class="ah-top"><div class="ah-yk" role="tablist"><button class="on" role="tab" aria-selected="true">You</button><button role="tab" aria-selected="false" onclick="go('kids')">Kids</button></div>
-    <div class="ah-r"><button class="ah-stk" onclick="home('gt-home')" aria-label="${plw(S.streak)} streak. Open Streaks."><span>${ic2('flame',15)}</span>${S.streak} week streak</button><button class="ah-prof" onclick="go('profile')" aria-label="Profile">${ic2('prof',26)}</button></div></div>
+    <button class="ah-ask" onclick="toast('Ask Acorns (existing)')">Ask <img src="${IMG.acorn}" alt=""></button>
+    <div class="ah-r"><button class="ah-ref" onclick="go('splash',{k:'invite'})" aria-label="Get $500 for referring a friend">Get $500</button><button class="ah-prof" onclick="go('profile')" aria-label="Profile">${ic2('prof',26)}</button></div></div>
    <div class="ah-val"><div>Welcome ${S.me}</div><b>Your Acorns value<br>is ${ACI.money}</b></div>
    <div class="ah-art"><button class="ah-tree" onclick="home('gt-home')" aria-label="Your oak, ${plw(S.streak)} streak. Open Streaks."><img src="${IMG[st[2]]}" style="height:${th}px" alt=""></button></div>
    ${homeBanner()}
@@ -81,7 +82,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 /* ---------- splash: what it is, why it's here, where it lives ---------- */
 const SPL={
- grove:{t:'Your grove',e:'Grow Together · Streaks',img:'oak',what:'A shared space where your oak grows beside the people you invite. Everyone keeps their own streak.',why:'People stick with habits they share. Seeing Mom’s oak, or sending a little rain when she hasn’t invested yet, keeps both of you going.',where:'The streak pill on Home, the streak card in Profile, or the streak chip on Invest. Then the Grove tab.',go:"jumpAhead();spInit();GSEL=null;home('gt-grove')",cta:'Open my grove'},
+ grove:{t:'Your grove',e:'Grow Together · Streaks',img:'oak',what:'A shared space where your oak grows beside the people you invite. Everyone keeps their own streak.',why:'People stick with habits they share. Seeing Mom’s oak, or sending a little rain when she hasn’t invested yet, keeps both of you going.',where:'The streak chip on Invest, the streak card in Profile, or the “You started a streak” card after your first investment. Then the Grove tab.',go:"jumpAhead();spInit();GSEL=null;home('gt-grove')",cta:'Open my grove'},
  invite:{t:'Invite someone',e:'Grow Together · Referrals',img:'learn',what:'Invite one person at a time. Pick a day for each of you to invest. Their first investment plants a tree beside yours.',why:'Turns the existing referral into an ongoing connection, not just a link. Rewards still follow the Referrals program.',where:'Profile → Invite friends, or an empty spot in your grove.',go:"jumpAhead();spInit();T={};go('inv-pick')",cta:'Invite someone'},
  'money-type':{t:'Find your money type',e:'Post sign-up',img:'seedling',what:'Three quick questions about how money reaches you and how you spend. You get a type and the first habit that fits.',why:'New investors stall at “where do I start?”. This picks Recurring or Round-Ups for them, then hands off to the setup they already have.',where:'Right after sign-up, and a banner on Home.',go:"T={};home('mt2-intro')",cta:'Start'},
  'skip-and-stash':{t:'Skip it, stash it',e:'Everyday wins',img:'roundup',what:'Skip something (coffee, takeout, a ride) and invest what you didn’t spend. Quick Stash, a Skip Jar, or a 7-day Skip Week with friends.',why:'It turns a small choice into a real investment, and a real investment counts toward your streak. Works without reading your spending.',where:'A banner on Home, and reminders you set.',go:"T={};home('ss2-pick')",cta:'Pick how to skip'},
@@ -240,8 +241,8 @@ def('profile',()=>{spInit();const w=S.streak,st=rstage(w),nx=nextGoal(w);const p
   const row=(i,t,a,extra)=>`<button class="pf-row" onclick="${a}"><span class="pf-ic">${ic2(i,24)}</span><span class="grow">${t}</span>${extra||''}</button>`;
   return {cls:'lt pf',html:`<div class="pf-top"><button class="iconbtn" style="color:#191919" onclick="back()" aria-label="Close">${ic('close',24)}</button></div>
   <div class="body" style="padding-top:0"><div class="pf-av"><img src="${IMG.acorn}" alt=""></div>
-   <div class="pf-name">${S.me} Rivera</div><div class="pf-sub">Austin, TX | Investor since 2023</div>
-   <button class="pf-stk" onclick="home('gt-home')" aria-label="${st[1]}, ${plw(w)} streak. Open Streaks."><span class="pf-stk-ic"><img src="${IMG[st[2]]}" alt=""></span><span class="grow"><b>${st[1]}</b><span class="pf-bar"><i style="width:${pct}%"></i></span><em>${w} week streak${nx[1]?` · ${nx[0]-w} to ${nx[1]}`:''}</em></span>${ic('chev',16,'opacity:.5')}</button>
+   <div class="pf-name">${S.me} Rivera</div><div class="pf-sub">Austin, TX | Investor since 2023</div><div style="display:flex;justify-content:center;margin-top:12px"><button class="pf-pill2" onclick="home('gt-home')">${ic2('flame',14)} ${S.streak} Week Streak</button></div>
+   <button class="pf-stk" onclick="home('gt-home')" aria-label="${st[1]}, ${plw(w)} streak. Open Streaks."><span class="pf-stk-ic"><img src="${IMG[st[2]]}" alt=""></span><span class="grow"><b>${st[1]}</b><span class="pf-bar"><i style="width:${pct}%"></i></span><em>${w} week streak${nx[1]?` · ${nx[1]} in ${plw(nx[0]-w)}`:''}</em></span>${ic('chev',16,'opacity:.5')}</button>
    <div class="pf-list">
     ${row('bell2','Message Center',"toast('Existing Message Center')")}
     ${row('uplus','Invite friends',"go('splash',{k:'invite'})",'<span class="pf-pill">Get $500</span>')}
@@ -263,4 +264,60 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .pf-list{margin-top:18px}.pf-row{display:flex;align-items:center;gap:14px;width:100%;min-height:54px;text-align:left;font-size:16px;font-weight:500;color:#191919}.pf-ic{width:28px;display:flex;justify-content:center;color:#191919}
 .pf-pill{height:28px;padding:0 12px;border-radius:14px;background:#6944ff;color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center}
 .pf-guide{display:flex;align-items:center;gap:6px;margin:28px auto 0;height:36px;padding:0 14px;border-radius:18px;background:#f1f3ef;color:#5d655f;font-size:13px;font-weight:600}
+</style>`);
+
+/* Existing Streaks entry points (2026 Streaks Experiments, Post-Reg F30): recap sheet on Home → Streaks tour → Streaks */
+function f30Sheet(){return `<div class="f3-dim" onclick="home('ac-home')"></div><div class="f3-sheet" role="dialog" aria-label="You’re doing it"><i class="f3-grab"></i>
+  <div class="f3-illo"><span class="f3-hill"></span><img src="${IMG.acorn}" alt=""></div>
+  <div class="f3-t">${S.me}, you’re doing it!</div><div class="f3-s">Let’s grow your oak.</div>
+  <div class="f3-box"><button class="f3-stk" onclick="go('st-tour',{i:0})"><span class="f3-fl">${ic2('flame',20)}</span><span class="grow"><b>You started a streak!</b><em>See how to keep it going</em></span><span class="f3-go">${ic('chev',16)}</span></button>
+   <div class="f3-row"><span class="f3-ck">${ic('check',14)}</span><div><b>Your $15 will arrive by Nov 22</b><em>+$10 Weekly Recurring to Acorns Invest<br>+$5 One-Time to Acorns Invest</em></div></div>
+   <div class="f3-row"><span class="f3-ck">${ic('check',14)}</span><div><b>You’re on the Gold plan</b></div></div></div>
+  <button class="btn pri" style="width:100%;margin-top:18px" onclick="home('ac-home')">Let’s go!</button></div>`}
+def('f30-sheet',p=>{const r=SCR['ac-home'](p);return {cls:r.cls,html:r.html+f30Sheet()}});
+const ST_TOUR=[
+ {h:'',big:1},
+ {h:'Keeping a streak is how you help your money grow <g>long-term.</g>'},
+ {h:'Stick with it <g>each week</g> and get hooked on smart money habits.'},
+ {h:'And celebrate your <g>milestones</g> along the way!',tip:1}];
+function stVis(i){
+ if(i===0)return `<div class="stu-rays"></div><div class="stu-flamec">${ic2('flame',40)}</div><div class="stu-intro">Introducing</div><div class="stu-word">Streaks</div>`;
+ if(i===1)return `<div class="stu-bars">${[70,96,126,160].map((h,k)=>`<div class="stu-bar rise d${k}" style="height:${h}px"><span class="stu-bf ${k===3?'big':''}">${ic2('flame',k===3?24:14)}</span></div>`).join('')}</div>`;
+ if(i===2)return `<div class="stu-cal rise"><div class="stu-cal-top"><i></i><i></i><i></i></div><div class="stu-cal-g">${Array.from({length:28},(_,k)=>`<span class="${k%7===6?'on':''}">${k%7===6?ic2('flame',11):''}</span>`).join('')}</div></div>`;
+ return `<div class="stu-stages">${[['acorn',64,'Week 1'],['seedling',92,'Week 10'],['oak',130,'Week 80']].map(([im,h,l],k)=>`<div class="stu-stage rise d${k*2}"><img src="${IMG[im]}" style="height:${h}px" alt=""><em>${l}</em></div>`).join('')}</div>`}
+def('st-tour',p=>{const i=Math.min((p&&p.i)||0,3);const t=ST_TOUR[i];const last=i===3;
+ return {cls:'lt stt',html:`<div class="stu-top"><button class="iconbtn" style="color:#191919" onclick="${i?`replace('st-tour',{i:${i-1}},'back')`:'back()'}" aria-label="${i?'Back':'Close'}">${ic(i?'back':'close',24)}</button><span class="stu-chip">Pilot Program</span><span style="width:44px"></span></div>
+  <div class="stu-body" onclick="${last?'':`replace('st-tour',{i:${i+1}})`}">${t.h?`<div class="stu-h">${t.h}</div>`:''}<div class="stu-vis ${t.big?'big':''}">${stVis(i)}</div></div>
+  <div class="stu-foot">${t.tip?`<div class="stu-tip">${ic2('flame',14)} Invest between Monday and Sunday each week to keep your streak.</div>`:''}
+   <div class="stu-dots">${[0,1,2,3].map(k=>`<i class="${k===i?'on':''}"></i>`).join('')}</div>
+   <button class="btn pri stu-btn" onclick="${last?"S.tourSeen=1;save();home('gt-home')":`replace('st-tour',{i:${i+1}})`}">${last?'Let’s go!':'Next'}</button></div>`}});
+document.head.insertAdjacentHTML('beforeend',`<style>
+.pf-pill2{height:30px;padding:0 12px;border-radius:15px;background:linear-gradient(90deg,#3d9a1f,#74c947);color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;gap:5px}
+.f3-dim{position:absolute;inset:0;background:rgba(10,30,5,.45);z-index:40;animation:fadeIn .3s both}
+.f3-sheet{position:absolute;left:0;right:0;bottom:0;z-index:41;background:#fff;border-radius:28px 28px 0 0;padding:10px 20px calc(var(--safeBot) + 18px);animation:shUp .4s cubic-bezier(.2,.8,.2,1) both}@keyframes shUp{from{transform:translateY(100%)}}
+.f3-grab{display:block;width:40px;height:5px;border-radius:3px;background:#e1e3df;margin:0 auto 14px}
+.f3-illo{position:relative;height:110px;display:flex;justify-content:center;align-items:flex-end}.f3-illo img{position:relative;height:72px;margin-bottom:22px;z-index:1}.f3-hill{position:absolute;bottom:0;left:50%;width:150px;height:50px;margin-left:-75px;border-radius:75px 75px 12px 12px;background:linear-gradient(#5fae3a,#2f7a12)}
+.f3-t{margin-top:16px;text-align:center;font-size:22px;font-weight:600;color:#191919}.f3-s{margin-top:6px;text-align:center;font-size:15px;color:#6b6b6b}
+.f3-box{margin-top:20px;padding:8px 8px 14px;border-radius:22px;background:#f4f5f3}
+.f3-stk{display:flex;align-items:center;gap:12px;width:100%;padding:14px 12px;border-radius:16px;background:linear-gradient(90deg,#fbf2d6,#fff 55%);box-shadow:0 4px 14px rgba(0,0,0,.06);text-align:left;color:#191919}
+.f3-fl{width:42px;height:42px;border-radius:21px;background:#3d9a1f;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 4px rgba(116,201,71,.3);flex:none}
+.f3-stk b{display:block;font-size:16px}.f3-stk em{display:block;font-style:normal;font-size:13px;color:#6b6b6b;margin-top:2px}.f3-go{width:34px;height:34px;border-radius:17px;background:#f1f3ef;display:flex;align-items:center;justify-content:center;flex:none}
+.f3-row{display:flex;gap:12px;padding:14px 12px 0}.f3-ck{width:26px;height:26px;border-radius:13px;background:#c9ecb3;color:#2f7a12;display:flex;align-items:center;justify-content:center;flex:none}.f3-row b{display:block;font-size:15px;color:#191919}.f3-row em{display:block;font-style:normal;font-size:13px;line-height:1.45;color:#6b6b6b;margin-top:3px}
+.scr.stt{background:linear-gradient(#e2f7d6,#f0f2f6)}.stu-top{display:flex;align-items:center;justify-content:space-between;padding:calc(var(--safeTop) + 6px) 12px 0}
+.stu-chip{height:28px;padding:0 12px;border-radius:14px;border:1.5px solid #3d9a1f;color:#2f5c1a;font-size:12px;font-weight:600;display:flex;align-items:center}
+.stu-body{position:absolute;left:0;right:0;top:calc(var(--safeTop) + 64px);bottom:calc(var(--safeBot) + 150px);display:flex;flex-direction:column;align-items:center;padding:0 28px}
+.stu-h{margin-top:24px;text-align:center;font-size:28px;line-height:1.25;font-weight:600;color:#191919}.stu-h g{color:#3d8a1b}
+.stu-vis{flex:1;width:100%;display:flex;align-items:center;justify-content:center;position:relative}.stu-vis.big{flex-direction:column}
+.stu-rays{position:absolute;inset:-40px;background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.55) 0 8deg,transparent 8deg 22deg);-webkit-mask:radial-gradient(circle,#000 20%,transparent 70%);mask:radial-gradient(circle,#000 20%,transparent 70%)}
+.stu-flamec{position:relative;width:84px;height:84px;border-radius:42px;background:#fff;color:#5fb83a;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(40,100,20,.15)}
+.stu-intro{position:relative;margin-top:18px;font-size:22px;font-weight:600;color:#191919}.stu-word{position:relative;font-size:64px;font-weight:700;letter-spacing:-1.5px;line-height:1;background:linear-gradient(90deg,#3d9a1f,#9bd77a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stu-bars{display:flex;align-items:flex-end;gap:12px}.stu-bar{position:relative;width:46px;border-radius:6px;background:linear-gradient(#74c947,#2f7a12);box-shadow:inset 0 0 0 4px rgba(255,255,255,.18)}
+.stu-bf{position:absolute;left:50%;top:-34px;transform:translateX(-50%);color:#7cc35a}.stu-bf.big{top:-66px;width:56px;height:56px;border-radius:28px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.stu-cal{width:250px;border-radius:24px;background:#fff;box-shadow:0 10px 30px rgba(40,100,20,.12);overflow:hidden}.stu-cal-top{height:40px;background:linear-gradient(90deg,#74c947,#3d8a1b);display:flex;justify-content:space-around;align-items:flex-start}.stu-cal-top i{width:18px;height:26px;margin-top:-10px;border:4px solid #3d8a1b;border-radius:10px;border-bottom:0}
+.stu-cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:12px}.stu-cal-g span{aspect-ratio:1;border-radius:7px;background:#eef1ec;display:flex;align-items:center;justify-content:center}.stu-cal-g span.on{border-radius:50%;background:#5fae3a;color:#fff}
+.stu-stages{display:flex;align-items:flex-end;gap:18px}.stu-stage{display:flex;flex-direction:column;align-items:center;gap:8px}.stu-stage em{font-style:normal;font-size:12px;font-weight:600;color:#5d655f}
+.stu-foot{position:absolute;left:20px;right:20px;bottom:calc(var(--safeBot) + 16px);display:flex;flex-direction:column;align-items:center;gap:14px}
+.stu-tip{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:14px;background:rgba(61,138,27,.10);color:#2f4a26;font-size:13px}.stu-tip svg{color:#3d8a1b;flex:none}
+.stu-dots{display:flex;gap:6px}.stu-dots i{width:7px;height:7px;border-radius:4px;background:#cfd8ca}.stu-dots i.on{width:20px;background:#3d8a1b}
+.stu-btn{width:100%;background:#3d8a1b!important;color:#fff!important;opacity:1!important}
 </style>`);

@@ -8,10 +8,10 @@
    · Registration (exists) → Money Type right after sign-up
    ===================================================================== */
 function heroCard(){spInit();const c=[];const gr=growing();const open=gr.filter(x=>x.open&&!S.watered[x.id]);
-  if(!S.mt2||!S.mt2.done)c.push({k:'mt',e:'Find your start',t:'Three questions find <g>your first habit</g>',img:'seedling',a:"go('splash',{k:'money-type'})"});
-  if(open.length)c.push({k:'rain',e:'Grow together',t:`${nm(open[0].id)} hasn’t invested <g>this week yet</g>`,img:'learn',a:"home('gt-grove')"});
-  c.push({k:'skip',e:'Skip and stash',t:'Skipped something today? <g>Invest it instead</g>',img:'roundup',a:"go('splash',{k:'skip-and-stash'})"});
-  c.push({k:'yr',e:'Your recap',t:'Your October recap <g>is ready</g>',img:'later',a:"T={si:0};go('recap',{m:9})"});
+  if(!S.mt2||!S.mt2.done)c.push({k:'mt',e:'Find your money type',t:'Not sure where to start? <g>Take a 1-minute quiz</g>',img:'seedling',a:"go('splash',{k:'money-type'})"});
+  if(open.length)c.push({k:'rain',e:'Grow together',t:`${nm(open[0].id)} hasn’t invested this week. <g>Send a nudge</g>`,img:'learn',a:"home('gt-grove')"});
+  c.push({k:'skip',e:'Skip and stash',t:'Skipped a coffee today? <g>Invest what you saved</g>',img:'roundup',a:"go('splash',{k:'skip-and-stash'})"});
+  c.push({k:'yr',e:'Monthly recap',t:'Your October recap <g>is ready to view</g>',img:'later',a:"T={si:0};go('recap',{m:9})"});
   const hid=S.heroHide||{};const l=c.filter(x=>!hid[x.k]);return l[(S.heroIdx||0)%Math.max(1,l.length)]||null}
 /* Kids (existing) → Acorns Early → Future Club lives on the kid’s page */
 def('kids',()=>({cls:'lt',html:`${topbar({title:'Kids'})}<div class="body"><div class="kid-card"><div class="row"><div class="ach-av" style="background:#e7f3df;color:#2f7a12">A</div><div class="grow"><b>Ava’s Early account</b><span>Acorns Early · existing</span></div>${ic('chev',16,'opacity:.4')}</div></div>
@@ -34,6 +34,7 @@ function tabbarDk(on){const t=[['gt-home','Streak'],['gt-grove','Grove'],['gt-ch
 
 /* Framing: this is a feature concept inside the existing app, not a redesign */
 RV_GO[0]=['Start in the Acorns app','Today’s Home, unchanged, with the concept built in',RV_GO[0][2]];
+RV_GO.splice(1,0,['Your first week','The existing Streaks intro after funding',"jumpAhead();spInit();home('ac-home');go('f30-sheet')"]);
 (function(){const f=rvHTML;rvHTML=function(first){let h=f(first);
   h=h.replace('<div class="rv-t">Share the wealth</div><div class="rv-d">Invite your people, share your progress, grow side by side.</div>','<div class="rv-t">Share the wealth</div><div class="rv-d">A feature concept that lives inside the current Acorns app. Start on Home and tap into it the way a customer would.</div>');
   h=h.replace('>Jump in, 4 weeks later<','>Open the app, 4 weeks in<');return h}})();

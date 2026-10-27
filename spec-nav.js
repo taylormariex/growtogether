@@ -37,3 +37,24 @@ function tabbarDk(on){const t=[['gt-home','Streak'],['gt-grove','Grove'],['gt-ch
 .sk-pill{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--safeBot) + 12px);z-index:9;display:flex;gap:4px;padding:4px;border-radius:26px;background:rgba(8,22,7,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(116,201,71,.25);box-shadow:0 10px 30px rgba(0,0,0,.4)}
 .sk-pill button{height:44px;padding:0 18px;border-radius:22px;font-weight:600;font-size:14px;color:rgba(255,255,255,.75)}.sk-pill button.on{background:#74c947;color:#0a1d08}
 .gv-dock{bottom:calc(var(--safeBot) + 70px)!important}`;document.head.appendChild(st)})();
+
+/* Framing: this is a feature concept inside the existing app, not a redesign */
+RV_GO[0]=['Start in the Acorns app','Today’s Home, unchanged. New entry points are marked “New”',RV_GO[0][2]];
+(function(){const f=rvHTML;rvHTML=function(first){let h=f(first);
+  h=h.replace('<div class="rv-t">Share the wealth</div><div class="rv-d">Invite your people, share your progress, grow side by side.</div>','<div class="rv-t">Share the wealth</div><div class="rv-d">A feature concept inside the current Acorns app. Anything marked <b style="color:#2f7a12">New</b> is the concept. Everything else is the app as it is today.</div>');
+  h=h.replace('>Jump in, 4 weeks later<','>Open the app, 4 weeks in<');return h}})();
+(function(){const f=SCR['ac-home'];SCR['ac-home']=p=>{const r=f(p);let h=r.html;
+  h=h.replace('<div class="ach-banner"','<div class="ach-banner"><span class="nw-tag">New</span><div style="display:contents"').replace('</button></div><button class="ach-streak"','</button></div></div><button class="ach-streak"');
+  h=h.replace('<div class="ach-scroll">',`<div class="ach-scroll">${S.legendHide?'':`<div class="nw-legend" role="note"><span>${ic('eye',14)} The existing Acorns app. Only items marked <b>New</b> are part of this concept.</span><button onclick="S.legendHide=1;save();refresh()" aria-label="Dismiss">${ic('close',14)}</button></div>`}`);
+  h=h.replace('<button class="ach-streak" onclick="home(\'gt-home\')">','<button class="ach-streak" onclick="home(\'gt-home\')"><span class="nw-dot" aria-label="New: grove inside Streaks"></span>');
+  h=h.replace('onclick="go(\'splash\',{k:\'invite\'})">Get $250</button>','onclick="go(\'splash\',{k:\'invite\'})">Get $250<span class="nw-dot sm"></span></button>');
+  h=h.replace(/(<button role="tab" aria-selected="false" onclick="go\('kids'\)">Kids)/,'$1<span class="nw-dot sm"></span>');
+  r.html=h;return r}})();
+(function(){const st=document.createElement('style');st.textContent=`
+.nw-tag{position:absolute;left:12px;top:-9px;height:18px;padding:0 8px;border-radius:9px;background:#fff;color:#2f7a12;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;display:flex;align-items:center;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.ach-banner{overflow:visible}
+.nw-dot{position:absolute;right:-3px;top:-3px;width:12px;height:12px;border-radius:6px;background:#ffd24a;box-shadow:0 0 0 2px #fff}.nw-dot.sm{position:relative;display:inline-block;right:auto;top:-6px;margin-left:3px;width:8px;height:8px;box-shadow:none}
+.ach-pill,.ach-yk button{position:relative}
+.nw-legend{position:absolute;left:12px;right:12px;top:calc(var(--safeTop) + 112px);z-index:7;display:none}
+.ach-scroll>.nw-legend{position:sticky;top:0;display:flex;align-items:center;gap:8px;margin:0;left:auto;right:auto;padding:calc(var(--safeTop) + 6px) 14px 8px;background:#191919;color:#fff;font-size:12px;line-height:1.35}
+.nw-legend span{flex:1}.nw-legend b{color:#ffd24a}.nw-legend button{width:32px;height:32px;color:#fff;display:flex;align-items:center;justify-content:center}`;document.head.appendChild(st)})();

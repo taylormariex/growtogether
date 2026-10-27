@@ -2974,7 +2974,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 9:56 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 10:00 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -3769,7 +3769,7 @@ const LV={
 const LANDERS={
  grove:{name:'your grove',beats:[['forest','Habits are easier with company.'],['pair','Invite someone, and your trees grow side by side.'],['grove','You see each other’s weeks, never each other’s balances.'],['rain','If someone hasn’t invested yet, send a little rain as a nudge.'],['weeks','One investment counts for you and everyone you grow with.']],
   t:'Welcome to your grove',s:'Invite the people you want to grow with. You see each other’s trees and weeks. Nobody sees a balance.',where:'Lives in Streaks: the streak chip on Invest or the streak card in Profile, then Grove.',cta:'Open my grove'},
- invite:{name:'invites',beats:[['forest','Money is hard to start alone. Most people never say that out loud.'],['pair','Two is better than one. A little, once a week, side by side.'],['grove','You see each other’s weeks, never each other’s money. No judgment. Just growing.'],['ivrain','On the weeks they stall, you send a little rain. On yours, they do.'],['link','The best thing you can do for someone you love is help them grow. Invite them.']],
+ invite:{name:'invites',beats:[['alone','Money is hard to start alone. Most people never say that out loud.'],['pair','Two is better than one. A little, once a week, side by side.'],['grove','You see each other’s weeks, never each other’s money. No judgment. Just growing.'],['ivrain','On the weeks they stall, you send a little rain. On yours, they do.'],['link','The best thing you can do for someone you love is help them grow. Invite them.']],
   t:'Invite someone',s:'Growing money is easier with company, and bringing someone along is a gift. You see each other’s weeks, never a balance. Rewards follow the Referrals program.',where:'Lives in Profile → Invite friends, and any open spot in your grove.',cta:'Invite someone'},
  'money-type':{name:'Money Type',beats:[['forest','Not sure where to start?'],['quiz','Answer three quick questions.'],['type','We’ll match you with a first habit.'],['handoff','Then set it up in Recurring or Round-Ups®, tools you already have.']],
   t:'Find your money type',s:'Based on your habits only. It never changes your portfolio or risk.',where:'Right after sign-up, and a banner on Home.',cta:'Start'},
@@ -4446,6 +4446,9 @@ document.head.insertAdjacentHTML('beforeend','<style>.yc-back{background:linear-
 
 /* Invite story: rain on a friend's tree, then on yours */
 LV.ivrain=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" style="background:radial-gradient(closest-side,rgba(77,161,239,.25),transparent)"></div><div class="lv-drops">${Array.from({length:14},(_,i)=>`<i style="left:${18+(i*23)%64}%;animation-delay:${(i%7)*.2}s"></i>`).join('')}</div><div class="lv-row" style="gap:30px;position:relative;z-index:1"><img class="rise" src="${IMG.oak}" style="height:180px" alt=""><img class="rise d2" src="${IMG.seedling}" style="height:120px;filter:saturate(.7)" alt=""></div></div>`;
+
+/* Invite story, beat 1: one small seedling on a wide, empty hill, with an open spot beside it */
+LV.alone=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" style="opacity:.5"></div><div class="lv-row" style="gap:44px;align-items:flex-end"><img class="rise" src="${IMG.seedling}" style="height:86px;filter:saturate(.75)" alt=""><div class="rise d3" style="margin-bottom:6px;opacity:.55">${spot('')}</div></div></div>`;
 
 
 /* =====================================================================

@@ -15,7 +15,7 @@ CSS = ['styles.css', 'theme.css', 'spec.css']
 JS = ['art.js', 'assets1.js', 'assets2.js', 'assets3.js', 'assets4.js', 'theme-art.js',
       'core.js', 'flows.js', 'gt.js', 'ideas.js', 'theme.js',
       'spec-core.js', 'spec-flows1.js', 'spec-flows2.js', 'spec-grove.js', 'spec-year.js',
-      'spec-app.js', 'spec-lander.js', 'spec-rules.js', 'spec-nav.js', 'spec-clock.js', 'spec-quiz.js', 'focus.js']
+      'spec-app.js', 'spec-lander.js', 'spec-rules.js', 'spec-nav.js', 'spec-clock.js', 'spec-quiz.js', 'spec-polish.js', 'focus.js']
 
 # slug → (lander key, page title)
 FOCUS = {
@@ -56,6 +56,9 @@ def main():
     for slug, (key, _) in FOCUS.items():
         d = docs / slug; d.mkdir(exist_ok=True)
         (d / 'index.html').write_text(assemble(key, slug, stamp))
+    # art ships with the page
+    for f in (ROOT / 'art').iterdir():
+        shutil.copy(f, docs / 'art' / f.name)
     # dist mirrors docs (used for the zip upload)
     dist = ROOT / 'dist'
     shutil.copy(docs / 'index.html', dist / 'index.html')

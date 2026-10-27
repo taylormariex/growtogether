@@ -15,3 +15,8 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 - `docs/know-yourself/` — Know yourself (Money Type and three more quizzes)
 
 `focus.js` adds the standalone guard rails; it does nothing in the full build. `dist/` mirrors `docs/` for the zip upload.
+
+
+## Visual system (polish pass)
+
+`spec-polish.js` loads last and applies the Acorns Streaks system everywhere: eight stage illustrations (`art/stage-*.png`) for every tree, eight milestone seals (`art/seal-*.png`) plus an SVG seal generator for non-streak milestones, the dark share card (`dkCard`), one “Share your progress” sheet (`progressShare`), real photographs in the Skip & Stash polaroids (`art/pol-*.jpg`, Unsplash license) and the time-lapse that opens the invite story. `build.py` copies `art/` into `docs/art/`.

@@ -4879,7 +4879,7 @@ RV_GO.splice(1,0,['Your first week','The existing Streaks intro after funding',"
 /* ===== The Acorns tab bar is always there. Every screen in these experiences gets it, and each tab
    goes where it really goes: Home, Investing (streaks, grove, year, skips), Money Hub (shared goals). ===== */
 const AC_TAB_FOR=id=>{if(!id)return null;if(/^(ac-home|kids|profile|gt-notes)$/.test(id))return 'ac-home';if(/^(ac-mm|sg-|mm)/.test(id))return 'ac-mm';if(/^ac-invest$/.test(id))return 'ac-invest';
-  if(/^(gt-|inv-|fr-|year|journal|recap|yr-|ss|qs-|jar|sr-|st-|plant|growth|share-b|water|fl-|mt|rec-|ru-)/.test(id))return 'ac-invest';return null};
+  if(/^(gt-|inv-|fr-|year|journal|recap|yr-|ss|qs-|jar|sr-|st-|plant|growth|share-b|water|fl-|mt|rec-|ru-|qz-)/.test(id))return 'ac-invest';return null};
 (function(){const f=render;render=function(id,params,dir){f(id,params,dir);const el=$$('.scr').pop();if(!el||el.dataset.id!==id)return;const tab=AC_TAB_FOR(id);if(!tab)return;
   if(el.querySelector('.ac-tabs')||/^(splash|focus-end|sys-|menu|states|year|recap|yr-mid|share-b|growth|fl-unlock|gt-water-ok|ss-stashed|sg-added|inv-tree|fr-beside)/.test(id))return;
   const old=el.querySelector('.tabbar');if(old)old.remove();

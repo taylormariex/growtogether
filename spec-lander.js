@@ -47,10 +47,7 @@ const LANDERS={
 def('splash',p=>{const k=p.k in LANDERS?p.k:'grove';const L=LANDERS[k],S0=SPL[k]||SPL.grove;const n=L.beats.length;const b=Math.min(p.b||0,n);const fin=b===n;
   const bars=`<div class="ld-bars">${Array.from({length:n},(_,i)=>`<i class="${i<b||fin?'on':''}"></i>`).join('')}</div>`;
   const top=`<div class="ld-top"><button class="iconbtn" onclick="${b>0&&!fin?`ldGo(${b-1})`:'back()'}" aria-label="${b>0&&!fin?'Previous':'Close'}" style="color:#fff">${ic(b>0&&!fin?'back':'close')}</button>${fin?'<div style="flex:1"></div>':bars}<button class="ld-skip" onclick="ldGo(${fin?0:n})">${fin?'Replay':'Skip intro'}</button></div>`;
-  if(fin)return {cls:'dark ldr',html:`${top}<div class="ld-art fin">${LV[L.beats[n-1][0]]()}</div>
-    <div class="ld-fin"><h1 class="ld-h">${L.t}</h1><p class="ld-s">${L.s}</p>
-     <div class="ld-info">${ic('home',18)}<div><b>Where it lives</b><span>${L.where}</span></div></div></div>
-    <div class="foot">${btn(L.cta,`(function(){${S0.go.replace(/"/g,'&quot;')}})()`,'pri','style="background:#3f8f1f;color:#fff"')}</div>`};
+  if(fin)return ldFinal(k,L,S0);
   const [v,line]=L.beats[b];return {cls:'dark ldr',html:`${top}<div class="ld-tap" onclick="ldGo(${b+1})"><div class="ld-art ${LD_MOCK.has(v)?'mock':''}" key="${b}">${LV[v]()}</div><div class="ld-line">${line}</div></div>
    <div class="ld-next"><button onclick="ldGo(${b+1})" aria-label="Next">${ic('back',20,'transform:rotate(180deg)')}</button></div>`,mount(){haptic(4)}}});
 function ldThread(o){const lp=`<div class="ld-lp"><div class="ld-lp-img"><img src="${IMG.oak}" alt=""></div><div class="ld-lp-tx"><b>Join ${S.me}’s grove</b><span>acorns.com/j/${S.me.toLowerCase()}</span></div></div>`;
@@ -163,3 +160,57 @@ Object.assign(LV,{
 .ld-stage{position:absolute;inset:0;z-index:2}.ld-stage .os{height:100%!important;background:none}.ld-stage .os>div:first-child{opacity:.0}
 .ld-notes{position:relative;width:290px;height:330px}.ld-note{position:absolute;left:0;right:0;background:#f9f8f1;color:#191919;border-radius:18px;padding:16px 18px;box-shadow:0 18px 34px rgba(0,0,0,.4)}.ld-note:nth-child(1){top:0}.ld-note:nth-child(2){top:110px}.ld-note:nth-child(3){top:220px}.ld-note p{margin:0;font-size:16px;line-height:1.4}.ld-note b{font-size:13px;color:#2f7a12}
 .lv-fan{margin-top:10px}.lv-fc{margin:0 -34px}`;document.head.appendChild(st)})();
+
+/* Final lander screen, after the Streaks “Introducing” pattern: big word, plain explanation, a zoomed crop of where it lives */
+const LF={grove:['Introducing','Grove','streak'],invite:['Introducing','Invites','refer'],'money-type':['Introducing','Money Type','banner'],'skip-and-stash':['Introducing','Skip & Stash','banner'],
+ split:['Now on your oak','Your split','mm'],'future-club':['Introducing','Future Club','kids'],year:['Introducing','Acorns Year','banner'],challenges:['Introducing','Challenges','tabs'],invited:['When a friend invites you','Invites','link']};
+const LF_BN={'money-type':['Find your money type','Not sure where to start? <g>Take a 1-minute quiz</g>','seedling'],'skip-and-stash':['Skip and stash','Skipped a coffee today? <g>Invest what you saved</g>','roundup'],year:['Acorns Year','Your 2026 <g>is ready to watch</g>','later']};
+function lfCrop(k,kind){const ph=(inner,cls)=>`<div class="lf-ph ${cls||''}">${inner}</div>`;
+ const row=(ic0,t)=>`<div class="lf-row"><span>${ic0}</span><b>${t}</b><i></i></div>`;
+ if(kind==='streak')return ph(`<div class="lf-band"></div>${row(ic2('bars',18),'Invest')}<div class="lf-gap"></div>${row(ic2('sun',18),'Later')}${row(ic('card',18),'Checking')}`)+`<div class="lf-pop lf-chip">${ic2('flame',26)}${plw(S.streak)}</div>`;
+ if(kind==='refer')return ph(`<div style="height:22px"></div>${row(ic2('bell2',18),'Message Center')}<div class="lf-gap"></div>${row(ic2('gift',18),'Benefits')}${row(ic2('gear2',18),'Settings')}`)+`<div class="lf-pop lf-ref"><span>${ic2('uplus',22)}</span><b>Invite friends</b><em>Get $500</em></div>`;
+ if(kind==='banner'){const B=LF_BN[k];return ph(`<div class="lf-hero"></div>`,'g')+`<div class="lf-pop lf-bn"><span><img src="${IMG[B[2]]}" alt=""></span><div><em>${B[0]}</em><b>${B[1]}</b></div></div>`}
+ if(kind==='kids')return ph(`<div class="lf-hero"><div class="lf-yk"><b>You</b></div></div>`,'g')+`<div class="lf-pop lf-kids"><b>Kids</b><span>${ic('chev',16)}</span></div>`;
+ if(kind==='mm')return ph(`<div class="lf-mmbg"></div>`,'mmg')+`<div class="lf-pop lf-mm"><span><img src="${IMG.oak}" alt=""></span><div><em>Grow Together</em><b>Your Investing slice now grows your oak</b></div></div>`;
+ if(kind==='tabs')return ph(`<div class="lf-dk"></div>`,'dk')+`<div class="lf-pop lf-tabs"><i>Streak</i><i>Grove</i><i class="on">Challenges</i></div>`;
+ return ph(`<div style="height:24px"></div><div class="lf-bub">Saved you a spot in my grove.</div>`,'msg')+`<div class="lf-pop lf-link"><span><img src="${IMG.oak}" alt=""></span><div><b>Join ${S.me}’s grove</b><em>acorns.com/j/${S.me.toLowerCase()}</em></div></div>`}
+function ldFinal(k,L,S0){const f=LF[k]||LF.grove;const w=f[1];const fs=w.length<=7?70:w.length<=10?58:w.length<=12?50:44;
+ return {cls:'lt lfin',html:`<div class="lf-top"><button class="iconbtn" style="color:#191919" onclick="back()" aria-label="Close">${ic('close',24)}</button><button class="lf-replay" onclick="ldGo(0)">Replay</button></div>
+  <div class="lf-body"><div class="lf-eye">${f[0]}</div><div class="lf-word" style="font-size:${fs}px">${w}</div><p class="lf-p">${L.s}</p>
+   <div class="lf-crop">${lfCrop(k,f[2])}</div>
+   <p class="lf-where">${L.where}</p></div>
+  <div class="lf-foot"><button class="btn lf-cta" onclick="(function(){${S0.go.replace(/"/g,'&quot;')}})()">${L.cta}</button></div>`}}
+document.head.insertAdjacentHTML('beforeend',`<style>
+.scr.lfin{background:linear-gradient(180deg,#b9e3a0 0%,#dff2d3 38%,#f3f6f1 70%)!important}
+.lf-top{display:flex;align-items:center;justify-content:space-between;padding:calc(var(--safeTop) + 6px) 12px 0 8px}
+.lf-replay{height:40px;padding:0 10px;font-size:14px;font-weight:600;color:#2f5c1a}
+.lf-body{position:absolute;left:0;right:0;top:calc(var(--safeTop) + 58px);bottom:calc(var(--safeBot) + 92px);display:flex;flex-direction:column;align-items:center;padding:0 28px;overflow:hidden}
+.lf-eye{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#191919}
+.lf-word{margin-top:6px;font-weight:700;letter-spacing:-.03em;line-height:1.02;text-align:center;background:linear-gradient(180deg,#3d9a1f 0%,#7cc35a 70%,#b6e39c 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lf-p{margin:14px 0 0;text-align:center;font-size:16px;line-height:1.45;color:#2a2f2b;max-width:330px}
+.lf-crop{position:relative;flex:1;width:calc(100% + 56px);margin-top:22px;min-height:200px;max-height:400px}
+.lf-ph{position:absolute;left:30%;right:-20px;top:0;bottom:0;background:#fff;border-left:8px solid #1c2a19;border-top:8px solid #1c2a19;border-radius:38px 0 0 0;overflow:hidden;-webkit-mask:linear-gradient(180deg,#000 70%,transparent);mask:linear-gradient(180deg,#000 70%,transparent)}
+.lf-ph.g{background:linear-gradient(180deg,#5fb83a,#3d9a1f)}.lf-ph.dk{background:#0b1f09}.lf-ph.mmg{background:linear-gradient(#c9ecd0,#f4f4f4)}.lf-ph.msg{background:#f7f7f8}
+.lf-band{height:56px;background:linear-gradient(180deg,#3d9a1f,#4fae2c)}
+.lf-row{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid #eef0ec}.lf-row span{color:#191919;display:flex}.lf-row b{font-size:15px;font-weight:600;color:#191919}.lf-row i{margin-left:auto;width:70px;height:14px;border-radius:7px;background:#eef0ec}
+.lf-gap{height:62px}
+.lf-hero{height:100%;background:radial-gradient(circle at 80% 30%,rgba(255,255,255,.45),transparent 55%)}
+.lf-yk{padding:22px 20px;color:#fff;font-size:16px}
+.lf-dk{height:100%;background:radial-gradient(circle at 70% 20%,rgba(116,201,71,.25),transparent 60%)}
+.lf-mmbg{height:100%}
+.lf-bub{margin:0 18px 0 auto;max-width:200px;padding:10px 14px;border-radius:18px 18px 18px 4px;background:#e9e9eb;font-size:14px;color:#191919}
+.lf-pop{position:absolute;left:8%;top:50%;transform:translateY(-50%);z-index:2;box-shadow:0 18px 40px rgba(20,60,10,.28);animation:lfPop .6s .15s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes lfPop{from{transform:translateY(-50%) scale(.7);opacity:0}}
+.lf-chip{display:flex;align-items:center;gap:12px;height:76px;padding:0 30px 0 24px;border-radius:38px;background:linear-gradient(90deg,#5fb83a,#2f7a12);color:#fff;font-size:30px;font-weight:600;box-shadow:0 0 0 4px rgba(255,255,255,.6),0 18px 40px rgba(20,60,10,.3)}
+.lf-ref{display:flex;align-items:center;gap:12px;height:72px;padding:0 16px 0 18px;border-radius:24px;background:#fff;color:#191919}.lf-ref b{font-size:19px;font-weight:600}.lf-ref em{font-style:normal;height:34px;padding:0 14px;border-radius:17px;background:#6944ff;color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;margin-left:14px}
+.lf-bn,.lf-mm,.lf-link{display:flex;align-items:center;gap:12px;width:300px;padding:16px;border-radius:22px;text-align:left}
+.lf-bn{background:linear-gradient(100deg,#1a2e16,#2e4428);color:#fff}.lf-bn span,.lf-mm span,.lf-link span{width:48px;height:48px;border-radius:24px;background:rgba(116,201,71,.2);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}.lf-bn img{height:34px}
+.lf-bn em,.lf-mm em{display:block;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.8}.lf-bn b,.lf-mm b{display:block;margin-top:4px;font-size:16px;line-height:1.3;font-weight:600}.lf-bn b g{color:#a6e27e}
+.lf-mm{background:#fff;color:#191919}.lf-mm em{color:#2f7a12;opacity:1}.lf-mm span{border-radius:14px;background:linear-gradient(#e4f5d4,#c4e8a6);align-items:flex-end}.lf-mm img,.lf-link img{height:42px}
+.lf-kids{display:flex;align-items:center;gap:10px;height:68px;padding:0 18px 0 28px;border-radius:34px;background:#fff;color:#2f7a12;font-size:26px;font-weight:600}
+.lf-tabs{display:flex;gap:4px;padding:5px;border-radius:30px;background:#0b1f09;border:1px solid rgba(116,201,71,.35)}.lf-tabs i{font-style:normal;height:50px;padding:0 18px;border-radius:25px;display:flex;align-items:center;font-size:17px;font-weight:600;color:rgba(255,255,255,.7)}.lf-tabs i.on{background:#74c947;color:#0a1d08}
+.lf-link{background:#fff;color:#191919}.lf-link span{border-radius:12px;background:linear-gradient(#cfeab0,#8fcf5b);align-items:flex-end}.lf-link b{display:block;font-size:16px}.lf-link em{display:block;font-style:normal;font-size:13px;color:#6b6b6b;margin-top:2px}
+.lf-where{margin:10px 0 0;text-align:center;font-size:12px;line-height:1.4;color:#6b706c;max-width:320px}
+.lf-foot{position:absolute;left:20px;right:20px;bottom:calc(var(--safeBot) + 18px)}
+.lf-cta{width:100%;height:56px;border-radius:28px;background:#74c947;color:#0a1d08;font-size:17px;font-weight:600}
+</style>`);

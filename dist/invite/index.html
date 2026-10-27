@@ -2995,7 +2995,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 10:45 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 10:50 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -4298,7 +4298,7 @@ def('sg-home',()=>{const g=sgG();const who=nm(g.who);const p=g.pct||0;const next
  <div class="sg-body sgx-body">
   <div class="sgx-hero">${sgScene(g,p,{anim:1})}<div class="sgx-num"><b data-count>${p}%</b><em>saved together</em></div></div>
   <div class="sgx-next">${next?`<div class="sgx-nl"><span>${sgGlyph(next[2],16,'#2f7a12')}</span><div class="grow"><b>Next: ${next[1]}</b><em>${next[0]-p}% to go</em></div></div><div class="sgx-nb"><i style="width:${Math.round((p-(SG_MS[SG_MS.indexOf(next)-1]||[0])[0])/(next[0]-(SG_MS[SG_MS.indexOf(next)-1]||[0])[0])*100)}%"></i></div>`:`<div class="sgx-nl"><span>${sgGlyph('trophy',16,'#2f7a12')}</span><div class="grow"><b>You made it, together</b><em>Time to book ${(SG_KIND[g.kind]||{}).dest||'it'}</em></div></div>`}</div>
-  <div class="sgx-acts"><button class="sgx-add" onclick="T.sga=25;go('sg-add')">${ic('plus',18)} Add money</button><button class="sgx-cb" onclick="toast('Cheer sent to ${sgWhos(g).map(nm).join(' and ')}')">${sgWhos(g).slice(0,2).map(i=>sgAv(i,24)).join('')} Cheer${sgWhos(g).length>1?'':' '+who}</button></div>
+  <div class="sgx-acts"><button class="sgx-add" onclick="T.sga=25;go('sg-add')">${ic('plus',18)} Add money</button><button class="sgx-cb" onclick="sgCheer(this,'${sgWhos(g).map(nm).join(' and ')}')">${sgWhos(g).slice(0,2).map(i=>sgAv(i,24)).join('')} Cheer${sgWhos(g).length>1?'':' '+who}</button></div>
   ${sgBadges(p)}${sgWeeks(g)}
   <div class="sgx-card"><div class="sgx-ch"><div><b>Who’s adding</b><em>Each of you adds your own way</em></div></div>
    <div class="sgx-p">${sgAv('me',38)}<div class="grow"><b>You</b><div class="sgx-chips">${ways(g.ways||{}).map(x=>`<span>${x}</span>`).join('')}</div></div><button class="sgx-edit" onclick="T.sg=Object.assign({},sgG(),{edit:1});go('sg-new')">Edit</button></div>
@@ -4307,6 +4307,8 @@ def('sg-home',()=>{const g=sgG();const who=nm(g.who);const p=g.pct||0;const next
   <p class="sgx-priv">${ic('lock',12)} ${who} sees progress and activity, never your dollars or balance. Either of you can leave anytime and keep what you saved.</p>
   <div class="sgx-proto"><span>Prototype</span><button onclick="sgPayday()">Payday lands</button><button onclick="sgFriendAdds()">${who} adds money</button></div>
  </div>`,mount(el){sgCount(el,prev,p,1000);T.sgPrev=null}}});
+function sgCheer(el,who){haptic(8);const r=el.getBoundingClientRect(),h=$('#screen').getBoundingClientRect();const z=zf();for(let i=0;i<6;i++){const m=document.createElement('div');m.className='sg-heart';m.textContent='♥';m.style.left=((r.left-h.left+r.width*.3)/z+i*9)+'px';m.style.top=((r.top-h.top)/z)+'px';m.style.animationDelay=(i*.06)+'s';$('#screen').appendChild(m);setTimeout(()=>m.remove(),1400)}el.classList.add('sent');el.innerHTML=`${ic('check',16)} Cheered ${who}`}
+document.head.insertAdjacentHTML('beforeend','<style>.sg-heart{position:absolute;z-index:9;font-size:18px;color:#e8a45c;pointer-events:none;animation:sgHeart 1.3s ease-out both}@keyframes sgHeart{0%{opacity:0;transform:translateY(0) scale(.6)}20%{opacity:1}100%{opacity:0;transform:translateY(-90px) scale(1.2) rotate(12deg)}}.sgx-cb.sent{background:#e3f4d8;color:#2f7a12}</style>');
 function sgBump(n,entry){const g=S.sg||(S.sg=sgDemo());const from=g.pct||0;g.pct=Math.min(100,from+n);g.log.unshift(entry);const crossed=SG_MS.find(m=>from<m[0]&&g.pct>=m[0]);if(crossed)g.log.unshift({w:'ms',t:`You hit ${crossed[1]} together`,d:'Just now'});save();return [from,g.pct,crossed]}
 function sgPayday(){const g=S.sg||(S.sg=sgDemo());g.weeks.push(g.joined?2:1);const [f,t,c]=sgBump(g.joined?6:3,{w:g.joined?g.who:'me',t:g.joined?`Paydays landed for you and ${nm(g.who)}`:'Your paycheck slice landed',d:'Just now'});T.sgPrev=f;if(c){replace('sg-added',{from:f,to:t,ms:c[0],auto:1})}else{refresh();toast('Payday: slices landed')}}
 function sgFriendAdds(){const g=S.sg||(S.sg=sgDemo());if(!g.joined){toast(`${nm(g.who)} hasn’t joined yet`);return}const [f,t,c]=sgBump(4,{w:g.who,t:`${nm(g.who)} added money`,d:'Just now'});T.sgPrev=f;if(c){replace('sg-added',{from:f,to:t,ms:c[0],friend:1})}else{refresh();toast(`${nm(g.who)} added money`)}}
@@ -4403,33 +4405,38 @@ def('ss-hub',()=>{spInit();const st=ssStats();const prev=T.ssPrev!=null?T.ssPrev
  const jars=S.jars&&S.jars.length?S.jars:[{id:'j1',name:'Coffee jar',est:6,coins:3}];
  const log=(S.skipLog&&S.skipLog.length?S.skipLog:[{t:'Coffee',amt:6,src:'quick',when:'Today',stash:true},{t:'Coffee jar',amt:6,src:'self',when:'Fri',stash:false},{t:'Takeout',amt:14,src:'quick',when:'Wed',stash:true}]).slice(0,4);
  const sec={
-  stash:`<div class="ssx-q"><div class="ssx-qh"><b>Skipped something today?</b><em>Tap it and invest what you didn’t spend</em></div>
+  stash:`<div class="ssx-q ssx-lead"><div class="ssx-qh"><b>Skipped something today?</b><em>Tap it and the money you didn’t spend is invested. One tap, counts toward your streak.</em></div>
    <div class="ssx-qg">${SS_QUICK.map(([n,a,k])=>`<button onclick="T={qsItem:'${n==='Something else'?'Other':n}',qsAmt:${a}};S.ret='ss-hub';go('qs-lt')"><span>${ssQIc(k)}</span><b>${n}</b><em>${n==='Something else'?'Pick it':'About $'+a}</em></button>`).join('')}</div></div>
    <div class="sgx-card"><div class="sgx-ch"><div><b>Not ready to invest it yet?</b><em>Drop a coin in a jar. Stash the jar when it’s full.</em></div></div>
    ${jars.map(j=>`<div class="ssx-jr" onclick="go('jar',{id:'${j.id}'})" role="button"><div class="ssx-mj">${jarViz(j,0)}</div><div class="grow"><b>${j.name}</b><em>${j.coins} skip${j.coins===1?'':'s'} · about $${j.coins*j.est}</em></div><button onclick="event.stopPropagation();T={jar:'${j.id}',qsItem:'${j.name.replace(' jar','')}',qsAmt:${Math.max(5,j.coins*j.est)}};S.ret='ss-hub';go('qs-lt')">Stash</button></div>`).join('')}
    <button class="ssx-new" onclick="go('jar-new')">${ic('plus',16)} New jar</button></div>
+   <button class="ssx-total" onclick="T.ssTab='progress';refresh()"><span>${ic('check',14)}</span><b>$${st.stashed} invested from skips</b><em>${st.skips} skips this month</em>${ic('chev',14,'opacity:.4')}</button>
    <p class="sgx-priv">${ic('lock',12)} Only you see amounts. We never read your spending unless you turn on Spot my skips.</p>`,
-  together:`<div class="sgx-card ssx-week" onclick="go('gt-ch-detail',{id:'c-skip'})" role="button"><div class="sgx-ch"><div><b>No-delivery week</b><em>Skip Week · Day 5 of 7 · with Sam, Jess and Priya</em></div>${ic('chev',16,'opacity:.4')}</div>
-   <div class="ssx-days">${[1,1,1,1,0,0,0].map((v,i)=>`<i class="${v?'on':i===4?'td':''}">${v?ic('check',12):['M','T','W','T','F','S','S'][i]}</i>`).join('')}</div>
-   <div class="ssx-crew">${['me','sam','jess','priya'].map(id=>sgAv(id,26)).join('')}<span>Check in today</span></div></div>
+  together:`<div class="sgx-card ssx-week" onclick="if(!event.target.closest('.ssx-crew span'))go('gt-ch-detail',{id:'c-skip'})" role="button"><div class="sgx-ch"><div><b>No-delivery week</b><em>Skip Week · Day 5 of 7 · with Sam, Jess and Priya</em></div>${ic('chev',16,'opacity:.4')}</div>
+   <div class="ssx-days">${[1,1,1,1,S.ssCheckedToday?1:0,0,0].map((v,i)=>`<i class="${v?'on':i===4?'td':''}">${v?ic('check',12):['M','T','W','T','F','S','S'][i]}</i>`).join('')}</div>
+   <div class="ssx-crew">${['me','sam','jess','priya'].map(id=>sgAv(id,26)).join('')}<span onclick="event.stopPropagation();ssCheckIn(this)">${S.ssCheckedToday?ic('check',14)+' Checked in':'Skipped it today'}</span></div></div>
    <div class="sgx-card"><div class="sgx-ch"><div><b>Start a Skip Week</b><em>Pick one thing to skip for 3 or 7 days. Go solo or bring a crew. They see check-ins, never dollars.</em></div></div>
    <button class="btn sg-cta" style="height:50px" onclick="T={};S.ret='ss-hub';go('ss-why1')">${ic('plus',16)} New Skip Week</button></div>
    <p class="sgx-priv">${ic('lock',12)} People in a Skip Week only see the check-ins you confirm.</p>`,
-  progress:`${ssCal(st)}${ssBadges(st.skips,nx)}
+  progress:`<div class="ssx-hero"><div class="ssx-sky"></div><div class="ssx-hill"></div><div class="ssx-jar">${jarViz({name:'Your skips',coins:Math.min(12,Math.round(st.skips*.7))},1)}</div>
+   <div class="ssx-num"><b data-count>$${st.stashed}</b><em>invested from skips</em><span>${st.skips} skips this month</span></div></div>
+   ${ssCal(st)}${ssBadges(st.skips,nx)}
    <div class="sgx-card"><div class="sgx-ch"><div><b>Recent</b><em>Only you see amounts</em></div><button class="sgx-edit" onclick="go('ss-log')">All</button></div>
    ${log.map(e=>`<div class="sgx-f"><span class="ssx-li ${e.stash?'on':''}">${e.stash?ic('check',14):ssCup(.45)}</span><span class="grow"><b>${e.stash?'Stashed':'Skipped'} · ${e.t}</b><em>${e.when}</em></span><b class="ssx-amt ${e.stash?'':'muted'}">${e.stash?'':'~'}$${e.amt}</b></div>`).join('')}</div>`};
  return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Skip and Stash</b><button class="iconbtn" onclick="ssMore()" aria-label="More ways to skip">${ic('menu',22)}</button></div>
- <div class="sg-body sgx-body">
-  <div class="ssx-hero"><div class="ssx-sky"></div><div class="ssx-hill"></div><div class="ssx-jar">${jarViz({name:'Your skips',coins:Math.min(12,Math.round(st.skips*.7))},1)}</div>
-   <div class="ssx-num"><b data-count>$${st.stashed}</b><em>invested from skips</em><span>${st.skips} skips this month</span></div></div>
-  <div class="ssx-seg">${SS_TABS.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="T.ssTab='${k}';refresh()">${l}</button>`).join('')}</div>
+ <div class="ssx-seg">${SS_TABS.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="T.ssTab='${k}';refresh()">${l}</button>`).join('')}</div>
+ <div class="sg-body sgx-body" style="top:calc(var(--safeTop) + 104px)">
   <div class="ssx-sec" key="${tab}">${sec[tab]}</div>
  </div>${ssTabs()}`,mount(el){const n=el.querySelector('[data-count]');if(n){const to=st.stashed,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/1000),e=1-Math.pow(1-k,3);n.textContent='$'+Math.round(prev+(to-prev)*e);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}T.ssPrev=st.stashed}}});
 /* everything optional lives behind the menu: rules, review, detection, reminders, settings */
+function ssCheckIn(el){if(S.ssCheckedToday){toast('Already checked in today');return}S.ssCheckedToday=true;save();haptic(14);const r=el.getBoundingClientRect(),h=$('#screen').getBoundingClientRect();ART.confetti($('#screen'),30);refresh();toast('Day 5 · Sam, Jess and Priya can see you skipped')}
 function ssMore(){sheet(`<div class="h3">More ways to skip</div><p class="sm mt8">Skip and Stash works with a tap. These are optional.</p><div class="mt12">
   ${[['Skip Rules','Stash automatically when you check in “Skipped it”',"go('sr-intro')",'gear'],['Sunday review','Count the week’s skips in one place',"go('ss-review')",'cal'],['Spot my skips',S.detect&&S.detect.on?`On · ${S.detect.cats.join(', ')}`:'Off. We never read spending unless you turn this on',"go(S.detect&&S.detect.on?'ss-settings':'ss-detect')",'spark'],['Reminder preview','What a check-in looks like on your lock screen',"T.lk=null;go('ss-lock')",'bell'],['Settings','Reminders, jars and detection',"go('ss-settings')",'gear']].map(([t,d,a,i])=>`<div class="li" onclick="closeOv();setTimeout(()=>{${a.replace(/"/g,'&quot;')}},200)">${ic(i,20)}<div class="grow"><div class="ttl">${t}</div><div class="sub">${d}</div></div>${ic('chev',18,'opacity:.35')}</div>`).join('')}</div>`)}
 document.head.insertAdjacentHTML('beforeend',`<style>
-.ssx-seg{position:sticky;top:-4px;z-index:3;display:flex;gap:4px;margin:12px 0 0;padding:4px;border-radius:18px;background:#e9ede4}.ssx-seg button{flex:1;height:40px;border-radius:14px;font-size:14px;font-weight:600;color:#5d655f}.ssx-seg button.on{background:#fff;color:#191919;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.ssx-seg{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--safeTop) + 54px);width:280px;z-index:3;display:flex;gap:4px;padding:4px;border-radius:18px;background:#e9ede4}.ssx-seg button{flex:1;height:36px;border-radius:14px;font-size:14px;font-weight:600;color:#5d655f}.ssx-seg button.on{background:#fff;color:#191919;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.ssx-lead{margin-top:4px!important;padding:20px 16px 16px}.ssx-lead .ssx-qh b{font-size:22px;letter-spacing:-.3px}.ssx-lead .ssx-qh em{font-size:14px;margin-top:4px;line-height:1.4}.ssx-lead .ssx-qg{margin-top:16px;gap:10px}.ssx-lead .ssx-qg button{padding:14px 4px 12px}.ssx-lead .ssx-qg span{width:52px;height:52px;border-radius:26px}
+.ssx-total{display:flex;align-items:center;gap:10px;width:100%;margin-top:12px;padding:12px 14px;border-radius:18px;background:#fff;text-align:left;color:#191919}.ssx-total>span{width:30px;height:30px;border-radius:15px;background:#e3f4d8;color:#2f7a12;display:flex;align-items:center;justify-content:center;flex:none}.ssx-total b{font-size:15px}.ssx-total em{flex:1;font-style:normal;font-size:12px;color:#6b706c;margin-left:4px}
+.ssx-sec>.ssx-hero{margin-top:4px}
 .ssx-sec{animation:ssxSec .35s cubic-bezier(.2,.8,.2,1) both}@keyframes ssxSec{from{opacity:0;transform:translateY(8px)}}
 .ssx-sec>.ssx-q{margin-top:12px}
 </style>`);
@@ -4843,14 +4850,14 @@ function focusBoot(){const k=window.FOCUS;const F=FOCUS_SPEC[k];if(!F)return;
  const side=document.getElementById('side');if(side){const sw=side.querySelector('.demo-sw');if(sw)sw.remove();
   side.innerHTML=`<h1>${F.title}</h1><div>${F.side}</div><div class="mt16">One experience from the Grow Together prototype, on its own. Tap through the story, then try it end to end.</div><div class="mt16">Best on a phone: open this page, then Share → Add to Home Screen.</div><div class="mt16">The ☰ in each screen replays the story or resets this experience.</div><span class="k">Placeholder names, brands and prices</span><div class="mt16"><a href="../" style="color:#74c947;font-size:13px">All experiences →</a></div>`}
  /* the lander's "Even better with" row points at other experiences: hide it here */
- const spl=SCR.splash;SCR.splash=p=>{const r=spl(Object.assign({},p,{k}));r.html=r.html.replace(/<div class="lf-with">[\s\S]*?(?=<p class="lf-where">)/,'');return r};
+ const spl=SCR.splash;SCR.splash=p=>{const r=spl(Object.assign({k},p));if((p.k||k)===k)r.html=r.html.replace(/<div class="lf-with">[\s\S]*?(?=<p class="lf-where">)/,'');return r};
  /* exits to the rest of the app land on the end card */
  const _home=home;home=function(id,params,dir){
   if(k==='invite'&&id==='gt-home'){const c=cur();if(!c||c.dataset.id!=='gt-grove'){id='gt-grove';GSEL=null}}
   if((FOCUS_HUBS.has(id)&&!(F.allow||[]).includes(id))||!SCR[id]){id='focus-end';params={}}
   _home(id,params,dir)};
  const _back2=back2;back2=function(id){if(FOCUS_HUBS.has(id)){home('focus-end');return}_back2(id)};
- const _go=go;go=function(id,params,dir){if(id==='splash'){params=Object.assign({},params,{k});}if(FOCUS_HUBS.has(id)&&!(F.allow||[]).includes(id)){home('focus-end');return}_go(id,params,dir)};
+ const _go=go;go=function(id,params,dir){if(id==='splash'&&!(params&&params.k)){params=Object.assign({},params,{k});}if(FOCUS_HUBS.has(id)&&!(F.allow||[]).includes(id)){home('focus-end');return}_go(id,params,dir)};
  protoMenu=function(){sheet(`<div class="h3">Prototype</div><p class="sm mt8">For walkthroughs. Not part of the product.</p>
   <div class="mt16">
   <div class="li" onclick="closeOv();setTimeout(focusStart,200)">${ic('ff')}<div class="grow"><div class="ttl">Replay the story</div><div class="sub">Back to the first card</div></div></div>

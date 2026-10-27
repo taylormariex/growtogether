@@ -33,14 +33,14 @@ function focusBoot(){const k=window.FOCUS;const F=FOCUS_SPEC[k];if(!F)return;
  const side=document.getElementById('side');if(side){const sw=side.querySelector('.demo-sw');if(sw)sw.remove();
   side.innerHTML=`<h1>${F.title}</h1><div>${F.side}</div><div class="mt16">One experience from the Grow Together prototype, on its own. Tap through the story, then try it end to end.</div><div class="mt16">Best on a phone: open this page, then Share → Add to Home Screen.</div><div class="mt16">The ☰ in each screen replays the story or resets this experience.</div><span class="k">Placeholder names, brands and prices</span><div class="mt16"><a href="../" style="color:#74c947;font-size:13px">All experiences →</a></div>`}
  /* the lander's "Even better with" row points at other experiences: hide it here */
- const spl=SCR.splash;SCR.splash=p=>{const r=spl(Object.assign({},p,{k}));r.html=r.html.replace(/<div class="lf-with">[\s\S]*?(?=<p class="lf-where">)/,'');return r};
+ const spl=SCR.splash;SCR.splash=p=>{const r=spl(Object.assign({k},p));if((p.k||k)===k)r.html=r.html.replace(/<div class="lf-with">[\s\S]*?(?=<p class="lf-where">)/,'');return r};
  /* exits to the rest of the app land on the end card */
  const _home=home;home=function(id,params,dir){
   if(k==='invite'&&id==='gt-home'){const c=cur();if(!c||c.dataset.id!=='gt-grove'){id='gt-grove';GSEL=null}}
   if((FOCUS_HUBS.has(id)&&!(F.allow||[]).includes(id))||!SCR[id]){id='focus-end';params={}}
   _home(id,params,dir)};
  const _back2=back2;back2=function(id){if(FOCUS_HUBS.has(id)){home('focus-end');return}_back2(id)};
- const _go=go;go=function(id,params,dir){if(id==='splash'){params=Object.assign({},params,{k});}if(FOCUS_HUBS.has(id)&&!(F.allow||[]).includes(id)){home('focus-end');return}_go(id,params,dir)};
+ const _go=go;go=function(id,params,dir){if(id==='splash'&&!(params&&params.k)){params=Object.assign({},params,{k});}if(FOCUS_HUBS.has(id)&&!(F.allow||[]).includes(id)){home('focus-end');return}_go(id,params,dir)};
  protoMenu=function(){sheet(`<div class="h3">Prototype</div><p class="sm mt8">For walkthroughs. Not part of the product.</p>
   <div class="mt16">
   <div class="li" onclick="closeOv();setTimeout(focusStart,200)">${ic('ff')}<div class="grow"><div class="ttl">Replay the story</div><div class="sub">Back to the first card</div></div></div>

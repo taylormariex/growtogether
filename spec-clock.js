@@ -11,7 +11,7 @@ if(typeof LANDERS!=='undefined'&&LANDERS.year)LANDERS.year.cta='Start my year';
 function yMidCard(o){o=o||{};return `<div class="yc" style="background-image:url(${YART}y-weeks-bg.jpg)"><div class="yc-hdr">${ycLock()}<span>Halfway</span></div>
   <div class="yc-big g" data-count="24">${o.anim?0:24}</div><div class="yc-lead">of 26 weeks,<br>you showed up.</div>
   <div class="yc-wk">${ycDots(26,'',k=>k===9||k===17?'ring':'gr')}</div>
-  <div class="yc-legend"><i></i>Six months in. Keep going.</div><img class="yc-med" style="left:210px;top:432px;width:124px" src="${YART}y-med-pip-c.png" alt="">${ycFoot()}</div>`}
+  <div class="yc-legend"><i></i>Halfway there. Keep showing up.</div><img class="yc-med" style="left:210px;top:432px;width:124px" src="${YART}y-med-pip-c.png" alt="">${ycFoot()}</div>`}
 def('yr-mid',()=>({cls:'dark',html:`<div class="wr" style="background:#16330f"><div class="wr-top"><div class="wr-row"><span class="wr-brand"><img src="${IMG.acorn}" alt="">Six months in</span><button class="iconbtn" style="color:#fff" onclick="back()" aria-label="Close">${ic('close')}</button></div></div>
   <div class="wr-stage"><div class="wr-card" id="wrc">${yMidCard({anim:1})}</div></div>
   <div class="wr-bottom">${btn(`${ic('share',18)} Share`,"ycShare(yMidCard({}),'Six months on Acorns')",'wh','style="background:#fff;color:#0a1d08;width:auto;padding:0 28px"')}<div class="wr-hint">Your Acorns Year arrives in December</div></div></div>`,

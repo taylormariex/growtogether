@@ -7,7 +7,7 @@
 const SUGG=[['jess','Opened your share card'],['priya','In your Future Club'],['marcus','Frequent contact']];
 function slotsOpen(){return 1} /* no cap on the grove */
 def('inv-pick',()=>{spInit();if(!S.notThem)S.notThem={};const sug=SUGG.filter(([id,r])=>!inGrove(id)&&!S.notThem[id]&&(id!=='marcus'||S.perm.contacts==='full'));
-  return {cls:'dark',html:`${topbar({close:true,title:''})}<div class="body"><div class="h1" style="color:#fff">Invite one person.<br>Grow together.</div><p class="p mt8">Their first investment plants a tree beside yours.</p>
+  return {cls:'dark',html:`${topbar({close:true,title:''})}<div class="body"><div class="h1" style="color:#fff">Who do you want<br>beside you?</div><p class="p mt8">Their first investment plants a tree next to yours. One person at a time.</p>
   ${slotsOpen()?'':`<div class="lockrow mt16">${ic('lock',16)}Your grove is full. Cancel a waiting invite to free a spot.</div>`}
   ${sug.length&&slotsOpen()?`<div class="sk-sec"><div class="h4">Suggested</div><span class="sm">only you see this</span></div>
    ${sug.map(([id,r])=>`<div class="card dk mt8" style="padding:12px 14px"><div class="row">${av(id,'s')}<div class="grow"><div style="font-weight:600;color:#fff">${PEOPLE[id].full}</div><div class="sm" style="color:var(--sk-sub)">${r}</div></div>
@@ -19,7 +19,7 @@ def('inv-pick',()=>{spInit();if(!S.notThem)S.notThem={};const sug=SUGG.filter(([
   ${foot(btn(`${ic('oak',18)} See my grove`,"GSEL=null;home('gt-grove')",'line','style="color:#fff"'),btn('Invite later',"home('gt-grove');toast('You can invite anyone from your grove, anytime')",'ghost'))}`}});
 function invStart(id){if(PEOPLE[id].on&&!inGrove(id)&&id!=='mom'&&id!=='dad'&&id!=='priya'){go('inv-existing',{id});return}T.ivp=id;T.day=S.day;T.msg='Saved you a spot in my grove. One small investment a week and we both grow.';go('inv-day')}
 def('inv-perm',()=>({cls:'dark',html:`${topbar({close:true})}<div class="body center" style="display:flex;flex-direction:column;justify-content:center;align-items:center">
-  <div class="sk-badge" style="width:72px;height:72px;border-radius:36px">${ic('user',30,'color:#74c947')}</div><div class="h2 mt24" style="color:#fff">Find someone to invite.</div>
+  <div class="sk-badge" style="width:72px;height:72px;border-radius:36px">${ic('user',30,'color:#74c947')}</div><div class="h2 mt24" style="color:#fff">Who’s already here?</div>
   <p class="p mt8" style="max-width:300px">We use contacts only to show who’s already on Acorns. We never message anyone. You send the invite yourself.</p></div>
   ${foot(btn('Continue',"invPermSheet()",'wh'),btn('Share a link instead',"T.ivp='link';T.day=S.day;replace('inv-day')",'ghost'))}`}));
 function invPermSheet(){sheet(`<div class="center" style="padding:6px 4px"><div style="font-weight:600;font-size:17px">“Acorns” Would Like to Access Your Contacts</div><p class="sm mt8">Shows which of your contacts already use Acorns.</p></div>
@@ -49,12 +49,12 @@ def('inv-waiting',p=>{const g=inGrove(p.id)||{day:'Fri'};return {cls:'dark',html
   ${hillRow([{html:`<img src="${IMG[rstage(S.streak)[2]]}" style="height:${rstage(S.streak)[2]==='acorn'?52:84}px">`,label:'You',me:1},{html:spot(ic('oak',18)),label:'Waiting'}],{h:230})}
   <div class="h2 mt16" style="color:#fff">Invite sent · ${g.day}</div><p class="p mt8">${nm(p.id)}’s spot is saved. Their tree appears beside yours after their first investment, not at sign-up.</p>
   <div class="row mt16" style="gap:8px"><button class="btn line sm" style="color:#fff" onclick="gsRemind('${p.id}')">Remind</button><button class="btn line sm" style="color:#fff" onclick="T={ivp:'${p.id}',day:'${g.day}'};go('inv-day')">Change day</button><button class="btn line sm" style="color:#f39bb6" onclick="S.grove=S.grove.filter(x=>x.id!=='${p.id}');save();toast('Invite canceled');home('gt-home')">Cancel</button></div>
-  <div class="mt24 center"><span class="sim" onclick="replace('inv-joined',{id:'${p.id}'})">${ic('ff',12)} Prototype: ${nm(p.id)} signs up</span></div></div>
+  <div class="mt24 center"><span class="sim" onclick="replace('inv-joined',{id:'${p.id}'})">${ic('ff',12)} Demo: ${nm(p.id)} signs up</span></div></div>
   ${foot(btn('Done',"home('gt-home')",'wh'))}`}});
 def('inv-joined',p=>({cls:'dark',html:`${topbar({close:"home('gt-home')"})}<div class="body center" style="display:flex;flex-direction:column;justify-content:center">
   ${hillRow([{html:`<img src="${IMG[rstage(S.streak)[2]]}" style="height:${rstage(S.streak)[2]==='acorn'?52:84}px">`,label:'You',me:1},{html:spot(`<img class="grow-in" src="${IMG.acorn}" style="height:26px">`),label:`${nm(p.id)} · seed`}],{h:240})}
   <div class="eyebrow mt16">Your grove</div><div class="h1 mt8">${nm(p.id)} signed up.</div><p class="p mt8">Their seed is in the ground. It sprouts when they make their first investment.</p>
-  <div class="mt24"><span class="sim" onclick="replace('inv-tree',{id:'${p.id}'})">${ic('ff',12)} Prototype: ${nm(p.id)} invests</span></div></div>${foot(btn('Done',"home('gt-home')",'wh'))}`}));
+  <div class="mt24"><span class="sim" onclick="replace('inv-tree',{id:'${p.id}'})">${ic('ff',12)} Demo: ${nm(p.id)} invests</span></div></div>${foot(btn('Done',"home('gt-home')",'wh'))}`}));
 def('inv-tree',p=>{const g=inGrove(p.id);if(g){g.status='growing';g.side=1;g.open=false}else S.grove.push({id:p.id,status:'growing',side:1});addFlourish('tree');save();
   return {cls:'dark',html:`<div class="body center" style="padding-top:calc(var(--safeTop) + 30px);display:flex;flex-direction:column">
   ${hillRow([{html:`<img src="${IMG[rstage(S.streak)[2]]}" class="breathe-once" style="height:${rstage(S.streak)[2]==='acorn'?52:90}px">`,label:'You',me:1},{html:`<img class="grow-in" src="${IMG.seedling}" style="height:80px">`,label:nm(p.id)}],{h:300})}
@@ -198,7 +198,7 @@ def('mm2-pay',()=>{const p=S.pay;return {cls:'dark',html:`<div class="hero-wrap"
   <div class="sm mt8" style="color:var(--sk-sub)">How often</div><div class="chips mt8">${FREQS.map(f=>`<button class="chip ${p.freq===f?'on':''}" onclick="S.pay.freq='${f}';save();refresh()">${f}</button>`).join('')}</div>
   <div class="sm mt16" style="color:var(--sk-sub)">Next payday</div><div class="chips mt8">${['Fri, Oct 30','Fri, Nov 6','Fri, Nov 13'].map(d=>`<button class="chip ${p.next===d?'on':''}" onclick="S.pay.next='${d}';save();refresh()">${d}</button>`).join('')}</div>
   <div class="card dk mt16"><div class="row"><div class="grow"><div style="font-weight:600;color:#fff">Remind me on payday</div><div class="sm" style="color:var(--sk-sub)">Your split, ready to confirm. No account access needed.</div></div><div class="tog ${p.remind?'on':''}" onclick="S.pay.remind=!S.pay.remind;save();refresh()"></div></div></div>
-  <p class="center mt16"><span class="sim" onclick="S.pay.detected=true;save();go('mm2-split',{pre:1})">${ic('ff',12)} Prototype: paycheck detected</span></p></div>
+  <p class="center mt16"><span class="sim" onclick="S.pay.detected=true;save();go('mm2-split',{pre:1})">${ic('ff',12)} Demo: paycheck detected</span></p></div>
   ${foot(btn('Continue',"go('mm2-split')",'wh'))}`}});
 function mmSlices(){const sp=S.split;if(savingsLocked()){const t=sp.i+sp.l+sp.s;return {i:Math.round((sp.i+sp.s)/t*100/5)*5,l:100-Math.round((sp.i+sp.s)/t*100/5)*5,s:0}}return sp}
 function mmDollars(pct){return Math.round(S.pay.amt*pct)/100}

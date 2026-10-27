@@ -856,10 +856,12 @@ document.head.insertAdjacentHTML('beforeend',`<style>
    Art box: from under the top bar to 52% of the screen. Anything .lv-mid holds is scaled to fit that box.
    Text zone: 52% → the Next button. Kicker, line, nothing else. No beat may draw into it. */
 document.head.insertAdjacentHTML('beforeend',`<style>
-.scr.ldr .ld-art{top:calc(var(--safeTop) + 52px)!important;height:auto!important;bottom:44%!important;margin:0!important}
-.scr.ldr .ld-art::after{height:30%;background:linear-gradient(180deg,rgba(34,42,32,0) 0%,rgba(34,42,32,.6) 55%,#222a20 100%)}
-.scr.ldr .lv-mid{padding:10px 20px 26px!important;justify-content:center!important}
-.scr.ldr .ld-line{bottom:calc(var(--safeBot) + 112px)!important;top:auto;max-height:36%;display:flex;flex-direction:column;justify-content:flex-end;font-size:26px!important;line-height:1.24!important}
+.scr.ldr .ld-art{top:calc(var(--safeTop) + 52px)!important;height:auto!important;bottom:38%!important;margin:0!important}
+.scr.ldr .ld-art::after{height:26%;background:linear-gradient(180deg,rgba(34,42,32,0) 0%,rgba(34,42,32,.6) 55%,#222a20 100%)}
+.scr.ldr .lv-mid{padding:6px 20px 30px!important;justify-content:center!important}
+.scr.ldr .ld-line{bottom:auto!important;top:62%;max-height:none;display:block;font-size:26px!important;line-height:1.24!important}
+.scr.ldr .ld-next{bottom:0}
+@media (min-height:800px){.scr.ldr .ld-art{bottom:40%!important}.scr.ldr .ld-line{top:60%}}
 .scr.ldr .ld-kick{margin-bottom:10px}
 .scr.ldr .yr-ms{gap:8px}.scr.ldr .yr-m{padding:8px 12px 8px 8px;width:280px}.scr.ldr .yr-m .sgx-badge{width:44px!important;height:44px!important}.scr.ldr .yr-m b{font-size:15px}.scr.ldr .yr-m em{font-size:11px}
 .scr.ldr .lv-fan .ycf{max-height:100%}.scr.ldr .yr-tag{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);margin:0}

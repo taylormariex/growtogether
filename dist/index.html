@@ -2974,7 +2974,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 9:39 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 9:40 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -4258,7 +4258,7 @@ def('sg-added',p=>{const g=sgG();const m=SG_MS.find(x=>x[0]===p.ms);const who=nm
  mount(el){sgCount(el,p.from,p.to,900);if(m)setTimeout(()=>{ART.confetti($('#screen'),110);haptic(30)},250)}}});
 document.head.insertAdjacentHTML('beforeend',`<style>
 .scr.sgx{background:#f5f7f2!important}.sgx .sg-top{background:#f5f7f2}
-.sgx-body{padding:4px 16px 32px!important}
+.sgx-body{padding:4px 16px 32px!important}.sgx .ac-tabs~*{display:none}.sgx:has(.ac-tabs) .sg-body{bottom:calc(var(--safeBot) + 64px)}
 .sgx-hero{position:relative}
 .sgx-scene{position:relative;height:210px;border-radius:28px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.04)}
 .sgx-clouds,.sgx-path{position:absolute;inset:0;width:100%;height:100%}
@@ -4322,6 +4322,8 @@ function ssCal(st){const first=4,days=31,today=26;const cells=[];for(let i=0;i<f
   <div class="sgx-leg"><span><i class="w2"></i>Stashed</span><span><i class="w1"></i>Skipped, not stashed yet</span></div></div>`}
 function ssBadges(n,nx){return `<div class="sgx-card"><div class="sgx-ch"><div><b>Milestones</b><em>${nx?`${nx[0]-n} more skip${nx[0]-n===1?'':'s'} to ${nx[1]}`:'All five reached'}</em></div></div>
   <div class="sgx-bd">${SS_MS.map(([v,l,i0])=>`<div class="sgx-b ${n>=v?'on':''}"><span>${sgGlyph(i0,22,n>=v?'#fff':'#9aa69c')}</span><b>${l}</b></div>`).join('')}</div>${nx?`<div class="sgx-nb" style="margin-top:14px"><i style="width:${Math.round(n/nx[0]*100)}%"></i></div>`:''}</div>`}
+/* the app's tab bar under the hub: shown for context, taps are inert */
+function ssTabs(){return acTabs('ac-home').replace(/onclick="[^"]*"/g,'onclick="toast(\'Existing app tabs, unchanged\')"')}
 def('ss-hub',()=>{spInit();const st=ssStats();const prev=T.ssPrev!=null?T.ssPrev:Math.max(0,st.stashed-18);const nx=SS_MS.find(m=>st.skips<m[0]);
  const jars=S.jars&&S.jars.length?S.jars:[{id:'j1',name:'Coffee jar',est:6,coins:3}];
  const log=(S.skipLog&&S.skipLog.length?S.skipLog:[{t:'Coffee',amt:6,src:'quick',when:'Today',stash:true},{t:'Coffee jar',amt:6,src:'self',when:'Fri',stash:false},{t:'Takeout',amt:14,src:'quick',when:'Wed',stash:true}]).slice(0,4);
@@ -4343,7 +4345,7 @@ def('ss-hub',()=>{spInit();const st=ssStats();const prev=T.ssPrev!=null?T.ssPrev
   <div class="sgx-card"><div class="sgx-ch"><div><b>Recent</b><em>Only you see amounts</em></div><button class="sgx-edit" onclick="go('ss-log')">All</button></div>
    ${log.map(e=>`<div class="sgx-f"><span class="ssx-li ${e.stash?'on':''}">${e.stash?ic('check',14):ssCup(.45)}</span><span class="grow"><b>${e.stash?'Stashed':'Skipped'} · ${e.t}</b><em>${e.when}</em></span><b class="ssx-amt ${e.stash?'':'muted'}">${e.stash?'':'~'}$${e.amt}</b></div>`).join('')}</div>
   <p class="sgx-priv">${ic('lock',12)} Only you see amounts. People in a Skip Week only see the check-ins you confirm. We never read your spending unless you turn on Spot my skips.</p>
- </div>`,mount(el){const n=el.querySelector('[data-count]');if(n){const to=st.stashed,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/1000),e=1-Math.pow(1-k,3);n.textContent='$'+Math.round(prev+(to-prev)*e);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}T.ssPrev=null}}});
+ </div>${ssTabs()}`,mount(el){const n=el.querySelector('[data-count]');if(n){const to=st.stashed,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/1000),e=1-Math.pow(1-k,3);n.textContent='$'+Math.round(prev+(to-prev)*e);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}T.ssPrev=null}}});
 def('qs-lt',()=>{if(!T.qsItem){T.qsItem='Coffee';T.qsAmt=6}const a=T.qsAmt,jar=T.jar&&S.jars.find(j=>j.id===T.jar);const name=jar?jar.name:T.qsItem;const counts=!S.invested||S.reset;
  return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>${jar?jar.name:'Quick Stash'}</b><span style="width:44px"></span></div>
  <div class="sg-body sgx-body">

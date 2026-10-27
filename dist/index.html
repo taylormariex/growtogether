@@ -2169,7 +2169,7 @@ function oakStage(o){o=o||{};spInit();const w=o.weeks!==undefined?o.weeks:S.stre
   return `<div class="os sk-hero" style="height:${H}px;margin:${o.flush?'0':'0 calc(-1*var(--pad))'}" aria-label="Oak, stage ${RSTAGES.indexOf(st)+1}, ${fl.length} flourishes">${hills({dark:1})}
    <div class="tree" id="${o.id||'oakT'}" onpointerdown="lpStart(event)" onpointerup="lpEnd(event,'${st[1]} · ${w} week${w===1?'':'s'}')" onpointerleave="lpCancel()" role="button" aria-label="Your oak. Press and hold to open your grove."><div class="sway"><img src="${IMG[st[2]]}" style="height:${th}px" alt=""></div></div>
    ${fl.map(k=>orb(k,0)).join('')}${ghosts.map(k=>orb(k,1)).join('')}${o.over||''}</div>`}
-function lpStart(e){const el=e.currentTarget;LP={el,t:setTimeout(()=>{LP.fired=1;haptic(15);groveSheet('half')},520)}}
+function lpStart(e){const el=e.currentTarget;LP={el,t:setTimeout(()=>{LP.fired=1;haptic(15);home('gt-grove')},520)}}
 function lpEnd(e,label){if(!LP)return;clearTimeout(LP.t);if(!LP.fired)orbTipAt(LP.el,label+' · hold to open your grove');LP=null}
 function lpCancel(){if(LP){clearTimeout(LP.t);LP=null}}
 function orbTip(el,k,g){orbTipAt(el,g?`${FLNAME[k]} · grows when you finish setup`:ORB_TIP[k]());haptic(6)}
@@ -2300,7 +2300,7 @@ def('gt-home',()=>{spInit();const w=S.streak;const g=S.grove;const inv=g.filter(
    ${s==='reset'?`<div class="sk-title" style="font-size:26px">Your oak kept all its extras.</div><div class="sk-sub">A missed week starts the count again. Plant this week and it grows from here.</div><div class="mt16">${btn('Invest this week',"T={};go('plant')",'wh')}</div>`
    :`<div class="sk-title"><b>${w}</b> Week Streak</div><div class="sk-sub">${s==='done'?`This week counts.${S.recurring?` Next $${S.amount} lands ${S.day}.`:''}`:'Invest any amount this week to keep it growing.'}</div>`}
    <div class="mt24" id="nbgW">${nbgBlock()}</div>
-   <div class="sk-sec"><div class="h4">Your grove</div><span class="sm" onclick="groveSheet('half')" style="cursor:pointer">Open ${ic('chev',12)}</span></div>
+   <div class="sk-sec"><div class="h4">Your grove</div><span class="sm" onclick="GSEL=null;home('gt-grove')" style="cursor:pointer">Open ${ic('chev',12)}</span></div>
    <div class="card dk tap" style="padding:0;overflow:hidden" onclick="home('gt-grove')"><div style="position:relative">${(()=>{const gr=g.filter(x=>x.status==='growing');const sz=id=>{const k=rstage(wk(id))[2];return k in OAKS?78:k==='seedling'?58:44};const mk=x=>({html:`<div style="position:relative"><img src="${IMG[rstage(wk(x.id))[2]]}" style="height:${sz(x.id)}px">${waterCue(x)&&!S.watered[x.id]?'<span class="dropbadge">'+ic('drop',11,'color:#fff')+'</span>':''}</div>`,label:nm(x.id)});const L=gr.slice(0,2).map(mk),R=gr.slice(2,4).map(mk);if(inv.length&&R.length<2)R.push({html:spot(),label:'Waiting'});if(!gr.length&&!inv.length){L.push({html:spot(),label:'Invite'})}return hillRow([...L,{html:`<img src="${IMG[rstage(w)[2]]}" style="height:${rstage(w)[2]==='acorn'?52:84}px">`,label:'You',me:1},...R],{h:190})})()}
     <div style="position:absolute;left:12px;top:12px" class="sk-chip">${ic('grove',14,'color:#74c947')} ${g.filter(x=>x.status==='growing').length} growing${inv.length?` · ${inv.length} waiting`:''}</div></div></div>
    <div class="sk-sec"><div class="h4">Ways to grow</div></div>
@@ -2369,7 +2369,7 @@ function tlItems(){const w=S.streak,st=rstage(w);const it=[];
   it.push({k:'start',lab:'Welcome to Acorns',t:'Started my journey',d:'Oct 2026',side:`<img src="${IMG.acorn}" alt="">`,n:5,c:2});
   return TLV==='hi'?it.filter(x=>x.k==='streak'||x.k.indexOf('f-')===0||x.water||x.k==='start').slice(0,5):it}
 function tlCard(x){const on=CHEER[x.k];return `<div class="tl">${x.art||''}<div class="${x.side?'side':''}"><div><div class="lab">${x.lab}</div><div class="ttl">${x.t}</div></div>${x.side||''}</div>
-  <div class="meta"><span>${x.d}</span><div class="rx">${x.water?`<button style="color:#8cc4f7" onclick="groveSheet('full')">${ic('drop',14)} Send rain</button>`:''}<button class="${on?'on':''}" onclick="CHEER['${x.k}']=!CHEER['${x.k}'];haptic(6);refresh()" aria-label="Cheer">${on?'♥':'♡'} ${x.n+(on?1:0)}</button><button onclick="toast('Cheers only. No comments in the prototype.')">${ic('chat',14)} ${x.c}</button></div></div></div>`}
+  <div class="meta"><span>${x.d}</span><div class="rx">${x.water?`<button style="color:#8cc4f7" onclick="T={};go('gt-water',{id:'${x.water}'})">${ic('drop',14)} Send rain</button>`:''}<button class="${on?'on':''}" onclick="CHEER['${x.k}']=!CHEER['${x.k}'];haptic(6);refresh()" aria-label="Cheer">${on?'♥':'♡'} ${x.n+(on?1:0)}</button><button onclick="toast('Cheers only. No comments in the prototype.')">${ic('chat',14)} ${x.c}</button></div></div></div>`}
 def('gt-home',()=>{spInit();const s=skState();const gr=growing(),inv=S.grove.filter(x=>x.status==='invited');const open=gr.filter(x=>x.open);
   const shown=gr.slice(0,3);const more=gr.length+inv.length-shown.length;
   return {cls:'dark',html:`<div class="top"><button class="iconbtn" onclick="home('menu')" aria-label="Close">${ic('close')}</button><div style="flex:1"></div><button class="iconbtn" onclick="go('gt-notes')" aria-label="Notifications">${ic('bell',22)}</button><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
@@ -2930,7 +2930,7 @@ def('gt-grove',()=>{spInit();const gr=growing();const done=gr.filter(x=>!x.open)
    </div>
    <div class="gv-hud" onclick="event.stopPropagation()"><button class="iconbtn gv-hb" onclick="home('gt-home')" aria-label="Back">${ic('back')}</button>
     <div class="center"><div class="gv-ht">Your grove</div><div class="gv-hs">${tot} growing · ${done} invested this week</div></div>
-    <button class="iconbtn gv-hb" onclick="groveSheet('half')" aria-label="Everyone">${ic('menu',20)}</button></div>
+    <button class="iconbtn gv-hb" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',20)}</button></div>
    <div class="gv-dock" id="gvd" onclick="event.stopPropagation()">${gvDock(GSEL)}</div></div>
   ${tabbarDk('gt-grove')}`,
   mount(el){if(GSEL)gvFocus(el,GSEL)}}});
@@ -2940,7 +2940,7 @@ function gvDock(id){const gr=growing();const open=gr.filter(x=>x.open&&!S.watere
   if(!id){const done=gr.filter(x=>!x.open).length+(S.invested?1:0),tot=gr.length+1;const notyet=gr.filter(x=>x.open);
     return `<div class="row"><div class="grow"><div class="h4" style="color:#fff">${done} of ${tot} grew this week</div><div class="sm" style="color:var(--sk-sub)">${notyet.length?`${notyet.map(x=>nm(x.id)).join(' and ')} ${notyet.length>1?'haven’t':'hasn’t'} invested yet.`:'Everyone’s in.'} Tap a tree to do something together.</div></div>${ringSvg(done/Math.max(1,tot),36)}</div>
     ${(()=>{const n=(S.challenges||[]).length;return n?`<button class="gv-chrow" onclick="home('gt-ch')"><span class="ic">${ic('flag',16)}</span><b>${n} challenge${n===1?'':'s'} running</b><em>${S.challenges.slice(0,2).map(c=>c.title).join(' · ')}</em>${ic('chev',14,'opacity:.5')}</button>`:''})()}
-    ${acts([S.invested?['share','Share grove',"shareOak()"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['user','Invite',"T={};go('inv-pick')"],['flag','Challenge',"T={chp:[]};go('gt-ch-new')"],open.length?['drop',`Rain all (${open.length})`,`gvRainAll()`,'blue']:['menu','Everyone',"groveSheet('half')"]])}`}
+    ${acts([S.invested?['check','Counted',"toast('This week already counts')"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['user','Invite',"T={};go('inv-pick')"],['flag','Challenge',"T={chp:[]};go('gt-ch-new')"],open.length?['drop',`Rain all (${open.length})`,`gvRainAll()`,'blue']:['share','Share grove',"shareOak()"]])}`}
   /* you */
   if(id==='me'){const st=rstage(S.streak);return `<div class="row">${sgAv('me',40)}<div class="grow"><div class="h4" style="color:#fff">You · ${st[1]}</div><div class="sm" style="color:var(--sk-sub)">${plw(S.streak)} streak · ${S.flourishes.length} oak extras</div></div><button class="iconbtn" onclick="gvSel(null)" aria-label="Back to grove">${ic('close',18)}</button></div>
     ${acts([S.invested?['check','Counted',"toast('This week already counts')"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['oak','My oak',"home('gt-oak')"],['share','Share',"shareOak()"],['eye','Privacy',"go('gt-privacy')"]])}`}
@@ -3001,7 +3001,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 11:31 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 11:33 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -3355,6 +3355,9 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .gsheet .wbtn{height:34px;padding:0 12px;border-radius:17px;background:#4da1ef;color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}.gsheet .wbtn.off{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6)}
 .gsheet .fls img{height:16px;opacity:.85}
 </style>`);
+
+/* the grove sheet is retired: everything it did lives on the hillside and in the dock */
+groveSheet=function(){GSEL=null;home('gt-grove')};
 
 
 /* =====================================================================
@@ -4694,12 +4697,14 @@ document.head.insertAdjacentHTML('beforeend',`<style>
    Art box: from under the top bar to 52% of the screen. Anything .lv-mid holds is scaled to fit that box.
    Text zone: 52% → the Next button. Kicker, line, nothing else. No beat may draw into it. */
 document.head.insertAdjacentHTML('beforeend',`<style>
-.scr.ldr .ld-art{top:calc(var(--safeTop) + 52px)!important;height:auto!important;bottom:38%!important;margin:0!important}
+/* art box: under the top bar down to the line. line: anchored above Next, measured from the bottom so phone height doesn't open a gap. */
+.scr.ldr .ld-art{top:calc(var(--safeTop) + 52px)!important;height:auto!important;bottom:calc(var(--safeBot) + 262px)!important;margin:0!important}
 .scr.ldr .ld-art::after{height:26%;background:linear-gradient(180deg,rgba(34,42,32,0) 0%,rgba(34,42,32,.6) 55%,#222a20 100%)}
-.scr.ldr .lv-mid{padding:6px 20px 30px!important;justify-content:center!important}
-.scr.ldr .ld-line{bottom:auto!important;top:62%;max-height:none;display:block;font-size:26px!important;line-height:1.24!important}
+.scr.ldr .lv-mid{padding:6px 20px 24px!important;justify-content:center!important}
+.scr.ldr .lv-forest .lv-row,.scr.ldr .lv-forest .lv-c{bottom:26%}
+.scr.ldr .ld-line{top:auto!important;bottom:calc(var(--safeBot) + 108px)!important;max-height:none;display:block;font-size:26px!important;line-height:1.24!important}
 .scr.ldr .ld-next{bottom:0}
-@media (min-height:800px){.scr.ldr .ld-art{bottom:40%!important}.scr.ldr .ld-line{top:60%}}
+.scr.ldr .ld-art .lv-mid>*{max-height:100%}
 .scr.ldr .ld-kick{margin-bottom:10px}
 .scr.ldr .yr-ms{gap:8px}.scr.ldr .yr-m{padding:8px 12px 8px 8px;width:280px}.scr.ldr .yr-m .sgx-badge{width:44px!important;height:44px!important}.scr.ldr .yr-m b{font-size:15px}.scr.ldr .yr-m em{font-size:11px}
 .scr.ldr .lv-fan .ycf{max-height:100%}.scr.ldr .yr-tag{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);margin:0}

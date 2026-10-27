@@ -31,7 +31,7 @@ def('gt-grove',()=>{spInit();const gr=growing();const done=gr.filter(x=>!x.open)
    </div>
    <div class="gv-hud" onclick="event.stopPropagation()"><button class="iconbtn gv-hb" onclick="home('gt-home')" aria-label="Back">${ic('back')}</button>
     <div class="center"><div class="gv-ht">Your grove</div><div class="gv-hs">${tot} growing · ${done} invested this week</div></div>
-    <button class="iconbtn gv-hb" onclick="groveSheet('half')" aria-label="Everyone">${ic('menu',20)}</button></div>
+    <button class="iconbtn gv-hb" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',20)}</button></div>
    <div class="gv-dock" id="gvd" onclick="event.stopPropagation()">${gvDock(GSEL)}</div></div>
   ${tabbarDk('gt-grove')}`,
   mount(el){if(GSEL)gvFocus(el,GSEL)}}});
@@ -41,7 +41,7 @@ function gvDock(id){const gr=growing();const open=gr.filter(x=>x.open&&!S.watere
   if(!id){const done=gr.filter(x=>!x.open).length+(S.invested?1:0),tot=gr.length+1;const notyet=gr.filter(x=>x.open);
     return `<div class="row"><div class="grow"><div class="h4" style="color:#fff">${done} of ${tot} grew this week</div><div class="sm" style="color:var(--sk-sub)">${notyet.length?`${notyet.map(x=>nm(x.id)).join(' and ')} ${notyet.length>1?'haven’t':'hasn’t'} invested yet.`:'Everyone’s in.'} Tap a tree to do something together.</div></div>${ringSvg(done/Math.max(1,tot),36)}</div>
     ${(()=>{const n=(S.challenges||[]).length;return n?`<button class="gv-chrow" onclick="home('gt-ch')"><span class="ic">${ic('flag',16)}</span><b>${n} challenge${n===1?'':'s'} running</b><em>${S.challenges.slice(0,2).map(c=>c.title).join(' · ')}</em>${ic('chev',14,'opacity:.5')}</button>`:''})()}
-    ${acts([S.invested?['share','Share grove',"shareOak()"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['user','Invite',"T={};go('inv-pick')"],['flag','Challenge',"T={chp:[]};go('gt-ch-new')"],open.length?['drop',`Rain all (${open.length})`,`gvRainAll()`,'blue']:['menu','Everyone',"groveSheet('half')"]])}`}
+    ${acts([S.invested?['check','Counted',"toast('This week already counts')"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['user','Invite',"T={};go('inv-pick')"],['flag','Challenge',"T={chp:[]};go('gt-ch-new')"],open.length?['drop',`Rain all (${open.length})`,`gvRainAll()`,'blue']:['share','Share grove',"shareOak()"]])}`}
   /* you */
   if(id==='me'){const st=rstage(S.streak);return `<div class="row">${sgAv('me',40)}<div class="grow"><div class="h4" style="color:#fff">You · ${st[1]}</div><div class="sm" style="color:var(--sk-sub)">${plw(S.streak)} streak · ${S.flourishes.length} oak extras</div></div><button class="iconbtn" onclick="gvSel(null)" aria-label="Back to grove">${ic('close',18)}</button></div>
     ${acts([S.invested?['check','Counted',"toast('This week already counts')"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['oak','My oak',"home('gt-oak')"],['share','Share',"shareOak()"],['eye','Privacy',"go('gt-privacy')"]])}`}
@@ -456,3 +456,6 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .gsheet .wbtn{height:34px;padding:0 12px;border-radius:17px;background:#4da1ef;color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}.gsheet .wbtn.off{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6)}
 .gsheet .fls img{height:16px;opacity:.85}
 </style>`);
+
+/* the grove sheet is retired: everything it did lives on the hillside and in the dock */
+groveSheet=function(){GSEL=null;home('gt-grove')};

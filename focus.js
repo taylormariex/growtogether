@@ -21,7 +21,7 @@ const FOCUS_SPEC={
    side:'The story introduces it, then you’re back on Home. Use the prototype clock to move time: at six months a halfway card arrives on its own, at twelve a notification says your Acorns Year is ready. Seven cards about the year you showed up. Weeks and counts only. Never balances or returns.'},
  'money-type':{title:'Know yourself',hub:'qz-hub',hubLabel:'Open Know yourself',
    go:"T={};go('qz-hub')",
-   side:'Four short quizzes about how you actually are with money: your Money Type, Saver Style, Spending Triggers, and how you like company. Each one ends with a type, one thing to learn, and one thing in the app to try. Your types show up on your Acorns Year.'},
+   side:'Short quizzes about how you actually are with money, a minute each, taken whenever you feel like one: Money Type, Saver Style, Spending Triggers, Growing Together, with more arriving over time. Each one ends with a type, one thing to learn, and one thing in the app to try. Your types show up on your Acorns Year.'},
  invite:{title:'Invite to your grove',hub:'gt-grove',hubLabel:'Open my grove',allow:['gt-ch'],
    go:"jumpAhead();spInit();T={};go('inv-pick')",
    side:'Invite one person, pick the day you’ll both invest, and send it from your own phone. Their seed is planted when they sign up and sprouts beside your oak after their first investment.'}};

@@ -58,10 +58,10 @@ RV_GO.splice(1,0,['Your first week','The existing Streaks intro after funding',"
 const AC_TAB_FOR=id=>{if(!id)return null;if(/^(ac-home|kids|profile|gt-notes)$/.test(id))return 'ac-home';if(/^(ac-mm|sg-|mm)/.test(id))return 'ac-mm';if(/^ac-invest$/.test(id))return 'ac-invest';
   if(/^(gt-|inv-|fr-|year|journal|recap|yr-|ss|qs-|jar|sr-|st-|plant|growth|share-b|water|fl-|mt|rec-|ru-)/.test(id))return 'ac-invest';return null};
 (function(){const f=render;render=function(id,params,dir){f(id,params,dir);const el=$$('.scr').pop();if(!el||el.dataset.id!==id)return;const tab=AC_TAB_FOR(id);if(!tab)return;
-  if(el.querySelector('.ac-tabs')||/^(splash|focus-end|sys-|menu|states)/.test(id))return;
+  if(el.querySelector('.ac-tabs')||/^(splash|focus-end|sys-|menu|states|year|recap|yr-mid|share-b|growth|fl-unlock|gt-water-ok|ss-stashed|sg-added|inv-tree|fr-beside)/.test(id))return;
   const old=el.querySelector('.tabbar');if(old)old.remove();
   el.insertAdjacentHTML('beforeend',acTabs(tab));el.classList.add('has-actabs')}})();
-(function(){const f=refresh;refresh=function(){f();const el=$$('.scr').pop();if(!el)return;const id=el.dataset.id;const tab=AC_TAB_FOR(id);if(!tab||el.querySelector('.ac-tabs')||/^(splash|focus-end|sys-|menu|states)/.test(id))return;const old=el.querySelector('.tabbar');if(old)old.remove();el.insertAdjacentHTML('beforeend',acTabs(tab));el.classList.add('has-actabs')}})();
+(function(){const f=refresh;refresh=function(){f();const el=$$('.scr').pop();if(!el)return;const id=el.dataset.id;const tab=AC_TAB_FOR(id);if(!tab||el.querySelector('.ac-tabs')||/^(splash|focus-end|sys-|menu|states|year|recap|yr-mid|share-b|growth|fl-unlock|gt-water-ok|ss-stashed|sg-added|inv-tree|fr-beside)/.test(id))return;const old=el.querySelector('.tabbar');if(old)old.remove();el.insertAdjacentHTML('beforeend',acTabs(tab));el.classList.add('has-actabs')}})();
 (function(){const st=document.createElement('style');st.textContent=`
 .scr.has-actabs .body,.scr.has-actabs .sg-body,.scr.has-actabs .sgx-body{bottom:calc(var(--safeBot) + 64px)}
 .scr.has-actabs .foot,.scr.has-actabs .sg-foot,.scr.has-actabs .gm-row:last-of-type{bottom:calc(var(--safeBot) + 64px)}

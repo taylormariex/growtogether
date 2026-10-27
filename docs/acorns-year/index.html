@@ -3312,9 +3312,9 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .gvs .gv-sky{position:absolute;inset:0;height:50%;background:radial-gradient(120% 80% at 50% 100%,rgba(242,227,184,.22),transparent 60%)}
 .gvs .gv-sun{position:absolute;left:50%;top:26%;width:220px;height:220px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(242,227,184,.28),rgba(242,227,184,.06) 60%,transparent)}
 .gvs .gv-world{top:calc(var(--safeTop) + 92px);bottom:calc(var(--safeBot) + 222px)}
-.gvs .gv-far{position:absolute;left:-10%;right:-10%;top:14%;height:30%;border-radius:50% 50% 0 0/40% 40% 0 0;background:linear-gradient(180deg,#1b4a1f,#1a4a1f)}
-.gvs .gv-forest.far{top:10%;height:26%;opacity:1}.gvs .gv-forest.mid{top:22%;height:22%}
-.gvs .gv-mist{top:30%;height:14%;background:linear-gradient(180deg,transparent,rgba(242,227,184,.14) 50%,transparent)}
+.gvs .gv-far{position:absolute;left:-10%;right:-10%;top:14%;height:30%;border-radius:50% 50% 0 0/40% 40% 0 0;background:linear-gradient(180deg,#2d6a2a,#255e24)}
+.gvs .gv-forest.far{top:10%;height:26%;opacity:1;filter:brightness(1.35)}.gvs .gv-forest.mid{top:22%;height:22%;filter:brightness(1.3)}
+.gvs .gv-mist{top:28%;height:16%;background:linear-gradient(180deg,transparent,rgba(242,227,184,.22) 50%,transparent)}
 .gvs .gv-slope{position:absolute;left:-30%;right:-30%;top:36%;height:140%;border-radius:50% 50% 0 0/18% 18% 0 0;background:radial-gradient(ellipse 60% 40% at 50% 0%,#8fd45f 0%,#5fb53a 22%,#3f8e2b 48%,#2d6f22 72%,#1f5219 100%);box-shadow:inset 0 2px 0 rgba(242,227,184,.35)}
 .gvs .gv-light{position:absolute;left:0;right:0;top:34%;bottom:0;background:linear-gradient(100deg,rgba(242,227,184,.10),transparent 40%,transparent 60%,rgba(0,0,0,.12));pointer-events:none}
 .gvs .gv-grass{top:auto;bottom:-2%;height:9%;opacity:.8}
@@ -4728,10 +4728,10 @@ RV_GO.splice(1,0,['Your first week','The existing Streaks intro after funding',"
 const AC_TAB_FOR=id=>{if(!id)return null;if(/^(ac-home|kids|profile|gt-notes)$/.test(id))return 'ac-home';if(/^(ac-mm|sg-|mm)/.test(id))return 'ac-mm';if(/^ac-invest$/.test(id))return 'ac-invest';
   if(/^(gt-|inv-|fr-|year|journal|recap|yr-|ss|qs-|jar|sr-|st-|plant|growth|share-b|water|fl-|mt|rec-|ru-)/.test(id))return 'ac-invest';return null};
 (function(){const f=render;render=function(id,params,dir){f(id,params,dir);const el=$$('.scr').pop();if(!el||el.dataset.id!==id)return;const tab=AC_TAB_FOR(id);if(!tab)return;
-  if(el.querySelector('.ac-tabs')||/^(splash|focus-end|sys-|menu|states)/.test(id))return;
+  if(el.querySelector('.ac-tabs')||/^(splash|focus-end|sys-|menu|states|year|recap|yr-mid|share-b|growth|fl-unlock|gt-water-ok|ss-stashed|sg-added|inv-tree|fr-beside)/.test(id))return;
   const old=el.querySelector('.tabbar');if(old)old.remove();
   el.insertAdjacentHTML('beforeend',acTabs(tab));el.classList.add('has-actabs')}})();
-(function(){const f=refresh;refresh=function(){f();const el=$$('.scr').pop();if(!el)return;const id=el.dataset.id;const tab=AC_TAB_FOR(id);if(!tab||el.querySelector('.ac-tabs')||/^(splash|focus-end|sys-|menu|states)/.test(id))return;const old=el.querySelector('.tabbar');if(old)old.remove();el.insertAdjacentHTML('beforeend',acTabs(tab));el.classList.add('has-actabs')}})();
+(function(){const f=refresh;refresh=function(){f();const el=$$('.scr').pop();if(!el)return;const id=el.dataset.id;const tab=AC_TAB_FOR(id);if(!tab||el.querySelector('.ac-tabs')||/^(splash|focus-end|sys-|menu|states|year|recap|yr-mid|share-b|growth|fl-unlock|gt-water-ok|ss-stashed|sg-added|inv-tree|fr-beside)/.test(id))return;const old=el.querySelector('.tabbar');if(old)old.remove();el.insertAdjacentHTML('beforeend',acTabs(tab));el.classList.add('has-actabs')}})();
 (function(){const st=document.createElement('style');st.textContent=`
 .scr.has-actabs .body,.scr.has-actabs .sg-body,.scr.has-actabs .sgx-body{bottom:calc(var(--safeBot) + 64px)}
 .scr.has-actabs .foot,.scr.has-actabs .sg-foot,.scr.has-actabs .gm-row:last-of-type{bottom:calc(var(--safeBot) + 64px)}

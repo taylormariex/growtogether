@@ -1,0 +1,83 @@
+/* =====================================================================
+   Know yourself · Money Type is one of several short quizzes.
+   Each one: three questions → a type → one thing to learn, one thing to try.
+   Types collect into a profile and show up on your Acorns Year.
+   ===================================================================== */
+const QZ=[
+ {id:'type',name:'Money Type',q:'How money moves through your week',img:'seedling',done:()=>!!(S.mt2&&S.mt2.type),start:"T.mq={};S.mt2={};save();go('mt2-q',{i:0})",
+  result:()=>{const t=S.mt2&&S.mt2.type;return t?MT2[t].n:null}},
+ {id:'saver',name:'Saver Style',q:'What you save for and how it feels',img:'moneybag',
+  qs:[{k:'why',q:'When you put money aside, it’s usually for…',o:[['cushion','A cushion','So surprises don’t hurt'],['thing','A specific thing','A trip, a car, a move'],['someday','Someday','I’m not sure what yet']]},
+      {k:'feel',q:'Watching the number go up feels…',o:[['calm','Calming','Like locking a door'],['fun','Fun','I check it more than I should'],['meh','Fine','I don’t think about it much']]},
+      {k:'share',q:'Saving with someone else sounds…',o:[['yes','Great','Easier with company'],['maybe','Maybe','Depends who'],['no','Not for me','I keep money private']]}],
+  types:{nest:{n:'Nest Builder',line:'You save for safety first. The win is knowing it’s there.',learn:'Why three months of expenses, and how to get there slowly',try:['Emergency Fund','Start a rainy-day fund',"toast('Opens Emergency Fund (existing)')"]},
+         planner:{n:'Planner',line:'You save toward things you can picture. Naming the goal is half the work.',learn:'How a named goal changes what you actually save',try:['Shared goals','Save for something with someone',"go('sg-list')"]},
+         drifter:{n:'Drifter',line:'You save when you remember. Something small and automatic beats a plan you have to think about.',learn:'Why automatic beats ambitious',try:['Round-Ups®','Spare change, invested',"toast('Opens Round-Ups (existing)')"]}},
+  score:a=>a.why==='cushion'?'nest':a.why==='thing'||a.feel==='fun'?'planner':'drifter'},
+ {id:'spend',name:'Spending Triggers',q:'Where money slips, and what to do about it',img:'roundup',
+  qs:[{k:'when',q:'Money mostly slips away when…',o:[['tired','I’m tired','Delivery, rides, the easy option'],['bored','I’m bored','Scrolling turns into shopping'],['social','I’m with people','Rounds, splits, plans']]},
+      {k:'size',q:'It’s usually…',o:[['small','Small and often','$6 here, $14 there'],['big','Big and rare','One purchase I think about for a week'],['sub','Quiet subscriptions','Things I forgot I pay for']]},
+      {k:'after',q:'Afterward you feel…',o:[['fine','Fine','It was worth it'],['ugh','A little ugh','I wish I hadn’t'],['curious','Curious','Where does it all go?']]}],
+  types:{skipper:{n:'Everyday Skipper',line:'Lots of small, easy spends. Skipping one now and then is the whole game.',learn:'The $6 rule: why small skips beat big cuts',try:['Skip and Stash','Skip something, invest the difference',"S.ret='ss-hub';go('ss-hub')"]},
+         splurger:{n:'Occasional Splurger',line:'You don’t leak, you splash. A 24-hour wait is your best tool.',learn:'The 24-hour rule, and why it works on your brain',try:['Skip Rules','Stash automatically when you wait',"go('sr-intro')"]},
+         auditor:{n:'Quiet Leaker',line:'Subscriptions and autopay do the spending for you. One review a month fixes most of it.',learn:'Finding the subscriptions you forgot',try:['Sunday review','Count the week in one place',"go('ss-review')"]}},
+  score:a=>a.size==='sub'?'auditor':a.size==='big'?'splurger':'skipper'},
+ {id:'together',name:'Growing Together',q:'How you like company in money',img:'oak',
+  qs:[{k:'tell',q:'Talking about money with friends is…',o:[['easy','Easy','We compare notes'],['some','Okay with some people','One or two'],['hard','Hard','I’d rather not']]},
+      {k:'nudge',q:'When you fall off a habit, what helps?',o:[['person','A person checking in','Someone who notices'],['streak','A streak I don’t want to break','The number keeps me honest'],['none','Nothing, I restart on my own','I just need time']]},
+      {k:'win',q:'A win feels best when…',o:[['shared','Someone else sees it','Tell a friend first'],['private','It’s mine','Quiet satisfaction'],['team','We did it together','Same finish line']]}],
+  types:{cheer:{n:'Cheerleader',line:'You grow faster with people around. Your grove is your superpower.',learn:'Why habits stick when someone can see them',try:['Invite someone','Plant a tree beside yours',"T={};go('inv-pick')"]},
+         partner:{n:'Partner',line:'One trusted person is enough. Pick them and pick a day.',learn:'Accountability pairs: the research in two minutes',try:['Shared goals','Save for something with one person',"go('sg-list')"]},
+         solo:{n:'Quiet Grower',line:'You keep money private, and that’s fine. Your streak is the friend that notices.',learn:'Streaks without shame: how to restart',try:['Your oak','Watch your streak grow',"home('gt-home')"]}},
+  score:a=>a.tell==='hard'||a.win==='private'?'solo':a.nudge==='person'&&a.tell==='easy'?'cheer':'partner'}];
+function qzState(){if(!S.quiz)S.quiz={};return S.quiz}
+function qzDone(z){return z.id==='type'?!!(S.mt2&&S.mt2.type):!!qzState()[z.id]}
+function qzType(z){if(z.id==='type')return S.mt2&&S.mt2.type?MT2[S.mt2.type]:null;const r=qzState()[z.id];return r?z.types[r.type]:null}
+
+/* the hub */
+def('qz-hub',()=>{const done=QZ.filter(qzDone).length;
+ return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Know yourself</b><span style="width:44px"></span></div>
+ <div class="sg-body sgx-body">
+  <div class="qz-hero"><div class="qz-ring">${sgRing(Math.round(done/QZ.length*100),84)}<b>${done}/${QZ.length}</b></div><div class="grow"><b>${done===0?'Four short quizzes.':done===QZ.length?'You know yourself.':`${QZ.length-done} to go.`}</b><em>${done===0?'A minute each. Each one tells you something about how you handle money, and one thing worth trying.':'Your types show up on your Acorns Year in December.'}</em></div></div>
+  ${QZ.map(z=>{const t=qzType(z);return `<button class="qz-card ${t?'done':''}" onclick="${t?`go('qz-reveal',{id:'${z.id}'})`:z.start||`T.qa={};go('qz-q',{id:'${z.id}',i:0})`}"><span class="qz-ic"><img src="${IMG[z.img]}" alt=""></span><div class="grow"><em>${z.name}</em><b>${t?t.n:z.q}</b>${t?`<span class="qz-sub">Tap to see what to try</span>`:`<span class="qz-sub">3 questions · about a minute</span>`}</div>${t?`<span class="qz-chk">${ic('check',14)}</span>`:ic('chev',16,'opacity:.4')}</button>`}).join('')}
+  <p class="sgx-priv">${ic('lock',12)} About habits only. Nothing here changes your portfolio or risk.</p>
+ </div>`}});
+/* a generic three-question runner for the newer quizzes */
+def('qz-q',p=>{const z=QZ.find(x=>x.id===p.id);const i=p.i||0;const q=z.qs[i];if(!T.qa)T.qa={};const v=T.qa[q.k];
+ return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="${i?`go('qz-q',{id:'${z.id}',i:${i-1}})`:'back()'}" aria-label="Back">${ic('back',24)}</button><b>${z.name}</b><span style="width:44px"></span></div>
+ <div class="sg-body sgx-body"><div class="qz-dots">${z.qs.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join('')}</div>
+  <h1 class="sg-h" style="margin-top:14px">${q.q}</h1>
+  <div class="qz-opts">${q.o.map(([k,l,s])=>`<button class="qz-opt ${v===k?'on':''}" onclick="qzAns('${z.id}',${i},'${q.k}','${k}',this)"><b>${l}</b><em>${s}</em><i>${v===k?ic('check',14):''}</i></button>`).join('')}</div></div>`}});
+function qzAns(id,i,k,v,el){T.qa[k]=v;haptic(8);$$('.qz-opt',cur()).forEach(o=>{o.classList.remove('on');o.querySelector('i').innerHTML=''});el.classList.add('on');el.querySelector('i').innerHTML=ic('check',14);
+ const z=QZ.find(x=>x.id===id);setTimeout(()=>{if(i<z.qs.length-1)go('qz-q',{id,i:i+1});else{qzState()[id]={type:z.score(T.qa),a:Object.assign({},T.qa)};save();replace('qz-reveal',{id,fresh:1})}},380)}
+/* reveal: type, one thing to learn, one thing to try */
+def('qz-reveal',p=>{const z=QZ.find(x=>x.id===p.id);const t=qzType(z);if(!t)return SCR['qz-hub']();const isMT=z.id==='type';const learn=isMT?'Why your first habit matters more than the amount':t.learn;const tr=isMT?['Set up your habit',MT2[S.mt2.type].plan==='ru'?'Round-Ups® on your card':'A small weekly investment',"T.mp={mode:'"+MT2[S.mt2.type].plan+"'};go('mt2-plan')"]:t.try;
+ const next=QZ.find(x=>!qzDone(x));
+ return {cls:'lt sgs sgx sgx-cel',html:`<div class="sg-top"><button class="iconbtn" onclick="back2('qz-hub')" aria-label="All quizzes">${ic('back',24)}</button><b>${z.name}</b><button class="iconbtn" onclick="qzShare('${z.id}')" aria-label="Share">${ic('share',20)}</button></div>
+ <div class="sg-body sgx-body">
+  <div class="qz-rev"><span class="qz-big ${p.fresh?'pop':''}"><img src="${IMG[z.img]}" alt=""></span><div class="sgx-ek">Your ${z.name.toLowerCase()}</div><h1>${t.n}</h1><p>${t.line}</p></div>
+  <div class="sgx-card"><div class="sgx-ch"><div><b>One thing to learn</b><em>2-minute read in Learning</em></div></div><button class="qz-row" onclick="toast('Opens in Learning (existing)')"><span class="qz-ric">${ic('spark',16)}</span><b>${learn}</b>${ic('chev',14,'opacity:.4')}</button></div>
+  <div class="sgx-card"><div class="sgx-ch"><div><b>One thing to try</b><em>Built for a ${t.n.toLowerCase()}</em></div></div><button class="qz-row" onclick="${tr[2].replace(/"/g,'&quot;')}"><span class="qz-ric">${ic('plus',16)}</span><div class="grow"><b>${tr[0]}</b><em>${tr[1]}</em></div>${ic('chev',14,'opacity:.4')}</button></div>
+  ${next?`<button class="qz-next" onclick="${next.start||`T.qa={};go('qz-q',{id:'${next.id}',i:0})`}"><div class="grow"><em>Next quiz</em><b>${next.name}</b></div>${ic('chev',16)}</button>`:`<div class="qz-done">${ic('check',16)} All four done. Your types are on your Acorns Year in December.</div>`}
+  <p class="sgx-priv" style="margin-top:12px">${ic('lock',12)} About habits only. Retake anytime from Know yourself.</p>
+ </div>`,mount(el){if(p.fresh)setTimeout(()=>{ART.confetti($('#screen'),36);haptic(16)},300)}}});
+function qzShare(id){const z=QZ.find(x=>x.id===id);const t=qzType(z);if(!t)return;share({title:`I’m a ${t.n}`,story:storyCard({eyebrow:z.name,title:`I’m a ${t.n}.`,sub:t.line,art:`<img src="${IMG[z.img]}" alt="">`}),text:`Turns out I’m a ${t.n}. What are you?`})}
+/* Money Type's reveal points at the rest */
+(function(){const f=SCR['mt2-reveal'];if(!f)return;SCR['mt2-reveal']=p=>{const r=f(p);r.html=r.html.replace(`<p class="sm mt12" style="color:var(--sk-sub)">About habits only. It doesn’t change your portfolio or risk.</p>`,
+ `<button class="qz-more" onclick="go('qz-hub')"><div class="grow"><em>Know yourself</em><b>That’s one of four. Keep going?</b></div>${ic('chev',16)}</button><p class="sm mt12" style="color:var(--sk-sub)">About habits only. It doesn’t change your portfolio or risk.</p>`);return r}})();
+/* Home banner: once Money Type is done, the banner invites the next quiz */
+(function(){const f=heroCard;heroCard=function(){const c=f();if(!c||c.k!=='mt')return c;if(S.mt2&&S.mt2.type){const next=QZ.find(x=>!qzDone(x));if(next)return {k:'qz',e:'Know yourself',t:`You’re a ${MT2[S.mt2.type].n}. <g>Next: ${next.name}</g>`,img:next.img,a:"go('qz-hub')"}}return c}})();
+document.head.insertAdjacentHTML('beforeend',`<style>
+.qz-hero{display:flex;align-items:center;gap:14px;padding:16px;border-radius:24px;background:#fff;margin-top:4px}.qz-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none}.qz-ring b{position:absolute;font-size:16px;font-weight:700;color:#163d0c}.qz-hero .grow b{display:block;font-size:17px;letter-spacing:-.2px}.qz-hero .grow em{display:block;font-style:normal;font-size:13px;color:#6b706c;margin-top:4px;line-height:1.4}
+.qz-card{display:flex;align-items:center;gap:14px;width:100%;margin-top:10px;padding:14px;border-radius:22px;background:#fff;text-align:left;color:#191919;transition:transform .2s}.qz-card:active{transform:scale(.985)}.qz-card.done{background:linear-gradient(100deg,#eaf7e0,#fff 60%)}
+.qz-ic{width:52px;height:52px;border-radius:16px;background:linear-gradient(#e4f5d4,#c4e8a6);display:flex;align-items:flex-end;justify-content:center;overflow:hidden;flex:none}.qz-ic img{height:42px}
+.qz-card em{display:block;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2f7a12}.qz-card b{display:block;font-size:16px;margin-top:2px;line-height:1.25}.qz-sub{display:block;font-size:12px;color:#6b706c;margin-top:3px}
+.qz-chk{width:28px;height:28px;border-radius:14px;background:#3d9a1f;color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+.qz-dots{display:flex;gap:6px;margin-top:6px}.qz-dots i{flex:1;height:4px;border-radius:2px;background:#e1e6dd}.qz-dots i.on{background:#3d9a1f}
+.qz-opts{display:flex;flex-direction:column;gap:10px;margin-top:22px}.qz-opt{display:flex;flex-direction:column;align-items:flex-start;position:relative;padding:16px 50px 16px 18px;border-radius:20px;background:#fff;text-align:left;color:#191919;box-shadow:inset 0 0 0 1.5px transparent;transition:all .15s}.qz-opt b{font-size:17px}.qz-opt em{font-style:normal;font-size:13px;color:#6b706c;margin-top:2px}.qz-opt i{position:absolute;right:16px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:13px;border:1.5px solid #cfd6ca;display:flex;align-items:center;justify-content:center;color:#fff}.qz-opt.on{box-shadow:inset 0 0 0 1.5px #3d9a1f;background:#f3faec}.qz-opt.on i{background:#3d9a1f;border-color:#3d9a1f}
+.qz-rev{display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 20px 6px}.qz-big{width:110px;height:110px;border-radius:55px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 10px rgba(116,201,71,.18),0 16px 36px rgba(60,140,30,.2)}.qz-big img{height:70px}.qz-big.pop{animation:sgxPop .7s cubic-bezier(.2,1.5,.4,1) both}
+.qz-rev h1{margin:6px 0 0;font-size:32px;letter-spacing:-.5px;color:#163d0c}.qz-rev p{margin:10px 0 0;font-size:16px;line-height:1.45;color:#4a524c;max-width:310px}
+.qz-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;color:#191919}.qz-row>b{flex:1;font-size:15px;line-height:1.3}.qz-row .grow b{display:block;font-size:15px}.qz-row .grow em{display:block;font-style:normal;font-size:12px;color:#6b706c;margin-top:2px}.qz-ric{width:36px;height:36px;border-radius:18px;background:#e8f5df;color:#2f7a12;display:flex;align-items:center;justify-content:center;flex:none}
+.qz-next,.qz-more{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:14px 16px;border-radius:20px;background:#191919;color:#fff;text-align:left}.qz-next em,.qz-more em{display:block;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#bceaa3}.qz-next b,.qz-more b{display:block;font-size:15px;margin-top:2px}.qz-more{background:rgba(255,255,255,.08);margin-top:16px}
+.qz-done{display:flex;align-items:center;gap:8px;margin-top:12px;padding:12px 14px;border-radius:16px;background:#e3f4d8;color:#2f5c1a;font-size:13px;font-weight:600}
+</style>`);

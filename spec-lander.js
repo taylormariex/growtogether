@@ -737,7 +737,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 
 
 /* ================= Shared goals: more than one, with more than one person ================= */
-function sgAll(){if(!S.sgs){S.sgs=[];const d=sgDemo();d.id='g-lisbon';S.sgs.push(d);if(S.sg&&!S.sg.id){S.sg.id='g-'+Date.now();S.sgs.push(S.sg)}save()}return S.sgs}
+function sgAll(){if(!S.sgs){S.sgs=[];const d=sgDemo();d.id='g-lisbon';S.sgs.push(d);S.sgs.push({id:'g-apt',name:'First apartment',kind:'First apartment',who:'priya',whos:['priya'],slice:5,ways:{rec:true,any:true},recAmt:50,recFreq:'Monthly',pct:18,joined:true,by:'August 2027',weeks:[1,2,2,1,2,2],log:[{w:'priya',t:'Priya added money',d:'Mon'},{w:'ms',t:'You hit First step together',d:'Last week'}]});if(S.sg&&!S.sg.id){S.sg.id='g-'+Date.now();S.sgs.push(S.sg)}save()}return S.sgs}
 function sgCreate(){const g=Object.assign({},T.sg,{id:'g-'+Date.now(),pct:0,joined:false,log:[],weeks:[],by:T.sg.kind==='Wedding'?'October 2027':T.sg.kind==='Car'?'March 2027':T.sg.kind==='First apartment'?'August 2027':'Next year'});delete g.edit;sgAll().push(g);S.sg=g;save()}
 function sgOpen(id){const g=sgAll().find(x=>x.id===id);if(!g)return;S.sg=g;T.sgPrev=null;save();go('sg-home')}
 def('sg-list',()=>{const gs=sgAll();if(S.sg&&!gs.includes(S.sg)){const f=gs.find(x=>x.id===S.sg.id);if(f)S.sg=f}

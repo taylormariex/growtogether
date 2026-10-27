@@ -709,7 +709,7 @@ LV.ivrain=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" sty
 /* Invite story: the ways you help, three cards */
 LV.ivways=()=>`${ldGlow()}<div class="lv-mid"><div class="yr-ms">${[[ic('drop',26,'color:#fff'),'#4da1ef','Send rain','A gentle nudge on an off week'],['♥','#e8a45c','Cheer','“Proud of us.” “See you Friday.”'],[sgGlyph('flag',26,'#fff'),'#2f8a14','Dare them','8 weeks side by side, no skipping']].map(([g,c,t,w],i)=>`<div class="yr-m rise d${i*2}"><span class="sgx-badge" style="width:60px;height:60px;background:${c};font-size:26px;color:#fff">${g}</span><div><b>${t}</b><em>${w}</em></div></div>`).join('')}</div></div>`;
 /* Invite story, beat 1: one small seedling on a wide, empty hill, with an open spot beside it */
-LV.alone=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" style="opacity:.5"></div><div class="lv-row" style="gap:44px;align-items:flex-end"><img class="rise" src="${IMG.seedling}" style="height:86px;filter:saturate(.75)" alt=""><div class="rise d3" style="margin-bottom:6px;opacity:.55">${spot('')}</div></div></div>`;
+LV.alone=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" style="opacity:.45"></div><img class="lv-c rise" src="${IMG.seedling}" style="height:84px;bottom:31%;filter:saturate(.8)" alt=""></div>`;
 
 /* Story card craft: art dissolves into the copy, a soft spotlight behind the subject, a quiet kicker above the line */
 document.head.insertAdjacentHTML('beforeend',`<style>

@@ -12,7 +12,7 @@ function ycDots(n,cls,fn){return Array.from({length:n},(_,k)=>`<i class="${fn(k)
 function yCard(n,o){o=o||{};const nm=S.me,W=48,RU=312;const miss=new Set([3,9,17,40,48]);const N=k=>`${String(k).padStart(2,'0')} / 06`;
   const C=[
   ()=>`<div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">Acorns Year · 2026</span>
-     <div class="yc-panel" style="top:430px;height:194px"><div class="yc-h">Your year,<br>grown.</div><div class="yc-s">Six cards on how you showed up.</div>${o.share?ycFoot():`<div class="yc-foot">${ycLock()}<b>Tap to open</b></div>`}</div></div>`,
+     <div class="yc-panel" style="top:430px;height:194px"><div class="yc-h">Your year,<br>grown.</div><div class="yc-s">Six cards about your year of investing.</div>${o.share?ycFoot():`<div class="yc-foot">${ycLock()}<b>Tap to open</b></div>`}</div></div>`,
   ()=>`<div class="yc" style="background-image:url(${YART}y-weeks-bg.jpg)"><div class="yc-hdr">${ycLock()}<span>${N(1)}</span></div>
      <div class="yc-big g" data-count="${W}">${o.anim?0:W}</div><div class="yc-lead">of 52 weeks,<br>you showed up.</div>
      <div class="yc-wk">${ycDots(52,'',k=>miss.has(k)?'ring':(k<16?'dk':'gr'))}</div>
@@ -126,7 +126,7 @@ def('journal',()=>({cls:'dark',html:`${topbar({title:'Journal'})}<div class="bod
 /* Split a paycheck: the "why" before any numbers */
 def('mm2-intro',()=>({cls:'dark',html:`${topbar({close:true,title:''})}<div class="body"><div class="eyebrow">Money Manager</div><div class="h1 mt8" style="color:#fff">Split your paycheck.<br>Grow three ways.</div>
   <p class="p mt12">Choose how much of each paycheck goes where, once. Every payday, Acorns moves the slices for you, so investing, retirement and a safety net all happen without thinking about it.</p>
-  <div class="mt24">${[['seedling','Invest','Your everyday investing. Keeps your streak going and grows Roots on your oak.'],['later','Later','Retirement (IRA). A gold leaf for every month you add to it.'],['moneybag','Savings','A rainy-day cushion. Builds a nest on your oak.']].map(([im,t,s])=>`<div class="qcard" style="cursor:default"><div class="qi"><img src="${IMG[im]}" alt=""></div><div class="grow"><div class="ql">${t}</div><div class="qs">${s}</div></div></div>`).join('')}</div>
+  <div class="mt24">${[['seedling','Invest','Your everyday investing. Keeps your streak going and adds roots to your oak.'],['later','Later','Retirement (IRA). A gold leaf for every month you add to it.'],['moneybag','Savings','A rainy-day cushion. Builds a nest on your oak.']].map(([im,t,s])=>`<div class="qcard" style="cursor:default"><div class="qi"><img src="${IMG[im]}" alt=""></div><div class="grow"><div class="ql">${t}</div><div class="qs">${s}</div></div></div>`).join('')}</div>
   <p class="sm mt12" style="color:var(--sk-sub)">Your grove sees the oak extras, never the amounts. You can change or pause the split anytime.</p></div>
   ${foot(btn('Set up my split',"go('mm2-pay')",'wh'),btn('Not now','back()','ghost'))}`}));
 (function(){const f=SCR['mm2-pay'];SCR['mm2-pay']=p=>{const r=f(p);r.html=r.html.replace('<div class="h2" style="color:#fff">One paycheck, three habits.</div><p class="p mt8">Tell us about your pay. Only you see these numbers.</p>','<div class="eyebrow">Step 1 of 3 · Your paycheck</div><div class="h2 mt8" style="color:#fff">How much, and how often?</div><p class="p mt8">We use this to work out each slice. Only you see these numbers.</p>');return r}})();

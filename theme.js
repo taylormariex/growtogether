@@ -23,7 +23,7 @@ def('gt-home',()=>{const w=S.streak;const g=S.grove;const inv=g.filter(x=>x.stat
    <div class="sk-sec"><div class="h4">Your grove</div><span class="sm" onclick="home('gt-grove')" style="cursor:pointer">Open ${ic('chev',12)}</span></div>
    <div class="card dk tap" style="padding:0;overflow:hidden" onclick="home('gt-grove')"><div style="position:relative">${(()=>{const gr=g.filter(x=>x.status==='growing');const sz=id=>{const k=rstage(wk(id))[2];return k in OAKS?78:k==='seedling'?58:44};const mk=x=>({html:`<img src="${IMG[rstage(wk(x.id))[2]]}" style="height:${sz(x.id)}px;${x.open?'filter:saturate(.4) brightness(.8)':''}">`,label:nm(x.id)});const L=gr.slice(0,2).map(mk),R=gr.slice(2,4).map(mk);if(inv.length&&R.length<2)R.push({html:spot(),label:'Invited'});return hillRow([...L,{html:`<img src="${IMG[rstage(w)[2]]}" style="height:${rstage(w)[2]==='acorn'?52:84}px">`,label:'You',me:1},...R],{h:190})})()}
      <div style="position:absolute;left:12px;top:12px" class="sk-chip">${ic('grove',14,'color:#74c947')} ${g.filter(x=>x.status==='growing').length} growing${inv.length?` · ${inv.length} invited`:''}</div></div>
-     ${open?`<div class="row" style="padding:12px 16px;border-top:1px solid var(--sk-line)">${ic('drop',18,'color:#4da1ef')}<div class="sm grow" style="color:#fff"><b>${nm(open.id)} hasn’t invested yet this week.</b> Send rain as a gentle nudge. It only counts when they invest.</div></div>`:g.length?'':`<div class="sm" style="padding:12px 16px;color:#fff">Plant someone beside you.</div>`}</div>
+     ${open?`<div class="row" style="padding:12px 16px;border-top:1px solid var(--sk-line)">${ic('drop',18,'color:#4da1ef')}<div class="sm grow" style="color:#fff"><b>${nm(open.id)} hasn’t invested yet this week.</b> Send rain as a gentle nudge. It only counts when they invest.</div></div>`:g.length?'':`<div class="sm" style="padding:12px 16px;color:#fff">Invite someone to grow with you.</div>`}</div>
    <div class="sk-sec"><div class="h4">Challenges</div><span class="sm" style="cursor:pointer" onclick="T={};go('gt-ch-new')">+ Start</span></div>
    ${S.invites.map(v=>skRow(av(v.from,'s').replace('class="av s"','class="av s" style="width:48px;height:48px"'),`${nm(v.from)} invited you`,`${v.title} · ${v.len} ${v.unit}`,false,`go('gt-ch-invite',{id:'${v.id}'})`)).join('')}
    ${S.challenges.length?S.challenges.map(c=>{const t=CH_TYPES[c.type];return skRow(`<span style="color:#74c947">${ic(t.icon,22)}</span>`,c.title,`${c.prog.me||0} of ${c.len} ${c.unit} · ${c.people.length} people`,(c.prog.me||0)>=c.len,`go('gt-ch-detail',{id:'${c.id}'})`)}).join(''):`<div class="sm" style="color:var(--sk-sub)">Bring people in on a no-delivery week, a Round-Ups month, or 8 weeks side by side.</div>`}
@@ -116,14 +116,14 @@ def('sam-msg',p=>{const c=p.c||'A';const route={A:"go('sam-tray',{c:'A'})",C1:"g
   <p class="sm mt24 center">${CASES[c][0]} · tap the link</p></div>`}});
 function samDash(w,extra){return `<div class="top" style="position:absolute;left:0;right:0;z-index:5"><button class="iconbtn">${ic('close')}</button><button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button></div><div class="body" style="padding-top:0">${skHero(w,{sub:w?'Your weekly $10 recurring investment keeps your streak alive.':'Invest any amount this week to start your streak.'})}${extra||''}
   <div class="sk-sec"><div class="h4">Achievements</div><span class="sm">${RSTAGES.filter(r=>r[0]>0&&w>=r[0]).length}/7 Complete</span></div>${RSTAGES.slice(1,5).map(r=>skRow(w>=r[0]?`<img src="${IMG[r[2]]}">`:'',r[1],`${r[0]} Week Streak`,w>=r[0])).join('')}<div style="height:40px"></div></div>`}
-const TRAYC={A:['Jordan saved you a spot in her grove.','You keep your own Streak. You’ll also see each other’s oaks and weeks. Never balances.','Plant beside Jordan','Not now',"go('sam-side',{c:'A'})"],
- C1:['Jordan saved you a spot in her grove.','Welcome back. You keep your own Streak and grow beside Jordan.','Plant beside Jordan','Not now',"go('sam-side',{c:'A'})"],
+const TRAYC={A:['Jordan saved you a spot in her grove.','You keep your own Streak. You’ll also see each other’s oaks and weeks. Never balances.','Grow with Jordan','Not now',"go('sam-side',{c:'A'})"],
+ C1:['Jordan saved you a spot in her grove.','Welcome back. You keep your own Streak and grow beside Jordan.','Grow with Jordan','Not now',"go('sam-side',{c:'A'})"],
  B:['Jordan’s spot is ready.','Invest any amount this week to plant your acorn beside Jordan.','Make my first investment','Later',"S.ret='sam-planted';T={};go('rec-1')"],
  C3:['This spot expired.','Jordan’s invite was open for 14 days. Ask for a new link, or start your own grove.','Invite Jordan instead','Not now',"SHARE={title:'Grow beside me',story:inviteStory(),to:'Jordan',text:'Your link expired. Grow beside me instead?'};go('sys-msg',{kind:'msg'})"],
  C4:['You and Jordan are already side by side.','Nothing to do. Your weeks are already counting together.','See your grove','Close',"go('sam-side',{c:'A'})"]};
 def('sam-tray',p=>{const c=p.c||'A';const t=TRAYC[c];const w=c==='B'?0:7;return {cls:'dark',html:`${samDash(w)}<div class="scrim on" style="position:absolute;inset:0;z-index:40"></div>
   <div class="tray" id="tr"><div class="x" onclick="go('sam-quiet')">${ic('close',14)}</div><div class="badge-l"><img src="${IMG[c==='C3'?'acorn':'oak']}"></div><h3>${t[0]}</h3><p>${t[1]}</p><div class="pill" onclick="${t[4]}">${t[2]}</div><span class="sec" onclick="go('sam-quiet')">${t[3]}</span></div>`,mount(el){setTimeout(()=>$('#tr',el).classList.add('on'),120)}}});
-def('sam-quiet',()=>({cls:'dark',html:`${topbar({})}<div class="body center" style="display:flex;flex-direction:column;justify-content:center;align-items:center"><div class="sk-badge" style="width:80px;height:80px;border-radius:40px"><img src="${IMG.acorn}"></div><div class="h2 mt24" style="color:#fff">Nothing was sent.</div><p class="p mt8" style="max-width:300px">Jordan’s spot shows “Waiting for Sam” for 14 days, then quietly becomes “Invite someone else.” No reminders to Sam.</p></div>${foot(btn('Back to cases',"home('sam-hub')",'wh'))}`}));
+def('sam-quiet',()=>({cls:'dark',html:`${topbar({})}<div class="body center" style="display:flex;flex-direction:column;justify-content:center;align-items:center"><div class="sk-badge" style="width:80px;height:80px;border-radius:40px"><img src="${IMG.acorn}"></div><div class="h2 mt24" style="color:#fff">Nothing was sent.</div><p class="p mt8" style="max-width:300px">Jordan’s spot shows “Waiting for Sam” for 14 days, then opens up for someone else. No reminders to Sam.</p></div>${foot(btn('Back to cases',"home('sam-hub')",'wh'))}`}));
 def('sam-side',()=>({cls:'dark',html:`${samDash(7,`<div class="sk-sec"><div class="h4">Your grove</div><span class="sm">1 person</span></div>${skRow(`<img src="${IMG.oak}">`,'Jordan','Young Oak · side by side this week',true,"home('gt-grove')")}`)}`,mount(){confetti($('#screen'),60);toast('You’re side by side with Jordan')}}));
 def('sam-signin',p=>({cls:'ivory',html:`${topbar({title:'Sign in'})}<div class="body"><div class="center mt24"><img src="${IMG.acorn}" style="height:64px"></div><div class="h2 center mt16">Welcome back</div><p class="sm center mt8">Existing Acorns sign-in. The invite waits for you.</p>
   <div class="field mt24"><label>Email</label><input value="sam@example.com"></div><div class="field mt12"><label>Password</label><input type="password" value="prototype"></div><p class="sm mt12">Placeholder sign-in. Nothing is checked.</p></div>${foot(btn('Sign in',"go('sys-load',{msg:'Signing in',next:'sam-tray',np:{c:'C1'}})",'dk'))}`}));
@@ -134,10 +134,10 @@ def('sam-web',p=>{const c=p.c||'B';const head={B:['Jordan invited you','Jordan s
    <div style="position:relative;height:170px;margin:20px -24px 0">${hills({dark:false})}<div style="position:absolute;left:34%;bottom:10px;transform:translateX(-50%)"><img src="${IMG.oak}" style="height:130px"><div class="center sm" style="color:#191919;font-weight:600">Jordan</div></div><div style="position:absolute;left:68%;bottom:30px;transform:translateX(-50%);text-align:center"><div class="gw-plot" style="position:static;transform:none;border-color:#38860e;color:#38860e">${ic('plus',20)}</div><div class="sm" style="color:#191919;font-weight:600;margin-top:4px">Your spot</div></div></div></div>
    <div style="padding:20px 24px"><div style="display:flex;gap:18px;border-bottom:1px solid #eee;font-size:13px;font-weight:600"><span style="border-bottom:2px solid #111;padding-bottom:8px">How it works</span><span style="color:#999">FAQ’s</span></div>
    <div class="step mt12"><div class="n">1</div><div><b style="font-size:14px">Sign up</b><div class="sm">A few minutes. Jordan’s spot is saved for 14 days.</div></div></div>
-   <div class="step"><div class="n">2</div><div><b style="font-size:14px">Invest any amount</b><div class="sm">Your first investment starts your Streak and plants your acorn on Jordan’s hill.</div></div></div>
+   <div class="step"><div class="n">2</div><div><b style="font-size:14px">Invest any amount</b><div class="sm">Your first investment starts your Streak and puts your tree next to Jordan’s.</div></div></div>
    <div class="step"><div class="n">3</div><div><b style="font-size:14px">Grow side by side</b><div class="sm">Every week you both invest counts. Remove each other anytime.</div></div></div>
    <p class="sm mt16" style="font-size:11px">Investing involves risk. Placeholder disclosure. Jordan may earn a referral bonus under the current referral program terms.</p></div></div>`}});
-def('sam-join',()=>({html:`${topbar({title:'Create account'})}${progress(1,3)}<div class="body"><div class="h2 mt8">Let’s plant your acorn</div><p class="p mt8">This is today’s registration flow. The invite rides along.</p>
+def('sam-join',()=>({html:`${topbar({title:'Create account'})}${progress(1,3)}<div class="body"><div class="h2 mt8">Let’s start your oak</div><p class="p mt8">This is today’s registration flow. The invite rides along.</p>
   <div class="field mt24"><label>First name</label><input value="Sam"></div><div class="field mt12"><label>Email</label><input value="sam@example.com"></div>
   <div class="card flat mt16"><div class="row"><img src="${IMG.oak}" style="height:40px"><div class="sm grow" style="color:#191919">Joining from Jordan’s invite.</div></div></div>
   <p class="sm mt16">Identity and funding steps follow, unchanged. The prototype skips ahead.</p></div>${foot(btn('Continue',"go('sys-load',{msg:'Creating your account',next:'sam-tray',np:{c:'B'}})",'dk'))}`}));
@@ -180,13 +180,13 @@ def('menu',()=>({cls:'dark',html:`<div class="body" style="padding-top:0">
 function whyScene(inner,h){return `<div class="sk-hero" style="height:${h||330}px;margin-top:calc(-1 * (var(--safeTop) + 52px))">${hills({dark:1})}${inner}</div>`}
 def('gt-why1',()=>({cls:'dark',html:whyShell(0,`${whyScene(`<div class="tree" id="w1t"><img src="${IMG.acorn}" style="height:90px"></div>`)}
   <div class="eyebrow rise mt16">Your oak</div><div class="h1 rise d1 mt8">It starts as an acorn. Today.</div>
-  <p class="p rise d2 mt12">Every week you invest, it grows: seedling, sapling, oak. It’s your Streak, made visible.</p>`,'gt-why2'),
+  <p class="p rise d2 mt12">Every week you invest, it grows: seedling, sapling, oak. It’s your streak, shown as a tree.</p>`,'gt-why2'),
   mount(el){const seq=[['acorn',90],['seedling',110],['oak',170]];let i=0;const t=setInterval(()=>{const a=$('#w1t',el);if(!a||!document.body.contains(a)){clearInterval(t);return}i=(i+1)%seq.length;a.innerHTML=`<img class="grow-in" src="${IMG[seq[i][0]]}" style="height:${seq[i][1]}px">`},1300)}}));
 def('gt-why3',()=>({cls:'dark',html:whyShell(2,`${whyScene(`
    <div style="position:absolute;left:20%;bottom:31%;transform:translateX(-50%);text-align:center" class="rise d2"><img src="${IMG.seedling}" style="height:96px"><div class="gw-tag">Sam</div></div>
    <div style="position:absolute;left:50%;bottom:30%;transform:translateX(-50%);text-align:center" class="rise"><img src="${IMG.oak}" style="height:160px"><div class="gw-tag" style="background:#74c947;color:#0a1d08;border:0">You</div></div>
    <div style="position:absolute;left:79%;bottom:31%;transform:translateX(-50%);text-align:center" class="rise d4"><img src="${IMG.oak}" style="height:120px"><div class="gw-tag">Mom</div></div>`)}
-  <div class="eyebrow rise mt16">Family first</div><div class="h1 rise d1 mt8">Grow beside the people you love.</div>
+  <div class="eyebrow rise mt16">Family first</div><div class="h1 rise d1 mt8">Grow alongside the people you love.</div>
   <p class="p rise d2 mt12">Your grove is everyone growing with you. You see their oaks. They see yours. Nobody sees a balance.</p>`,'gt-why4')}));
 
 /* ---------- Challenges tab in the Streak world ---------- */
@@ -208,22 +208,22 @@ def('gt-why3',()=>({cls:'dark',html:whyShell(2,`${whyScene(`<div class="hr-row">
    <div class="hr-it rise d2"><img src="${IMG.seedling}" style="height:92px"><div class="hr-lbl">Sam</div></div>
    <div class="hr-it rise"><img src="${IMG.oak}" style="height:150px"><div class="hr-lbl me">You</div></div>
    <div class="hr-it rise d4"><img src="${IMG.oak}" style="height:118px"><div class="hr-lbl">Mom</div></div></div>`)}
-  <div class="eyebrow rise mt24">Family first</div><div class="h1 rise d1 mt8">Grow beside the people you love.</div>
+  <div class="eyebrow rise mt24">Family first</div><div class="h1 rise d1 mt8">Grow alongside the people you love.</div>
   <p class="p rise d2 mt12">Your grove is everyone growing with you. You see their oaks. They see yours. Nobody sees a balance.</p>`,'gt-why4')}));
 
 def('gt-people-intro',()=>({cls:'dark',html:`${heroTop(hillRow([{html:spot(),label:'Family'},{html:spot(),label:'Friend'},{html:`<img src="${IMG.acorn}" style="height:78px">`,label:'You',me:1},{html:spot(),label:'Partner'},{html:spot(),label:'Anyone'}],{h:300}))}
-  <div class="body" style="padding-top:20px"><div class="eyebrow">Your grove</div><div class="h2 mt8" style="color:#fff">Who do you want to grow beside?</div>
-  <p class="p mt8">They get a spot on your hill, and you get one on theirs.</p>
-  <div class="mt16">${skRow(`<span style="color:#74c947">${ic('eye',20)}</span>`,'They see your oak and your weeks','Never amounts or balances',null)}${skRow(`<span style="color:#74c947">${ic('lock',18)}</span>`,'Only you see your grove','Remove anyone quietly, anytime',null)}</div></div>
+  <div class="body" style="padding-top:20px"><div class="eyebrow">Your grove</div><div class="h2 mt8" style="color:#fff">Who do you want to grow with?</div>
+  <p class="p mt8">They get a spot in your grove, and you get one in theirs.</p>
+  <div class="mt16">${skRow(`<span style="color:#74c947">${ic('eye',20)}</span>`,'They see your oak and your weeks','Never amounts or balances',null)}${skRow(`<span style="color:#74c947">${ic('lock',18)}</span>`,'Only you see your grove','Remove anyone, anytime. They aren’t notified.',null)}</div></div>
   ${foot(btn('Choose from contacts',"askContacts(()=>go(S.perm.contacts==='denied'?'gt-manual':'gt-people'))",'wh'),btn('Share a link instead',"inviteLink()",'ghost'))}`}));
 
 def('gt-sent',()=>{const inv=S.grove.filter(g=>g.status==='invited').slice(0,4);const L=inv.slice(0,2),R=inv.slice(2,4);
   const it=g=>({html:spot(av(g.id)),label:nm(g.id)});
   return {cls:'dark',html:`${heroTop(hillRow([...L.map(it),{html:`<img src="${IMG.acorn}" style="height:78px">`,label:'You',me:1},...R.map(it)],{h:300}),'')}
   <div class="body" style="padding-top:20px"><div class="eyebrow">Invites sent</div><div class="h2 mt8" style="color:#fff">Their spots are saved.</div>
-  <p class="p mt8">When they plant, their tree shows up on your hill and yours on theirs.</p>
+  <p class="p mt8">After their first investment, their tree shows up next to yours, and yours next to theirs.</p>
   <div class="mt16">${inv.map(g=>skRow(av(g.id).replace('class="av"','class="av" style="width:48px;height:48px"'),PEOPLE[g.id].full,'Text sent · spot saved for 14 days',false).replace('<div class="sk-ck off"></div>','<span class="badge dk">Waiting</span>')).join('')}</div>
-  <p class="sm mt12" style="color:var(--sk-sub)">No reply in 14 days? The spot quietly turns back into “Invite someone.” Nobody gets nagged.</p></div>
+  <p class="sm mt12" style="color:var(--sk-sub)">No reply in 14 days? The spot opens up again. Nobody gets reminders.</p></div>
   ${foot(btn('Next: make this week count',"go('gt-habit')",'wh'))}`}});
 
 def('gt-ready',()=>{const who=S.grove[0]?nm(S.grove[0].id):'Sam';return {cls:'dark',html:`<div class="hero-wrap"><div class="sk-hero" style="height:380px;margin:0">${hills({dark:1})}

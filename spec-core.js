@@ -18,11 +18,11 @@ const OAK_ORDER=['roots','acorns','nest','gold','sapling','flowers','bird'];
 const ORB_SLOTS={roots:[50,14],acorns:[27,52],nest:[73,52],bird:[14,72],gold:[86,72],sapling:[12,32],flowers:[88,32]};
 const ORB_TIP={roots:()=>`Roots · ${S.commit||12} weeks of recurring`,acorns:()=>`Acorns · ${S.acornCount||0} from Round-Ups`,nest:()=>'Nest · Emergency Fund growing',gold:()=>'Gold leaves · one per month to Later',sapling:()=>`Sapling · ${(typeof S.early==='string'&&S.early)||'Ava'}’s Early account`,flowers:()=>'Wildflowers · one per Earn bonus',bird:()=>`Songbird · ${Math.max(1,S.learn||1)} course finished`};
 function skState(){spInit();if(S.reset)return 'reset';return S.invested?'done':'todo'}
-function weekLabel(){const s=skState();return s==='reset'?'Plant this week':`Week ${Math.max(1,S.streak+(s==='todo'?1:0))}`}
+function weekLabel(){const s=skState();return s==='reset'?'Invest this week':`Week ${Math.max(1,S.streak+(s==='todo'?1:0))}`}
 
 /* ---------- 3.5 Streak chip + week ring ---------- */
 function ringSvg(p,sz){sz=sz||24;if(p>=1)return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#74c947"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#0a1d08" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;const r=sz/2-3,c=2*Math.PI*r;return `<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" aria-hidden="true"><circle cx="${sz/2}" cy="${sz/2}" r="${r}" stroke="rgba(255,255,255,.18)" stroke-width="3" fill="none"/><circle cx="${sz/2}" cy="${sz/2}" r="${r}" stroke="#74c947" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="${c*p} ${c}" transform="rotate(-90 ${sz/2} ${sz/2})"/></svg>`}
-function streakChip(){const s=skState();if(s==='reset')return `<button class="schip reset" onclick="go('plant')" aria-label="Plant this week">${ic('oak',18)}Plant this week</button>`;
+function streakChip(){const s=skState();if(s==='reset')return `<button class="schip reset" onclick="go('plant')" aria-label="Invest this week">${ic('oak',18)}Plant this week</button>`;
   return `<button class="schip" onclick="${s==='done'?"toast('This week counts. See you next week.')":"T={};S.afterCount='gt-home';go('inv-1')"}" aria-label="${weekLabel()}">${ringSvg(s==='done'?1:0)}${weekLabel()}</button>`}
 
 /* ---------- 3.1 Oak Stage ---------- */
@@ -85,13 +85,13 @@ def('ru-done',()=>{const isNew=addFlourish('acorns');return SCR.growth({ks:isNew
 def('ef-done',()=>{const isNew=addFlourish('nest');return SCR.growth({ks:isNew?['nest']:[],cap:'Your oak got a nest.',sub:'A nest means you’re saving for a rainy day. Your grove sees the nest, never the amount.',next:'finish'})});
 def('later-done',()=>{const isNew=addFlourish('gold');return SCR.growth({ks:isNew?['gold']:[],cap:'Your oak got a gold leaf.',sub:'You get one for each month you add to Later, your retirement account.',next:'finish'})});
 def('early-done',()=>{const isNew=addFlourish('sapling');return SCR.growth({ks:isNew?['sapling']:[],cap:`${(typeof S.early==='string'&&S.early)||T.kid||'Your kid'}’s sapling is planted.`,sub:'It grows beside your oak each week you or family invest for them.',next:'finish'})});
-def('earn-done',()=>{const isNew=addFlourish('flowers');return SCR.growth({ks:isNew?['flowers']:[],cap:'Offer activated.',sub:'A wildflower blooms on your hill each time an Earn reward lands.',next:'finish'})});
+def('earn-done',()=>{const isNew=addFlourish('flowers');return SCR.growth({ks:isNew?['flowers']:[],cap:'Offer activated.',sub:'You get a wildflower each time an Earn reward lands.',next:'finish'})});
 def('learn-done',()=>{const isNew=addFlourish('bird');return SCR.growth({ks:isNew?['bird']:[],cap:'A songbird joined your oak.',sub:'You get one for every lesson you finish.',next:'finish'})});
 def('fl-unlock',p=>SCR.growth({ks:[],cap:FLNAME[p.k]+'.',sub:(FL[p.k]||{}).line,next:'finish'}));
 
 /* ---------- one-time invest: visible-first + hold to confirm (§6c.5) ---------- */
 def('inv-1',()=>{spInit();if(!T.inv)T.inv=S.amount;const a=S.accounts[0];const counts=!S.invested||S.reset;
-  return {cls:'dark',html:`${topbar({title:S.reset?'Plant this week':'Invest',close:true})}<div class="body">
+  return {cls:'dark',html:`${topbar({title:S.reset?'Invest this week':'Invest',close:true})}<div class="body">
   <div class="center mt8"><div class="amt" style="color:#fff" onclick="keypad(T.inv,v=>{T.inv=v;refresh()})">${money(T.inv)}</div>
   <div class="chips" style="justify-content:center">${[5,10,25,50].map(v=>`<button class="chip ${T.inv===v?'on':''}" onclick="T.inv=${v};refresh()">$${v}</button>`).join('')}<button class="chip" onclick="keypad(T.inv,v=>{T.inv=v;refresh()})">Other</button></div></div>
   <div class="vis mt24"><div><span>Moves</span><b>Today</b></div><div><span>Funds</span><b>Invest account</b></div><div><span>From</span><b>${a.name} ••${a.mask}</b></div><div><span>Streak</span><b>${counts?'Counts this week':'Already counted ✓'}</b></div></div>
@@ -106,10 +106,10 @@ def('fund-fail',()=>{S.failed=true;save();return {cls:'dark',html:`${topbar({clo
   <p class="p mt8" style="max-width:300px">Nothing moved and nothing was charged. Your week isn’t counted yet, and there’s still time.</p></div>
   ${foot(btn('Try again',"S.failed=false;save();back()",'wh'),btn('Use a different account',"S.bankRet='inv-1';go('bank-1')",'ghost'))}`}});
 def('plant',()=>{spInit();if(!T.inv)T.inv=S.amount;return {cls:'dark',html:`${heroTop(oakStage({h:320,flush:1}),'')}
-  <div class="body" style="padding-top:14px"><div class="eyebrow">A fresh start</div><div class="h2 mt8" style="color:#fff">Plant this week.</div>
+  <div class="body" style="padding-top:14px"><div class="eyebrow">A fresh start</div><div class="h2 mt8" style="color:#fff">Invest this week.</div>
   <p class="p mt8">Your oak kept all its extras. One investment starts your streak again.</p>
   <div class="vis mt16"><div><span>Amount</span><b onclick="keypad(T.inv,v=>{T.inv=v;refresh()})">${money(T.inv)} · edit</b></div><div><span>Moves</span><b>Today</b></div><div><span>From</span><b>${S.accounts[0].name} ••${S.accounts[0].mask}</b></div><div><span>Streak</span><b>Starts Week 1</b></div></div></div>
-  <div class="foot">${holdBtn('plant '+money(T.inv),"investNow()",'light')}</div>`}});
+  <div class="foot">${holdBtn('invest '+money(T.inv),"investNow()",'light')}</div>`}});
 
 /* ---------- 3.3 Grove Sheet (peek · half · full) ---------- */
 let GS=null;
@@ -124,7 +124,7 @@ function gsClose(){const host=ov();const sh=$('#gs',host);if(sh)sh.style.transfo
 function gsRefresh(){const b=$('#gsb');if(b)b.innerHTML=gsBody()}
 function waterCue(g){return g.status==='growing'&&g.open&&S.waterOK[g.id]&&!S.mutedWater[g.id]}
 function gsBody(){const gr=S.grove.filter(g=>g.status==='growing'),inv=S.grove.filter(g=>g.status==='invited');const free=Math.max(0,(S.slots||5)-S.grove.length);
-  if(!S.grove.length)return `<div class="center" style="padding:30px 10px"><div class="spot" style="margin:0 auto;width:72px;height:72px;border-radius:36px">${ic('plus',26)}</div><div class="h3 mt16" style="color:#fff">Plant your first friend</div><p class="sm mt8" style="color:var(--sk-sub)">Invite one person. Grow beside them.</p><div class="mt24">${btn('Invite someone',"gsClose();T={};setTimeout(()=>go('inv-pick'),250)",'wh')}</div></div>`;
+  if(!S.grove.length)return `<div class="center" style="padding:30px 10px"><div class="spot" style="margin:0 auto;width:72px;height:72px;border-radius:36px">${ic('plus',26)}</div><div class="h3 mt16" style="color:#fff">Plant your first friend</div><p class="sm mt8" style="color:var(--sk-sub)">Invite one person. Grow together.</p><div class="mt24">${btn('Invite someone',"gsClose();T={};setTimeout(()=>go('inv-pick'),250)",'wh')}</div></div>`;
   return `<div class="row between"><div><div class="h3" style="color:#fff">Your grove</div><div class="sm" style="color:var(--sk-sub)">${gr.length} growing${inv.length?` · ${inv.length} waiting`:''} · only you see this</div></div>${free?`<button class="btn wh sm" onclick="gsClose();T={};setTimeout(()=>go('inv-pick'),250)">${ic('plus',16)} Invite</button>`:''}</div>
   <div class="row mt16" style="gap:14px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none">${gr.map(g=>`<div class="center" style="flex-shrink:0;width:58px"><div style="height:62px;display:flex;align-items:flex-end;justify-content:center;position:relative">${treeImg(wk(g.id),rstage(wk(g.id))[2] in OAKS?60:rstage(wk(g.id))[2]==='seedling'?48:36)}${waterCue(g)?`<span class="dropbadge">${ic('drop',11,'color:#fff')}</span>`:''}</div><div style="font-size:11px;font-weight:600;margin-top:4px">${nm(g.id)}</div></div>`).join('')}${inv.map(g=>`<div class="center" style="flex-shrink:0;width:58px"><div style="height:62px;display:flex;align-items:flex-end;justify-content:center"><div class="spot">${av(g.id,'s')}</div></div><div style="font-size:11px;font-weight:600;margin-top:4px;color:var(--sk-sub)">${nm(g.id)}</div></div>`).join('')}</div>
   <p class="sm" style="color:var(--sk-sub)">Watering encourages them. It only counts when they invest.</p>
@@ -133,7 +133,7 @@ function gsBody(){const gr=S.grove.filter(g=>g.status==='growing'),inv=S.grove.f
      ${cue?(sent?`<span class="wbtn off">${ic('check',14)} Sent</span>`:`<button class="wbtn" onclick="gsWater('${g.id}',this)">${ic('drop',14)} Water</button>`):''}</div>`}).join('')}
    ${inv.map(g=>`<div class="gfriend"><div class="tr"><div class="spot">${ic('oak',18)}</div></div><div class="grow"><div style="font-weight:600">${PEOPLE[g.id].full}</div><div class="sm" style="color:var(--sk-sub)">Invite sent · ${g.day||'Fri'} · sprouts after their first investment</div>
      <div class="row mt8" style="gap:6px"><button class="chip" style="height:30px;font-size:12px" onclick="gsRemind('${g.id}')">Remind</button><button class="chip" style="height:30px;font-size:12px" onclick="gsClose();T={ivp:'${g.id}',day:'${g.day||'Fri'}',change:1};setTimeout(()=>go('inv-day'),250)">Change day</button><button class="chip" style="height:30px;font-size:12px" onclick="S.grove=S.grove.filter(x=>x.id!=='${g.id}');save();gsRefresh();toast('Invite canceled')">Cancel</button></div></div></div>`).join('')}
-   ${free?`<div class="gfriend" style="border-style:dashed;cursor:pointer" onclick="gsClose();T={};setTimeout(()=>go('inv-pick'),250)"><div class="tr"><div class="spot">${ic('plus',18)}</div></div><div class="grow"><div style="font-weight:600">Plant a friend</div><div class="sm" style="color:var(--sk-sub)">${free} open spot${free===1?'':'s'}</div></div></div>`:''}</div>`}
+   ${free?`<div class="gfriend" style="border-style:dashed;cursor:pointer" onclick="gsClose();T={};setTimeout(()=>go('inv-pick'),250)"><div class="tr"><div class="spot">${ic('plus',18)}</div></div><div class="grow"><div style="font-weight:600">Invite a friend</div><div class="sm" style="color:var(--sk-sub)">${free} open spot${free===1?'':'s'}</div></div></div>`:''}</div>`}
 function gsWater(id,btnEl){S.watered[id]=Date.now();save();haptic(12);const r=btnEl.getBoundingClientRect(),h=$('#screen').getBoundingClientRect();rain($('#screen'),r.left-h.left,r.top-h.top-60);toast(`Rain sent to ${nm(id)}`);setTimeout(gsRefresh,500)}
 function gsRemind(id){const g=inGrove(id);if(g.reminded){toast('You can remind once every 3 days');return}g.reminded=Date.now();save();SHARE={title:`${S.me} saved you a spot`,story:inviteStory(),to:PEOPLE[id].full,text:'Your spot beside me is still saved.'};gsClose();setTimeout(()=>go('sys-msg',{kind:'msg'}),250)}
 
@@ -141,7 +141,7 @@ function gsRemind(id){const g=inGrove(id);if(g.reminded){toast('You can remind o
 let NBG_LOADED=false,NBG_MORE=false;
 function nbgCands(){spInit();const c=[];const s=skState();
   if(S.failed)c.push({k:'fail',p:1,kick:'Needs a look',t:'Your last transfer didn’t go through.',s:'Nothing moved. Try again to count this week.',img:'acorn',cta:'Try again',act:"T={};go('inv-1')"});
-  if(s==='reset')c.push({k:'plant',p:2,kick:'Fresh start',t:'Plant this week.',s:'Your oak kept all its extras. One investment starts it growing again.',img:'acorn',cta:'Plant',act:"T={};go('plant')"});
+  if(s==='reset')c.push({k:'plant',p:2,kick:'Fresh start',t:'Invest this week.',s:'Your oak kept all its extras. One investment starts it growing again.',img:'acorn',cta:'Invest',act:"T={};go('plant')"});
   else if(s==='todo'&&S.streak>0)c.push({k:'grow',p:2,kick:'Grow your week',t:`Week ${S.streak+1} is open.`,s:S.recurring?`Your $${S.amount} lands ${S.day}. Or invest now.`:'Any amount counts this week.',img:'seedling',cta:'Invest',act:"T={};S.afterCount='gt-home';go('inv-1')"});
   if(S.friendJoined)c.push({k:'joined',p:3,kick:'Your grove',t:`${nm(S.friendJoined)} signed up.`,s:'Their tree sprouts after their first investment.',img:'oak',cta:'See grove',act:"S.friendJoined=null;save();groveSheet('half')"});
   if(S.detect.on)c.push({k:'dskip',p:4,kick:'Spotted a skip',t:'Looks like you skipped coffee today.',s:`Stash your usual $${S.habits[0].est}? You confirm. Nothing moves on its own.`,img:'roundup',cta:'Stash $'+S.habits[0].est,act:"T={qsItem:'Coffee',qsAmt:S.habits[0].est,src:'detected'};go('qs-1')"});
@@ -163,7 +163,7 @@ function nbgHide(k){S.hidden[k]=Date.now();save();toast('Hidden for 7 days');ref
 def('gt-home',()=>{spInit();const w=S.streak;const g=S.grove;const inv=g.filter(x=>x.status==='invited');const s=skState();
   return {cls:'dark',html:`<div class="hero-wrap">${oakStage({h:330,flush:1})}<div class="top"><button class="iconbtn" onclick="home('menu')" aria-label="Close">${ic('close')}</button>${streakChip()}<button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div></div>
   <div class="body" style="padding-top:4px">
-   ${s==='reset'?`<div class="sk-title" style="font-size:26px">Your oak kept all its extras.</div><div class="sk-sub">A missed week starts the count again. Plant this week and it grows from here.</div><div class="mt16">${btn('Plant this week',"T={};go('plant')",'wh')}</div>`
+   ${s==='reset'?`<div class="sk-title" style="font-size:26px">Your oak kept all its extras.</div><div class="sk-sub">A missed week starts the count again. Plant this week and it grows from here.</div><div class="mt16">${btn('Invest this week',"T={};go('plant')",'wh')}</div>`
    :`<div class="sk-title"><b>${w}</b> Week Streak</div><div class="sk-sub">${s==='done'?`This week counts.${S.recurring?` Next $${S.amount} lands ${S.day}.`:''}`:'Invest any amount this week to keep it growing.'}</div>`}
    <div class="mt24" id="nbgW">${nbgBlock()}</div>
    <div class="sk-sec"><div class="h4">Your grove</div><span class="sm" onclick="groveSheet('half')" style="cursor:pointer">Open ${ic('chev',12)}</span></div>
@@ -223,7 +223,7 @@ function storyCard(o){o=o||{};return `<div class="story v2 ${/1\s*\/\s*1/.test(o
 
 /* ---------- Home v3: layout from the Home reference (greeting hero → one NBG slot → bento → timeline) ---------- */
 function hmHello(){const s=skState(),w=S.streak,st=rstage(w);const nx=RSTAGES.find(r=>r[0]>w);const img=`<img src="${IMG[st[2]]}" alt="">`;
-  if(s==='reset')return `Hello, ${S.me}<br>Your oak ${img} kept every flourish. <em>Plant this week</em> and it grows from here.`;
+  if(s==='reset')return `Hello, ${S.me}<br>Your oak ${img} kept every flourish. <em>Invest this week</em> and it grows from here.`;
   if(w===0)return `Hello, ${S.me}<br>Your oak starts ${img} <em>as an acorn</em>. One investment this week plants it.`;
   return `Hello, ${S.me}<br>Your ${img} <em>${w} week streak</em> is ${s==='done'?'growing. This week counts.':'growing.'}${nx?` <em>${nx[0]-w} week${nx[0]-w===1?'':'s'}</em> to ${nx[1]}.`:''}`}
 function ringAv(id,p){const r=19,c=2*Math.PI*r;return `<div class="r"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="${r}" stroke="rgba(255,255,255,.12)" stroke-width="2.5" fill="none"/><circle cx="22" cy="22" r="${r}" stroke="#74c947" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="${c*p} ${c}" transform="rotate(-90 22 22)"/></svg>${av(id)}</div>`}
@@ -247,7 +247,7 @@ def('gt-home',()=>{spInit();const s=skState();const gr=growing(),inv=S.grove.fil
    <div class="bento mt16">
     <div class="bnt" onclick="home('gt-grove')"><div class="bh">Your grove</div>
      ${gr.length||inv.length?`<div class="avr">${shown.map(g=>`<div style="position:relative">${ringAv(g.id,g.open?0:1)}${g.open?`<span class="dropbadge" style="position:absolute;right:-3px;top:-3px">${ic('drop',11,'color:#fff')}</span>`:''}</div>`).join('')}${more>0?`<div class="more">+${more}</div>`:''}</div>
-     ${open.length?`<div class="bs" style="margin-top:10px;color:#8cc4f7">${nm(open[0].id)} hasn’t invested yet</div>`:`<div class="bs" style="margin-top:10px">Everyone invested</div>`}`:`<div class="bb"><div class="spot" style="margin:0 0 8px">${ic('plus',18)}</div><div class="bs">Plant someone beside you</div></div>`}</div>
+     ${open.length?`<div class="bs" style="margin-top:10px;color:#8cc4f7">${nm(open[0].id)} hasn’t invested yet</div>`:`<div class="bs" style="margin-top:10px">Everyone invested</div>`}`:`<div class="bb"><div class="spot" style="margin:0 0 8px">${ic('plus',18)}</div><div class="bs">Invite someone to grow with you</div></div>`}</div>
     <div class="bnt" onclick="home('gt-ch')"><div class="bh">Challenges</div><div class="bb"><div class="big">${S.challenges.length||'Start one'}</div><div class="bs">${S.challenges.length?'running at once':'Bring people in'}</div></div></div>
     <div class="bnt" onclick="home('gt-oak')"><div class="bh">Your oak</div><div style="position:absolute;left:0;right:0;bottom:8px;display:flex;justify-content:center"><img src="${IMG[rstage(S.streak)[2]]}" style="height:${rstage(S.streak)[2]==='acorn'?60:96}px" alt=""></div></div>
     <div class="bnt" onclick="home('gt-oak')"><div class="bh">Oak extras</div><div class="bb"><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">${S.flourishes.filter(k=>FLIMG[k]).slice(0,4).map(k=>`<img src="${IMG[FLIMG[k]]}" style="height:30px" alt="${FLNAME[k]}">`).join('')||`<img src="${IMG.seedling}" style="height:30px;filter:grayscale(1);opacity:.4" alt="">`}</div><div class="bs">${S.flourishes.length} of 9 added</div></div></div>

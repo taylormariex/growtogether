@@ -13,8 +13,8 @@ const FOCUS_SPEC={
  'skip-and-stash':{title:'Skip and Stash',hub:'ss-hub',hubLabel:'Open Skip and Stash',
    go:"go('ss-hub')",
    side:'Skip something (coffee, takeout, a ride) and invest what you didn’t spend. Fill a jar to stash later, run a Skip Week with friends, and share the skips, never the amounts.'},
- split:{title:'Shared goals',hub:'sg-home',hubLabel:'Open the goal',
-   go:"T.sg=null;S.sg=null;save();go('sg-new')",
+ split:{title:'Shared goals',hub:'sg-list',hubLabel:'Open shared goals',
+   go:"T.sg=null;go('sg-list')",allow:['sg-list'],
    side:'Save for a trip or a first apartment with someone. Add a paycheck slice, a recurring transfer, or money anytime. Invite them by text, watch the journey fill in together, and share milestones. You both see progress, never each other’s dollars.'},
  year:{title:'Acorns Year',hub:'ac-home',hubLabel:'Start my year',
    go:"yrGo()",allow:['ac-home'],
@@ -55,7 +55,7 @@ function focusBoot(){const k=window.FOCUS;const F=FOCUS_SPEC[k];if(!F)return;
  focusStart()}
 function focusStart(){const k=window.FOCUS;if(k==='invite'){S.grove=[];S.notThem={}}jumpAhead();spInit();T={};stack=[{id:'focus-end',params:{}}];go('splash',{k,b:0},'fade')}
 function focusHub(){const k=window.FOCUS,F=FOCUS_SPEC[k];stack=[{id:'focus-end',params:{}}];
- if(k==='split'&&!S.sg){S.sg=sgDemo();save()}
+ if(k==='split'){sgAll()}
  if(k==='year'){yrGo();return}
  if(k==='invite'){jumpAhead();spInit();GSEL=null}
  go(F.hub,{},'fwd')}

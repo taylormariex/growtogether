@@ -438,3 +438,127 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .sg-amt{margin:18px 0 14px;text-align:center;font-size:56px;font-weight:600;letter-spacing:-1.5px}
 .sg-cta[disabled]{opacity:.4}
 </style>`);
+
+/* ================= Shared goals v3: the goal dashboard as a whole experience ================= */
+const SG_MS=[[10,'First step','sprout'],[25,'Quarter way','star'],[50,'Halfway','flag'],[75,'Almost there','peak'],[100,'Made it','trophy']];
+const SG_KIND={Trip:{ic:'plane',bg:'linear-gradient(160deg,#d7ecff 0%,#eef7ff 55%,#f6fbef 100%)',dest:'Lisbon'},Wedding:{ic:'rings',bg:'linear-gradient(160deg,#fde7ea,#fff5f1 55%,#f6fbef)',dest:'The big day'},'First apartment':{ic:'house',bg:'linear-gradient(160deg,#fff0d9,#fff8ee 55%,#f6fbef)',dest:'Move-in day'},Car:{ic:'car',bg:'linear-gradient(160deg,#dcf3ec,#f1fbf7 55%,#f6fbef)',dest:'Keys in hand'},'Something else':{ic:'star',bg:'linear-gradient(160deg,#e3f4d8,#f6fbef)',dest:'Done'}};
+function sgGlyph(k,sz,col){const c=col||'currentColor',st=`fill="none" stroke="${c}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"`;
+ const d={plane:`<path ${st} d="M21 4 3 11l7 2.6L12.6 21z"/><path ${st} d="M10 13.6 21 4"/>`,rings:`<circle ${st} cx="9" cy="14" r="5.5"/><circle ${st} cx="15.5" cy="12" r="5.5"/><path ${st} d="M13.5 4.5l2 2.2 2-2.2"/>`,house:`<path ${st} d="M3.5 11 12 4l8.5 7v9h-5.5v-5.5h-6V20H3.5z"/>`,car:`<path ${st} d="M4 16v-3.5L6.3 8h11.4L20 12.5V16z"/><circle ${st} cx="7.5" cy="16.5" r="1.8"/><circle ${st} cx="16.5" cy="16.5" r="1.8"/>`,star:`<path ${st} d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.6l1-5.8-4.3-4.1 5.9-.9z"/>`,
+ sprout:`<path ${st} d="M12 20v-8"/><path ${st} d="M12 12c0-4 3-6 7-6 0 4-3 6-7 6zM12 14c0-3-2.5-5-6-5 0 3 2.5 5 6 5z"/>`,flag:`<path ${st} d="M6 21V4"/><path ${st} d="M6 4.5h11l-2.5 4 2.5 4H6"/>`,peak:`<path ${st} d="M3 19 9.5 8l3.5 6 2-3 6 8z"/><path ${st} d="m8 10.5 1.5 1 1.5-1"/>`,trophy:`<path ${st} d="M7.5 4h9v5a4.5 4.5 0 0 1-9 0z"/><path ${st} d="M7.5 6H4.5a3 3 0 0 0 3 4M16.5 6h3a3 3 0 0 1-3 4M12 13.5V17M8.5 20h7M9.5 17h5"/>`};
+ return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true">${d[k]||d.star}</svg>`}
+function sgDemo(){return {name:'Lisbon trip',kind:'Trip',who:'sam',slice:5,ways:{pay:true,rec:true,any:true},recAmt:25,recFreq:'Weekly',pct:62,joined:true,by:'June 2027',weeks:[2,2,1,2,2,0,2,2,1,2,2,2],
+ log:[{w:'sam',t:'Sam’s paycheck slice landed',d:'Fri'},{w:'me',t:'You added money',d:'Wed'},{w:'ms',t:'You hit Halfway together',d:'Last week'},{w:'me',t:'Your recurring transfer landed',d:'Last Mon'}]}}
+function sgG(){const g=S.sg||sgDemo();if(!g.weeks)g.weeks=[];if(!g.log)g.log=[];if(!g.kind)g.kind='Trip';if(!g.by)g.by='June 2027';return g}
+/* journey path: two cubic segments, sampled for even spacing */
+const SGP=[[28,160],[96,162],[100,104],[170,104],[238,104],[246,50],[310,48]];
+function sgPathD(){const p=SGP;return `M${p[0]} C${p[1]} ${p[2]} ${p[3]} C${p[4]} ${p[5]} ${p[6]}`}
+const SGPT=(function(){const p=SGP,pts=[];const bz=(a,b,c,d,t)=>{const u=1-t;return [u*u*u*a[0]+3*u*u*t*b[0]+3*u*t*t*c[0]+t*t*t*d[0],u*u*u*a[1]+3*u*u*t*b[1]+3*u*t*t*c[1]+t*t*t*d[1]]};
+ for(let i=0;i<=60;i++)pts.push(bz(p[0],p[1],p[2],p[3],i/60));for(let i=1;i<=60;i++)pts.push(bz(p[3],p[4],p[5],p[6],i/60));
+ const L=[0];for(let i=1;i<pts.length;i++)L.push(L[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]));const tot=L[L.length-1];
+ return f=>{const want=tot*Math.max(0,Math.min(1,f));let i=L.findIndex(v=>v>=want);if(i<1)i=1;const r=(want-L[i-1])/((L[i]-L[i-1])||1);return [pts[i-1][0]+(pts[i][0]-pts[i-1][0])*r,pts[i-1][1]+(pts[i][1]-pts[i-1][1])*r]}})();
+function sgScene(g,p,o){o=o||{};const K=SG_KIND[g.kind]||SG_KIND.Trip;const [mx,my]=SGPT(p/100);const d=sgPathD();
+ const flags=SG_MS.slice(1,4).map(([v,l])=>{const [x,y]=SGPT(v/100);const on=p>=v;return `<g transform="translate(${x} ${y})"><circle r="7" fill="${on?'#3d9a1f':'#fff'}" stroke="${on?'#fff':'#c9d6c0'}" stroke-width="2"/>${on?'<path d="M-3 0l2 2 4-4" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>':''}<text y="22" text-anchor="middle" font-size="10" font-weight="600" fill="${on?'#2f5c1a':'#8a958c'}">${v}%</text></g>`}).join('');
+ return `<div class="sgx-scene" style="background:${K.bg}">
+  <svg class="sgx-clouds" viewBox="0 0 360 190" aria-hidden="true"><g fill="#fff" opacity=".85"><ellipse cx="70" cy="40" rx="26" ry="9"/><ellipse cx="88" cy="34" rx="16" ry="9"/><ellipse cx="250" cy="120" rx="22" ry="7"/><ellipse cx="266" cy="115" rx="13" ry="7"/></g><g fill="#74c947" opacity=".18"><ellipse cx="60" cy="196" rx="120" ry="34"/><ellipse cx="300" cy="200" rx="140" ry="30"/></g></svg>
+  <svg class="sgx-path" viewBox="0 0 360 190" aria-hidden="true"><path d="${d}" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/><path d="${d}" fill="none" stroke="#d5e3cc" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>
+   <path class="sgx-prog" d="${d}" pathLength="100" fill="none" stroke="#5fb83a" stroke-width="8" stroke-linecap="round" stroke-dasharray="${p} 100" style="--p:${p}"/>${flags}
+   <circle cx="${SGP[0][0]}" cy="${SGP[0][1]}" r="5" fill="#3d9a1f"/></svg>
+  <div class="sgx-dest" style="left:${SGP[6][0]/360*100}%;top:${SGP[6][1]/190*100}%"><span>${sgGlyph(K.ic,22,'#2f7a12')}</span><em>${K.dest}</em></div>
+  <div class="sgx-me ${o.anim?'anim':''}" style="left:${mx/360*100}%;top:${my/190*100}%"><span class="sgx-av2">${sgAv('me',26)}${sgAv(g.who,26)}</span></div>
+  ${o.noLabel?'':`<div class="sgx-kind">${sgGlyph(K.ic,14)} ${g.kind} · by ${g.by}</div>`}</div>`}
+function sgCount(el,from,to,ms){const n=el&&el.querySelector('[data-count]');if(!n)return;const t0=performance.now();const step=t=>{const k=Math.min(1,(t-t0)/(ms||900));const e=1-Math.pow(1-k,3);n.textContent=Math.round(from+(to-from)*e)+'%';if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)}
+function sgWeeks(g){const w=g.weeks.slice(-12);while(w.length<12)w.unshift(-1);const both=w.filter(v=>v===2).length,any=w.filter(v=>v>0).length;
+ return `<div class="sgx-card"><div class="sgx-ch"><div><b>Your rhythm</b><em>${any?`You both added ${both} of the last ${w.filter(v=>v>=0).length} weeks`:'Your first weeks show up here'}</em></div><span class="sgx-fire">${ic2('flame',14)} ${both}</span></div>
+  <div class="sgx-wk">${w.map((v,i)=>`<i class="w${v}" title="Week ${i+1}">${v===2?ic('check',11):''}</i>`).join('')}</div>
+  <div class="sgx-wl"><span>12 weeks ago</span><span>This week</span></div>
+  <div class="sgx-leg"><span><i class="w2"></i>You both added</span><span><i class="w1"></i>One of you</span><span><i class="w0"></i>No one yet</span></div></div>`}
+function sgBadges(p){return `<div class="sgx-card"><div class="sgx-ch"><div><b>Milestones</b><em>${SG_MS.filter(m=>p>=m[0]).length} of ${SG_MS.length} reached</em></div></div>
+  <div class="sgx-bd">${SG_MS.map(([v,l,ic0])=>`<div class="sgx-b ${p>=v?'on':''}"><span>${sgGlyph(ic0,22,p>=v?'#fff':'#9aa69c')}</span><b>${l}</b><em>${v}%</em></div>`).join('')}</div></div>`}
+function sgFeed(g){const ico=e=>e.w==='ms'?`<span class="sgx-fi ms">${sgGlyph('flag',16,'#fff')}</span>`:sgAv(e.w,34);
+ return `<div class="sgx-card"><div class="sgx-ch"><div><b>Activity</b><em>What’s happened, never how much</em></div></div>
+  ${g.log.length?g.log.slice(0,5).map((e,i)=>`<div class="sgx-f">${ico(e)}<span class="grow"><b>${e.t}</b><em>${e.d}</em></span>${e.w!=='me'?`<button class="sgx-cheer ${e.ch?'on':''}" onclick="sgG().log[${i}].ch=!sgG().log[${i}].ch;save();refresh()" aria-label="Cheer">${e.ch?'🎉':'Cheer'}</button>`:''}</div>`).join(''):`<div class="sgx-empty">Your first contribution will show up here.</div>`}</div>`}
+def('sg-home',()=>{const g=sgG();const who=nm(g.who);const p=g.pct||0;const next=SG_MS.find(m=>p<m[0]);const prev=T.sgPrev!=null?T.sgPrev:Math.max(0,p-12);
+ const ways=w=>[w.pay&&`${g.slice||5}% of each paycheck`,w.rec&&`$${g.recAmt||25} ${String(g.recFreq||'Weekly').toLowerCase()}`,w.any&&'Anytime'].filter(Boolean);
+ return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>${g.name}</b><button class="iconbtn" onclick="T.sg=Object.assign({},sgG());go('sg-new')" aria-label="Goal settings">${ic('gear',20)}</button></div>
+ <div class="sg-body sgx-body">
+  <div class="sgx-hero">${sgScene(g,p,{anim:1})}<div class="sgx-num"><b data-count>${p}%</b><em>saved together</em></div></div>
+  <div class="sgx-next">${next?`<div class="sgx-nl"><span>${sgGlyph(next[2],16,'#2f7a12')}</span><div class="grow"><b>Next: ${next[1]}</b><em>${next[0]-p}% to go</em></div></div><div class="sgx-nb"><i style="width:${Math.round((p-(SG_MS[SG_MS.indexOf(next)-1]||[0])[0])/(next[0]-(SG_MS[SG_MS.indexOf(next)-1]||[0])[0])*100)}%"></i></div>`:`<div class="sgx-nl"><span>${sgGlyph('trophy',16,'#2f7a12')}</span><div class="grow"><b>You made it, together</b><em>Time to book ${(SG_KIND[g.kind]||{}).dest||'it'}</em></div></div>`}</div>
+  <div class="sgx-acts"><button class="sgx-add" onclick="T.sga=25;go('sg-add')">${ic('plus',18)} Add money</button><button class="sgx-cb" onclick="toast('Cheer sent to ${who}')">${sgAv(g.who,24)} Cheer ${who}</button></div>
+  ${sgBadges(p)}${sgWeeks(g)}
+  <div class="sgx-card"><div class="sgx-ch"><div><b>Who’s adding</b><em>Each of you adds your own way</em></div></div>
+   <div class="sgx-p">${sgAv('me',38)}<div class="grow"><b>You</b><div class="sgx-chips">${ways(g.ways||{}).map(x=>`<span>${x}</span>`).join('')}</div></div><button class="sgx-edit" onclick="T.sg=Object.assign({},sgG());go('sg-new')">Edit</button></div>
+   <div class="sgx-p">${sgAv(g.who,38)}<div class="grow"><b>${who}</b><div class="sgx-chips">${g.joined?'<span>Paycheck slice</span><span>Anytime</span>':`<span class="wait">${g.who==='jess'?'Link sent · not on Acorns yet':'Invite sent'}</span>`}</div></div>${g.joined?'':`<button class="sgx-edit" onclick="${g.who==='jess'?"go('sg-join')":`S.sg&&(S.sg.joined=true);save();refresh();toast('${who} joined')`}">${g.who==='jess'?'Preview':'Remind'}</button>`}</div></div>
+  ${sgFeed(g)}
+  <p class="sgx-priv">${ic('lock',12)} ${who} sees progress and activity, never your dollars or balance. Either of you can leave anytime and keep what you saved.</p>
+  <div class="sgx-proto"><span>Prototype</span><button onclick="sgPayday()">Payday lands</button><button onclick="sgFriendAdds()">${who} adds money</button></div>
+ </div>`,mount(el){sgCount(el,prev,p,1000);T.sgPrev=null}}});
+function sgBump(n,entry){const g=S.sg||(S.sg=sgDemo());const from=g.pct||0;g.pct=Math.min(100,from+n);g.log.unshift(entry);const crossed=SG_MS.find(m=>from<m[0]&&g.pct>=m[0]);if(crossed)g.log.unshift({w:'ms',t:`You hit ${crossed[1]} together`,d:'Just now'});save();return [from,g.pct,crossed]}
+function sgPayday(){const g=S.sg||(S.sg=sgDemo());g.weeks.push(g.joined?2:1);const [f,t,c]=sgBump(g.joined?6:3,{w:g.joined?g.who:'me',t:g.joined?`Paydays landed for you and ${nm(g.who)}`:'Your paycheck slice landed',d:'Just now'});T.sgPrev=f;if(c){replace('sg-added',{from:f,to:t,ms:c[0],auto:1})}else{refresh();toast('Payday: slices landed')}}
+function sgFriendAdds(){const g=S.sg||(S.sg=sgDemo());if(!g.joined){toast(`${nm(g.who)} hasn’t joined yet`);return}const [f,t,c]=sgBump(4,{w:g.who,t:`${nm(g.who)} added money`,d:'Just now'});T.sgPrev=f;if(c){replace('sg-added',{from:f,to:t,ms:c[0],friend:1})}else{refresh();toast(`${nm(g.who)} added money`)}}
+def('sg-add',()=>{const g=sgG();if(!T.sga)T.sga=25;const p=g.pct||0;const step=v=>Math.max(1,Math.round(v/8));const to=Math.min(100,p+step(T.sga));const cross=SG_MS.find(m=>p<m[0]&&to>=m[0]);
+ return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Add money</b><span style="width:44px"></span></div>
+ <div class="sg-body sgx-body"><div class="sgx-addh">${sgScene(g,to,{noLabel:1})}</div>
+  <div class="sgx-amt"><span>$</span>${T.sga}</div><div class="sgx-amts">${[10,25,50,100].map(v=>`<button class="${T.sga===v?'on':''}" onclick="T.sga=${v};refresh()">$${v}</button>`).join('')}</div>
+  <div class="sgx-move"><div><em>Now</em><b>${p}%</b></div><span>${ic('back',16,'transform:rotate(180deg)')}</span><div class="to"><em>After</em><b>${to}%</b></div></div>
+  ${cross?`<div class="sgx-unlock"><span>${sgGlyph(cross[2],18,'#fff')}</span><div><b>This unlocks ${cross[1]}</b><em>${nm(g.who)} gets to celebrate it with you</em></div></div>`:''}
+  <div class="sgx-card" style="padding:4px 16px">${[['From','Everyday Checking ••4821'],['Goes to','Your Acorns account, set aside for this goal'],[`${nm(g.who)} sees`,'The goal move, not this amount']].map(([k,v])=>`<div class="sg-r"><span>${k}</span><b>${v}</b></div>`).join('')}</div>
+  <p class="sgx-priv" style="margin-top:12px">Placeholder disclosure. Transfers usually arrive in 1–3 business days.</p></div>
+ <div class="sg-foot"><button class="btn sg-cta" onclick="sgAddGo()">Add $${T.sga}</button></div>`}});
+function sgAddGo(){const g=S.sg||(S.sg=sgDemo());const n=Math.max(1,Math.round(T.sga/8));const [f,t,c]=sgBump(n,{w:'me',t:'You added money',d:'Just now'});if(g.weeks.length)g.weeks[g.weeks.length-1]=Math.max(g.weeks[g.weeks.length-1],1);else g.weeks.push(1);save();replace('sg-added',{from:f,to:t,ms:c?c[0]:0})}
+def('sg-added',p=>{const g=sgG();const m=SG_MS.find(x=>x[0]===p.ms);const who=nm(g.who);
+ return {cls:'lt sgs sgx sgx-cel',html:`<div class="sg-top"><span style="width:44px"></span><span></span><button class="iconbtn" onclick="T.sgPrev=${p.to};back()" aria-label="Close">${ic('close',22)}</button></div>
+ <div class="sgx-celb">${m?`<div class="sgx-badge pop"><span>${sgGlyph(m[2],44,'#fff')}</span></div><div class="sgx-ek">Milestone unlocked</div><h1>${m[1]}!</h1><p>${p.friend?`${who} just added to ${g.name}, and you crossed ${m[0]}% together.`:`You and ${who} are ${m[0]}% of the way to ${g.name}.`}</p>`:`<div class="sgx-ring2">${sgRing(p.to,190)}<div class="sg-rc"><b data-count>${p.to}%</b><em>together</em></div></div><div class="sgx-ek">Added to ${g.name}</div><h1>+${p.to-p.from}% closer</h1><p>${who} gets a heads-up that the goal grew. Not the amount.</p>`}
+  <div class="sgx-mini">${sgScene(g,p.to,{noLabel:1})}</div>${(()=>{const nx=SG_MS.find(x=>p.to<x[0]);return nx?`<div class="sgx-next" style="width:100%;text-align:left"><div class="sgx-nl"><span>${sgGlyph(nx[2],16,'#2f7a12')}</span><div class="grow"><b>Next: ${nx[1]}</b><em>${nx[0]-p.to}% to go</em></div></div></div>`:''})()}</div>
+ <div class="sg-foot sgx-two"><button class="btn sg-cta ghost" onclick="toast('Share card ready: ${m?m[1]:'Progress'} · ${p.to}% (simulated)')">${ic('share',16)} Share</button><button class="btn sg-cta" onclick="T.sgPrev=${p.to};back()">Done</button></div>`,
+ mount(el){sgCount(el,p.from,p.to,900);if(m)setTimeout(()=>{ART.confetti($('#screen'),110);haptic(30)},250)}}});
+document.head.insertAdjacentHTML('beforeend',`<style>
+.scr.sgx{background:#f5f7f2!important}.sgx .sg-top{background:#f5f7f2}
+.sgx-body{padding:4px 16px 32px!important}
+.sgx-hero{position:relative}
+.sgx-scene{position:relative;height:210px;border-radius:28px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.sgx-clouds,.sgx-path{position:absolute;inset:0;width:100%;height:100%}
+.sgx-prog{animation:sgxDraw 1.1s .15s cubic-bezier(.3,.8,.3,1) both}@keyframes sgxDraw{from{stroke-dasharray:0 100}}
+.sgx-dest{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px}.sgx-dest span{width:46px;height:46px;border-radius:23px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(30,60,20,.15)}.sgx-dest em{font-style:normal;font-size:11px;font-weight:700;color:#2f5c1a;background:rgba(255,255,255,.85);padding:2px 8px;border-radius:8px}
+.sgx-me{position:absolute;transform:translate(-50%,-50%)}.sgx-me.anim{animation:sgxIn .9s .25s cubic-bezier(.2,1.3,.4,1) both}@keyframes sgxIn{from{opacity:0;transform:translate(-50%,-30%) scale(.6)}}
+.sgx-av2{display:flex;padding:3px;border-radius:20px;background:#fff;box-shadow:0 6px 16px rgba(30,60,20,.2)}.sgx-av2 .sg-av+.sg-av{margin-left:-6px}
+.sgx-kind{position:absolute;left:14px;top:14px;display:flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:14px;background:rgba(255,255,255,.85);font-size:12px;font-weight:600;color:#2f4a26}
+.sgx-num{position:absolute;left:18px;top:50px}.sgx-num b{display:block;font-size:46px;font-weight:700;letter-spacing:-1.5px;line-height:1;color:#163d0c}.sgx-num em{display:block;font-style:normal;font-size:13px;font-weight:600;color:#3f5a37;margin-top:2px}
+.sgx-next{margin-top:12px;padding:14px 16px;border-radius:20px;background:#fff}.sgx-nl{display:flex;align-items:center;gap:12px}.sgx-nl>span{width:36px;height:36px;border-radius:18px;background:#e8f5df;display:flex;align-items:center;justify-content:center;flex:none}.sgx-nl b{display:block;font-size:15px}.sgx-nl em{display:block;font-style:normal;font-size:13px;color:#6b706c;margin-top:1px}
+.sgx-nb{margin-top:12px;height:8px;border-radius:4px;background:#eceeea;overflow:hidden}.sgx-nb i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#9bd77a,#3d9a1f);animation:sgxBar 1s .3s both}@keyframes sgxBar{from{width:0}}
+.sgx-acts{display:flex;gap:10px;margin-top:12px}.sgx-add{flex:1;height:54px;border-radius:27px;background:#74c947;color:#0a1d08;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 16px rgba(80,160,40,.3)}
+.sgx-cb{height:54px;padding:0 16px 0 10px;border-radius:27px;background:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;color:#191919}
+.sgx-card{margin-top:12px;padding:16px;border-radius:22px;background:#fff}.sgx-ch{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}.sgx-ch b{display:block;font-size:16px}.sgx-ch em{display:block;font-style:normal;font-size:13px;color:#6b706c;margin-top:2px}
+.sgx-fire{display:flex;align-items:center;gap:4px;height:26px;padding:0 10px;border-radius:13px;background:#3d9a1f;color:#fff;font-size:13px;font-weight:600}
+.sgx-bd{display:flex;gap:6px}.sgx-b{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}.sgx-b span{width:48px;height:48px;border-radius:24px;background:#eef1ec;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1.5px #e1e6dd}
+.sgx-b.on span{background:linear-gradient(145deg,#7cd14e,#2f8a14);box-shadow:0 6px 14px rgba(60,140,30,.3)}.sgx-b b{font-size:11px;line-height:1.2;color:#8a958c}.sgx-b.on b{color:#191919}.sgx-b em{font-style:normal;font-size:10px;color:#9aa69c;margin-top:-4px}
+.sgx-wk{display:grid;grid-template-columns:repeat(12,1fr);gap:5px}.sgx-wk i,.sgx-leg i{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff}
+.w2{background:#3d9a1f}.w1{background:#b8e29c}.w0{background:#eef1ec;box-shadow:inset 0 0 0 1.5px #e1e6dd}.w-1{background:transparent;box-shadow:inset 0 0 0 1.5px dashed #e1e6dd;border:1.5px dashed #e1e6dd}
+.sgx-wl{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:#9aa69c}
+.sgx-leg{display:flex;gap:14px;margin-top:12px;padding-top:12px;border-top:1px solid #f0f2ee;font-size:12px;color:#6b706c}.sgx-leg span{display:flex;align-items:center;gap:6px}.sgx-leg i{width:12px;height:12px}
+.sgx-p{display:flex;align-items:center;gap:12px;padding:10px 0}.sgx-p+.sgx-p{border-top:1px solid #f0f2ee}.sgx-p b{display:block;font-size:15px}
+.sgx-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.sgx-chips span{height:24px;padding:0 9px;border-radius:12px;background:#eef6e8;color:#2f5c1a;font-size:12px;font-weight:600;display:flex;align-items:center}.sgx-chips span.wait{background:#fdf3d3;color:#6b5310}
+.sgx-edit{height:32px;padding:0 12px;border-radius:16px;background:#f0f2ee;font-size:13px;font-weight:600;color:#191919}
+.sgx-f{display:flex;align-items:center;gap:12px;padding:10px 0}.sgx-f+.sgx-f{border-top:1px solid #f0f2ee}.sgx-f b{display:block;font-size:14px;font-weight:600}.sgx-f em{display:block;font-style:normal;font-size:12px;color:#8a958c;margin-top:1px}
+.sgx-fi{width:34px;height:34px;border-radius:17px;display:flex;align-items:center;justify-content:center;flex:none}.sgx-fi.ms{background:linear-gradient(145deg,#7cd14e,#2f8a14)}
+.sgx-cheer{height:30px;padding:0 12px;border-radius:15px;background:#f0f2ee;font-size:12px;font-weight:600;color:#191919}.sgx-cheer.on{background:#fff4d6}
+.sgx-empty{padding:12px 0;font-size:14px;color:#8a958c}
+.sgx-priv{display:flex;gap:6px;margin:16px 4px 0;font-size:12px;line-height:1.45;color:#7a837c}.sgx-priv svg{flex:none;margin-top:2px}
+.sgx-proto{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:14px 0 0;padding:10px 12px;border-radius:16px;border:1.5px dashed #e6d9a8;background:#fffbea}.sgx-proto span{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8a6d12;margin-right:4px}.sgx-proto button{height:30px;padding:0 12px;border-radius:15px;background:#fdf0c2;color:#5e4a0c;font-size:12px;font-weight:600}
+.sgx-addh .sgx-scene{height:150px}
+.sgx-amt{margin-top:18px;text-align:center;font-size:60px;font-weight:600;letter-spacing:-2px;line-height:1}.sgx-amt span{font-size:32px;vertical-align:22px;margin-right:2px;color:#6b706c}
+.sgx-amts{display:flex;gap:8px;margin-top:16px}.sgx-amts button{flex:1;height:46px;border-radius:14px;background:#fff;font-size:16px;font-weight:600;color:#191919;box-shadow:inset 0 0 0 1.5px #e3e7df}.sgx-amts button.on{background:#191919;color:#fff;box-shadow:none}
+.sgx-move{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:16px;padding:14px;border-radius:20px;background:#fff}.sgx-move div{text-align:center}.sgx-move em{display:block;font-style:normal;font-size:12px;color:#8a958c}.sgx-move b{display:block;font-size:26px;font-weight:700;color:#8a958c}.sgx-move .to b{color:#2f8a14}.sgx-move span{color:#b5bdb2}
+.sgx-unlock{display:flex;align-items:center;gap:12px;margin-top:12px;padding:12px 14px;border-radius:18px;background:linear-gradient(100deg,#2f7a12,#4fae2c);color:#fff}.sgx-unlock>span{width:38px;height:38px;border-radius:19px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex:none}.sgx-unlock b{display:block;font-size:15px}.sgx-unlock em{display:block;font-style:normal;font-size:12px;opacity:.85}
+.scr.sgx-cel{background:radial-gradient(circle at 50% 30%,#e6f7d9,#f5f7f2 60%)!important}
+.sgx-celb{position:absolute;left:0;right:0;top:calc(var(--safeTop) + 50px);bottom:calc(var(--safeBot) + 92px);display:flex;flex-direction:column;align-items:center;padding:20px 28px 0;text-align:center;overflow:hidden}
+.sgx-badge{width:120px;height:120px;border-radius:60px;background:linear-gradient(145deg,#8ad85f,#2f8a14);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 10px rgba(116,201,71,.18),0 18px 40px rgba(60,140,30,.35)}.sgx-badge.pop{animation:sgxPop .7s cubic-bezier(.2,1.5,.4,1) both}@keyframes sgxPop{from{transform:scale(.3) rotate(-20deg);opacity:0}}
+.sgx-ring2{position:relative;display:inline-flex;animation:sgxPop .6s both}
+.sgx-ek{margin-top:22px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#3d8a1b}
+.sgx-celb h1{margin:6px 0 0;font-size:34px;line-height:1.1;font-weight:700;letter-spacing:-.5px;color:#163d0c}.sgx-celb p{margin:10px 0 0;font-size:16px;line-height:1.45;color:#4a524c;max-width:300px}
+.sgx-mini{width:100%;margin-top:30px}.sgx-mini .sgx-scene{height:140px}
+.sgx-two{display:flex;gap:10px}.sgx-two .sg-cta{flex:1;display:flex;align-items:center;justify-content:center;gap:6px}
+</style>`);
+
+LV.goalring=()=>{const g=sgDemo();return `${ldGlow()}<div class="lv-mid"><div class="sgx-lcard rise"><div class="sgx-hero">${sgScene(g,62,{})}<div class="sgx-num"><b>62%</b><em>saved together</em></div></div><div class="sgx-bd" style="margin-top:14px">${SG_MS.map(([v,l,i0])=>`<div class="sgx-b ${62>=v?'on':''}"><span style="width:38px;height:38px">${sgGlyph(i0,18,62>=v?'#fff':'#9aa69c')}</span><b>${l}</b></div>`).join('')}</div></div></div>`};
+document.head.insertAdjacentHTML('beforeend',`<style>.sgx-lcard{width:320px;padding:10px 10px 14px;border-radius:30px;background:#f5f7f2;box-shadow:0 24px 50px rgba(0,0,0,.45)}.sgx-lcard .sgx-scene{height:190px;border-radius:22px}.sgx-lcard .sgx-num b{font-size:38px}</style>`);
+LFX.split[3]=()=>`<div class="lx lx-card"><span class="lx-img" style="background:linear-gradient(145deg,#7cd14e,#2f8a14);align-items:center">${sgGlyph('flag',22,'#fff')}</span><div><em class="lx-k">Milestone unlocked</em><b>Halfway, together</b><em>You and Sam crossed 50%</em></div></div>`;

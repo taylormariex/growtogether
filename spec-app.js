@@ -104,7 +104,9 @@ Object.keys(SCR).forEach(id=>{if(!LIGHT_IDS.test(id)||id==='ss-lock')return;cons
 (function(){const f=SCR['mt2-reveal'];SCR['mt2-reveal']=p=>{const r=f(p);const t=MT2[S.mt2.type||'steady'];const plan=t.plan;
   const cta=plan==='ru'?btn('Turn on Round-Ups®',"S.ret='mt2-reveal';go('ac-ru')",'pri'):btn('Set up Recurring',"S.ret='mt2-reveal';T={};go('rec-1')",'pri');
   const alt=plan==='both'?btn('Turn on Round-Ups® too',"S.ret='mt2-reveal';go('ac-ru')",'line','style="color:#191919"'):'';
-  r.html=r.html.replace(/<div class="foot">[\s\S]*$/,`<div class="foot">${cta}${alt}${btn(`${ic('share',18)} Share my type`,"S.mtShared=true;T.sbT=undefined;T.sbName=undefined;go('share-b',{kind:'type'})",'ghost','style="color:#191919"')}</div>`);
+  r.html=r.html.replace(/<div class="foot">[\s\S]*$/,`<div class="foot">${cta}${alt?`<button class="mt-alt" onclick="S.ret='mt2-reveal';go('ac-ru')">Turn on Round-Ups® too</button>`:''}</div>`);
+  r.html=r.html.replace(`<button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button>`,`<button class="iconbtn" onclick="S.mtShared=true;T.sbT=undefined;T.sbName=undefined;go('share-b',{kind:'type'})" aria-label="Share my type">${ic('share',22)}</button>`);
+  r.html=r.html.replace(/You’re a (In-the-Moment)/,'You’re an $1');
   r.html=r.html.replace('About habits only. It doesn’t change your portfolio or risk.','About habits only. It doesn’t change your portfolio or risk. Setup happens in the Recurring and Round-Ups® you already have.');return r}})();
 /* paycheck prompt goes to the real Money Manager */
 (function(){const n=nbgCands;nbgCands=function(){return n().map(c=>c.k==='pay'?Object.assign(c,{t:'Your paycheck landed.',s:'Money Manager will split it the way you set. Tap to see it grow your oak.',cta:'Open',act:"go('ac-mm')"}):c)}})();
@@ -320,4 +322,18 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .stu-tip{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:14px;background:rgba(61,138,27,.10);color:#2f4a26;font-size:13px}.stu-tip svg{color:#3d8a1b;flex:none}
 .stu-dots{display:flex;gap:6px}.stu-dots i{width:7px;height:7px;border-radius:4px;background:#cfd8ca}.stu-dots i.on{width:20px;background:#3d8a1b}
 .stu-btn{width:100%;background:#3d8a1b!important;color:#fff!important;opacity:1!important}
+</style>`);
+
+document.head.insertAdjacentHTML('beforeend','<style>.mt-alt{display:block;width:100%;height:40px;font-size:14px;font-weight:600;color:#2f7a12}</style>');
+
+/* Money Type reveal, light: hero shorter so the body breathes; recommendation card as a row */
+(function(){const f=SCR['mt2-reveal'];SCR['mt2-reveal']=p=>{const r=f(p);r.cls=(r.cls||'')+' mtr';
+  r.html=r.html.replace('About habits only. It doesn’t change your portfolio or risk. Setup happens in the Recurring and Round-Ups® you already have.','About habits only. Nothing here changes your portfolio or risk.');return r}})();
+document.head.insertAdjacentHTML('beforeend',`<style>
+.scr.mtr .hero-wrap .os,.scr.mtr .hero-wrap .sk-hero{height:230px!important}
+.scr.mtr>.body{min-height:0;overflow-y:auto;padding-top:14px}
+.scr.mtr .h1{font-size:28px}
+.scr.mtr .card.dk{background:#f5f7f2!important;border:0;padding:14px 16px}
+.scr.mtr .card.dk .sk-badge{width:48px;height:48px;border-radius:14px;background:linear-gradient(#e4f5d4,#c4e8a6)}
+.scr.mtr>.foot{padding-top:10px;background:linear-gradient(180deg,rgba(255,255,255,0),#fff 30%)}
 </style>`);

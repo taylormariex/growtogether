@@ -23,6 +23,7 @@ FOCUS = {
     'shared-goals':   ('split',          'Shared goals'),
     'acorns-year':    ('year',           'Acorns Year'),
     'invite':         ('invite',         'Invite to your grove'),
+    'know-yourself':  ('money-type',     'Know yourself'),
 }
 
 def read(name):

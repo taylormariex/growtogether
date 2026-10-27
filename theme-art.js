@@ -12,7 +12,7 @@ ART.hills=function(opt){opt=opt||{};const dark=!!opt.dark&&!window.__LIGHT;
   let t1='',t2='';for(let i=0;i<22;i++){t1+=`<circle cx="${i*19}" cy="${34-((i*53)%10)}" r="${14+((i*37)%8)}"/>`}for(let i=0;i<17;i++){t2+=`<circle cx="${i*25+6}" cy="${44-((i*41)%8)}" r="${13+((i*29)%7)}"/>`}
   return `<div style="position:absolute;inset:0;overflow:hidden;background:linear-gradient(180deg,#0b1f09 0%,#0d2a0a 55%,#12350e 100%)" aria-hidden="true">
    <div style="position:absolute;left:10%;right:10%;bottom:22%;height:60%;border-radius:50%;background:radial-gradient(closest-side,rgba(116,201,71,.22),transparent)"></div>
-   <svg viewBox="0 0 400 60" preserveAspectRatio="none" style="position:absolute;left:0;bottom:30%;width:100%;height:20%"><g fill="#123a0f">${t1}<rect x="0" y="34" width="400" height="26"/></g><g fill="#195016">${t2}<rect x="0" y="44" width="400" height="16"/></g></svg>
+   <svg viewBox="0 0 400 150" preserveAspectRatio="none" style="position:absolute;left:0;bottom:0;width:100%;height:50%"><g fill="#123a0f">${t1}<rect x="0" y="34" width="400" height="116"/></g><g fill="#195016">${t2}<rect x="0" y="44" width="400" height="106"/></g></svg>
    <div style="position:absolute;left:-35%;right:-35%;bottom:-64%;height:98%;border-radius:50%;background:radial-gradient(ellipse 60% 55% at 50% 4%,#79cf4c 0%,#4a9a2b 28%,#2a6a1b 55%,#17420f 80%);box-shadow:inset 0 3px 0 rgba(188,234,163,.25)"></div>
    <div style="position:absolute;left:0;right:0;bottom:0;height:24%;background:linear-gradient(180deg,rgba(11,31,9,0),#0b1f09)"></div>
   </div>`};

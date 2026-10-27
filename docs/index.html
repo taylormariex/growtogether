@@ -985,7 +985,7 @@ ART.hills=function(opt){opt=opt||{};const dark=!!opt.dark&&!window.__LIGHT;
   let t1='',t2='';for(let i=0;i<22;i++){t1+=`<circle cx="${i*19}" cy="${34-((i*53)%10)}" r="${14+((i*37)%8)}"/>`}for(let i=0;i<17;i++){t2+=`<circle cx="${i*25+6}" cy="${44-((i*41)%8)}" r="${13+((i*29)%7)}"/>`}
   return `<div style="position:absolute;inset:0;overflow:hidden;background:linear-gradient(180deg,#0b1f09 0%,#0d2a0a 55%,#12350e 100%)" aria-hidden="true">
    <div style="position:absolute;left:10%;right:10%;bottom:22%;height:60%;border-radius:50%;background:radial-gradient(closest-side,rgba(116,201,71,.22),transparent)"></div>
-   <svg viewBox="0 0 400 60" preserveAspectRatio="none" style="position:absolute;left:0;bottom:30%;width:100%;height:20%"><g fill="#123a0f">${t1}<rect x="0" y="34" width="400" height="26"/></g><g fill="#195016">${t2}<rect x="0" y="44" width="400" height="16"/></g></svg>
+   <svg viewBox="0 0 400 150" preserveAspectRatio="none" style="position:absolute;left:0;bottom:0;width:100%;height:50%"><g fill="#123a0f">${t1}<rect x="0" y="34" width="400" height="116"/></g><g fill="#195016">${t2}<rect x="0" y="44" width="400" height="106"/></g></svg>
    <div style="position:absolute;left:-35%;right:-35%;bottom:-64%;height:98%;border-radius:50%;background:radial-gradient(ellipse 60% 55% at 50% 4%,#79cf4c 0%,#4a9a2b 28%,#2a6a1b 55%,#17420f 80%);box-shadow:inset 0 3px 0 rgba(188,234,163,.25)"></div>
    <div style="position:absolute;left:0;right:0;bottom:0;height:24%;background:linear-gradient(180deg,rgba(11,31,9,0),#0b1f09)"></div>
   </div>`};
@@ -2984,7 +2984,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 10:18 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 10:20 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -4477,7 +4477,7 @@ LV.alone=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" styl
 document.head.insertAdjacentHTML('beforeend',`<style>
 .ld-art::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:34%;background:linear-gradient(180deg,rgba(34,42,32,0),#222a20 92%);pointer-events:none;z-index:4}
 .ld-art::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 55% at 50% 58%,rgba(116,201,71,.16),transparent 70%);pointer-events:none;z-index:1}
-.lv-forest{overflow:hidden}.lv-forest svg{transform:scale(1.08);transform-origin:50% 100%}
+.lv-forest{overflow:hidden}
 .ld-line{font-size:26px;line-height:1.26;letter-spacing:-.4px;padding:14px 30px 0;max-width:360px;margin:0 auto;text-wrap:balance}
 .ld-kick{display:block;margin-bottom:12px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8fbf74;line-height:1}
 .ld-line.ld-line{font-size:27px;line-height:1.24;letter-spacing:-.4px;padding:0 30px}

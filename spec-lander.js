@@ -715,7 +715,7 @@ LV.alone=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" styl
 document.head.insertAdjacentHTML('beforeend',`<style>
 .ld-art::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:34%;background:linear-gradient(180deg,rgba(34,42,32,0),#222a20 92%);pointer-events:none;z-index:4}
 .ld-art::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 55% at 50% 58%,rgba(116,201,71,.16),transparent 70%);pointer-events:none;z-index:1}
-.lv-forest{overflow:hidden}.lv-forest svg{transform:scale(1.08);transform-origin:50% 100%}
+.lv-forest{overflow:hidden}
 .ld-line{font-size:26px;line-height:1.26;letter-spacing:-.4px;padding:14px 30px 0;max-width:360px;margin:0 auto;text-wrap:balance}
 .ld-kick{display:block;margin-bottom:12px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8fbf74;line-height:1}
 .ld-line.ld-line{font-size:27px;line-height:1.24;letter-spacing:-.4px;padding:0 30px}

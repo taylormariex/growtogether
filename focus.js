@@ -10,9 +10,9 @@
    the full build.
    ===================================================================== */
 const FOCUS_SPEC={
- 'skip-and-stash':{title:'Skip and Stash',hub:'ss-hub',hubLabel:'Open Skip and Stash',
+ 'skip-and-stash':{title:'Skip and Invest',hub:'ss-hub',hubLabel:'Open Skip and Invest',
    go:"go('ss-hub')",
-   side:'Skip something (coffee, takeout, a ride) and invest what you didn’t spend. Fill a jar to stash later, run a Skip Week with friends, and share the skips, never the amounts.'},
+   side:'Skip something (coffee, takeout, a ride) and invest what you didn’t spend. Fill a jar to invest later, run a Skip Week with friends, and share the skips, never the amounts.'},
  split:{title:'Shared goals',hub:'sg-list',hubLabel:'Open shared goals',
    go:"T.sg=null;go('sg-list')",allow:['sg-list'],
    side:'Save for a trip or a first apartment with someone. Add a paycheck slice, a recurring transfer, or money anytime. Invite them by text, watch the journey fill in together, and share milestones. You both see progress, never each other’s dollars.'},

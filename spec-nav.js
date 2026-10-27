@@ -10,7 +10,7 @@
 function heroCard(){spInit();const c=[];const gr=growing();const open=gr.filter(x=>x.open&&!S.watered[x.id]);
   if(!S.mt2||!S.mt2.done)c.push({k:'mt',e:'Find your money type',t:'Not sure where to start? <g>Take a 1-minute quiz</g>',img:'seedling',a:"go('splash',{k:'money-type'})"});
   if(open.length)c.push({k:'rain',e:'Grow together',t:`${nm(open[0].id)} hasn’t invested this week. <g>Send a nudge</g>`,img:'learn',a:"home('gt-grove')"});
-  c.push({k:'skip',e:'Skip and stash',t:'Skipped a coffee today? <g>Invest what you saved</g>',img:'roundup',a:"go('splash',{k:'skip-and-stash'})"});
+  c.push({k:'skip',e:'Skip and invest',t:'Skipped a coffee today? <g>Invest what you saved</g>',img:'roundup',a:"go('splash',{k:'skip-and-stash'})"});
   c.push({k:'yr',e:'Monthly recap',t:'Your October recap <g>is ready to view</g>',img:'later',a:"T={si:0};go('recap',{m:9})"});
   const hid=S.heroHide||{};const l=c.filter(x=>!hid[x.k]);return l[(S.heroIdx||0)%Math.max(1,l.length)]||null}
 /* Kids (existing) → Acorns Early → Future Club lives on the kid’s page */
@@ -51,7 +51,7 @@ RV_GO.splice(1,0,['Your first week','The existing Streaks intro after funding',"
 .ach-scroll>.nw-legend{position:sticky;top:0;display:flex;align-items:center;gap:8px;margin:0;left:auto;right:auto;padding:calc(var(--safeTop) + 6px) 14px 8px;background:#191919;color:#fff;font-size:12px;line-height:1.35}
 .nw-legend span{flex:1}.nw-legend b{color:#ffd24a}.nw-legend button{width:32px;height:32px;color:#fff;display:flex;align-items:center;justify-content:center}`;document.head.appendChild(st)})();
 /* Guide → Explore lists only the new ideas */
-(function(){const keep=[['Money Type','Money Type','Three habit questions set up Recurring or Round-Ups'],['Skip and Stash','Skip and Stash','Skip a spend, invest it right away'],['Future Club','Future Club','Family adds notes; gifts go to kids through Giftlinks'],['Acorns Year','Acorns Year and share cards','Shows weeks and oak extras, never amounts'],['Invite someone','Invite to your grove','One person, one weekly day. Their first investment plants a tree'],['Money Manager, growing','Shared goals','Save for a goal with someone, your way']];
+(function(){const keep=[['Money Type','Money Type','Three habit questions set up Recurring or Round-Ups'],['Skip and Invest','Skip and Invest','Skip a spend, invest it right away'],['Future Club','Future Club','Family adds notes; gifts go to kids through Giftlinks'],['Acorns Year','Acorns Year and share cards','Shows weeks and oak extras, never amounts'],['Invite someone','Invite to your grove','One person, one weekly day. Their first investment plants a tree'],['Money Manager, growing','Shared goals','Save for a goal with someone, your way']];
   const m={};RV_GO.forEach(x=>m[x[0]]=x);RV_GO.length=0;keep.forEach(([k,t,d])=>m[k]&&RV_GO.push([t,d,m[k][2]]))})();
 (function(){const f=rvHTML;rvHTML=function(first){return f(first).replace(/<div class="rv-sec">This week, Jordan has…<\/div>[\s\S]*?(?=<div class="rv-foot">)/,'').replace('>Explore<','>The ideas<').replace('Jump anywhere, or make something happen.','Pick an idea to see how it works.')}})();
 

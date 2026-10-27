@@ -32,8 +32,8 @@ const LANDERS={
   t:'Invite someone',s:'No oak grows alone. Invite the person you’d call first with good news. You see each other’s weeks, never a balance. Rewards follow the Referrals program.',where:'Lives in Profile → Invite friends, and any open spot in your grove.',cta:'Invite someone'},
  'money-type':{name:'Know yourself',beats:[['kyalone','You know your coffee order and your side of the bed. Do you know how you are with money?'],['kyfour','Short quizzes, a minute each. How money reaches you. What you save for. Where it slips. Who you grow with.'],['kytype','Each one hands you a type. Not a score, not a grade. A mirror.'],['kylearn','Then one thing to learn and one thing to try, built for that type. Not a lecture. A next step.'],['kyyear','The more you know about yourself, the easier money gets. Start with any of them.']],
   t:'Know yourself',s:'Short quizzes about how you actually are with money, a minute each. Take one when you feel like it. Each ends with a type, something to learn and something to try.',where:'Right after sign-up, and a banner on Home.',cta:'Pick a quiz'},
- 'skip-and-stash':{name:'Skip and Stash',beats:[['sswhy','Some days you make coffee at home. Walk instead of ride. Cook instead of order.'],['coffee','That’s real money you didn’t spend. And usually, it just melts back into the week like it was never there.'],['skipinv','Now it has somewhere to go. One tap, and the $6 you didn’t spend on coffee is invested. Your oak grows a little.'],['ssweeks','Do that most days and you can watch it add up. $84 in October, from things you were going to skip anyway.'],['ssfriends','Do it with friends for a week and it stops being a sacrifice. It turns into a game you’re all winning.']],
-  t:'Skip it, stash it',s:'The small things you skip are already worth something. Now they grow. One tap to invest a skip, a jar to save them up, or a Skip Week with friends.',where:'Lives in a banner on Home, and in reminders you set.',cta:'Start stashing'},
+ 'skip-and-stash':{name:'Skip and Invest',beats:[['sswhy','Some days you make coffee at home. Walk instead of ride. Cook instead of order.'],['coffee','That’s real money you didn’t spend. And usually, it just melts back into the week like it was never there.'],['skipinv','Now it has somewhere to go. One tap, and the $6 you didn’t spend on coffee is invested. Your oak grows a little.'],['ssweeks','Do that most days and you can watch it add up. $84 in October, from things you were going to skip anyway.'],['ssfriends','Do it with friends for a week and it stops being a sacrifice. It turns into a game you’re all winning.']],
+  t:'Skip it, invest it',s:'The small things you skip are already worth something. Now they grow. One tap to invest a skip, a jar to save them up, or a Skip Week with friends.',where:'Lives in a banner on Home, and in reminders you set.',cta:'Start investing'},
  split:{name:'Shared goals',beats:[['sgwant','Some things you save for have someone else in the picture. A trip. A first place. A wedding.'],['sgalone','Save for it alone and it’s a chore. Save for it with them and it’s already part of the trip.'],['goalsplit','Name it, invite them, and you each add your own way. A slice of a paycheck, a transfer, whenever you can.'],['goalring','You see how far along you are together. Never each other’s dollars, and never who put in more.'],['sgcheer','Every milestone, you get there at the same time. That’s the part people remember.']],
   t:'Shared goals',s:'The best things to save for come with a person. Save for it together: you each add your own way, and you watch one number climb. Never each other’s dollars.',where:'Lives in Money Manager, from the Money Hub tab. One small card explains it.',cta:'See shared goals'},
  'future-club':{name:'Future Club',beats:[['note','One day your kid will ask what everyone was like back then. Let the family answer now.'],['later','Grandma writes a note. It stays sealed until a day you pick, like their 18th birthday.'],['sapling','Every note you approve adds a leaf to their sapling. Family can add a little to their account too.']],
@@ -162,9 +162,9 @@ Object.assign(LV,{
 .lv-fan{margin-top:10px}.lv-fc{margin:0 -34px}`;document.head.appendChild(st)})();
 
 /* Final lander screen, after the Streaks “Introducing” pattern: big word, plain explanation, a zoomed crop of where it lives */
-const LF={grove:['Your people, on one hill','Grove','streak'],invite:['No oak grows alone','Invites','refer'],'money-type':['A minute at a time','Know yourself','banner'],'skip-and-stash':['Small skips, real money','Skip & Stash','banner'],
+const LF={grove:['Your people, on one hill','Grove','streak'],invite:['No oak grows alone','Invites','refer'],'money-type':['A minute at a time','Know yourself','banner'],'skip-and-stash':['Small skips, real money','Skip & Invest','banner'],
  split:['Save for it together','Shared goals','mm'],'future-club':['Notes for later','Future Club','kids'],year:['We clap for you','Acorns Year','banner'],challenges:['Say bet','Challenges','tabs'],invited:['When a friend invites you','Invites','link']};
-const LF_BN={'money-type':['Find your money type','Not sure where to start? <g>Take a 1-minute quiz</g>','seedling'],'skip-and-stash':['Skip and stash','Skipped a coffee today? <g>Invest what you saved</g>','roundup'],year:['Acorns Year','Your 2026 <g>is ready to watch</g>','later']};
+const LF_BN={'money-type':['Find your money type','Not sure where to start? <g>Take a 1-minute quiz</g>','seedling'],'skip-and-stash':['Skip and invest','Skipped a coffee today? <g>Invest what you saved</g>','roundup'],year:['Acorns Year','Your 2026 <g>is ready to watch</g>','later']};
 function lfCrop(k,kind){const ph=(inner,cls)=>`<div class="lf-ph ${cls||''}">${inner}</div>`;
  const row=(ic0,t)=>`<div class="lf-row"><span>${ic0}</span><b>${t}</b><i></i></div>`;
  if(kind==='streak')return ph(`<div class="lf-band"></div>${row(ic2('bars',18),'Invest')}<div class="lf-gap"></div>${row(ic2('sun',18),'Later')}${row(ic('card',18),'Checking')}`)+`<div class="lf-pop lf-chip">${ic2('flame',26)}${plw(S.streak)}</div>`;
@@ -324,11 +324,11 @@ Object.assign(LV,{
 LFX.split=['sg-home',{},'Save for a trip or a first apartment with someone. Add a paycheck slice, a recurring transfer, or money anytime. You both see progress, never each other’s dollars.',()=>`<div class="lx lx-card"><span class="lx-img" style="background:#eef7e6;align-items:center;color:#2f7a12">${sgIcon(26)}</span><div><b>Lisbon trip · 62%</b><em>Saving together with Sam</em></div></div>`];
 /* Works with: each idea stands alone, and names how it plays with the others */
 const LF_WITH={
- 'money-type':[['skip-and-stash','Skip and Stash','Spenders get skip ideas that fit them'],['year','Acorns Year','Your type becomes one of your cards'],['invite','Invites','Share your type and compare']],
+ 'money-type':[['skip-and-stash','Skip and Invest','Spenders get skip ideas that fit them'],['year','Acorns Year','Your type becomes one of your cards'],['invite','Invites','Share your type and compare']],
  'skip-and-stash':[['invite','Invites','Do a Skip Week with people you invite'],['year','Acorns Year','Your skips become a card'],['money-type','Money Type','Suggests what to skip']],
  'future-club':[['invite','Invites','Bring family in to write notes'],['year','Acorns Year','Notes show up in your year'],['split','Shared goals','Save for your kid with a partner']],
- year:[['money-type','Money Type','Adds your type card'],['skip-and-stash','Skip and Stash','Adds your skips card'],['split','Shared goals','Adds a card when you reach one']],
- invite:[['split','Shared goals','Save for something with them'],['skip-and-stash','Skip and Stash','Do a Skip Week together'],['year','Acorns Year','A card for your weeks side by side']],
+ year:[['money-type','Money Type','Adds your type card'],['skip-and-stash','Skip and Invest','Adds your skips card'],['split','Shared goals','Adds a card when you reach one']],
+ invite:[['split','Shared goals','Save for something with them'],['skip-and-stash','Skip and Invest','Do a Skip Week together'],['year','Acorns Year','A card for your weeks side by side']],
  split:[['invite','Invites','Invite someone new to share a goal'],['future-club','Future Club','A goal for your kid'],['year','Acorns Year','A card when you reach it']],
  grove:[],challenges:[],invited:[]};
 (function(){const f=ldFinal;ldFinal=function(k,L,S0){const r=f(k,L,S0);const w=LF_WITH[k]||[];if(!w.length)return r;
@@ -575,7 +575,7 @@ LV.goalring=()=>{const g=sgDemo();return `${ldGlow()}<div class="lv-mid"><div cl
 document.head.insertAdjacentHTML('beforeend',`<style>.sgx-lcard{width:320px;padding:10px 10px 14px;border-radius:30px;background:#f5f7f2;box-shadow:0 24px 50px rgba(0,0,0,.45)}.sgx-lcard .sgx-scene{height:190px;border-radius:22px}.sgx-lcard .sgx-num b{font-size:38px}</style>`);
 LFX.split[3]=()=>`<div class="lx lx-card"><span class="lx-img" style="background:linear-gradient(145deg,#7cd14e,#2f8a14);align-items:center">${sgGlyph('flag',22,'#fff')}</span><div><em class="lx-k">Milestone unlocked</em><b>Halfway, together</b><em>You and Sam crossed 50%</em></div></div>`;
 
-/* ================= Skip and Stash v3: a home for your skips ================= */
+/* ================= Skip and Invest v3: a home for your skips ================= */
 const SS_MS=[[1,'First skip','sprout'],[5,'Five skips','star'],[10,'Ten skips','flag'],[25,'25 skips','peak'],[50,'50 skips','trophy']];
 function ssStats(){if(!S.ssStats)S.ssStats={skips:14,stashed:84,days:{2:'s',5:'k',6:'s',8:'k',9:'s',12:'k',13:'s',15:'s',19:'k',20:'s',22:'k',23:'s',26:'k'}};return S.ssStats}
 function ssCup(sz){return `<div class="ld-cup" style="transform:scale(${sz||.7})"><span></span></div>`}
@@ -584,22 +584,22 @@ function ssQIc(k){return k==='cup'?ssCup(.55):k==='car'?sgGlyph('car',22,'#2f7a1
 function ssCal(st){const first=4,days=31,today=26;const cells=[];for(let i=0;i<first;i++)cells.push('<i class="e"></i>');
  for(let d=1;d<=days;d++){const v=st.days[d];cells.push(`<i class="${v==='s'?'st':v==='k'?'sk':''} ${d===today?'td':''} ${d>today?'fu':''}">${v==='s'?ic('check',11):d}</i>`)}
  const nSt=Object.values(st.days).filter(v=>v==='s').length,nSk=Object.values(st.days).length;
- return `<div class="sgx-card"><div class="sgx-ch"><div><b>October</b><em>${nSk} skip days · ${nSt} stashed</em></div><span class="sgx-fire">${ic2('flame',14)} ${plw(S.streak)}</span></div>
+ return `<div class="sgx-card"><div class="sgx-ch"><div><b>October</b><em>${nSk} skip days · ${nSt} invested</em></div><span class="sgx-fire">${ic2('flame',14)} ${plw(S.streak)}</span></div>
   <div class="ssx-dow">${['S','M','T','W','T','F','S'].map(x=>`<span>${x}</span>`).join('')}</div><div class="ssx-cal">${cells.join('')}</div>
-  <div class="sgx-leg"><span><i class="w2"></i>Stashed</span><span><i class="w1"></i>Skipped, not stashed yet</span></div></div>`}
+  <div class="sgx-leg"><span><i class="w2"></i>Invested</span><span><i class="w1"></i>Skipped, not invested yet</span></div></div>`}
 function ssBadges(n,nx){return `<div class="sgx-card"><div class="sgx-ch"><div><b>Milestones</b><em>${nx?`${nx[0]-n} more skip${nx[0]-n===1?'':'s'} to ${nx[1]}`:'All five reached'}</em></div></div>
   <div class="sgx-bd">${SS_MS.map(([v,l,i0])=>`<div class="sgx-b ${n>=v?'on':''}"><span>${sgGlyph(i0,22,n>=v?'#fff':'#9aa69c')}</span><b>${l}</b></div>`).join('')}</div>${nx?`<div class="sgx-nb" style="margin-top:14px"><i style="width:${Math.round(n/nx[0]*100)}%"></i></div>`:''}</div>`}
 /* the app's tab bar under the hub: shown for context, taps are inert */
 function ssTabs(){return acTabs('ac-home').replace(/onclick="[^"]*"/g,'onclick="toast(\'Existing app tabs, unchanged\')"')}
-const SS_TABS=[['stash','Stash'],['together','Together'],['progress','Progress']];
-def('ss-hub',()=>{spInit();const st=ssStats();const prev=T.ssPrev!=null?T.ssPrev:Math.max(0,st.stashed-18);const nx=SS_MS.find(m=>st.skips<m[0]);const tab=T.ssTab||'stash';
+const SS_TABS=[['stash','Invest'],['together','Together'],['progress','Progress']];
+def('ss-hub',()=>{spInit();const st=ssStats();const prev=T.ssPrev!=null?T.ssPrev:Math.max(0,st.stashed-18);const nx=SS_MS.find(m=>st.skips<m[0]);const tab=T.ssTab||'invest';
  const jars=S.jars&&S.jars.length?S.jars:[{id:'j1',name:'Coffee jar',est:6,coins:3}];
  const log=(S.skipLog&&S.skipLog.length?S.skipLog:[{t:'Coffee',amt:6,src:'quick',when:'Today',stash:true},{t:'Coffee jar',amt:6,src:'self',when:'Fri',stash:false},{t:'Takeout',amt:14,src:'quick',when:'Wed',stash:true}]).slice(0,4);
  const sec={
   stash:`<div class="ssx-q ssx-lead"><div class="ssx-qh"><b>Skip anything today?</b><em>Tap it. The money you didn’t spend goes to Invest, and this week counts.</em></div>
    <div class="ssx-qg">${SS_QUICK.map(([n,a,k])=>`<button onclick="T={qsItem:'${n==='Something else'?'Other':n}',qsAmt:${a}};S.ret='ss-hub';go('qs-lt')"><span>${ssQIc(k)}</span><b>${n}</b><em>${n==='Something else'?'Pick it':'About $'+a}</em></button>`).join('')}</div></div>
-   <div class="sgx-card"><div class="sgx-ch"><div><b>Saving them up?</b><em>Drop a coin in a jar each time. Stash the whole jar when it feels right.</em></div></div>
-   ${jars.map(j=>`<div class="ssx-jr" onclick="go('jar',{id:'${j.id}'})" role="button"><div class="ssx-mj">${jarViz(j,0)}</div><div class="grow"><b>${j.name}</b><em>${j.coins} skip${j.coins===1?'':'s'} · about $${j.coins*j.est}</em></div><button onclick="event.stopPropagation();T={jar:'${j.id}',qsItem:'${j.name.replace(' jar','')}',qsAmt:${Math.max(5,j.coins*j.est)}};S.ret='ss-hub';go('qs-lt')">Stash</button></div>`).join('')}
+   <div class="sgx-card"><div class="sgx-ch"><div><b>Saving them up?</b><em>Drop a coin in a jar each time. Invest the whole jar when it feels right.</em></div></div>
+   ${jars.map(j=>`<div class="ssx-jr" onclick="go('jar',{id:'${j.id}'})" role="button"><div class="ssx-mj">${jarViz(j,0)}</div><div class="grow"><b>${j.name}</b><em>${j.coins} skip${j.coins===1?'':'s'} · about $${j.coins*j.est}</em></div><button onclick="event.stopPropagation();T={jar:'${j.id}',qsItem:'${j.name.replace(' jar','')}',qsAmt:${Math.max(5,j.coins*j.est)}};S.ret='ss-hub';go('qs-lt')">Invest</button></div>`).join('')}
    <button class="ssx-new" onclick="go('jar-new')">${ic('plus',16)} New jar</button></div>
    <button class="ssx-total" onclick="T.ssTab='progress';refresh()"><span>${ic('check',14)}</span><b>$${st.stashed} invested from skips</b><em>${st.skips} skips this month</em>${ic('chev',14,'opacity:.4')}</button>
    <p class="sgx-priv">${ic('lock',12)} Only you see amounts. We never read your spending unless you turn on Spot my skips.</p>`,
@@ -613,8 +613,8 @@ def('ss-hub',()=>{spInit();const st=ssStats();const prev=T.ssPrev!=null?T.ssPrev
    <div class="ssx-num"><b data-count>$${st.stashed}</b><em>invested from skips</em><span>${st.skips} skips this month</span></div></div>
    ${ssCal(st)}${ssBadges(st.skips,nx)}
    <div class="sgx-card"><div class="sgx-ch"><div><b>Recent</b><em>Only you see amounts</em></div><button class="sgx-edit" onclick="go('ss-log')">All</button></div>
-   ${log.map(e=>`<div class="sgx-f"><span class="ssx-li ${e.stash?'on':''}">${e.stash?ic('check',14):ssCup(.45)}</span><span class="grow"><b>${e.stash?'Stashed':'Skipped'} · ${e.t}</b><em>${e.when}</em></span><b class="ssx-amt ${e.stash?'':'muted'}">${e.stash?'':'~'}$${e.amt}</b></div>`).join('')}</div>`};
- return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Skip and Stash</b><button class="iconbtn" onclick="ssMore()" aria-label="More ways to skip">${ic('menu',22)}</button></div>
+   ${log.map(e=>`<div class="sgx-f"><span class="ssx-li ${e.stash?'on':''}">${e.stash?ic('check',14):ssCup(.45)}</span><span class="grow"><b>${e.stash?'Invested':'Skipped'} · ${e.t}</b><em>${e.when}</em></span><b class="ssx-amt ${e.stash?'':'muted'}">${e.stash?'':'~'}$${e.amt}</b></div>`).join('')}</div>`};
+ return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Skip and Invest</b><button class="iconbtn" onclick="ssMore()" aria-label="More ways to skip">${ic('menu',22)}</button></div>
  <div class="ssx-seg">${SS_TABS.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="T.ssTab='${k}';refresh()">${l}</button>`).join('')}</div>
  <div class="sg-body sgx-body" style="top:calc(var(--safeTop) + 104px)">
   <div class="ssx-sec" key="${tab}">${sec[tab]}</div>
@@ -622,7 +622,7 @@ def('ss-hub',()=>{spInit();const st=ssStats();const prev=T.ssPrev!=null?T.ssPrev
 /* everything optional lives behind the menu: rules, review, detection, reminders, settings */
 function ssCheckIn(el){if(S.ssCheckedToday){toast('Already checked in today');return}S.ssCheckedToday=true;save();haptic(14);const r=el.getBoundingClientRect(),h=$('#screen').getBoundingClientRect();ART.confetti($('#screen'),30);refresh();toast('Day 5 · Sam, Jess and Priya can see you skipped')}
 function ssMore(){sheet(`<div class="h3">More ways to skip</div><p class="sm mt8">A tap is all it takes. These are extras.</p><div class="mt12">
-  ${[['Skip Rules','Stash automatically when you check in “Skipped it”',"go('sr-intro')",'gear'],['Sunday review','Count the week’s skips in one place',"go('ss-review')",'cal'],['Spot my skips',S.detect&&S.detect.on?`On · ${S.detect.cats.join(', ')}`:'Off. We never read spending unless you turn this on',"go(S.detect&&S.detect.on?'ss-settings':'ss-detect')",'spark'],['Reminder preview','What a check-in looks like on your lock screen',"T.lk=null;go('ss-lock')",'bell'],['Settings','Reminders, jars and detection',"go('ss-settings')",'gear']].map(([t,d,a,i])=>`<div class="li" onclick="closeOv();setTimeout(()=>{${a.replace(/"/g,'&quot;')}},200)">${ic(i,20)}<div class="grow"><div class="ttl">${t}</div><div class="sub">${d}</div></div>${ic('chev',18,'opacity:.35')}</div>`).join('')}</div>`)}
+  ${[['Skip Rules','Invest automatically when you check in “Skipped it”',"go('sr-intro')",'gear'],['Sunday review','Count the week’s skips in one place',"go('ss-review')",'cal'],['Spot my skips',S.detect&&S.detect.on?`On · ${S.detect.cats.join(', ')}`:'Off. We never read spending unless you turn this on',"go(S.detect&&S.detect.on?'ss-settings':'ss-detect')",'spark'],['Reminder preview','What a check-in looks like on your lock screen',"T.lk=null;go('ss-lock')",'bell'],['Settings','Reminders, jars and detection',"go('ss-settings')",'gear']].map(([t,d,a,i])=>`<div class="li" onclick="closeOv();setTimeout(()=>{${a.replace(/"/g,'&quot;')}},200)">${ic(i,20)}<div class="grow"><div class="ttl">${t}</div><div class="sub">${d}</div></div>${ic('chev',18,'opacity:.35')}</div>`).join('')}</div>`)}
 document.head.insertAdjacentHTML('beforeend',`<style>
 .ssx-seg{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--safeTop) + 54px);width:280px;z-index:3;display:flex;gap:4px;padding:4px;border-radius:18px;background:#e9ede4}.ssx-seg button{flex:1;height:36px;border-radius:14px;font-size:14px;font-weight:600;color:#5d655f}.ssx-seg button.on{background:#fff;color:#191919;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .ssx-lead{margin-top:4px!important;padding:20px 16px 16px}.ssx-lead .ssx-qh b{font-size:22px;letter-spacing:-.3px}.ssx-lead .ssx-qh em{font-size:14px;margin-top:4px;line-height:1.4}.ssx-lead .ssx-qg{margin-top:16px;gap:10px}.ssx-lead .ssx-qg button{padding:14px 4px 12px}.ssx-lead .ssx-qg span{width:52px;height:52px;border-radius:26px}
@@ -632,15 +632,15 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ssx-sec>.ssx-q{margin-top:12px}
 </style>`);
 def('qs-lt',()=>{if(!T.qsItem){T.qsItem='Coffee';T.qsAmt=6}const a=T.qsAmt,jar=T.jar&&S.jars.find(j=>j.id===T.jar);const name=jar?jar.name:T.qsItem;const counts=!S.invested||S.reset;
- return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>${jar?jar.name:'Quick Stash'}</b><span style="width:44px"></span></div>
+ return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>${jar?jar.name:'Quick Invest'}</b><span style="width:44px"></span></div>
  <div class="sg-body sgx-body">
   <div class="qsl-stage"><div class="qsl-cup"><div class="ld-cup"><span></span></div><div><b>${name}</b><em>${jar?`${jar.coins} skips`:'Skipped today'}</em></div></div><img class="qsl-acorn" src="${IMG.acorn}" alt=""><div class="qsl-hint">Hold the button and it turns into an investment</div></div>
   ${jar?'':`<div class="qsl-chips">${SS_QUICK.slice(0,3).concat([['Impulse buy',20,'plus'],['Other',10,'plus']]).map(([c,e])=>`<button class="${T.qsItem===c?'on':''}" onclick="T.qsItem='${c}';T.qsAmt=${e};refresh()">${c}</button>`).join('')}</div>`}
-  <div class="qsl-amt" onclick="keypad(T.qsAmt,v=>{T.qsAmt=v;refresh()},'Stash')"><span>$</span>${a}</div><div class="qsl-est">${jar?`${jar.coins} skips × about $${jar.est}`:'Your estimate'} · <u onclick="keypad(T.qsAmt,v=>{T.qsAmt=v;refresh()},'Stash')">Edit</u></div>
-  ${a<5?`<div class="qsl-min">${ic('lock',14)} The minimum stash is $5. <u onclick="T.qsAmt=5;refresh()">Make it $5</u></div>`:''}
+  <div class="qsl-amt" onclick="keypad(T.qsAmt,v=>{T.qsAmt=v;refresh()},'Invest')"><span>$</span>${a}</div><div class="qsl-est">${jar?`${jar.coins} skips × about $${jar.est}`:'Your estimate'} · <u onclick="keypad(T.qsAmt,v=>{T.qsAmt=v;refresh()},'Invest')">Edit</u></div>
+  ${a<5?`<div class="qsl-min">${ic('lock',14)} The minimum is $5. <u onclick="T.qsAmt=5;refresh()">Make it $5</u></div>`:''}
   <div class="sgx-card" style="padding:4px 16px">${[['From',`${S.accounts[0].name} ••${S.accounts[0].mask}`],['Into','Invest account · today'],['Streak',counts?'Counts this week':'Already counted this week']].map(([k,v])=>`<div class="sg-r"><span>${k}</span><b>${v}</b></div>`).join('')}</div>
   <p class="sgx-priv" style="margin-top:12px">A real one-time investment. Nothing moves until you hold.</p></div>
- <div class="sg-foot" style="text-align:center">${a<5?`<button class="btn sg-cta" disabled>Hold to stash $${a}</button>`:holdBtn('stash $'+a,'qsStash()','light')}</div>`}});
+ <div class="sg-foot" style="text-align:center">${a<5?`<button class="btn sg-cta" disabled>Hold to invest $${a}</button>`:holdBtn('invest $'+a,'qsStash()','light')}</div>`}});
 document.head.insertAdjacentHTML('beforeend',`<style>
 .qsl-stage{position:relative;height:210px;border-radius:28px;overflow:hidden;background:radial-gradient(circle at 50% 110%,#cfe9b8,#e9f7dc 55%,#f3faec);display:flex;align-items:center;justify-content:center}
 .qsl-cup{position:absolute;display:flex;align-items:center;gap:12px;padding:12px 18px 12px 12px;border-radius:20px;background:#fff;box-shadow:0 10px 24px rgba(20,60,10,.10);transform:scale(calc(1 - var(--p,0)*.85)) translateY(calc(var(--p,0)*-20px));opacity:calc(1 - var(--p,0)*1.2)}
@@ -660,16 +660,16 @@ function qsStash(){if(S.offline){go('qs-offline');return}const a=T.qsAmt,item=T.
 def('ss-stashed',p=>{const m=SS_MS.find(x=>x[0]===p.ms);
  return {cls:'lt sgs sgx sgx-cel',html:`<div class="sg-top"><span style="width:44px"></span><span></span><button class="iconbtn" onclick="T.ssPrev=${p.to};back()" aria-label="Close">${ic('close',22)}</button></div>
  <div class="sgx-celb"><div class="ssx-cjar">${m?`<div class="sgx-badge pop"><span>${sgGlyph(m[2],44,'#fff')}</span></div>`:`<div class="ssx-acorn"><span class="ssx-was">${ssCup(.5)}<b>${String(p.item).replace(/ jar$/i,'')}</b></span><img class="pop" src="${IMG.acorn}" alt=""></div>`}</div>
-  <div class="sgx-ek">${m?'Milestone unlocked':'Skipped it. Stashed it.'}</div><h1>${m?m[1]+'!':'$'+p.amt+' invested'}</h1>
+  <div class="sgx-ek">${m?'Milestone unlocked':'Skipped it. Invested it.'}</div><h1>${m?m[1]+'!':'$'+p.amt+' invested'}</h1>
   <p>${m?`${m[0]} skip${m[0]===1?'':'s'} turned into investments. The $${p.amt} from ${String(p.item).toLowerCase()} just went to Invest.`:`The ${String(p.item).toLowerCase()} you didn’t buy is now in your Invest account.`}</p>
   <div class="ssx-tot"><div><em>Invested from skips</em><b data-count>$${p.to}</b></div><div class="ssx-wkc">${ic2('flame',18)}<span><b>${p.counted?`Week ${p.wk}`:'This week'}</b><em>${p.counted?'This week counts':'Already counted'}</em></span></div></div></div>
  <div class="sg-foot sgx-two"><button class="btn sg-cta ghost" onclick="ssShare('${String(p.item).replace(/'/g,'')}',${p.ms||0})">${ic('share',16)} Share</button><button class="btn sg-cta" onclick="T.ssPrev=${p.to};back()">Done</button></div>`,
  mount(el){const n=el.querySelector('[data-count]');if(n){const t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/900),e=1-Math.pow(1-k,3);n.textContent='$'+Math.round(p.from+(p.to-p.from)*e);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}setTimeout(()=>{ART.confetti($('#screen'),m?80:28);haptic(m?30:12)},250)}}});
 /* Share a stash: skips and milestones only, never amounts */
 function ssShare(item,ms){const st=ssStats();const m=SS_MS.find(x=>x[0]===ms);const it=String(item||'it').replace(/ jar$/i,'').toLowerCase();
- const card=storyCard({eyebrow:m?'Milestone':'Skip and Stash',title:m?`${m[1]}, turned into investments.`:`Skipped ${it}. Invested it instead.`,sub:`${st.skips} skips this month, every one invested.`,art:`<img src="${IMG.acorn}" alt="">`});
- share({title:m?`${m[1]} on Acorns`:'Skipped it. Stashed it.',story:card,text:m?`${m[0]} skips turned into investments. Skip something with me this week?`:`Skipped ${it} today and invested it instead. Skip something with me this week?`})}
-LFX['skip-and-stash']=['ss-hub',{},'The coffee you didn’t buy is worth $6. Tap once and it’s invested. Save skips in a jar, or run a Skip Week with friends. Every stash grows your oak.',()=>`<div class="lx lx-card"><div class="ld-cup" style="transform:scale(.75);margin:-6px"><span></span></div><div><em class="lx-k">Milestone unlocked</em><b>Ten skips</b><em>$84 invested from skips</em></div></div>`];
+ const card=storyCard({eyebrow:m?'Milestone':'Skip and Invest',title:m?`${m[1]}, turned into investments.`:`Skipped ${it}. Invested it instead.`,sub:`${st.skips} skips this month, every one invested.`,art:`<img src="${IMG.acorn}" alt="">`});
+ share({title:m?`${m[1]} on Acorns`:'Skipped it. Invested it.',story:card,text:m?`${m[0]} skips turned into investments. Skip something with me this week?`:`Skipped ${it} today and invested it instead. Skip something with me this week?`})}
+LFX['skip-and-stash']=['ss-hub',{},'The coffee you didn’t buy is worth $6. Tap once and it’s invested. Save skips in a jar, or run a Skip Week with friends. Every skip you invest grows your oak.',()=>`<div class="lx lx-card"><div class="ld-cup" style="transform:scale(.75);margin:-6px"><span></span></div><div><em class="lx-k">Milestone unlocked</em><b>Ten skips</b><em>$84 invested from skips</em></div></div>`];
 document.head.insertAdjacentHTML('beforeend',`<style>
 .ssx-hero{position:relative;height:230px;border-radius:28px;overflow:hidden;background:linear-gradient(170deg,#e9f7dc,#d5efc2)}
 .ssx-sky{position:absolute;inset:0;background:radial-gradient(circle at 78% 18%,rgba(255,255,255,.9),transparent 45%)}
@@ -699,7 +699,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 
 /* Acorns Year story: the cards themselves are the beats */
 Object.assign(LV,{
- yrwin:()=>`${ldGlow()}<div class="lv-mid"><div class="yr-ms">${[[sgGlyph('sprout',28,'#fff'),'First investment','Week 1'],[`<div class="ld-cup" style="transform:scale(.6);margin:-14px"><span></span></div>`,'Ten skips stashed','$84 invested'],[`<img src="${IMG.seedling}" style="height:34px" alt="">`,'Jess planted beside you','Your grove']].map(([g,t,w],i)=>`<div class="yr-m rise d${Math.min(5,i*2)}"><span class="sgx-badge" style="width:60px;height:60px">${g}</span><div><b>${t}</b><em>${w}</em></div></div>`).join('')}</div></div>`,
+ yrwin:()=>`${ldGlow()}<div class="lv-mid"><div class="yr-ms">${[[sgGlyph('sprout',28,'#fff'),'First investment','Week 1'],[`<div class="ld-cup" style="transform:scale(.6);margin:-14px"><span></span></div>`,'Ten skips invested','$84 invested'],[`<img src="${IMG.seedling}" style="height:34px" alt="">`,'Jess planted beside you','Your grove']].map(([g,t,w],i)=>`<div class="yr-m rise d${Math.min(5,i*2)}"><span class="sgx-badge" style="width:60px;height:60px">${g}</span><div><b>${t}</b><em>${w}</em></div></div>`).join('')}</div></div>`,
  yrrecap:()=>`${ldGlow()}<div class="lv-mid"><div class="rise" style="width:210px">${ycFrame(`<div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">Monthly recap</span><div class="yc-panel" style="top:430px;height:194px"><div class="yc-h">Your month,<br>grown.</div><div class="yc-s">How many weeks you showed up, and what’s new on your oak.</div>${ycFoot()}</div></div>`,210)}</div></div>`,
  yrwrap:()=>yAs('Maya',()=>`${ldGlow()}<div class="lv-mid"><div class="lv-fan">${[1,0,3].map((k,i)=>`<div class="lv-fc rise d${i*2}" style="transform:rotate(${[-10,0,10][i]}deg) translateY(${[12,0,12][i]}px)">${ycFrame(yCard(k,{share:1}),112)}</div>`).join('')}</div></div>`),
  yrpride:()=>yAs('Maya',()=>`${ldGlow()}<div class="lv-mid"><div class="lv-fan" style="gap:0;margin-top:-10px"><div class="lv-fc rise" style="margin:0 -6px;transform:rotate(-5deg) translateY(8px)">${ycFrame(yCard(1,{share:1}),138)}</div><div class="lv-fc rise d2" style="margin:0 -6px;transform:rotate(5deg)">${ycFrame(yCard(3,{}),138)}</div></div><div class="yr-tag rise d4">Maya’s 2025</div></div>`),
@@ -801,7 +801,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .sgl-row .sgl-ring svg{width:46px;height:46px}.sgl-row .sgl-ring b{font-size:11px}
 </style>`);
 
-/* Skip and Stash story art */
+/* Skip and Invest story art */
 LV.sswhy=()=>`${ldGlow()}<div class="pol-wall">${[
    ['coffee','Made coffee at home','Tue · $6',-7,4,4,1],
    ['walk','Walked instead','Thu · $14',5,44,24,3],

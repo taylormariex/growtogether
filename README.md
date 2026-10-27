@@ -8,7 +8,7 @@ python3 build.py
 
 Builds `docs/index.html` (every experience, served by GitHub Pages at the site root) plus four standalone builds that open on one story lander and stay inside that experience:
 
-- `docs/skip-and-stash/` — Skip and Stash
+- `docs/skip-and-invest/` — Skip and Invest (`docs/skip-and-stash/` forwards here)
 - `docs/shared-goals/` — Shared goals
 - `docs/acorns-year/` — Acorns Year and share cards
 - `docs/invite/` — Invite to your grove
@@ -19,4 +19,4 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 
 ## Visual system (polish pass)
 
-`spec-polish.js` loads last and applies the Acorns Streaks system everywhere: eight stage illustrations (`art/stage-*.png`) for every tree, eight milestone seals (`art/seal-*.png`) plus an SVG seal generator for non-streak milestones, the dark share card (`dkCard`), one “Share your progress” sheet (`progressShare`), real photographs in the Skip & Stash polaroids (`art/pol-*.jpg`, Unsplash license) and the time-lapse that opens the invite story. `build.py` copies `art/` into `docs/art/`.
+`spec-polish.js` loads last and applies the Acorns Streaks system everywhere: eight stage illustrations (`art/stage-*.png`) for every tree, eight milestone seals (`art/seal-*.png`) plus an SVG seal generator for non-streak milestones, the dark share card (`dkCard`), one “Share your progress” sheet (`progressShare`), real photographs in the Skip & Invest polaroids (`art/pol-*.jpg`, Unsplash license) and the time-lapse that opens the invite story. `build.py` copies `art/` into `docs/art/`.

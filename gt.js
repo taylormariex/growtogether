@@ -4,7 +4,7 @@ function stageFor(w){return w>=20?5:w>=10?4:w>=6?3:w>=3?2:w>=1?1:0}
 const STAGE_NAME=['Acorn','Sprout','Sapling','Young oak','Oak','Ancient oak'];
 const CH_TYPES={
   side:{t:'Side by side',d:'Invest any amount each week, together.',counts:'invest',unit:'weeks',lens:[4,8,12],icon:'oak',prod:'Invest'},
-  skip:{t:'Skip and Stash week',d:'Skip one thing for 7 days. Invest what you didn’t spend.',counts:'checkin',unit:'days',lens:[7],icon:'flag',prod:'Invest'},
+  skip:{t:'Skip and Invest week',d:'Skip one thing for 7 days. Invest what you didn’t spend.',counts:'checkin',unit:'days',lens:[7],icon:'flag',prod:'Invest'},
   roundups:{t:'Round-Ups month',d:'Everyone keeps Round-Ups® on for 30 days.',counts:'roundups',unit:'days',lens:[30],icon:'card',prod:'Round-Ups®',need:'ru'},
   nest:{t:'Rainy-day starter',d:'Each of you starts an Emergency Fund and adds to it 4 times.',counts:'ef',unit:'deposits',lens:[4],icon:'drop',prod:'Emergency Fund',need:'ef'},
   learn:{t:'Learn together',d:'Each week: one quiz, one 2-minute read. Everyone does both. You see each other’s types and talk about the read.',counts:'learn',unit:'weeks',lens:[1,3,4],icon:'spark',prod:'Know yourself'},

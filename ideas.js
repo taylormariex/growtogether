@@ -13,7 +13,7 @@ def('menu',()=>({cls:'ivory',html:`<div style="background:var(--primaryGreen);pa
    <div class="eyebrow mt24">More ways in</div>
    <div class="grid2 mt12">
     ${[['mt-why1','Money Type','3 taps, a type, a next step',squirrel({hold:'heart',w:96}),'var(--naturalMoss)'],
-       ['ss-why1','Skip and Stash','A week-long challenge with friends',squirrel({hold:'acorn',w:96}),'var(--naturalBeige)'],
+       ['ss-why1','Skip and Invest','A week-long challenge with friends',squirrel({hold:'acorn',w:96}),'var(--naturalBeige)'],
        ['fc-why1','Future Club','Notes that open in a year',envelope(84),'#e8e0f7'],
        ['ay-1','Acorns Year','Your year as shareable stories',oak(3,['gold'],{w:84,h:94,ground:false}),'#fbe7c6']].map(([id,t,s,a,bg])=>`<div class="mcard" style="background:${bg};min-height:178px;padding:14px" onclick="T={};home('${id}')"><div class="art" style="width:96px;height:96px;right:-4px;bottom:-4px">${a}</div><div class="ttl" style="font-size:17px;max-width:100%">${t}</div><div class="sub" style="max-width:70%;font-size:12px">${s}</div><div style="height:60px"></div></div>`).join('')}
    </div>
@@ -37,7 +37,7 @@ function whyIdea(o){ // generic why screen for ideas
 /* ---------- Money Type ---------- */
 const MT={
   oak:{n:'Steady Oak',s:'You show up. Consistency is the whole game, and you already play it.',step:'Set a weekly recurring investment',go:'rec-1',k:'roots',bg:'linear-gradient(180deg,#38860e,#263027)'},
-  squirrel:{n:'Squirrel',s:'You stash before you spend. Future you is grateful.',step:'Start an Emergency Fund',go:'ef-0',k:'nest',bg:'linear-gradient(180deg,#be752e,#5f3b1c)'},
+  squirrel:{n:'Squirrel',s:'You invest before you spend. Future you is grateful.',step:'Start an Emergency Fund',go:'ef-0',k:'nest',bg:'linear-gradient(180deg,#be752e,#5f3b1c)'},
   sunseeker:{n:'Sunseeker',s:'You chase goals and get there.',step:'Open Later for future you',go:'later-1',k:'gold',bg:'linear-gradient(180deg,#f5a623,#be752e)'},
   wildflower:{n:'Wildflower',s:'You live in the moment. That’s a strength, and it can invest for you.',step:'Turn on Round-Ups so spending invests',go:'ru-1',k:'acorns',bg:'linear-gradient(180deg,#f39bb6,#5f253d)'},
   rooted:{n:'Rooted',s:'Security first. You build the foundation everyone leans on.',step:'Start an Emergency Fund',go:'ef-0',k:'nest',bg:'linear-gradient(180deg,#486b4d,#171d19)'},
@@ -45,7 +45,7 @@ const MT={
 };
 const MTIMG=new Proxy({},{get:(o,k)=>IMG[{oak:'oak',squirrel:'moneybag',sunseeker:'later',wildflower:'roundup',rooted:'acorn',sprout:'seedling'}[k]||'seedling']});
 const MTQ=[{q:'Payday hits. You…',a:[['Plan where it goes','oak'],['Treat yourself first','wildflower'],['Don’t really think about it','sprout']]},
-  {q:'A surprise $20. You…',a:[['Stash it','squirrel'],['Spend it','wildflower'],['Split it','sunseeker']]},
+  {q:'A surprise $20. You…',a:[['Invest it','squirrel'],['Spend it','wildflower'],['Split it','sunseeker']]},
   {q:'With friends, you’re the one who…',a:[['Picks the place','sunseeker'],['Splits the bill','rooted'],['Forgets their wallet','sprout']]}];
 def('mt-why1',()=>whyIdea({i:0,n:3,next:'mt-why2',skip:'mt-q',eyebrow:'Money Type',title:'Three taps. Thirty seconds.',sub:'Answer three quick questions about habits. No money questions, no account details.',
   art:`<div style="display:flex;flex-direction:column;gap:10px;width:260px">${['Payday hits. You…','A surprise $20. You…','With friends, you’re the one who…'].map((q,i)=>`<div class="rise d${i*2+1}" style="background:#fff;border-radius:18px;padding:14px 16px;font-weight:600;box-shadow:0 6px 16px rgba(0,0,0,.08);${i==1?'margin-left:24px':''}">${q}</div>`).join('')}</div>`}));
@@ -73,21 +73,21 @@ def('mt-match',()=>{const t=MT[S.mt.type||'sprout'];return {cls:'dark',html:`${t
   <div class="card dk mt24" style="text-align:left;background:rgba(255,255,255,.07)"><div class="h4">Grow beside Sam?</div><p class="sm mt8">Add Sam to your grove. Your weeks count side by side, and you each keep your own next step.</p></div></div>
   ${foot(btn('Grow beside Sam',"if(!inGrove('sam'))S.grove.push({id:'sam',status:'growing',side:0});save();toast('Sam is in your grove');home('gt-grove')",'wh'),btn(`${ic('share',20)} Share our match`,`share({title:'Our money types',story:storyCard({bg:'linear-gradient(180deg,#263027,#171d19)',eyebrow:'Money type match',title:'${t.n} + Steady Oak',sub:'We balance each other out.',art:squirrel({hold:'heart',w:140})})})`,'ghost'))}`}});
 
-/* ---------- Skip and Stash ---------- */
+/* ---------- Skip and Invest ---------- */
 const SKIPS=[['Delivery',15],['Coffee out',6],['Rideshare',14],['Takeout lunch',13],['Impulse buys',20]];
-def('ss-why1',()=>whyIdea({i:0,n:3,next:'ss-why2',skip:'ss-pick',cls:'ecru',eyebrow:'Skip and Stash',title:'Start with one small win this week.',sub:'Skip one thing for 7 days. No delivery, coffee at home, walk instead of a ride.',art:`<div style="position:relative">${squirrel({hold:'acorn',w:190})}</div>`}));
+def('ss-why1',()=>whyIdea({i:0,n:3,next:'ss-why2',skip:'ss-pick',cls:'ecru',eyebrow:'Skip and Invest',title:'Start with one small win this week.',sub:'Skip one thing for 7 days. No delivery, coffee at home, walk instead of a ride.',art:`<div style="position:relative">${squirrel({hold:'acorn',w:190})}</div>`}));
 def('ss-why2',()=>whyIdea({i:1,n:3,next:'ss-why3',skip:'ss-pick',cls:'ecru',eyebrow:'Better with friends',title:'Bring a crew. Or go solo.',sub:'One tap a day to check in. Friends send cheers. It’s on your honor. Acorns never reads your spending to check.',
   art:`<div style="width:280px">${['sam','jess','priya'].map((id,i)=>`<div class="row rise d${i*2+1}" style="background:#fff;border-radius:16px;padding:12px 14px;margin-bottom:10px;box-shadow:0 4px 12px rgba(0,0,0,.06)">${av(id,'s')}<div class="grow" style="font-weight:600">${nm(id)} skipped it</div><div class="sm">Day ${4+i%2}</div></div>`).join('')}</div>`}));
 def('ss-why3',()=>whyIdea({i:2,n:3,next:'ss-pick',skip:'ss-pick',cls:'ecru',cta:'Pick my challenge',eyebrow:'The payoff',title:'Invest what you didn’t spend.',sub:'At the end: “You skipped 4 times. That’s about $60.” You set the amount and confirm. Nothing moves on its own.',
   art:`<div class="card" style="width:250px;text-align:center;padding:24px"><div class="sm">Day 7</div><div class="h1 mt8" style="font-size:44px">$60</div><div class="sm">about, from 4 skips</div><div class="btn pri mt16" style="height:44px">Invest it</div></div>`}));
-def('ss-pick',()=>({html:`${topbar({title:'Skip and Stash'})}${progress(1,4)}<div class="body"><div class="h2 mt8">What will you skip for 7 days?</div>
+def('ss-pick',()=>({html:`${topbar({title:'Skip and Invest'})}${progress(1,4)}<div class="body"><div class="h2 mt8">What will you skip for 7 days?</div>
   <div class="mt24">${SKIPS.map(([t,e])=>choice('sspick',t,t,`Usually about $${e} each time`)).join('')}</div></div>
   ${foot(btn('Continue',"S.ss.pick=T.sspick;S.ss.est=SKIPS.find(s=>s[0]===T.sspick)[1];save();go('ss-est')",'pri','data-need="sspick"'))}`,mount:needs}));
-def('ss-est',()=>({html:`${topbar({title:'Skip and Stash'})}${progress(2,4)}<div class="body"><div class="h2 mt8">About how much is one skip?</div><p class="p mt8">Your estimate. Only you see it. It sets the “about” at the end.</p>
+def('ss-est',()=>({html:`${topbar({title:'Skip and Invest'})}${progress(2,4)}<div class="body"><div class="h2 mt8">About how much is one skip?</div><p class="p mt8">Your estimate. Only you see it. It sets the “about” at the end.</p>
   <div class="amt mt24" onclick="keypad(S.ss.est,v=>{S.ss.est=v;save();refresh()},'One skip')">${money(S.ss.est)}</div>
   <div class="chips" style="justify-content:center">${[5,10,15,20].map(a=>`<button class="chip ${S.ss.est===a?'on':''}" onclick="S.ss.est=${a};save();refresh()">$${a}</button>`).join('')}<button class="chip" onclick="keypad(S.ss.est,v=>{S.ss.est=v;save();refresh()},'One skip')">Other</button></div></div>
   ${foot(btn('Continue',"go('ss-crew')"))}`}));
-def('ss-crew',()=>{if(!T.ssc)T.ssc=[];return {html:`${topbar({title:'Skip and Stash'})}${progress(3,4)}<div class="body"><div class="h2 mt8">Who’s skipping with you?</div><p class="p mt8">Up to 5 people. They see check-ins, not dollars.</p>
+def('ss-crew',()=>{if(!T.ssc)T.ssc=[];return {html:`${topbar({title:'Skip and Invest'})}${progress(3,4)}<div class="body"><div class="h2 mt8">Who’s skipping with you?</div><p class="p mt8">Up to 5 people. They see check-ins, not dollars.</p>
   <div class="mt16">${['sam','jess','priya','marcus','leo'].map(id=>choice('ssc',id,PEOPLE[id].full,PEOPLE[id].on?'On Acorns':'Gets a link to join',av(id,'s'),1)).join('')}</div></div>
   ${foot(btn('Invite and start',"ssStart()"),btn('Go solo',"T.ssc=[];ssGo()",'ghost'))}`}});
 function ssStart(){if(!T.ssc.length){ssGo();return}share({title:`Skip ${S.ss.pick.toLowerCase()} with me this week`,people:T.ssc,story:storyCard({bg:'linear-gradient(180deg,#f2e3b8,#f0a763)',dark:1,eyebrow:'7-day challenge',title:`No ${S.ss.pick.toLowerCase()} this week. You in?`,art:squirrel({hold:'acorn',w:150})}),done:()=>setTimeout(ssGo,300)})}
@@ -111,7 +111,7 @@ def('ss-done',p=>{if(!p.skip&&!S.invested){S.invested=true;S.streak++;S.stage=st
   <div class="pop mt8">${squirrel({hold:'flowers',w:150})}</div><div class="eyebrow mt16">Week complete</div><div class="h1 mt8">Your crew logged ${total} skips.</div><p class="p mt8">${p.skip?'Still counts as done. No reminders after this.':'Your investment counts toward your Streak too.'}</p>
   <div class="row mt16" style="justify-content:center">${stackAv(['me'].concat(crew))}</div>
   <div class="card dk mt24" style="text-align:left;background:rgba(255,255,255,.07)"><div class="h4">Keep the crew together?</div><p class="sm mt8">Add them to your grove. Then start your next challenge with one tap.</p></div></div>
-  ${foot(btn('Add crew to my grove',`${JSON.stringify(crew).replace(/"/g,"'")}.forEach(id=>{if(!inGrove(id))S.grove.push({id,status:PEOPLE[id].on?'growing':'invited',side:1})});save();toast('Crew added');home('gt-grove')`,'wh'),btn(`${ic('share',20)} Share our week`,`share({title:'Our skip week',story:storyCard({bg:'linear-gradient(180deg,#f2e3b8,#f0a763)',dark:1,eyebrow:'Skip and Stash',title:'${total} skips. One crew.',sub:'Skips, not dollars.',art:squirrel({hold:'heart',w:150})})})`,'ghost'))}`,mount(){confetti($('#screen'),60)}}});
+  ${foot(btn('Add crew to my grove',`${JSON.stringify(crew).replace(/"/g,"'")}.forEach(id=>{if(!inGrove(id))S.grove.push({id,status:PEOPLE[id].on?'growing':'invited',side:1})});save();toast('Crew added');home('gt-grove')`,'wh'),btn(`${ic('share',20)} Share our week`,`share({title:'Our skip week',story:storyCard({bg:'linear-gradient(180deg,#f2e3b8,#f0a763)',dark:1,eyebrow:'Skip and Invest',title:'${total} skips. One crew.',sub:'Skips, not dollars.',art:squirrel({hold:'heart',w:150})})})`,'ghost'))}`,mount(){confetti($('#screen'),60)}}});
 
 /* ---------- Future Club ---------- */
 const FC_DATE='October 26, 2027';
@@ -199,7 +199,7 @@ def('sam-planted',()=>({cls:'green',html:`${topbar({left:'<div style="width:44px
 def('map',()=>{const box=(t,s,bg,col)=>`<div style="background:${bg};color:${col||'var(--primarySlate)'};border-radius:14px;padding:10px 12px;font-size:13px;font-weight:600;line-height:1.25">${t}${s?`<div style="font-weight:500;opacity:.7;font-size:11px;margin-top:2px">${s}</div>`:''}</div>`;
   const arrow=l=>`<div class="center" style="padding:6px 0;color:var(--primaryStone)"><svg width="20" height="26" viewBox="0 0 20 26"><path d="M10 0v22M3 15l7 8 7-8" stroke="currentColor" stroke-width="2" fill="none"/></svg>${l?`<div class="sm" style="font-size:11px">${l}</div>`:''}</div>`;
   return {html:`${topbar({title:'How it all connects'})}<div class="body">
-  <div class="eyebrow mt8">Ways in</div><div class="grid2 mt8">${[['Grow Together','After sign-up'],['Money Type','From social'],['Skip and Stash','Friends challenge'],['Future Club','Goals, family'],['Acorns Year','Yearly share'],['Invite link','Anywhere']].map(([a,b])=>box(a,b,'var(--naturalMoss)')).join('')}</div>
+  <div class="eyebrow mt8">Ways in</div><div class="grid2 mt8">${[['Grow Together','After sign-up'],['Money Type','From social'],['Skip and Invest','Friends challenge'],['Future Club','Goals, family'],['Acorns Year','Yearly share'],['Invite link','Anywhere']].map(([a,b])=>box(a,b,'var(--naturalMoss)')).join('')}</div>
   ${arrow('everyone you bring in lands in')}
   <div class="card dk" style="padding:16px"><div class="h4">Your grove</div><p class="sm mt8">One per person. Only you see yours. Connections are mutual.</p>
    <div class="grid2 mt12">${box('Streak','Sets your oak’s height','rgba(255,255,255,.1)','#fff')}${box('Your oak','Stage and extras','rgba(255,255,255,.1)','#fff')}${box('Side by side','Weeks with each person','rgba(255,255,255,.1)','#fff')}${box('Challenges','Many at once','rgba(255,255,255,.1)','#fff')}</div>

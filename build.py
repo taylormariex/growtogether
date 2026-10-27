@@ -19,7 +19,7 @@ JS = ['art.js', 'assets1.js', 'assets2.js', 'assets3.js', 'assets4.js', 'theme-a
 
 # slug → (lander key, page title)
 FOCUS = {
-    'skip-and-stash': ('skip-and-stash', 'Skip and Stash'),
+    'skip-and-invest': ('skip-and-stash', 'Skip and Invest'),
     'shared-goals':   ('split',          'Shared goals'),
     'acorns-year':    ('year',           'Acorns Year'),
     'invite':         ('invite',         'Invite to your grove'),
@@ -56,6 +56,9 @@ def main():
     for slug, (key, _) in FOCUS.items():
         d = docs / slug; d.mkdir(exist_ok=True)
         (d / 'index.html').write_text(assemble(key, slug, stamp))
+    # the old Skip and Stash link forwards to the renamed experience
+    (docs / 'skip-and-stash').mkdir(exist_ok=True)
+    (docs / 'skip-and-stash' / 'index.html').write_text('<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=../skip-and-invest/"><title>Skip and Invest</title><a href="../skip-and-invest/">Skip and Invest</a>')
     # art ships with the page
     for f in (ROOT / 'art').iterdir():
         shutil.copy(f, docs / 'art' / f.name)

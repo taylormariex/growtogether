@@ -18,7 +18,7 @@ function yCard(n,o){o=o||{};const nm=S.me,W=48,RU=312;const miss=new Set([3,9,17
      <div class="yc-wk">${ycDots(52,'',k=>miss.has(k)?'ring':(k<16?'dk':'gr'))}</div>
      <div class="yc-legend"><i></i>Longest run: 21 weeks in a row.</div><img class="yc-med" style="left:210px;top:432px;width:124px" src="${YART}y-med-pip-c.png" alt="">${o.share?ycFoot(0,''):''}</div>`,
   ()=>`<div class="yc" style="background-image:url(${YART}y-roundups.jpg)"><span class="yc-chip" style="left:18px;top:18px">Round-Ups®</span><span class="yc-chip" style="right:18px;top:18px">${N(2)}</span>
-     <div class="yc-panel" style="top:415px;height:209px"><div class="yc-num" data-count="${RU}">${o.anim?0:RU}</div><div class="yc-s">everyday purchases<br>rounded up into investing.</div><div class="yc-chips"><span>Mostly coffee</span><span>+ 26 skips stashed</span></div>${o.share?ycFoot():''}</div></div>`,
+     <div class="yc-panel" style="top:415px;height:209px"><div class="yc-num" data-count="${RU}">${o.anim?0:RU}</div><div class="yc-s">everyday purchases<br>rounded up into investing.</div><div class="yc-chips"><span>Mostly coffee</span><span>+ 26 skips invested</span></div>${o.share?ycFoot():''}</div></div>`,
   ()=>`<div class="yc" style="background-image:url(${YART}y-rank-bg.jpg)"><div class="yc-hdr w">${ycLock(1)}<span>${N(3)}</span></div>
      <div class="yc-big w" style="font-size:76px;top:78px;letter-spacing:-2px">Top 6%</div><div class="yc-lead w" style="top:166px;font-size:19px">most consistent investors on<br>Acorns this year.</div>
      <div class="yc-rank">${ycDots(100,'',k=>k<6?'gold':'lt')}</div>

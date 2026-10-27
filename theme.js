@@ -165,7 +165,7 @@ def('menu',()=>({cls:'dark',html:`<div class="body" style="padding-top:0">
   <div class="mt24">${btn('Start right after sign-up','startGT()','wh')}</div><div class="mt8">${btn('Jump into the app, 4 weeks in',"jumpAhead();home('gt-home')",'line','style="color:#fff"')}</div>
   <div class="sk-sec"><div class="h4">Ways in</div></div>
   ${skRow(`<img src="${IMG.roundup}">`,'Money Type','3 habit questions, a type, a next step','nav',"T={};home('mt-why1')")}
-  ${skRow(`<img src="${IMG.earn}">`,'Skip and Stash','A 7-day challenge with friends','nav',"T={};home('ss-why1')")}
+  ${skRow(`<img src="${IMG.earn}">`,'Skip and Invest','A 7-day challenge with friends','nav',"T={};home('ss-why1')")}
   ${skRow(`<img src="${IMG.learn}">`,'Future Club','Notes that open in a year','nav',"T={};home('fc-why1')")}
   ${skRow(`<img src="${IMG.later}">`,'Acorns Year','Your year as shareable stories','nav',"T={};home('ay-1')")}
   ${skRow(`<img src="${IMG.seedling}">`,'Money Manager split','One paycheck feeds three habits','nav',"T={};home('mm-why1')")}

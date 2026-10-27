@@ -2,7 +2,7 @@
    Polish pass · the Acorns Streaks visual system, applied everywhere.
    One stage art set (acorn → ancient oak), one seal set for milestones,
    one dark share card, one "Share your progress" sheet, real photographs
-   in the Skip & Stash polaroids, and the invite story opens on a time-lapse
+   in the Skip & Invest polaroids, and the invite story opens on a time-lapse
    instead of a still.
    ===================================================================== */
 const STAGE_SLUG=['acorn','mature-acorn','young-seedling','mature-seedling','young-sapling','young-oak','mature-oak','ancient-oak'];
@@ -30,7 +30,7 @@ function svgSeal(o){o=o||{};const id='sl'+(++SEALN);const s=o.size||96;const on=
   <text font-family="Avenir Next,Avenir,Inter,system-ui,sans-serif" font-size="17.5" font-weight="800" letter-spacing="2" fill="${g}"><textPath href="#${id}b" startOffset="50%" text-anchor="middle">${(o.bottom||o.top||'').toUpperCase()}</textPath></text>
   <g transform="translate(72 72)">${on?sgGlyph(o.glyph||'star',56,'#2f7a12'):`<svg width="56" height="56" viewBox="0 0 24 24"><rect x="5.5" y="10.5" width="13" height="9" rx="2" fill="none" stroke="#9aa39b" stroke-width="1.8"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" fill="none" stroke="#9aa39b" stroke-width="1.8"/></svg>`}</g></svg>`}
 
-/* ---------- milestone rows: Skip & Stash and shared goals ---------- */
+/* ---------- milestone rows: Skip & Invest and shared goals ---------- */
 function sealRow(list,reached,o){o=o||{};return `<div class="sgx-card"><div class="sgx-ch"><div><b>Milestones</b><em>${o.sub||''}</em></div><span class="sl-cnt">${reached.length}/${list.length}</span></div>
   <div class="sl-row">${list.map(([v,l,gl],i)=>{const on=reached.indexOf(v)>-1;return `<div class="sl-it ${on?'on':''}" style="animation-delay:${i*60}ms">${svgSeal({top:l,glyph:gl,size:90,on})}<b>${l}</b><em>${o.unit?o.unit(v):v+'%'}</em></div>`}).join('')}</div>${o.bar||''}</div>`}
 sgBadges=function(p){return sealRow(SG_MS,SG_MS.filter(m=>p>=m[0]).map(m=>m[0]),{sub:`${SG_MS.filter(m=>p>=m[0]).length} of ${SG_MS.length} reached, together`})};
@@ -63,7 +63,7 @@ sgShare=function(pct,ms){const g=sgG();const who=nm(g.who);const m=SG_MS.find(x=
   card:dkCard({seal:m?svgSeal({top:m[1],glyph:m[2],size:140}):`<div class="dkc-pct"><b>${pct}%</b><em>together</em></div>`,title:g.name,sub:m?`${m[1]} · with ${who}`:`${pct}% saved · with ${who}`})})};
 ssShare=function(item,ms){const st=ssStats();const m=SS_MS.find(x=>x[0]===ms);const it=String(item||'it').replace(/ jar$/i,'').toLowerCase();
  progressShare({head:m?'Share the milestone':'Share the skip',sub:m?`${m[1]}, every one invested`:`You skipped ${it} and invested it`,title:m?m[1]:`Skipped ${it}`,text:m?`${m[1]} on Acorns, every one invested.`:`Skipped ${it} today and invested it instead.`,
-  card:dkCard({seal:m?svgSeal({top:m[1],glyph:m[2],size:140}):`<div class="dkc-pct"><b>${st.skips}</b><em>skips this month</em></div>`,title:m?m[1]:'Skipped it. Stashed it.',sub:m?`${st.skips} skips, all invested`:`${st.skips} skips this month, every one invested`})})};
+  card:dkCard({seal:m?svgSeal({top:m[1],glyph:m[2],size:140}):`<div class="dkc-pct"><b>${st.skips}</b><em>skips this month</em></div>`,title:m?m[1]:'Skipped it. Invested it.',sub:m?`${st.skips} skips, all invested`:`${st.skips} skips this month, every one invested`})})};
 ycShare=function(html,title){progressShare({head:'Share your year',sub:title||'',title:title||'My Acorns Year',card:ycFrame(html,300),cls:'tall'})};
 
 /* Year, "Grown together": the grove in the same stage art */
@@ -72,8 +72,12 @@ ycShare=function(html,title){progressShare({head:'Share your year',sub:title||''
 /* ---------- the milestone card in the Year story: a stage seal, not a flag ---------- */
 LV.yrten=()=>`${ldGlow()}<div class="lv-mid"><div class="yt-cel rise"><div class="yt-seal">${sealImg(2,132)}</div><em>Young Seedling</em><b>Ten weeks<br>in a row</b><p>Most people don’t make it past four.</p><div class="yt-acts"><span>${ic('share',14)} Share</span><span class="ok">${ic('check',14)} Nice</span></div></div></div>`;
 
-/* ---------- Skip & Stash story: photographs in the polaroids ---------- */
-polScene=function(k){return `<img src="${YART}pol-${k}.jpg" alt="">`};
+/* ---------- Skip & Invest story, card one: three skips become three sprouts ---------- */
+LV.sswhy=()=>`${ldGlow()}<div class="skw" id="skw"><div class="tl-ground"></div>
+  ${[['cup','Made coffee at home','$6',24],['car','Walked instead','$14',50],['bag','Cooked, didn’t order','$22',76]].map(([k,t,a,x],i)=>`<div class="skw-i" style="--x:${x}%;--i:${i}"><div class="skw-chip"><span class="skw-ic">${ssQIc(k)}</span><b>${t}</b><em>${a}</em></div><img class="skw-ac" src="${stageSrc(0)}" alt=""><div class="skw-soil"></div><img class="skw-sp" src="${stageSrc(2)}" alt=""></div>`).join('')}</div>`;
+(function(){const f=SCR.splash;if(!f)return;SCR.splash=p=>{const r=f(p);const m=r.mount;r.mount=el=>{if(m)m(el);const w=$('#skw',el);if(!w||w._on)return;w._on=1;
+  $$('.skw-i',w).forEach(it=>{const x=parseFloat(it.style.getPropertyValue('--x'))/100;it.style.setProperty('--dx',((.5-x)*w.offsetWidth).toFixed(0)+'px')});
+  const run=()=>{if(!document.contains(w))return;w.classList.remove('go');void w.offsetWidth;w.classList.add('go');setTimeout(run,10500)};run()};return r}})();
 
 /* ---------- Invite story, card one: an acorn is planted, then a time-lapse to the oak ---------- */
 LV.alone=()=>`${ldGlow()}<div class="tlp" id="tl"><div class="tl-ground"></div><div class="tl-rays"></div>${STAGE_SLUG.map((s,i)=>`<img class="tl-s" data-i="${i}" src="${YART}stage-${s}.png" alt="" style="height:${Math.round(STAGE_H[i]*1.3)}px">`).join('')}<div class="tl-soil"></div><div class="tl-motes">${Array.from({length:9},(_,k)=>`<i style="left:${18+(k*23)%66}%;animation-delay:-${(k*.7).toFixed(1)}s;animation-duration:${(3+(k%3)).toFixed(1)}s"></i>`).join('')}</div><div class="tl-yrs" id="tlyr"><em>Week</em><b id="tlyn">1</b></div></div>`;
@@ -139,6 +143,22 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ps-h{display:flex;align-items:flex-start;justify-content:space-between;margin-top:4px}.ps-h b{display:block;font-size:20px;letter-spacing:-.3px;color:#191919}.ps-h em{display:block;font-style:normal;font-size:13px;color:#6b706c;margin-top:3px}
 .ps-card{display:flex;justify-content:center;margin:16px 0 18px}.ps-in{transform:scale(.86);transform-origin:50% 0;margin-bottom:calc(-340px * .14)}.ps-in:has(.ycf){transform:scale(.6);margin-bottom:calc(-533px * .4)}
 .ps-acts{display:flex;gap:10px}.ps-acts button{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 4px 10px;border-radius:18px;background:#f4f6f1;color:#191919;font-size:12px;font-weight:600}.ps-acts button span{width:44px;height:44px;border-radius:22px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 0 rgba(0,0,0,.06)}
+/* three skips → three sprouts */
+.skw{position:absolute;left:0;right:0;bottom:22%;height:66%;pointer-events:none}
+.skw-i{position:absolute;left:var(--x);bottom:0;width:0;height:100%}
+.skw-chip{position:absolute;left:var(--dx);top:calc(4% + var(--i) * 60px);transform:translateX(-50%) translateY(10px);width:220px;padding:11px 14px 11px 11px;border-radius:18px;background:#fff;color:#191919;display:flex;align-items:center;gap:10px;box-shadow:0 16px 34px rgba(0,0,0,.35);opacity:0}
+.skw-chip b{font-size:14px;line-height:1.15;flex:1;font-weight:600}.skw-chip em{font-style:normal;font-size:14px;font-weight:700;color:#2f7a12}.skw-ic{width:34px;height:34px;border-radius:17px;background:#eef3e8;display:flex;align-items:center;justify-content:center;flex:none}.skw-ic svg{width:18px;height:18px}
+.skw-ac{position:absolute;left:0;bottom:0;height:64px;transform:translateX(-50%);opacity:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4))}
+.skw-sp{position:absolute;left:0;bottom:0;height:92px;transform:translateX(-50%) scaleY(.2);transform-origin:50% 100%;opacity:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4))}
+.skw-soil{position:absolute;left:0;bottom:-3px;width:90px;height:20px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(60,40,20,.5),transparent);opacity:0}
+.skw.go .skw-chip{animation:skwChip .7s calc(var(--i) * 2.4s) cubic-bezier(.2,1.1,.3,1) both}
+.skw.go .skw-ac{animation:skwDrop 1.2s calc(var(--i) * 2.4s + .9s) cubic-bezier(.45,0,.55,1) both}
+.skw.go .skw-soil{animation:tlSoil .9s calc(var(--i) * 2.4s + 1.85s) ease both}
+.skw.go .skw-sp{animation:skwGrow 1.2s calc(var(--i) * 2.4s + 1.95s) cubic-bezier(.2,1.3,.3,1) both}
+@keyframes skwChip{0%{opacity:0;transform:translateX(-50%) translateY(14px) scale(.96)}100%{opacity:1;transform:translateX(-50%)}}
+@keyframes skwDrop{0%{opacity:0;transform:translate(calc(-50% + var(--dx)),-320px) rotate(-20deg) scale(.5)}15%{opacity:1}78%{opacity:1;transform:translate(-50%,0) rotate(0)}100%{opacity:0;transform:translate(-50%,0) scale(.7)}}
+@keyframes skwGrow{0%{opacity:0;transform:translateX(-50%) scaleY(.2)}40%{opacity:1}100%{opacity:1;transform:translateX(-50%) scale(1)}}
+.skw .tl-ground{width:340px;height:90px}
 /* polaroids: real photographs */
 .pol-ph img{width:100%;height:100%;object-fit:cover;display:block}
 /* time-lapse */
@@ -176,11 +196,11 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .scr.has-actabs .sg-foot.sgx-two{bottom:calc(var(--safeBot) + 80px)}
 </style>`);
 
-/* ---------- Skip & Stash: the ☰ is the prototype menu everywhere. The extras live in the product. ---------- */
+/* ---------- Skip & Invest: the ☰ is the prototype menu everywhere. The extras live in the product. ---------- */
 (function(){const f=SCR['ss-hub'];if(!f)return;SCR['ss-hub']=p=>{const r=f(p);const det=S.detect&&S.detect.on;const rules=(S.rules||[]).length;
   const row=(i,t,d,js)=>`<button class="ssx-row" onclick="${js}"><span class="ssx-ri">${ic(i,18)}</span><span class="grow"><b>${t}</b><em>${d}</em></span>${ic('chev',16,'opacity:.35')}</button>`;
   const setup=`<div class="sgx-card ssx-setup"><div class="sgx-ch"><div><b>Make skipping effortless</b><em>Optional. A tap always works on its own.</em></div></div>
-   ${row('gear','Skip Rules',rules?`${rules} rule${rules===1?'':'s'} on · stash on check-in`:'Stash automatically when you check in “Skipped it”',"go('sr-intro')")}
+   ${row('gear','Skip Rules',rules?`${rules} rule${rules===1?'':'s'} on · invest on check-in`:'Invest automatically when you check in “Skipped it”',"go('sr-intro')")}
    ${row('spark','Spot my skips',det?`On · ${S.detect.cats.join(', ')}`:'Off. We never read spending unless you turn this on',det?"go('ss-settings')":"go('ss-detect')")}
    ${row('bell','Reminders','A check-in on your lock screen. See one.',"T.lk=null;go('ss-lock')")}</div>`;
   const review=`<button class="ssx-review" onclick="go('ss-review')"><span class="ssx-ri cal">${ic('cal',18)}</span><span class="grow"><b>Sunday review</b><em>Count the week’s skips in one place</em></span>${ic('chev',16,'opacity:.4')}</button>`;

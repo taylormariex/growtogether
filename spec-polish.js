@@ -21,18 +21,18 @@ function svgSeal(o){o=o||{};const id='sl'+(++SEALN);const s=o.size||96;const on=
  const hatch=(a0)=>{let out='';for(let a=a0-14;a<=a0+14;a+=4.7){const r=a*Math.PI/180;out+=`<line x1="${(100+56*Math.cos(r)).toFixed(1)}" y1="${(100+56*Math.sin(r)).toFixed(1)}" x2="${(100+84*Math.cos(r)).toFixed(1)}" y2="${(100+84*Math.sin(r)).toFixed(1)}"/>`}return out};
  return `<svg class="seal ${on?'':'off'}" width="${s}" height="${s}" viewBox="0 0 200 200" aria-hidden="true">
   <defs><radialGradient id="${id}g" cx="50%" cy="38%" r="62%"><stop offset="0" stop-color="${on?'#f3f9ea':'#eef0ec'}"/><stop offset="1" stop-color="${on?'#c9e3ae':'#dfe3dc'}"/></radialGradient>
-   <path id="${id}t" d="M36 100 A64 64 0 0 1 164 100"/><path id="${id}b" d="M24 100 A76 76 0 0 0 176 100"/></defs>
+   <path id="${id}t" d="M35 100 A65 65 0 0 1 165 100"/><path id="${id}b" d="M22 100 A78 78 0 0 0 178 100"/></defs>
   <circle cx="100" cy="100" r="97" fill="${on?'#f5f6ee':'#eceeea'}" stroke="${g}" stroke-width="2.4"/>
   <circle cx="100" cy="100" r="89" fill="none" stroke="${g}" stroke-width="1.1" stroke-dasharray="2.5 4.5"/>
   <g stroke="${g}" stroke-width="1.1" opacity=".9">${hatch(0)}${hatch(180)}</g>
   <circle cx="100" cy="100" r="52" fill="url(#${id}g)" stroke="${g}" stroke-width="2.4"/>
-  <text font-family="Avenir Next,Avenir,Inter,system-ui,sans-serif" font-size="15.5" font-weight="800" letter-spacing="1.8" fill="${g}"><textPath href="#${id}t" startOffset="50%" text-anchor="middle">${(o.top||'').toUpperCase()}</textPath></text>
-  <text font-family="Avenir Next,Avenir,Inter,system-ui,sans-serif" font-size="15.5" font-weight="800" letter-spacing="1.8" fill="${g}"><textPath href="#${id}b" startOffset="50%" text-anchor="middle">${(o.bottom||o.top||'').toUpperCase()}</textPath></text>
+  <text font-family="Avenir Next,Avenir,Inter,system-ui,sans-serif" font-size="17.5" font-weight="800" letter-spacing="2" fill="${g}"><textPath href="#${id}t" startOffset="50%" text-anchor="middle">${(o.top||'').toUpperCase()}</textPath></text>
+  <text font-family="Avenir Next,Avenir,Inter,system-ui,sans-serif" font-size="17.5" font-weight="800" letter-spacing="2" fill="${g}"><textPath href="#${id}b" startOffset="50%" text-anchor="middle">${(o.bottom||o.top||'').toUpperCase()}</textPath></text>
   <g transform="translate(72 72)">${on?sgGlyph(o.glyph||'star',56,'#2f7a12'):`<svg width="56" height="56" viewBox="0 0 24 24"><rect x="5.5" y="10.5" width="13" height="9" rx="2" fill="none" stroke="#9aa39b" stroke-width="1.8"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" fill="none" stroke="#9aa39b" stroke-width="1.8"/></svg>`}</g></svg>`}
 
 /* ---------- milestone rows: Skip & Stash and shared goals ---------- */
 function sealRow(list,reached,o){o=o||{};return `<div class="sgx-card"><div class="sgx-ch"><div><b>Milestones</b><em>${o.sub||''}</em></div><span class="sl-cnt">${reached.length}/${list.length}</span></div>
-  <div class="sl-row">${list.map(([v,l,gl],i)=>{const on=reached.indexOf(v)>-1;return `<div class="sl-it ${on?'on':''}" style="animation-delay:${i*60}ms">${svgSeal({top:l,glyph:gl,size:84,on})}<b>${l}</b><em>${o.unit?o.unit(v):v+'%'}</em></div>`}).join('')}</div>${o.bar||''}</div>`}
+  <div class="sl-row">${list.map(([v,l,gl],i)=>{const on=reached.indexOf(v)>-1;return `<div class="sl-it ${on?'on':''}" style="animation-delay:${i*60}ms">${svgSeal({top:l,glyph:gl,size:90,on})}<b>${l}</b><em>${o.unit?o.unit(v):v+'%'}</em></div>`}).join('')}</div>${o.bar||''}</div>`}
 sgBadges=function(p){return sealRow(SG_MS,SG_MS.filter(m=>p>=m[0]).map(m=>m[0]),{sub:`${SG_MS.filter(m=>p>=m[0]).length} of ${SG_MS.length} reached, together`})};
 ssBadges=function(n,nx){return sealRow(SS_MS,SS_MS.filter(m=>n>=m[0]).map(m=>m[0]),{sub:nx?`${nx[0]-n} more skip${nx[0]-n===1?'':'s'} to ${nx[1]}`:'All five reached',unit:v=>`${v} skip${v===1?'':'s'}`,bar:nx?`<div class="sgx-nb" style="margin-top:14px"><i style="width:${Math.round(n/nx[0]*100)}%"></i></div>`:''})};
 /* celebration screens: the round gradient badge becomes a seal */
@@ -76,7 +76,7 @@ LV.yrten=()=>`${ldGlow()}<div class="lv-mid"><div class="yt-cel rise"><div class
 polScene=function(k){return `<img src="${YART}pol-${k}.jpg" alt="">`};
 
 /* ---------- Invite story, card one: an acorn is planted, then a time-lapse to the oak ---------- */
-LV.alone=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow"></div><div class="tl" id="tl">${STAGE_SLUG.map((s,i)=>`<img class="tl-s" data-i="${i}" src="${YART}stage-${s}.png" alt="" style="height:${Math.round(STAGE_H[i]*1.15)}px">`).join('')}<div class="tl-soil"></div><div class="tl-yrs" id="tlyr"></div></div></div>`;
+LV.alone=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow"></div><div class="tl" id="tl">${STAGE_SLUG.map((s,i)=>`<img class="tl-s" data-i="${i}" src="${YART}stage-${s}.png" alt="" style="height:${Math.round(STAGE_H[i]*1.4)}px">`).join('')}<div class="tl-soil"></div><div class="tl-yrs" id="tlyr"></div></div></div>`;
 (function(){const f=SCR.splash;if(!f)return;SCR.splash=p=>{const r=f(p);const m=r.mount;r.mount=el=>{if(m)m(el);const tl=$('#tl',el);if(!tl||tl._on)return;tl._on=1;
   const imgs=$$('.tl-s',tl),yr=$('#tlyr',tl);const lab=['Week 1','Week 5','Week 10','Week 20','Week 40','Week 80','Week 160','Week 320'];let k=0;
   const show=i=>{imgs.forEach((im,j)=>im.classList.toggle('on',j===i));yr.textContent=lab[i];yr.classList.remove('tick');void yr.offsetWidth;yr.classList.add('tick')};
@@ -98,13 +98,14 @@ gvTree=function(s){const g=s.g,id=s.g.id;const d=s.depth;const sc=.40+d*.52;cons
   return r}})();
 
 /* the oak hero everywhere: the same eight stages */
-(function(){const f=oakStage;oakStage=function(o){o=o||{};const w=o.weeks!==undefined?o.weeks:S.streak;const i=stageIdx(w);const H=o.h||300;const th=Math.round(Math.min(STAGE_H[i]*1.3,H*(i<2?.24:i<5?.4:.6)));
+(function(){const f=oakStage;oakStage=function(o){o=o||{};const w=o.weeks!==undefined?o.weeks:S.streak;const i=stageIdx(w);const H=o.h||300;const th=Math.round(Math.min(STAGE_H[i]*1.7,H*(i<2?.28:i<5?.48:.66)));
   return f(o).replace(/(<div class="sway"><img )src="[^"]*" style="height:\d+px"/,`$1src="${stageSrc(i)}" style="height:${th}px"`)}})();
 
 /* ---------- Oak tab: stage seal, stat tiles, the achievements list ---------- */
 (function(){const f=SCR['gt-oak'];if(!f)return;SCR['gt-oak']=p=>{const r=f(p);const w=S.streak,i=stageIdx(w),best=Math.max(w,S.best||8);
   const list=`<div class="sk-sec"><div class="h4">Achievements</div><span class="sm">${i+1}/${RSTAGES.length} complete</span></div>
    <div class="achv">${RSTAGES.map((r,k)=>{const on=k<=i;return `<div class="achv-r ${on?'on':''}">${on?sealImg(k,46):`<span class="achv-lk">${svgSeal({top:'',size:46,on:false})}</span>`}<div class="grow"><b>${r[1]}</b><em>${r[0]?`${r[0]} week streak`:'Your first week'}</em></div><span class="achv-ck">${on?ic('check',14,'color:#0a1d08'):''}</span></div>`}).join('')}</div>`;
+  r.html=r.html.replace(/<div class="osbar mt16"><i style="width:(\d+)%"><\/i><\/div><div class="row between mt8">([\s\S]*?)<\/div>/,(m,pc,labs)=>{const nx=nextGoal(w);return `<div class="osbar2" style="margin-top:22px"><i style="width:${pc}%"></i><span class="os-pip" style="left:${pc}%">${ic2('flame',12)}</span></div><div class="row between os-labs" style="margin:14px 10px 0"><span class="sm">${w} week${w===1?'':'s'}</span><span class="sm">${nx[0]} weeks · ${nx[1]}</span></div>`});
   r.html=r.html.replace(/<div class="bento mt24">[\s\S]*?<\/div><\/div><\/div>/,`<div class="bento mt24"><div class="ostat tile"><span class="ost-ic">${ic2('flame',18)}</span><b>${w}</b><span>Current streak</span></div><div class="ostat tile"><span class="ost-ic">${sgGlyph('trophy',18,'#bceaa3')}</span><b>${best}</b><span>Best streak</span></div></div>${list}`);
   return r}})();
 
@@ -112,8 +113,8 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 /* seals */
 .seal{display:block;filter:drop-shadow(0 6px 14px rgba(20,60,10,.18))}.seal.off{filter:none;opacity:.7}.seal-im{display:block;object-fit:contain}
 .sl-cnt{font-size:12px;font-weight:700;color:#2f7a12;background:#e6f4dc;padding:4px 9px;border-radius:12px}
-.sl-row{display:flex;gap:4px;margin:0 -6px;overflow-x:auto;scrollbar-width:none;padding:4px 6px 2px}.sl-row::-webkit-scrollbar{display:none}
-.sl-it{flex:none;width:92px;display:flex;flex-direction:column;align-items:center;text-align:center;animation:slIn .5s cubic-bezier(.2,1.2,.3,1) both}.sl-it b{font-size:12px;margin-top:6px;color:#191919;line-height:1.15}.sl-it em{font-style:normal;font-size:11px;color:#6b706c;margin-top:2px}.sl-it:not(.on) b{color:#8a958c}
+.sl-row{display:flex;gap:8px;margin:0 -16px;overflow-x:auto;scrollbar-width:none;padding:6px 16px 4px}.sl-row::-webkit-scrollbar{display:none}
+.sl-it{flex:none;width:96px;display:flex;flex-direction:column;align-items:center;text-align:center;animation:slIn .5s cubic-bezier(.2,1.2,.3,1) both}.sl-it b{font-size:12px;margin-top:6px;color:#191919;line-height:1.15}.sl-it em{font-style:normal;font-size:11px;color:#6b706c;margin-top:2px}.sl-it:not(.on) b{color:#8a958c}
 @keyframes slIn{from{opacity:0;transform:translateY(8px) scale(.94)}}
 .sl-pop{filter:drop-shadow(0 20px 40px rgba(40,110,20,.35))}.sl-pop.pop{animation:sgxPop .7s cubic-bezier(.2,1.5,.4,1) both}
 /* milestone card in the Year story */
@@ -138,20 +139,24 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 /* polaroids: real photographs */
 .pol-ph img{width:100%;height:100%;object-fit:cover;display:block}
 /* time-lapse */
-.lv-forest:has(.tl):after{content:"";position:absolute;left:0;right:0;top:0;height:34%;background:linear-gradient(180deg,#222a20,rgba(34,42,32,0));pointer-events:none}
-.tl{position:absolute;left:0;right:0;bottom:26%;height:60%;pointer-events:none}
+.lv-forest:has(.tl):after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 70px 36px #222a20,inset 0 90px 60px -40px #222a20;pointer-events:none}
+.tl{position:absolute;left:0;right:0;bottom:30%;height:60%;pointer-events:none}
 .tl-s{position:absolute;left:50%;bottom:0;transform:translateX(-50%) scale(.92);opacity:0;transition:opacity .55s ease,transform .7s cubic-bezier(.2,.9,.3,1);filter:drop-shadow(0 12px 14px rgba(0,0,0,.45))}
 .tl-s.on{opacity:1;transform:translateX(-50%) scale(1)}
 .tl.plant .tl-s[data-i="0"]{animation:tlDrop .9s cubic-bezier(.3,1.4,.4,1) both}
 @keyframes tlDrop{0%{opacity:0;transform:translateX(-50%) translateY(-140px) scale(.8)}60%{opacity:1;transform:translateX(-50%) translateY(6px) scale(1.02)}100%{opacity:1;transform:translateX(-50%) scale(1)}}
 .tl-soil{position:absolute;left:50%;bottom:-6px;width:120px;height:26px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.35),transparent);opacity:0}.tl.plant .tl-soil{animation:tlSoil 1s .5s ease both}
 @keyframes tlSoil{0%{opacity:0;transform:translateX(-50%) scale(.3)}40%{opacity:1}100%{opacity:0;transform:translateX(-50%) scale(1.6)}}
-.tl-yrs{position:absolute;left:50%;bottom:-34px;transform:translateX(-50%);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(188,234,163,.85);opacity:0}.tl-yrs.tick{animation:tlYr 1s ease both}
+.tl-yrs{position:absolute;left:50%;bottom:-44px;transform:translateX(-50%);padding:6px 12px;border-radius:14px;background:rgba(10,29,8,.55);box-shadow:inset 0 0 0 1px rgba(188,234,163,.25);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#bceaa3;opacity:0;white-space:nowrap}.tl-yrs.tick{animation:tlYr 1s ease both}
 @keyframes tlYr{0%{opacity:0;transform:translateX(-50%) translateY(4px)}25%{opacity:1;transform:translateX(-50%)}100%{opacity:1}}
 /* grove ridge */
 .gv-tl{position:absolute;left:0;right:0;height:1px;pointer-events:none}.gv-tl img{position:absolute;bottom:0;transform:translateX(-50%);width:auto}
 .gv-tl.far img{filter:brightness(.36) saturate(.55) blur(.4px)}.gv-tl.mid img{filter:brightness(.52) saturate(.7)}
 /* oak tab */
+.osbar2{position:relative;height:10px;border-radius:5px;background:rgba(255,255,255,.12);margin:0 10px}.osbar2 i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#4da62b,#8fd45f)}
+.os-pip{position:absolute;top:50%;width:24px;height:24px;margin-left:-12px;transform:translateY(-50%);border-radius:12px;background:#bceaa3;color:#0a1d08;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 4px rgba(188,234,163,.25),0 4px 10px rgba(0,0,0,.4)}
+.os-labs .sm{font-size:12px!important;font-weight:600;color:rgba(255,255,255,.6)!important}
+.scr .body .eyebrow+.h1{margin-top:6px}
 .ostat.tile{flex-direction:column;align-items:center;text-align:center;gap:6px;padding:16px 10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px}
 .ost-ic{width:36px;height:36px;border-radius:18px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#bceaa3}
 .ostat.tile b{font-size:24px;letter-spacing:-.5px}.ostat.tile span:last-child{font-size:12px}

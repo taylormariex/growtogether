@@ -731,16 +731,22 @@ function sgAll(){if(!S.sgs){S.sgs=[];const d=sgDemo();d.id='g-lisbon';S.sgs.push
 function sgCreate(){const g=Object.assign({},T.sg,{id:'g-'+Date.now(),pct:0,joined:false,log:[],weeks:[],by:T.sg.kind==='Wedding'?'October 2027':T.sg.kind==='Car'?'March 2027':T.sg.kind==='First apartment'?'August 2027':'Next year'});delete g.edit;sgAll().push(g);S.sg=g;save()}
 function sgOpen(id){const g=sgAll().find(x=>x.id===id);if(!g)return;S.sg=g;T.sgPrev=null;save();go('sg-home')}
 def('sg-list',()=>{const gs=sgAll();if(S.sg&&!gs.includes(S.sg)){const f=gs.find(x=>x.id===S.sg.id);if(f)S.sg=f}
- const card=g=>{const K=SG_KIND[g.kind]||SG_KIND.Trip;const p=g.pct||0;const nx=SG_MS.find(m=>p<m[0]);const ws=sgWhos(g);
-  return `<button class="sgl-card" style="background:${K.bg}" onclick="sgOpen('${g.id}')"><div class="sgl-top"><span class="sgl-ic">${sgGlyph(K.ic,20,'#2f7a12')}</span><div class="grow"><b>${g.name}</b><em>with ${ws.map(nm).join(ws.length>2?', ':' and ').replace(/, ([^,]*)$/,' and $1')}${g.by?' · by '+g.by:''}</em></div><div class="sgl-ring">${sgRing(p,54)}<b>${p}%</b></div></div>
-   <div class="sgl-bot"><div class="sg-pair sm">${['me'].concat(ws).map(i=>sgAv(i,24)).join('')}</div><em>${g.joined?(nx?`Next: ${nx[1]} at ${nx[0]}%`:'Made it'):`Waiting on ${ws.map(nm).join(' and ')}`}</em></div></button>`};
- return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Shared goals</b><span style="width:44px"></span></div>
+ const named=ws=>ws.map(nm).join(ws.length>2?', ':' and ').replace(/, ([^,]*)$/,' and $1');
+ /* the goal closest to its next milestone leads */
+ const lead=gs.slice().sort((a,b)=>{const d=g=>{const p=g.pct||0;const nx=SG_MS.find(m=>p<m[0]);return nx?nx[0]-p:999};return d(a)-d(b)})[0];
+ const hero=g=>{const p=g.pct||0;const nx=SG_MS.find(m=>p<m[0]);const ws=sgWhos(g);
+  return `<button class="sgl-hero" onclick="sgOpen('${g.id}')"><div class="sgx-hero">${sgScene(g,p,{anim:1})}<div class="sgx-num"><b>${p}%</b><em>${g.name} · with ${named(ws)}</em></div></div>
+   <div class="sgl-hb"><div class="grow"><b>${nx?`${nx[0]-p}% to ${nx[1]}`:'You made it'}</b><em>${g.joined?`You and ${named(ws)} are both adding`:`Waiting on ${named(ws)} to join`}</em></div><span class="sgl-go">${ic('chev',16)}</span></div></button>`};
+ const row=g=>{const K=SG_KIND[g.kind]||SG_KIND.Trip;const p=g.pct||0;const nx=SG_MS.find(m=>p<m[0]);const ws=sgWhos(g);
+  return `<button class="sgl-row" onclick="sgOpen('${g.id}')"><span class="sgl-ic" style="background:${K.bg}">${sgGlyph(K.ic,20,'#2f7a12')}</span><div class="grow"><b>${g.name}</b><em>with ${named(ws)} · ${g.joined?(nx?`${nx[0]-p}% to ${nx[1].toLowerCase()}`:'made it'):'waiting on '+named(ws)}</em></div><div class="sgl-ring">${sgRing(p,46)}<b>${p}%</b></div></button>`};
+ const others=gs.filter(g=>g!==lead);
+ return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Shared goals</b><button class="iconbtn" onclick="T.sg=null;go('sg-new')" aria-label="New shared goal">${ic('plus',22)}</button></div>
  <div class="sg-body sgx-body">
-  <div class="sgl-hero"><div><b>${gs.length}</b><em>goal${gs.length===1?'':'s'} you’re saving for together</em></div><div><b>${new Set(gs.flatMap(sgWhos)).size}</b><em>${new Set(gs.flatMap(sgWhos)).size===1?'person':'people'} saving with you</em></div></div>
-  ${gs.map(card).join('')}
-  <button class="sgl-new" onclick="T.sg=null;go('sg-new')">${ic('plus',16)} New shared goal</button>
+  ${lead?hero(lead):''}
+  ${others.length?`<div class="sgl-sec">Also saving for</div><div class="sgx-card" style="padding:4px 16px">${others.map(row).join('')}</div>`:''}
+  <button class="sgl-new" onclick="T.sg=null;go('sg-new')">${ic('plus',16)} Start another goal with someone</button>
   <p class="sgx-priv">${ic('lock',12)} Everyone sees progress as a percent. Nobody sees anyone else’s dollars.</p>
- </div>`}});
+ </div>`,mount(el){const n=el.querySelector('.sgl-hero [data-count]');}}});
 /* after a goal is set up, the back button leads here; a sent invite lands on the goal, then home is the list */
 document.head.insertAdjacentHTML('beforeend',`<style>
 .sgl-hero{display:flex;gap:10px;margin-top:4px}.sgl-hero>div{flex:1;padding:14px 16px;border-radius:20px;background:#fff}.sgl-hero b{display:block;font-size:30px;font-weight:700;letter-spacing:-1px;line-height:1;color:#163d0c}.sgl-hero em{display:block;font-style:normal;font-size:12px;color:#6b706c;margin-top:4px}
@@ -762,3 +768,11 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .sgw-msgs{display:flex;flex-direction:column;gap:6px;width:100%;margin-top:16px}.sgw-msgs span{align-self:flex-start;max-width:85%;padding:8px 12px;border-radius:16px 16px 16px 4px;background:#e9e9eb;font-size:13px;text-align:left}.sgw-msgs span.me{align-self:flex-end;border-radius:16px 16px 4px 16px;background:#1a8cff;color:#fff}
 </style>`);
 (function(){const f=SCR.splash;SCR.splash=p=>{const r=f(p);if(p.k==='split'&&p.b===4){const m=r.mount;r.mount=el=>{if(m)m(el);setTimeout(()=>{ART.confetti($('#screen'),40);haptic(12)},500)}}return r}})();
+
+document.head.insertAdjacentHTML('beforeend',`<style>
+.sgl-hero{display:block;width:100%;padding:0;border-radius:28px;overflow:hidden;background:#fff;text-align:left;color:#191919;box-shadow:0 1px 0 rgba(0,0,0,.04)}.sgl-hero .sgx-scene{border-radius:0}.sgl-hero .sgx-num em{font-size:12px;max-width:200px;line-height:1.3}
+.sgl-hb{display:flex;align-items:center;gap:12px;padding:14px 16px}.sgl-hb b{display:block;font-size:17px;letter-spacing:-.2px}.sgl-hb em{display:block;font-style:normal;font-size:13px;color:#6b706c;margin-top:2px}.sgl-go{width:32px;height:32px;border-radius:16px;background:#f0f2ee;display:flex;align-items:center;justify-content:center;color:#191919;flex:none}
+.sgl-sec{margin:20px 4px 8px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5d655f}
+.sgl-row{display:flex;align-items:center;gap:12px;width:100%;padding:12px 0;text-align:left;color:#191919}.sgl-row+.sgl-row{border-top:1px solid #f0f2ee}.sgl-row b{display:block;font-size:15px}.sgl-row em{display:block;font-style:normal;font-size:12px;color:#6b706c;margin-top:2px}
+.sgl-row .sgl-ring svg{width:46px;height:46px}.sgl-row .sgl-ring b{font-size:11px}
+</style>`);

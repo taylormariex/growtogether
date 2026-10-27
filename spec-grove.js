@@ -9,12 +9,12 @@
 const GV_SEED=id=>{let h=0;for(const c of id)h=(h*31+c.charCodeAt(0))>>>0;return (h%1000)/1000};
 function gvSlots(){const gr=S.grove.slice();const n=gr.length;const out=[];
   /* ring 1: up to 4 nearest, flanking your oak. ring 2: next 6. ring 3+: the rest, further back. */
-  const rings=[[0,4,.74,[30,70,17,83]],[4,10,.50,[22,38,54,68,82,46]],[10,99,.30,null]];
+  const rings=[[0,2,.80,[27,73]],[2,8,.56,[15,36,58,80,47,25]],[8,99,.34,null]];
   gr.forEach((g,i)=>{const r=rings.find(([a,b])=>i>=a&&i<b)||rings[2];const [a,b,depth,xs]=r;let x;
     if(xs&&xs[i-a]!=null)x=xs[i-a];else{const k=i-a,m=Math.max(1,Math.min(b-a,n-a));x=Math.round(6+((k+.5)/m)*88)}
-    const j=(GV_SEED(g.id)-.5)*(xs?5:8);out.push({g,x:Math.max(16,Math.min(84,x+j)),depth:depth+(GV_SEED(g.id+'d')-.5)*.08})});
+    const j=(GV_SEED(g.id)-.5)*(xs?4:8);out.push({g,x:Math.max(13,Math.min(87,x+j)),depth:depth+(GV_SEED(g.id+'d')-.5)*.07})});
   return out.sort((p,q)=>p.depth-q.depth)}
-function gvTree(s){const g=s.g,id=g.id;const d=s.depth;const sc=.42+d*.5;const y=44+d*42; /* % from top of world → bottom of tree */
+function gvTree(s){const g=s.g,id=g.id;const d=s.depth;const sc=.40+d*.52;const y=30+d*62; /* % from top of world → bottom of tree */
   const base=`style="left:${s.x}%;top:${y}%;--sc:${sc.toFixed(2)};z-index:${Math.round(d*100)}"`;
   if(g.status!=='growing')return `<button class="gv-it ${GSEL===id?'sel':''}" id="gv-${id}" ${base} onclick="event.stopPropagation();gvSel('${id}')" aria-label="${nm(id)}, invite waiting"><div class="gv-seed"><img src="${IMG.acorn}" alt=""></div><div class="gv-tag">${nm(id)} · waiting</div></button>`;
   const W=wk(id),st=rstage(W);const h=st[2] in OAKS?150:st[2]==='seedling'?104:62;const cue=g.open&&!S.watered[id];
@@ -24,9 +24,9 @@ def('gt-grove',()=>{spInit();const gr=growing();const done=gr.filter(x=>!x.open)
    <div class="gv-sky"></div><div class="gv-sun"></div>
    <div class="gv-world" id="gvw">
     <div class="gv-far"></div><div class="gv-forest far"></div><div class="gv-mist"></div><div class="gv-forest mid"></div>
-    <div class="gv-slope"></div><div class="gv-light"></div>
+    <div class="gv-slope"></div><div class="gv-light"></div><div class="gv-wood">${[[8,.22,'oak'],[19,.26,'seedling'],[33,.2,'oak'],[47,.24,'ancient'],[61,.21,'oak'],[74,.25,'seedling'],[90,.23,'oak']].map(([x,d,k])=>`<img src="${IMG[k]}" style="left:${x}%;top:${30+d*62}%;--sc:${(.40+d*.52).toFixed(2)}" alt="">`).join('')}</div>
     ${gvSlots().map(gvTree).join('')}
-    <button class="gv-it me ${GSEL==='me'?'sel':''}" id="gv-me" style="left:50%;top:99%;--sc:.9;z-index:120" onclick="event.stopPropagation();gvSel('me')" aria-label="Your oak"><div class="sway"><img src="${IMG[st[2]]}" style="height:${meH}px" alt=""></div><div class="gv-tag me">You · ${plw(S.streak)}</div></button>
+    <button class="gv-it me ${GSEL==='me'?'sel':''}" id="gv-me" style="left:50%;top:97%;--sc:.9;z-index:120" onclick="event.stopPropagation();gvSel('me')" aria-label="Your oak"><div class="sway"><img src="${IMG[st[2]]}" style="height:${meH}px" alt=""></div><div class="gv-tag me">You · ${plw(S.streak)}</div></button>
     <div class="gv-grass"></div><div class="gv-fire">${Array.from({length:7}).map((_,i)=>`<i style="left:${10+i*13}%;bottom:${8+(i*17)%44}%;animation-delay:-${i*.8}s"></i>`).join('')}</div>
    </div>
    <div class="gv-hud" onclick="event.stopPropagation()"><button class="iconbtn gv-hb" onclick="home('gt-home')" aria-label="Back">${ic('back')}</button>
@@ -415,15 +415,15 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 
 /* v3 look: dawn in a wood. Acorns greens, warm light, no night-club spotlight. */
 document.head.insertAdjacentHTML('beforeend',`<style>
-.scr.gvs .gv{background:linear-gradient(180deg,#0e2a12 0%,#17421c 30%,#2a6a24 60%,#3f8e2b 100%)}
-.gvs .gv-sky{position:absolute;inset:0;height:50%;background:radial-gradient(120% 80% at 50% 100%,rgba(242,227,184,.22),transparent 60%)}
-.gvs .gv-sun{position:absolute;left:50%;top:26%;width:220px;height:220px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(242,227,184,.28),rgba(242,227,184,.06) 60%,transparent)}
-.gvs .gv-world{top:calc(var(--safeTop) + 92px);bottom:calc(var(--safeBot) + 222px)}
-.gvs .gv-far{position:absolute;left:-10%;right:-10%;top:14%;height:30%;border-radius:50% 50% 0 0/40% 40% 0 0;background:linear-gradient(180deg,#2d6a2a,#255e24)}
-.gvs .gv-forest.far{top:10%;height:26%;opacity:1;filter:brightness(1.35)}.gvs .gv-forest.mid{top:22%;height:22%;filter:brightness(1.3)}
-.gvs .gv-mist{top:28%;height:16%;background:linear-gradient(180deg,transparent,rgba(242,227,184,.22) 50%,transparent)}
-.gvs .gv-slope{position:absolute;left:-30%;right:-30%;top:36%;height:140%;border-radius:50% 50% 0 0/18% 18% 0 0;background:radial-gradient(ellipse 60% 40% at 50% 0%,#8fd45f 0%,#5fb53a 22%,#3f8e2b 48%,#2d6f22 72%,#1f5219 100%);box-shadow:inset 0 2px 0 rgba(242,227,184,.35)}
-.gvs .gv-light{position:absolute;left:0;right:0;top:34%;bottom:0;background:linear-gradient(100deg,rgba(242,227,184,.10),transparent 40%,transparent 60%,rgba(0,0,0,.12));pointer-events:none}
+.scr.gvs .gv{background:linear-gradient(180deg,#1a3f1e 0%,#2a6128 18%,#3d7f33 36%,#4f9a3a 100%)}
+.gvs .gv-sky{position:absolute;inset:0;height:44%;background:radial-gradient(130% 100% at 55% 100%,rgba(242,227,184,.36),rgba(242,227,184,.08) 48%,transparent 70%)}
+.gvs .gv-sun{position:absolute;left:62%;top:22%;width:260px;height:260px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(242,227,184,.28),rgba(242,227,184,.06) 60%,transparent)}
+.gvs .gv-world{top:calc(var(--safeTop) + 96px);bottom:calc(var(--safeBot) + 232px)}
+.gvs .gv-far{position:absolute;left:-20%;right:-20%;top:6%;height:30%;border-radius:50% 50% 0 0/50% 50% 0 0;background:linear-gradient(180deg,#2f6e2c,#2a6627)}
+.gvs .gv-forest.far{top:0%;height:24%;opacity:.9;filter:brightness(1.15) blur(.6px);background-image:radial-gradient(ellipse 34px 46px at 50% 100%,#123517 0 60%,transparent 61%),radial-gradient(ellipse 22px 30px at 50% 100%,#153c1a 0 60%,transparent 61%),radial-gradient(ellipse 40px 58px at 50% 100%,#133818 0 60%,transparent 61%)!important;background-size:71px 100%,113px 100%,167px 100%!important;background-position:0 0,37px 6px,80px -4px!important}.gvs .gv-forest.mid{top:11%;height:20%;filter:brightness(1.25);background-size:97px 100%,61px 100%!important;background-position:18px 0,53px 9px!important}
+.gvs .gv-mist{top:18%;height:16%;background:linear-gradient(180deg,transparent,rgba(242,227,184,.26) 55%,transparent)}
+.gvs .gv-slope{position:absolute;left:-30%;right:-30%;top:26%;height:160%;border-radius:50% 50% 0 0/14% 14% 0 0;background:radial-gradient(ellipse 60% 40% at 50% 0%,#8fd45f 0%,#5fb53a 22%,#3f8e2b 48%,#2d6f22 72%,#1f5219 100%);box-shadow:inset 0 2px 0 rgba(242,227,184,.35)}
+.gvs .gv-light{position:absolute;left:0;right:0;top:26%;bottom:0;background:linear-gradient(100deg,rgba(242,227,184,.10),transparent 40%,transparent 60%,rgba(0,0,0,.12)),linear-gradient(180deg,transparent 70%,rgba(10,30,8,.35));pointer-events:none}
 .gvs .gv-grass{top:auto;bottom:-2%;height:9%;opacity:.8}
 .gvs .gv-canopy,.gvs .gv-ridge,.gvs .gv-near,.gvs .gv-forest.edge{display:none}
 .gvs .gv-it{position:absolute;bottom:auto;transform:translate(-50%,-100%) scale(var(--sc,1));transform-origin:50% 100%;display:flex;flex-direction:column;align-items:center;transition:opacity .3s,transform .35s cubic-bezier(.3,1.4,.5,1)}
@@ -439,10 +439,11 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .gvs .gv-seed{width:40px;height:40px;border-radius:20px;background:rgba(242,227,184,.25);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center}.gvs .gv-seed img{height:24px;filter:none}
 .gvs .gv-drop{right:-6px;top:-6px;box-shadow:0 0 0 2px #fff}
 .gvs .gv-hud{height:calc(var(--safeTop) + 52px)}.gvs .gv-hb{background:rgba(10,29,8,.35)!important;color:#fff}.gvs .gv-ht{font-size:17px;font-weight:600;color:#fff}.gvs .gv-hs{font-size:12px;color:rgba(255,255,255,.75)}
-.gvs .gv-dock{left:12px;right:12px;bottom:calc(var(--safeBot) + 70px)!important;padding:12px 12px 10px;border-radius:24px;background:rgba(14,36,14,.86);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(16px)}
+.gvs .gv-dock{left:12px;right:12px;bottom:calc(var(--safeBot) + 70px)!important;padding:10px 12px 8px;border-radius:24px;background:rgba(14,36,14,.86);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(16px)}
 .gvs .gv-dock .h4{font-size:15px}.gvs .gv-dock .sm{font-size:12px;line-height:1.35}
-.gvs .gw-acts{gap:6px;margin-top:10px}.gvs .gw-act{padding:7px 0 6px;font-size:11px;background:rgba(255,255,255,.04)}.gvs .gw-act .ic{width:34px;height:34px}
+.gvs .gw-acts{gap:6px;margin-top:8px}.gvs .gw-act{padding:6px 0 5px;font-size:11px;background:rgba(255,255,255,.04)}.gvs .gw-act .ic{width:32px;height:32px}
 .gvs .gv.focus .gv-dock{border-color:rgba(188,234,163,.45);box-shadow:0 0 0 1px rgba(188,234,163,.2),0 20px 40px rgba(0,0,0,.35)}
 .gvs .gv-fire i{background:#f2e3b8;box-shadow:0 0 8px #f2e3b8}
+.gvs .gv-wood{position:absolute;inset:0;pointer-events:none}.gvs .gv-wood img{position:absolute;height:110px;transform:translate(-50%,-100%) scale(var(--sc));transform-origin:50% 100%;filter:saturate(.7) brightness(.85) blur(.3px);opacity:.75}
 </style>`);
 /* gvAt reads positions from the world box; keep the sheet's "open spot" tile as the invite entry */

@@ -28,8 +28,10 @@ function tabbarDk(on){const t=[['gt-home','Oak'],['gt-grove','Grove'],['gt-ch','
 .ach-val{top:calc(var(--safeTop) + 58px)!important}
 .kid-card{padding:16px;border-radius:18px;background:#f6f8f4;border:1px solid #e4e9e1}.kid-card b{display:block;font-size:16px}.kid-card span{font-size:13px;color:#5d655f}
 .kid-new{margin-top:12px;padding:16px;border-radius:18px;background:#edf8e6;border:1px solid #cde9bd;cursor:pointer}
-.sk-pill{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--safeTop) + 50px);z-index:9;display:flex;gap:4px;padding:4px;border-radius:26px;background:rgba(8,22,7,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(116,201,71,.25);box-shadow:0 10px 30px rgba(0,0,0,.4)}
-.sk-pill button{height:34px;padding:0 14px;border-radius:17px;font-weight:600;font-size:13px;color:rgba(255,255,255,.75)}.sk-pill button.on{background:#74c947;color:#0a1d08}
+.sk-pill{order:-1;flex:none;margin:0 16px 10px;display:flex;gap:4px;padding:4px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08)}.scr>.top{order:-2}
+.gvs .sk-pill{position:absolute;left:16px;right:16px;top:calc(var(--safeTop) + 52px);margin:0;z-index:9;background:rgba(8,22,7,.5);backdrop-filter:blur(10px)}
+.sk-pill button{flex:1;height:36px;border-radius:14px;font-weight:600;font-size:14px;color:rgba(255,255,255,.75)}.sk-pill button.on{background:#74c947;color:#0a1d08}
+.scr:has(>.sk-pill)>.body>.p:first-child,.scr:has(>.sk-pill)>.body>.sk-sub:first-child{margin-top:0}
 .gv-dock{bottom:calc(var(--safeBot) + 70px)!important}`;document.head.appendChild(st)})();
 
 /* Framing: this is a feature concept inside the existing app, not a redesign */

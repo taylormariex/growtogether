@@ -3007,7 +3007,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 11:40 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 11:42 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -4649,7 +4649,21 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 
 /* Skip and Stash story art */
-LV.sswhy=()=>`${ldGlow()}<div class="lv-mid"><div class="yr-ms">${[[ssCup(.55),'Made coffee at home','Tuesday · $6'],[sgGlyph('car',22,'#2f7a12'),'Walked instead','Thursday · $14'],[`<svg width="22" height="22" viewBox="0 0 24 24"><path d="M5 8h14l-1.2 12H6.2z M9 8V6a3 3 0 0 1 6 0v2" fill="none" stroke="#2f7a12" stroke-width="1.8" stroke-linejoin="round"/></svg>`,'Cooked, didn’t order','Saturday · $22']].map(([g,t,w],i)=>`<div class="yr-m rise d${i*2}"><span class="sgx-badge" style="width:48px;height:48px;background:#fff;box-shadow:none;overflow:hidden">${g}</span><div><b>${t}</b><em>${w}</em></div></div>`).join('')}</div></div>`;
+LV.sswhy=()=>`${ldGlow()}<div class="pol-wall">${[
+   ['coffee','Made coffee at home','Tue · $6',-7,4,4,1],
+   ['walk','Walked instead','Thu · $14',5,44,24,3],
+   ['cook','Cooked, didn’t order','Sat · $22',-4,8,52,5]].map(([k,t,w,r,x,y,d])=>`<div class="pol rise d${d}" style="left:${x}%;top:${y}%;--r:${r}deg"><div class="pol-ph pol-${k}">${polScene(k)}</div><div class="pol-cap"><b>${t}</b><em>${w}</em></div></div>`).join('')}</div>`;
+function polScene(k){
+ if(k==='coffee')return `<svg viewBox="0 0 160 110" aria-hidden="true"><rect width="160" height="110" fill="#f3e9db"/><rect x="0" y="78" width="160" height="32" fill="#d9c5a7"/><rect x="48" y="40" width="54" height="40" rx="6" fill="#fff"/><path d="M102 50h10a8 8 0 0 1 0 16h-10" fill="none" stroke="#fff" stroke-width="6"/><rect x="54" y="46" width="42" height="12" rx="3" fill="#8a6446"/><path d="M62 30q4-8 0-16M75 30q4-8 0-16M88 30q4-8 0-16" fill="none" stroke="#c9b39a" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="22" r="10" fill="#f6cf66" opacity=".8"/></svg>`;
+ if(k==='walk')return `<svg viewBox="0 0 160 110" aria-hidden="true"><rect width="160" height="110" fill="#dff1f8"/><ellipse cx="80" cy="120" rx="120" ry="42" fill="#7cc35a"/><path d="M0 92q80-26 160 0v18H0z" fill="#9bd77a"/><rect x="20" y="52" width="36" height="22" rx="4" fill="#f4f4f4"/><circle cx="28" cy="76" r="5" fill="#333"/><circle cx="48" cy="76" r="5" fill="#333"/><path d="M118 86v-20l-8-12m8 12l10-8m-10-4a6 6 0 1 0 .1 0" fill="none" stroke="#2f5c1a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M118 66l-8 20m8-20l8 18" fill="none" stroke="#2f5c1a" stroke-width="4" stroke-linecap="round"/><circle cx="134" cy="22" r="10" fill="#f6cf66" opacity=".85"/></svg>`;
+ return `<svg viewBox="0 0 160 110" aria-hidden="true"><rect width="160" height="110" fill="#fbe9d8"/><rect x="0" y="80" width="160" height="30" fill="#e8c9a8"/><ellipse cx="80" cy="70" rx="46" ry="12" fill="#444"/><ellipse cx="80" cy="66" rx="40" ry="9" fill="#e9573f"/><ellipse cx="72" cy="64" rx="7" ry="4" fill="#7cc35a"/><ellipse cx="92" cy="65" rx="6" ry="3.5" fill="#f6cf66"/><path d="M60 46q4-8 0-16M80 44q4-8 0-16M100 46q4-8 0-16" fill="none" stroke="#d9b89a" stroke-width="3" stroke-linecap="round"/><rect x="118" y="56" width="4" height="30" rx="2" fill="#777"/><rect x="36" y="56" width="4" height="30" rx="2" fill="#777"/></svg>`}
+document.head.insertAdjacentHTML('beforeend',`<style>
+.pol-wall{position:absolute;inset:0}
+.pol{position:absolute;width:50%;max-width:190px;padding:8px 8px 10px;background:#fff;box-shadow:0 18px 40px rgba(0,0,0,.45),0 2px 0 rgba(0,0,0,.08);transform:rotate(var(--r));transform-origin:50% 50%;border-radius:3px}
+.pol-ph{aspect-ratio:160/110;overflow:hidden;background:#eee;border-radius:2px}.pol-ph svg{width:100%;height:100%;display:block}
+.pol-cap{padding:8px 2px 0;text-align:left}.pol-cap b{display:block;font-family:"Bradley Hand","Segoe Print","Comic Sans MS",cursive;font-weight:700;font-size:14px;color:#2b2b2b;letter-spacing:.1px}.pol-cap em{display:block;font-style:normal;font-family:"Bradley Hand","Segoe Print","Comic Sans MS",cursive;font-size:12px;color:#7a7a7a;margin-top:1px}
+.pol.rise{animation:polIn .6s cubic-bezier(.2,1.2,.3,1) both}@keyframes polIn{from{opacity:0;transform:rotate(var(--r)) translateY(18px) scale(.96)}}
+</style>`);
 LV.ssweeks=()=>`${ldGlow()}<div class="lv-mid"><div class="ssw-card rise"><div class="ssw-top"><b>$84</b><em>invested from skips · October</em></div><div class="ssx-cal" style="margin-top:10px">${Array.from({length:28},(_,d)=>{const v=[2,5,6,8,9,12,13,15,19,20,22,23,26].includes(d+1);return `<i class="${v?'st':''}" style="animation-delay:${d*25}ms">${v?ic('check',10):''}</i>`}).join('')}</div><div class="ssw-foot">${ic2('flame',14)} 13 skip days · 6 week streak</div></div></div>`;
 LV.ssfriends=()=>`${ldGlow()}<div class="lv-mid"><div class="ssw-card rise" style="width:300px"><div class="ssw-top"><b style="font-size:20px">No-delivery week</b><em>with Sam, Jess and Priya</em></div>${[['me','You',4],['sam','Sam',5],['jess','Jess',3],['priya','Priya',4]].map(([id,n,v],i)=>`<div class="ssw-row rise d${i+1}">${sgAv(id,28)}<em>${n}</em><div class="ssx-days">${Array.from({length:7},(_,k)=>`<i class="${k<v?'on':''}">${k<v?ic('check',10):''}</i>`).join('')}</div></div>`).join('')}<div class="ssw-foot">${ic('spark',14)} Sam: “ok who’s cracking first”</div></div></div>`;
 document.head.insertAdjacentHTML('beforeend',`<style>

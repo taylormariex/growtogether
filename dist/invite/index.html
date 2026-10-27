@@ -3007,7 +3007,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 10:49 AM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 2:10 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -4438,12 +4438,12 @@ function ssBadges(n,nx){return `<div class="sgx-card"><div class="sgx-ch"><div><
   <div class="sgx-bd">${SS_MS.map(([v,l,i0])=>`<div class="sgx-b ${n>=v?'on':''}"><span>${sgGlyph(i0,22,n>=v?'#fff':'#9aa69c')}</span><b>${l}</b></div>`).join('')}</div>${nx?`<div class="sgx-nb" style="margin-top:14px"><i style="width:${Math.round(n/nx[0]*100)}%"></i></div>`:''}</div>`}
 /* the app's tab bar under the hub: shown for context, taps are inert */
 function ssTabs(){return acTabs('ac-home').replace(/onclick="[^"]*"/g,'onclick="toast(\'Existing app tabs, unchanged\')"')}
-const SS_TABS=[['stash','Invest'],['together','Together'],['progress','Progress']];
+const SS_TABS=[['invest','Invest'],['together','Together'],['progress','Progress']];
 def('ss-hub',()=>{spInit();const st=ssStats();const prev=T.ssPrev!=null?T.ssPrev:Math.max(0,st.stashed-18);const nx=SS_MS.find(m=>st.skips<m[0]);const tab=T.ssTab||'invest';
  const jars=S.jars&&S.jars.length?S.jars:[{id:'j1',name:'Coffee jar',est:6,coins:3}];
  const log=(S.skipLog&&S.skipLog.length?S.skipLog:[{t:'Coffee',amt:6,src:'quick',when:'Today',stash:true},{t:'Coffee jar',amt:6,src:'self',when:'Fri',stash:false},{t:'Takeout',amt:14,src:'quick',when:'Wed',stash:true}]).slice(0,4);
  const sec={
-  stash:`<div class="ssx-q ssx-lead"><div class="ssx-qh"><b>Skip anything today?</b><em>Tap it. The money you didn’t spend goes to Invest, and this week counts.</em></div>
+  invest:`<div class="ssx-q ssx-lead"><div class="ssx-qh"><b>Skip anything today?</b><em>Tap it. The money you didn’t spend goes to Invest, and this week counts.</em></div>
    <div class="ssx-qg">${SS_QUICK.map(([n,a,k])=>`<button onclick="T={qsItem:'${n==='Something else'?'Other':n}',qsAmt:${a}};S.ret='ss-hub';go('qs-lt')"><span>${ssQIc(k)}</span><b>${n}</b><em>${n==='Something else'?'Pick it':'About $'+a}</em></button>`).join('')}</div></div>
    <div class="sgx-card"><div class="sgx-ch"><div><b>Saving them up?</b><em>Drop a coin in a jar each time. Invest the whole jar when it feels right.</em></div></div>
    ${jars.map(j=>`<div class="ssx-jr" onclick="go('jar',{id:'${j.id}'})" role="button"><div class="ssx-mj">${jarViz(j,0)}</div><div class="grow"><b>${j.name}</b><em>${j.coins} skip${j.coins===1?'':'s'} · about $${j.coins*j.est}</em></div><button onclick="event.stopPropagation();T={jar:'${j.id}',qsItem:'${j.name.replace(' jar','')}',qsAmt:${Math.max(5,j.coins*j.est)}};S.ret='ss-hub';go('qs-lt')">Invest</button></div>`).join('')}

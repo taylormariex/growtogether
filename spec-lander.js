@@ -34,8 +34,8 @@ const LANDERS={
   t:'Find your money type',s:'Based on your habits only. It never changes your portfolio or risk.',where:'Right after sign-up, and a banner on Home.',cta:'Start'},
  'skip-and-stash':{name:'Skip and Stash',beats:[['coffee','Skipped coffee today?'],['jar','That’s money you didn’t spend.'],['skipinv','Invest it in one tap, and this week counts toward your streak.']],
   t:'Skip it, stash it',s:'Invest a skip right away, save skips in a jar, or do a Skip Week with friends. We never need to read your spending.',where:'Lives in a banner on Home, and reminders you set.',cta:'Pick how to skip'},
- split:{name:'Shared goals',beats:[['mm','Money Manager already splits every paycheck for you.'],['goalpick','Now add a slice for a goal you share with someone.'],['goalsplit','You each send a slice from your own paycheck.'],['goalring','You both see progress as a percent, never each other’s dollars.']],
-  t:'Shared goals',s:'Save for a trip or a first apartment with someone. You each fund your own part. You both see progress, never each other’s dollars.',where:'Lives in Money Manager, from the Money Hub tab. One small card explains it.',cta:'Start a shared goal'},
+ split:{name:'Shared goals',beats:[['mm','Money Manager already splits every paycheck for you.'],['goalpick','Now add a slice for a goal you share with someone.'],['goalways','Or add to it your way: a recurring transfer, or money anytime.'],['goalinvite','Not on Acorns yet? They join from your invite.'],['goalring','You both see progress as a percent, never each other’s dollars.']],
+  t:'Shared goals',s:'Save for a trip or a first apartment with someone. Add a paycheck slice, a recurring transfer, or money anytime. You both see progress, never each other’s dollars.',where:'Lives in Money Manager, from the Money Hub tab. One small card explains it.',cta:'Start a shared goal'},
  'future-club':{name:'Future Club',beats:[['note','Family can write your kid notes to read when they’re older.'],['later','Each note stays sealed until a date you pick, like their 18th birthday.'],['sapling','Every note you approve adds a leaf to their sapling.']],
   t:'Future Club',s:'Notes from family, saved for your kid to read later. Family can add a gift to their Early account too.',where:'Lives on Home → Kids, on your kid’s Early account.',cta:'Start a club'},
  year:{name:'Acorns Year',beats:[['forest','Your year at Acorns, in six cards.'],['weeks','Like the 48 weeks you invested.'],['cards','Each card works on its own when you share it.'],['cards','Together, they tell the story of your year.']],
@@ -52,7 +52,7 @@ def('splash',p=>{const k=p.k in LANDERS?p.k:'grove';const L=LANDERS[k],S0=SPL[k]
    <div class="ld-next"><button onclick="ldGo(${b+1})" aria-label="Next">${ic('back',20,'transform:rotate(180deg)')}</button></div>`,mount(){haptic(4)}}});
 function ldThread(o){const lp=`<div class="ld-lp"><div class="ld-lp-img"><img src="${IMG.oak}" alt=""></div><div class="ld-lp-tx"><b>Join ${S.me}’s grove</b><span>acorns.com/j/${S.me.toLowerCase()}</span></div></div>`;
  return `${ldGlow()}<div class="lv-mid"><div class="ld-msg rise"><div class="ld-msg-hd"><span class="av-c" style="background:${o.c}">${o.who[0]}</span><div><b>${o.who}</b><em>Text message</em></div></div><div class="ld-msg-body ${o.in?'in':''}"><div class="lv-bub">${o.text}</div>${lp}<div class="ld-msg-meta">${o.in?'Just now':'Delivered'}</div></div></div></div>`}
-const LD_MOCK=new Set(['skipinv','goalpick','goalsplit','goalring','payday','mmflow','mmnest','days','later','link','quiz','type','handoff','coffee','mm','note','cards','ch','phone','paths','weeks']);
+const LD_MOCK=new Set(['goalways','goalinvite','skipinv','goalpick','goalsplit','goalring','payday','mmflow','mmnest','days','later','link','quiz','type','handoff','coffee','mm','note','cards','ch','phone','paths','weeks']);
 function ldGo(b){const t=stack[stack.length-1];t.params=Object.assign({},t.params,{b});refresh()}
 (function(){const st=document.createElement('style');st.textContent=`
 .scr.ldr{background:#222a20!important}
@@ -185,7 +185,7 @@ const LFX={
  challenges:['gt-ch',{},'Start a challenge with people in your grove, like a no-delivery week or 8 weeks of investing side by side. One investment counts toward every challenge you’re in.',()=>`<div class="lx lx-ch"><b>8 weeks side by side</b>${[['J','#191919','You',4],['S','#2f7a12','Sam',4]].map(([a,c,n,v])=>`<div class="lx-pr"><span style="background:${c}">${a}</span><em>${n}</em><i><u style="width:${v/8*100}%"></u></i><small>${v}/8</small></div>`).join('')}</div>`],
  invited:['sam-web',{},'When Sam taps Jordan’s link, Acorns sends Sam to the right next step, whether Sam is new to Acorns, already a customer, or signed out.',()=>`<div class="lx lx-card"><span class="lx-img"><img src="${IMG.oak}" alt=""></span><div><b>Join ${S.me}’s grove</b><em>acorns.com/j/${S.me.toLowerCase()}</em></div></div>`]};
 function lfShot(k){const x=LFX[k];if(!x||!SCR[x[0]])return '';const bS=JSON.stringify(S),bT=JSON.stringify(T);let r;
- try{jumpAhead();spInit();r=SCR[x[0]](x[1])}catch(e){r=null}finally{Object.keys(S).forEach(q=>delete S[q]);Object.assign(S,JSON.parse(bS));T=JSON.parse(bT)}
+ try{jumpAhead();spInit();if(k==='split')S.sg={name:'Lisbon trip',who:'sam',slice:5,pct:62,joined:true,ways:{pay:true,any:true}};r=SCR[x[0]](x[1])}catch(e){r=null}finally{Object.keys(S).forEach(q=>delete S[q]);Object.assign(S,JSON.parse(bS));T=JSON.parse(bT)}
  if(!r)return '';return `<div class="lf-ph2"><div class="lf-scrw"><div class="scr ${r.cls||''}" aria-hidden="true">${r.html}</div></div></div>${x[3]()}`}
 function ldFinal(k,L,S0){const f=LF[k]||LF.grove;const w=f[1];const fs=w.length<=7?70:w.length<=10?58:w.length<=12?50:44;const X=LFX[k];
  return {cls:'lt lfin',html:`<div class="lf-top"><button class="iconbtn" style="color:#191919" onclick="back()" aria-label="Close">${ic('close',24)}</button><button class="lf-replay" onclick="ldGo(0)">Replay</button></div>
@@ -321,7 +321,7 @@ Object.assign(LV,{
  skipinv:()=>`${ldGlow()}<div class="lv-mid"><div class="mf-flow"><div class="ld-coffee rise"><div class="ld-cup"><span></span></div><div><b>Coffee</b><em>$6 · invested</em></div></div>
    <div class="mf-arrow rise d2">${ic('back',18,'transform:rotate(-90deg)')}</div><div class="mf-week rise d3"><span>${ic('check',16)}</span><b>This week counts</b></div>
    <div class="mf-arrow rise d4">${ic('back',18,'transform:rotate(-90deg)')}</div><div class="mf-chip rise d5">${ic2('flame',22)}${plw(S.streak+1)}</div></div></div>`});
-LFX.split=['sg-home',{},'A Money Manager slice for a goal you share, like a trip. You each fund your own part. You both see progress, never each other’s dollars.',()=>`<div class="lx lx-card"><span class="lx-img" style="background:#eef7e6;align-items:center;color:#2f7a12">${sgIcon(26)}</span><div><b>Lisbon trip · 62%</b><em>Saving together with Sam</em></div></div>`];
+LFX.split=['sg-home',{},'Save for a trip or a first apartment with someone. Add a paycheck slice, a recurring transfer, or money anytime. You both see progress, never each other’s dollars.',()=>`<div class="lx lx-card"><span class="lx-img" style="background:#eef7e6;align-items:center;color:#2f7a12">${sgIcon(26)}</span><div><b>Lisbon trip · 62%</b><em>Saving together with Sam</em></div></div>`];
 /* Works with: each idea stands alone, and names how it plays with the others */
 const LF_WITH={
  'money-type':[['skip-and-stash','Skip and Stash','Spenders get skip ideas that fit them'],['year','Acorns Year','Your type becomes one of your cards'],['invite','Invites','Share your type and compare']],
@@ -365,4 +365,76 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .lf-with{width:calc(100% + 16px);margin-top:12px}.lf-wk{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5d655f;text-align:center}
 .lf-wl{display:flex;gap:8px;margin-top:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.lf-wl::-webkit-scrollbar{display:none}
 .lf-wl button{flex:none;width:150px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.85);border:1px solid #dbe6d3;text-align:left}.lf-wl b{display:block;font-size:13px;color:#191919}.lf-wl em{display:block;font-style:normal;font-size:12px;line-height:1.3;color:#6b706c;margin-top:2px}
+</style>`);
+
+/* Shared goals v2: three ways to add, and an invite that brings new people to Acorns */
+const SG_WAYS=[['pay','Paycheck slice','A % of each paycheck, through Money Manager'],['rec','Recurring transfer','A set amount from your bank, weekly or monthly'],['any','Add money anytime','One-time, whenever you want']];
+function sgInit(){if(!T.sg)T.sg={kind:'Trip',name:'Lisbon trip',who:'sam',slice:5,ways:{pay:true,rec:false,any:true},recAmt:25,recFreq:'Weekly'};if(!T.sg.ways)T.sg.ways={pay:true,rec:false,any:true}}
+function sgWaysTxt(g){const w=g.ways||{pay:true};const o=[];if(w.pay)o.push(`${g.slice||5}% of each paycheck`);if(w.rec)o.push(`$${g.recAmt||25} ${String(g.recFreq||'Weekly').toLowerCase()}`);if(w.any)o.push('Anytime');return o.join(' · ')||'Anytime'}
+def('sg-new',()=>{sgInit();const g=T.sg;const w=g.ways;
+ const people=[['sam','Sam Rivera','On Acorns'],['mom','Mom','On Acorns'],['jess','Jess Park','Not on Acorns yet · gets a link to join']];
+ return {cls:'lt sgs',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Shared goal</b><span style="width:44px"></span></div>
+ <div class="sg-body"><h1 class="sg-h">What are you saving for together?</h1>
+  <div class="sg-chips">${SG_KINDS.map(([k,n])=>`<button class="${g.kind===k?'on':''}" onclick="T.sg.kind='${k}';T.sg.name='${n}';refresh()">${k}</button>`).join('')}</div>
+  <label class="sg-lbl">Name</label><input class="sg-inp" value="${g.name}" oninput="T.sg.name=this.value" aria-label="Goal name">
+  <label class="sg-lbl">Who’s in with you?</label>
+  <div class="sg-list">${people.map(([id,n,sub])=>`<button class="sg-who ${g.who===id?'on':''}" onclick="T.sg.who='${id}';refresh()">${sgAv(id)}<span class="grow"><b>${n}</b><em>${sub}</em></span><i>${g.who===id?ic('check',14):''}</i></button>`).join('')}</div>
+  <label class="sg-lbl">How will you add to it?</label><p class="sg-note" style="margin-top:4px">Pick any. ${nm(g.who)} picks their own.</p>
+  <div class="sg-list">${SG_WAYS.map(([k,t,d])=>`<button class="sg-who ${w[k]?'on':''}" role="checkbox" aria-checked="${!!w[k]}" onclick="T.sg.ways['${k}']=!T.sg.ways['${k}'];refresh()"><span class="sg-wic">${k==='pay'?sgIcon(18):k==='rec'?ic2('sun',18):ic('plus',16)}</span><span class="grow"><b>${t}</b><em>${d}</em></span><i>${w[k]?ic('check',14):''}</i></button>`).join('')}</div>
+  ${w.pay?`<label class="sg-lbl">Paycheck slice</label><div class="sg-seg">${[2,5,10].map(v=>`<button class="${g.slice===v?'on':''}" onclick="T.sg.slice=${v};refresh()">${v}%</button>`).join('')}</div><p class="sg-note">Comes out of your Spending slice. Your other slices stay the same.</p>`:''}
+  ${w.rec?`<label class="sg-lbl">Recurring transfer</label><div class="sg-seg">${[10,25,50].map(v=>`<button class="${g.recAmt===v?'on':''}" onclick="T.sg.recAmt=${v};refresh()">$${v}</button>`).join('')}</div><div class="sg-seg" style="margin-top:8px">${['Weekly','Monthly'].map(v=>`<button class="${g.recFreq===v?'on':''}" onclick="T.sg.recFreq='${v}';refresh()">${v}</button>`).join('')}</div><p class="sg-note">From Everyday Checking ••4821. Pause or change it anytime.</p>`:''}
+ </div>
+ <div class="sg-foot"><button class="btn sg-cta" ${!(w.pay||w.rec||w.any)?'disabled':''} onclick="go('sg-review')">Continue</button></div>`}});
+def('sg-review',()=>{sgInit();const g=T.sg;const who=nm(g.who);const isNew=g.who==='jess';
+ const row=(k,v)=>`<div class="sg-r"><span>${k}</span><b>${v}</b></div>`;
+ return {cls:'lt sgs',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Review</b><span style="width:44px"></span></div>
+ <div class="sg-body"><h1 class="sg-h">${g.name||'Your goal'}, with ${who}</h1>
+  <div class="sg-box">${row('You’ll add',sgWaysTxt(g))}${row('Goes to','Your own Acorns account, set aside for this goal')}${row(`${who} sees`,'Progress together, as a percent')}${row(`${who} never sees`,'Your dollars or your balance')}</div>
+  <p class="sg-note">${isNew?`${who} isn’t on Acorns yet. They get a link, sign up, then pick how they’ll add.`:`${who} picks how they’ll add when they say yes.`} Either of you can leave anytime and keep what you saved.</p>
+  <p class="sg-note" style="margin-top:6px">Placeholder disclosure for the prototype.</p></div>
+ <div class="sg-foot"><button class="btn sg-cta" onclick="S.sg=Object.assign({},T.sg,{pct:0,joined:false,log:[]});save();${isNew?"replace('sg-sent')":`replace('sg-home');toast('Invite sent to ${who}')`}">${isNew?`Start goal and send ${who} a link`:`Start goal and invite ${who}`}</button></div>`}});
+def('sg-sent',()=>{const g=S.sg||T.sg;const who=nm(g.who);
+ return {cls:'lt sgs',html:`<div class="sg-top"><button class="iconbtn" onclick="replace('sg-home')" aria-label="Close">${ic('close',22)}</button><b>Invite ${who}</b><span style="width:44px"></span></div>
+ <div class="sg-body"><div class="sg-msg"><div class="sg-bub">Want to save for ${g.name} with me? We each add our own way, and only see progress.</div>
+  <div class="sg-lp"><div class="sg-lp-img">${sgRing(0,70)}<span>${sgIcon(22)}</span></div><div><b>${S.me} started a goal: ${g.name}</b><em>acorns.com/goal/${S.me.toLowerCase()}</em></div></div></div>
+  <p class="sg-note" style="text-align:center">You send it from your own Messages. ${who} can join without being on Acorns yet.</p>
+  <button class="sg-link" onclick="go('sg-join')">Prototype: see what ${who} sees ${ic('chev',14)}</button></div>
+ <div class="sg-foot"><button class="btn sg-cta" onclick="toast('Opens your Messages (simulated)');replace('sg-home')">Send</button></div>`}});
+def('sg-join',()=>{const g=S.sg||{name:'Lisbon trip',who:'jess'};
+ return {cls:'lt sgs sgj',html:`<div class="sg-web">${ic('lock',12)} acorns.com/goal/${S.me.toLowerCase()}</div><div class="sg-top" style="padding-top:8px;height:auto"><span style="width:44px"></span><span></span><button class="iconbtn" onclick="back()" aria-label="Close">${ic('close',22)}</button></div>
+ <div class="sg-body" style="top:calc(var(--safeTop) + 84px)"><div class="sg-hero"><div class="sg-pair">${sgAv('me',44)}<span class="sg-av add" style="width:44px;height:44px">${ic('plus',18)}</span></div>
+  <h1 class="sg-h c">${S.me} invited you to save for ${g.name}</h1><p class="sg-note" style="text-align:center;font-size:15px">Save together on Acorns. You each add your own way, and you only see progress, never each other’s dollars.</p></div>
+  <div class="sg-box">${SG_WAYS.map(([k,t,d])=>`<div class="sg-m"><span class="sg-wic">${k==='pay'?sgIcon(18):k==='rec'?ic2('sun',18):ic('plus',16)}</span><span class="grow"><b>${t}</b><em>${d}</em></span></div>`).join('')}</div>
+  <p class="sg-note" style="text-align:center">Takes about 5 minutes. Investing involves risk. Placeholder copy.</p></div>
+ <div class="sg-foot"><button class="btn sg-cta" onclick="S.sg&&(S.sg.joined=true,S.sg.pct=Math.max(S.sg.pct||0,8));save();replace('sg-home');toast('${nm(g.who)} signed up and joined')">Sign up and join</button></div>`}});
+def('sg-add',()=>{const g=S.sg;if(!T.sga)T.sga=25;
+ return {cls:'lt sgs',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Add money</b><span style="width:44px"></span></div>
+ <div class="sg-body"><h1 class="sg-h">Add to ${g?g.name:'your goal'}</h1><div class="sg-amt">$${T.sga}</div>
+  <div class="sg-seg">${[10,25,50,100].map(v=>`<button class="${T.sga===v?'on':''}" onclick="T.sga=${v};refresh()">$${v}</button>`).join('')}</div>
+  <div class="sg-box">${[['From','Everyday Checking ••4821'],['Goes to','Your own Acorns account, set aside for this goal'],[`${g?nm(g.who):'They'} sees`,'The goal’s progress go up, not this amount']].map(([k,v])=>`<div class="sg-r"><span>${k}</span><b>${v}</b></div>`).join('')}</div></div>
+ <div class="sg-foot"><button class="btn sg-cta" onclick="S.sg.pct=Math.min(100,(S.sg.pct||0)+Math.round(T.sga/40*4));(S.sg.log=S.sg.log||[]).unshift('You added money');save();back();toast('Added to ${g?g.name:'your goal'}')">Add $${T.sga}</button></div>`}});
+def('sg-home',()=>{const g=S.sg||{name:'Lisbon trip',who:'sam',slice:5,pct:62,joined:true,ways:{pay:true,any:true}};const who=nm(g.who);const p=g.pct||0;
+ return {cls:'lt sgs',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Shared goal</b><span style="width:44px"></span></div>
+ <div class="sg-body"><div class="sg-hero"><div class="sg-ring">${sgRing(p,170)}<div class="sg-rc"><b>${p}%</b><em>together</em></div></div><h1 class="sg-h c">${g.name}</h1>
+  <div class="sg-pair">${sgAv('me',34)}${sgAv(g.who,34)}</div></div>
+  <button class="btn sg-cta" style="margin-top:16px;height:50px" onclick="${S.sg?"T.sga=25;go('sg-add')":"toast('Start a goal first')"}">${ic('plus',16)} Add money</button>
+  <div class="sg-box">
+   <div class="sg-m">${sgAv('me',30)}<span class="grow"><b>You</b><em>${sgWaysTxt(g)}</em></span><i class="ok">On track</i></div>
+   <div class="sg-m">${sgAv(g.who,30)}<span class="grow"><b>${who}</b><em>${g.joined?'Adds their own way':g.who==='jess'?'Link sent · not on Acorns yet':'Invite sent'}</em></span><i class="${g.joined?'ok':''}">${g.joined?'On track':'Waiting'}</i></div></div>
+  <p class="sg-note">Percent of the goal you’ve saved together. Neither of you sees the other’s dollars.</p>
+  <div class="sg-acts">${g.joined?`<button onclick="toast('Cheer sent to ${who}')">Cheer ${who}</button>`:g.who==='jess'?`<button onclick="go('sg-join')">Prototype: ${who} gets the link</button>`:`<button onclick="S.sg.joined=true;save();refresh();toast('${who} joined your goal')">Prototype: ${who} joins</button>`}<button onclick="S.sg.pct=Math.min(100,(S.sg.pct||0)+12);save();refresh();toast('Payday: slices landed')">Prototype: payday</button></div></div>
+ <div class="sg-foot"><button class="btn sg-cta ghost" onclick="T.sg=Object.assign({},S.sg);go('sg-new')">Change how I add</button></div>`}});
+Object.assign(LV,{
+ goalways:()=>`${ldGlow()}<div class="lv-mid" style="gap:10px">${SG_WAYS.map(([k,t,d],i)=>`<div class="ld-q rise d${i*2}" style="width:290px"><span class="sg-wic dk">${k==='pay'?sgIcon(18):k==='rec'?ic2('sun',18):ic('plus',16)}</span><div style="flex:1"><b>${t}</b><span>${d}</span></div></div>`).join('')}</div>`,
+ goalinvite:()=>ldThread({who:'Jess',c:'#e8a45c',text:'Want to save for Lisbon with me? We each add our own way.'}).replace(/Join [^<]*’s grove/,'Jordan started a goal: Lisbon trip').replace(/acorns\.com\/j\/[a-z]+/,'acorns.com/goal/jordan').replace(/<div class="ld-lp-img"><img[^>]*><\/div>/,`<div class="ld-lp-img" style="align-items:center">${sgRing(40,80)}</div>`)});
+document.head.insertAdjacentHTML('beforeend',`<style>
+.sg-wic{width:32px;height:32px;border-radius:16px;background:#eef7e6;color:#2f7a12;display:inline-flex;align-items:center;justify-content:center;flex:none}.sg-wic.dk{background:rgba(116,201,71,.2);color:#bceaa3;margin-right:12px}
+.sg-msg{margin-top:10px;padding:16px;border-radius:22px;background:#f4f4f6;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.sg-bub{max-width:250px;padding:10px 14px;border-radius:18px 18px 4px 18px;background:#1a8cff;color:#fff;font-size:15px;line-height:1.35}
+.sg-lp{width:250px;border-radius:16px;background:#fff;border:1px solid #e6e6ea;overflow:hidden}.sg-lp-img{position:relative;height:110px;background:linear-gradient(#e4f5d4,#c4e8a6);display:flex;align-items:center;justify-content:center}.sg-lp-img span{position:absolute;color:#2f7a12}
+.sg-lp>div:last-child{padding:10px 12px}.sg-lp b{display:block;font-size:14px}.sg-lp em{display:block;font-style:normal;font-size:12px;color:#6b6b6b;margin-top:2px}
+.sg-link{display:flex;align-items:center;gap:4px;margin:16px auto 0;height:36px;padding:0 14px;border-radius:18px;background:#fdf3d3;color:#6b5310;font-size:13px;font-weight:600}
+.scr.sgj{background:linear-gradient(#e2f5d6,#fff 45%)!important}.sg-web{position:absolute;left:16px;right:16px;top:calc(var(--safeTop) + 4px);height:34px;border-radius:12px;background:rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;color:#4a524c}
+.sg-amt{margin:18px 0 14px;text-align:center;font-size:56px;font-weight:600;letter-spacing:-1.5px}
+.sg-cta[disabled]{opacity:.4}
 </style>`);

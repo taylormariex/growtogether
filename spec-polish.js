@@ -78,7 +78,7 @@ const SKJ=[['cup','Coffee at home','$6'],['car','Walked instead','$14'],['bag','
 LV.sswhy=()=>`${ldGlow()}<div class="skj" id="skj">
   <div class="skj-items">${SKJ.map(([k,t,a],i)=>`<div class="skj-it" style="--i:${i}"><span class="skj-ic">${ssQIc(k)}</span><b>${t}</b><em>${a}</em></div>`).join('')}</div>
   <div class="skj-jar"><div class="skj-jw"><div class="tl-ground"></div>${jarViz({coins:3,name:'Coffee jar'},1)}</div><div class="skj-ct"><em>in the jar</em><b>$<span id="skjn">0</span></b></div></div></div>`;
-(function(){const f=SCR.splash;if(!f)return;SCR.splash=p=>{const r=f(p);const m=r.mount;r.mount=el=>{if(m)m(el);const w=$('#skj',el);if(!w||w._on)return;w._on=1;const n=$('#skjn',w);const H=w.parentElement.clientHeight;w.style.setProperty('--sk',Math.max(.55,Math.min(1,(H-30)/470)).toFixed(2));const tot=[6,20,42];let raf=0;
+(function(){const f=SCR.splash;if(!f)return;SCR.splash=p=>{const r=f(p);const m=r.mount;r.mount=el=>{if(m)m(el);const w=$('#skj',el);if(!w||w._on)return;w._on=1;const n=$('#skjn',w);const fit=()=>{const H=w.parentElement.clientHeight;w.style.setProperty('--sk',Math.max(.5,Math.min(1,(H-36)/400)).toFixed(2))};fit();setTimeout(fit,350);const tot=[6,20,42];let raf=0;
   const roll=(from,to)=>{cancelAnimationFrame(raf);const t0=performance.now();const st=t=>{const q=Math.min(1,(t-t0)/600),e=1-Math.pow(1-q,3);n.textContent=Math.round(from+(to-from)*e);if(q<1)raf=requestAnimationFrame(st)};raf=requestAnimationFrame(st)};
   const run=()=>{if(!document.contains(w))return;w.classList.remove('go','out');n.textContent='0';void w.offsetWidth;w.classList.add('go');
     tot.forEach((v,i)=>setTimeout(()=>{if(!document.contains(w))return;roll(i?tot[i-1]:0,v);const jr=$('.jr',w);jr.classList.remove('bump');void jr.offsetWidth;jr.classList.add('bump');haptic(6)},i*2400+1750));
@@ -149,26 +149,26 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ps-card{display:flex;justify-content:center;margin:16px 0 18px}.ps-in{transform:scale(.86);transform-origin:50% 0;margin-bottom:calc(-340px * .14)}.ps-in:has(.ycf){transform:scale(.6);margin-bottom:calc(-533px * .4)}
 .ps-acts{display:flex;gap:10px}.ps-acts button{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 4px 10px;border-radius:18px;background:#f4f6f1;color:#191919;font-size:12px;font-weight:600}.ps-acts button span{width:44px;height:44px;border-radius:22px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 0 rgba(0,0,0,.06)}
 /* the coffee jar */
-.skj{position:absolute;left:0;right:0;bottom:12%;height:470px;transform:scale(var(--sk,1));transform-origin:50% 100%;pointer-events:none;transition:opacity .6s}.skj.out{opacity:0}
-.skj-jw{position:relative;width:218px;height:260px}.skj-jw .jr{position:absolute;left:0;bottom:0;transform:scale(1.3);transform-origin:50% 100%;margin:0 25px}.skj-jw .tl-ground{width:340px;height:90px;bottom:-34px}
+.skj{position:absolute;left:0;right:0;bottom:14%;height:400px;transform:scale(var(--sk,1));transform-origin:50% 100%;pointer-events:none;transition:opacity .6s}.skj.out{opacity:0}
+.skj-jw{position:relative;width:184px;height:220px}.skj-jw .jr{position:absolute;left:0;bottom:0;transform:scale(1.1);transform-origin:50% 100%;margin:0 8px}.skj-jw .tl-ground{width:300px;height:80px;bottom:-30px}
 .skj-jar{position:absolute;left:50%;bottom:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:2}
 .skj-jar .jr{filter:drop-shadow(0 24px 30px rgba(0,0,0,.45))}.skj-jar .jr-tag{display:none}
-.skj-jar .jr.bump{animation:skjBump .5s cubic-bezier(.3,1.6,.5,1)}@keyframes skjBump{0%{transform:scale(1.3)}40%{transform:translateY(5px) scale(1.34,1.25)}100%{transform:scale(1.3)}}
+.skj-jar .jr.bump{animation:skjBump .5s cubic-bezier(.3,1.6,.5,1)}@keyframes skjBump{0%{transform:scale(1.1)}40%{transform:translateY(5px) scale(1.14,1.06)}100%{transform:scale(1.1)}}
 .skj-jar .jr-in img{opacity:0;width:30%}
 .skj.go .jr-lid{animation:skjLid 7.2s linear both}
 @keyframes skjLid{0%,17%{transform:none}21%{transform:translateY(-16px) rotate(-7deg)}31%{transform:translateY(-16px) rotate(-7deg)}36%,51%{transform:none}55%{transform:translateY(-16px) rotate(-7deg)}65%{transform:translateY(-16px) rotate(-7deg)}70%,84%{transform:none}88%{transform:translateY(-16px) rotate(-7deg)}97%{transform:translateY(-16px) rotate(-7deg)}100%{transform:none}}
 .skj.go .jr-in img:nth-child(1){animation:skjDrop .8s 1.5s cubic-bezier(.4,0,.6,1.35) both}
 .skj.go .jr-in img:nth-child(2){animation:skjDrop .8s 3.9s cubic-bezier(.4,0,.6,1.35) both}
 .skj.go .jr-in img:nth-child(3){animation:skjDrop .8s 6.3s cubic-bezier(.4,0,.6,1.35) both}
-@keyframes skjDrop{0%{opacity:1;transform:translateY(-190px) rotate(-30deg)}70%{opacity:1;transform:translateY(6px) rotate(6deg)}100%{opacity:1;transform:translateY(0)}}
+@keyframes skjDrop{0%{opacity:1;transform:translateY(-170px) rotate(-30deg)}70%{opacity:1;transform:translateY(6px) rotate(6deg)}100%{opacity:1;transform:translateY(0)}}
 .skj-ct{margin-top:18px;display:flex;align-items:baseline;gap:8px;padding:8px 16px;border-radius:18px;background:rgba(10,29,8,.6);box-shadow:inset 0 0 0 1px rgba(188,234,163,.25);color:#bceaa3;font-variant-numeric:tabular-nums}
 .skj-ct em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.skj-ct b{font-size:20px;color:#fff}
 .skj-items{position:absolute;left:0;right:0;top:0;height:46%;z-index:1}
-.skj-it{position:absolute;left:50%;top:6%;transform:translateX(-50%) translateY(14px);display:flex;align-items:center;gap:10px;width:230px;padding:11px 14px 11px 11px;border-radius:18px;background:#fff;color:#191919;box-shadow:0 16px 34px rgba(0,0,0,.35);opacity:0}
+.skj-it{position:absolute;left:50%;top:0;transform:translateX(-50%) translateY(14px);display:flex;align-items:center;gap:10px;width:230px;padding:11px 14px 11px 11px;border-radius:18px;background:#fff;color:#191919;box-shadow:0 16px 34px rgba(0,0,0,.35);opacity:0}
 .skj-it b{flex:1;font-size:15px;font-weight:600;line-height:1.15;white-space:nowrap}.skj-it em{font-style:normal;font-size:14px;font-weight:700;color:#2f7a12}
 .skj-ic{width:34px;height:34px;border-radius:17px;background:#eef3e8;display:flex;align-items:center;justify-content:center;flex:none}.skj-ic svg{width:18px;height:18px}
 .skj.go .skj-it{animation:skjIt 2.4s calc(var(--i) * 2.4s + .2s) ease both}
-@keyframes skjIt{0%{opacity:0;transform:translateX(-50%) translateY(14px) scale(.96)}12%{opacity:1;transform:translateX(-50%)}52%{opacity:1;transform:translateX(-50%)}68%{opacity:0;transform:translateX(-50%) translateY(150px) scale(.4)}100%{opacity:0;transform:translateX(-50%) translateY(150px) scale(.4)}}
+@keyframes skjIt{0%{opacity:0;transform:translateX(-50%) translateY(14px) scale(.96)}12%{opacity:1;transform:translateX(-50%)}52%{opacity:1;transform:translateX(-50%)}68%{opacity:0;transform:translateX(-50%) translateY(120px) scale(.4)}100%{opacity:0;transform:translateX(-50%) translateY(120px) scale(.4)}}
 /* polaroids: real photographs */
 .pol-ph img{width:100%;height:100%;object-fit:cover;display:block}
 /* time-lapse */

@@ -121,7 +121,7 @@ function demoPaint(){}
 })();
 
 /* ---------- Timeline v2: art contained, one action per card, neutral copy for nudges ---------- */
-const plw=n=>`${n} week${n===1?'':'s'}`;
+const plw=n=>n>=104?`${Math.round(n/52)} years`:n>=52?'1 year':`${n} week${n===1?'':'s'}`;
 function tlItems(){const w=S.streak,st=rstage(w);const it=[];
   if(w>0)it.push({k:'streak',lab:'Your Streak',t:`${plw(w)} · ${st[1]}`,d:'This week',hero:st[2],n:4});
   growing().forEach(g=>{const W=wk(g.id),s2=rstage(W);it.push(g.open?{k:'g-'+g.id,lab:nm(g.id),t:'Hasn’t invested yet this week',tone:'n',s:`Rain is a gentle nudge. It only counts when ${g.id==='mom'?'she invests':'they invest'}.`,side:s2[2],water:g.id}:{k:'g-'+g.id,lab:nm(g.id),t:`${plw(W)} · ${s2[1]}`,d:'Invested this week',side:s2[2],n:g.id==='sam'?3:2})});
@@ -449,3 +449,10 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .gvs .gv-wood{position:absolute;inset:0;pointer-events:none}.gvs .gv-wood img{position:absolute;height:110px;transform:translate(-50%,-100%) scale(var(--sc));transform-origin:50% 100%;filter:saturate(.7) brightness(.85) blur(.3px);opacity:.75}
 </style>`);
 /* gvAt reads positions from the world box; keep the sheet's "open spot" tile as the invite entry */
+
+document.head.insertAdjacentHTML('beforeend',`<style>
+.gsheet{background:rgba(14,36,14,.96)!important;backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08)!important;border-bottom:0}
+.gsheet .gfriend{padding:12px;border-radius:18px;background:rgba(255,255,255,.05);border:0!important}.gsheet .gfriend+.gfriend{margin-top:8px}
+.gsheet .wbtn{height:34px;padding:0 12px;border-radius:17px;background:#4da1ef;color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}.gsheet .wbtn.off{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6)}
+.gsheet .fls img{height:16px;opacity:.85}
+</style>`);

@@ -77,7 +77,7 @@ const RV_MOMENTS=[['Mom invests','Rain falls on both oaks in the grove',"jumpAhe
 function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`<button class="rv-i" onclick="rvRun(${i},'${k}')"><span><b>${t}</b><em>${d}</em></span>${ic('chev',16,'opacity:.35')}</button>`).join('');
   return `${first?`<div class="rv-hero"><img src="${IMG.oak}" alt=""><div><div class="rv-t">Share the wealth</div><div class="rv-d">Invite your people, share your progress, grow side by side.</div></div></div>
    <div class="rv-cta">${btn('Start right after sign-up',"closeOv();setTimeout(startGT,250)",'pri')}${btn('Jump in, 4 weeks later',"closeOv();setTimeout(()=>{jumpAhead();spInit();home('gt-home')},250)",'line')}</div>
-   <p class="rv-tip">${ic('menu',14,'vertical-align:-3px')} Tap the menu in the top corner anytime to come back here.</p>`:`<div class="rv-t" style="margin-bottom:4px">Guide</div><div class="rv-d">Jump anywhere, or make something happen.</div>`}
+   <p class="rv-tip">${ic('menu',14,'vertical-align:-3px')} To come back here, tap your avatar on Home, then Prototype guide.</p>`:`<div class="rv-t" style="margin-bottom:4px">Guide</div><div class="rv-d">Jump anywhere, or make something happen.</div>`}
   <div class="rv-sec">Explore</div><div class="rv-g">${row(RV_GO,'go')}</div>
   <div class="rv-sec">This week, Jordan has…</div><div class="rv-seg">${RV_WEEK.map(([k,l])=>`<button class="${s===k?'on':''}" onclick="closeOv();setTimeout(()=>{demoSet('${k}');home('gt-home')},250)">${l}</button>`).join('')}</div><div class="rv-help">${(RV_WEEK.find(w=>w[0]===s)||RV_WEEK[0])[2]}</div>
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>

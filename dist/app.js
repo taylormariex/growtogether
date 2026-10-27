@@ -2139,13 +2139,13 @@ const RV_MOMENTS=[['Mom invests','Rain falls on both oaks in the grove',"jumpAhe
 function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`<button class="rv-i" onclick="rvRun(${i},'${k}')"><span><b>${t}</b><em>${d}</em></span>${ic('chev',16,'opacity:.35')}</button>`).join('');
   return `${first?`<div class="rv-hero"><img src="${IMG.oak}" alt=""><div><div class="rv-t">Share the wealth</div><div class="rv-d">Invite your people, share your progress, grow side by side.</div></div></div>
    <div class="rv-cta">${btn('Start right after sign-up',"closeOv();setTimeout(startGT,250)",'pri')}${btn('Jump in, 4 weeks later',"closeOv();setTimeout(()=>{jumpAhead();spInit();home('gt-home')},250)",'line')}</div>
-   <p class="rv-tip">${ic('menu',14,'vertical-align:-3px')} Tap the menu in the top corner anytime to come back here.</p>`:`<div class="rv-t" style="margin-bottom:4px">Guide</div><div class="rv-d">Jump anywhere, or make something happen.</div>`}
+   <p class="rv-tip">${ic('menu',14,'vertical-align:-3px')} To come back here, tap your avatar on Home, then Prototype guide.</p>`:`<div class="rv-t" style="margin-bottom:4px">Guide</div><div class="rv-d">Jump anywhere, or make something happen.</div>`}
   <div class="rv-sec">Explore</div><div class="rv-g">${row(RV_GO,'go')}</div>
   <div class="rv-sec">This week, Jordan has…</div><div class="rv-seg">${RV_WEEK.map(([k,l])=>`<button class="${s===k?'on':''}" onclick="closeOv();setTimeout(()=>{demoSet('${k}');home('gt-home')},250)">${l}</button>`).join('')}</div><div class="rv-help">${(RV_WEEK.find(w=>w[0]===s)||RV_WEEK[0])[2]}</div>
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 8:20 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 8:31 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -3237,4 +3237,7 @@ RV_GO.splice(1,0,['Your first week','The existing Streaks intro after funding',"
 .nw-legend{position:absolute;left:12px;right:12px;top:calc(var(--safeTop) + 112px);z-index:7;display:none}
 .ach-scroll>.nw-legend{position:sticky;top:0;display:flex;align-items:center;gap:8px;margin:0;left:auto;right:auto;padding:calc(var(--safeTop) + 6px) 14px 8px;background:#191919;color:#fff;font-size:12px;line-height:1.35}
 .nw-legend span{flex:1}.nw-legend b{color:#ffd24a}.nw-legend button{width:32px;height:32px;color:#fff;display:flex;align-items:center;justify-content:center}`;document.head.appendChild(st)})();
+/* Guide → Explore lists only the new ideas */
+(function(){const keep=['Your grove','Invite someone','Getting invited','Money Type','Skip and Stash','Future Club','Acorns Year','Challenges'];
+  const m={};RV_GO.forEach(x=>m[x[0]]=x);RV_GO.length=0;keep.forEach(k=>m[k]&&RV_GO.push(m[k]))})();
 

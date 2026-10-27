@@ -48,3 +48,6 @@ RV_GO.splice(1,0,['Your first week','The existing Streaks intro after funding',"
 .nw-legend{position:absolute;left:12px;right:12px;top:calc(var(--safeTop) + 112px);z-index:7;display:none}
 .ach-scroll>.nw-legend{position:sticky;top:0;display:flex;align-items:center;gap:8px;margin:0;left:auto;right:auto;padding:calc(var(--safeTop) + 6px) 14px 8px;background:#191919;color:#fff;font-size:12px;line-height:1.35}
 .nw-legend span{flex:1}.nw-legend b{color:#ffd24a}.nw-legend button{width:32px;height:32px;color:#fff;display:flex;align-items:center;justify-content:center}`;document.head.appendChild(st)})();
+/* Guide → Explore lists only the new ideas */
+(function(){const keep=['Your grove','Invite someone','Getting invited','Money Type','Skip and Stash','Future Club','Acorns Year','Challenges'];
+  const m={};RV_GO.forEach(x=>m[x[0]]=x);RV_GO.length=0;keep.forEach(k=>m[k]&&RV_GO.push(m[k]))})();

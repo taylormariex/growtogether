@@ -34,8 +34,9 @@ const FRESH=()=>({
   ffDone:false,ret:'gt-home',note:'Saved you a spot in my grove. One $5 a week and we both grow.'
 });
 let S;
-try{S=JSON.parse(localStorage.getItem('gt-state'))||FRESH()}catch(e){S=FRESH()}
-function save(){try{localStorage.setItem('gt-state',JSON.stringify(S))}catch(e){}}
+const SKEY=window.STATE_KEY||'gt-state'; // focus builds keep their own saved state
+try{S=JSON.parse(localStorage.getItem(SKEY))||FRESH()}catch(e){S=FRESH()}
+function save(){try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}}
 function resetAll(){S=FRESH();save();home('menu')}
 const inGrove=id=>S.grove.find(g=>g.id===id);
 const growing=()=>S.grove.filter(g=>g.status==='growing');

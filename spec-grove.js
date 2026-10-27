@@ -114,7 +114,7 @@ function tlCard(x){const on=CHEER[x.k];const art=x.side||x.sideImg;const ah=x.si
   const heart=x.n!==undefined?`<button class="tl-h ${on?'on':''}" type="button" onpointerdown="event.preventDefault()" onclick="event.preventDefault();event.stopPropagation();tlCheer(this,'${x.k}',${x.n})" aria-label="Cheer">${on?'♥':'♡'} ${x.n+(on?1:0)}</button>`:'';
   if(x.hero){const hh=x.hero in OAKS?96:x.hero==='seedling'?84:64;return `<div class="tl"><div class="tl-ring"><img src="${IMG[x.hero]}" style="height:${hh}px" alt=""></div><div class="lab">${x.lab}</div><div class="ttl">${x.t}</div><div class="meta"><span>${x.d}</span>${heart}</div></div>`}
   return `<div class="tl"><div class="tl-row"><div class="grow"><div class="lab">${x.lab}</div><div class="ttl ${x.tone==='n'?'n':''}">${x.t}</div>${x.s?`<div class="tl-s">${x.s}</div>`:''}</div>${art?`<div class="tl-art"><img src="${IMG[art]}" style="height:${ah}px;${x.water?'filter:saturate(.55) brightness(.85)':''}" alt=""></div>`:''}</div>
-   ${x.water?`<button class="tl-rain" onclick="groveSheet('full')">${ic('drop',15)} Send rain</button>`:`<div class="meta"><span>${x.d}</span>${heart}</div>`}</div>`}
+   ${x.water?`<button class="tl-rain" onclick="T={};go('gt-water',{id:'${x.water}'})">${ic('drop',15)} Send rain</button>`:`<div class="meta"><span>${x.d}</span>${heart}</div>`}</div>`}
 (function(){const st=document.createElement('style');st.textContent=`.tl{padding:16px 16px 14px}
 .tl-ring{width:112px;height:112px;border-radius:56px;border:2px solid rgba(116,201,71,.7);margin:4px auto 16px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 60%,rgba(116,201,71,.14),transparent 70%)}
 .tl-ring img{display:block;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
@@ -353,3 +353,33 @@ def('year',p=>{p=p||{};const nu=p.newUser;const W=nu?3:48,RU=nu?12:312,tp=nu?'':
 .y-sum{padding-bottom:calc(var(--safeBot) + 140px)!important}
 .y-grid{margin-top:14px}.y-grid div{min-height:76px}.y-pic{height:118px}
 .y-actions{padding-top:28px}`;document.head.appendChild(st)})();
+
+
+/* ================= Rain, end to end =================
+   Home → Send rain → rain falls on their tree → (prototype) they invest → it rains on both oaks → back home, their card updated.
+   Also reachable from the grove sheet and the grove dock. One rain per friend per week. */
+const RAIN_NOTES=['Thinking of you this week','Your oak looks thirsty','We’ve got this','Same time Friday?'];
+def('gt-water',p=>{const id=p.id||'mom';const per=PEOPLE[id];const g=inGrove(id)||{side:0,open:true};const W=wk(id);if(!T.wn)T.wn=RAIN_NOTES[0];const sent=!!(S.watered&&S.watered[id]);
+  const mine={html:treeImg(S.streak,rstage(S.streak)[2] in OAKS?120:rstage(S.streak)[2]==='seedling'?90:60),label:`You · ${S.invested?'invested':'this week'}`,me:1};
+  const theirs={html:`<div id="wtree" style="${sent?'':'filter:saturate(.55) brightness(.85)'};transition:filter .6s">${treeImg(W,rstage(W)[2] in OAKS?130:96)}</div>`,label:`${per.name} · ${sent?'rain sent':'hasn’t invested yet'}`};
+  return {cls:'dark',html:`${topbar({close:true,title:''})}<div class="body">${hillRow([mine,theirs],{h:260})}
+   <div class="h2 mt16" id="wt" style="color:#fff">${sent?'Rain sent.':`Send ${per.name} a little rain`}</div>
+   <p class="p mt8" id="wp">${sent?`${per.name} sees it next time they open Acorns, with your note. No follow-ups from us. It only counts when ${id==='mom'?'she invests':'they invest'}.`:`${per.name} hasn’t invested yet this week. Rain is a gentle nudge: it falls on ${per.name}’s tree with a short note from you. Neither of you ever sees amounts.`}</p>
+   ${sent?`<div class="card dk mt16" style="padding:12px 14px"><div class="row">${ic('drop',18,'color:#4da1ef')}<div class="grow sm" style="color:#fff">“${T.wn}”</div><span class="sm" style="color:var(--sk-sub)">Sent</span></div></div>
+   <div class="mt24 center"><span class="sim" onclick="waterWorked('${id}')">${ic('ff',12)} Prototype: ${per.name} invests</span></div>`
+   :`<div class="sm mt16" style="color:var(--sk-sub)">Add a note</div><div class="chips mt8" id="wchips">${RAIN_NOTES.map(n=>chip('wn',n,n)).join('')}</div>
+   <p class="sm mt16" style="color:var(--sk-sub)">One rain per friend per week. ${per.name} can turn rain off anytime.</p>`}</div>
+   <div class="foot" id="wfoot">${sent?btn('Done','back()','wh'):btn(`${ic('drop',20)} Send rain`,`waterSend('${id}')`,'wh')}</div>`}});
+function waterSend(id){const el=cur();const t=$('#wtree',el);if(t){const r=t.getBoundingClientRect(),h=$('#screen').getBoundingClientRect();const z=zf();rain($('#screen'),(r.left-h.left+r.width/2)/z,(r.top-h.top-20)/z)}
+  if(!S.watered||typeof S.watered!=='object')S.watered={};S.watered[id]=Date.now();save();haptic(12);setTimeout(refresh,900)}
+function waterWorked(id){const g=inGrove(id);if(g){g.open=false;g.side=(g.side||0)+1}save();replace('gt-water-ok',{id})}
+def('gt-water-ok',p=>{const id=p.id||'mom';const per=PEOPLE[id];const g=inGrove(id)||{side:1};const W=wk(id);
+  return {cls:'dark',html:`${topbar({left:'<div style="width:44px"></div>'})}<div class="body center">
+   ${hillRow([{html:`<div id="wo-me">${treeImg(S.streak,rstage(S.streak)[2] in OAKS?120:rstage(S.streak)[2]==='seedling'?90:60)}</div>`,label:'You',me:1},{html:`<div id="wo-them" class="grow-in">${treeImg(W,rstage(W)[2] in OAKS?130:96)}</div>`,label:`${per.name} · invested`}],{h:290})}
+   <div class="eyebrow mt16 rise">${per.name} invested this week</div><div class="h1 mt8 rise d1" style="color:#fff">Your rain worked.</div>
+   <p class="p mt8 rise d2">It rained on both oaks. ${per.name}’s week counts, and that’s ${g.side||1} week${(g.side||1)===1?'':'s'} side by side.</p></div>
+   ${foot(btn('Done',"back2('gt-home')",'wh'),btn('Open my grove',"home('gt-grove')",'ghost'))}`,
+   mount(el){const h=$('#screen').getBoundingClientRect(),z=zf();['#wo-me','#wo-them'].forEach((q,i)=>{const t=$(q,el);if(!t)return;const r=t.getBoundingClientRect();setTimeout(()=>rain($('#screen'),(r.left-h.left+r.width/2)/z,(r.top-h.top-20)/z),200+i*350)});haptic(20);setTimeout(()=>banner(`${per.name} invested this week`,'It rained on both oaks.'),1100)}}});
+/* grove sheet: after Water, offer the prototype follow-through */
+function gsWater(id,btnEl){if(!S.watered||typeof S.watered!=='object')S.watered={};S.watered[id]=Date.now();save();haptic(12);const r=btnEl.getBoundingClientRect(),h=$('#screen').getBoundingClientRect();const z=zf();rain($('#screen'),(r.left-h.left)/z,(r.top-h.top-60)/z);toast(`Rain sent to ${nm(id)}. It only counts when ${id==='mom'?'she invests':'they invest'}.`);
+  setTimeout(()=>{gsRefresh();const b=$('#gsb');if(!b)return;const row=[...b.querySelectorAll('.gfriend')].find(x=>x.textContent.indexOf(PEOPLE[id].full)>-1);if(row){const d=document.createElement('div');d.className='mt8';d.innerHTML=`<span class="sim" onclick="gsClose();setTimeout(()=>{T={};go('gt-water',{id:'${id}'});setTimeout(()=>waterWorked('${id}'),300)},300)">${ic('ff',12)} Prototype: ${nm(id)} invests</span>`;row.appendChild(d)}},600)}

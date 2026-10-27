@@ -18,7 +18,7 @@ const FOCUS_SPEC={
    side:'Save for a trip or a first apartment with someone. Add a paycheck slice, a recurring transfer, or money anytime. Invite them by text, watch the journey fill in together, and share milestones. You both see progress, never each other’s dollars.'},
  year:{title:'Acorns Year',hub:'ac-home',hubLabel:'Start my year',
    go:"yrGo()",allow:['ac-home'],
-   side:'The story introduces it, then you’re back on Home. Use the prototype clock to move time: at six months a halfway card arrives on its own, at twelve a notification says your Acorns Year is ready. Seven cards about the year you showed up. Weeks and counts only. Never balances or returns.'},
+   side:'The story introduces it, then you’re back on Home. Use the prototype clock to move time: at six months a halfway card arrives on its own, at twelve a notification says your Acorns Year is ready. A card for every way you showed up. Weeks and counts only. Never balances or returns.'},
  'money-type':{title:'Know yourself',hub:'qz-hub',hubLabel:'Open Know yourself',
    go:"T={};go('qz-hub')",
    side:'Short quizzes about how you actually are with money, a minute each, taken whenever you feel like one: Money Type, Saver Style, Spending Triggers, Growing Together, with more arriving over time. Each one ends with a type, one thing to learn, and one thing in the app to try. Your types show up on your Acorns Year.'},

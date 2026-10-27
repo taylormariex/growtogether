@@ -23,7 +23,7 @@ function yrClock(){const m=S.yrMonth||1;
   return `<div class="yr-clock"><span>Prototype</span><b>Month ${m}</b>${next?`<button onclick="${next[1]}">${ic('ff',12)} Jump to ${next[0]}</button>`:`<button onclick="T={si:0,wsel:0};go('year')">${ic('ff',12)} Watch my year</button>`}</div>`}
 function yrJump(m){S.yrMonth=m;S.heroIdx=0;save();
   if(m===6){go('yr-mid');return}
-  if(m===12){refresh();setTimeout(()=>banner('Your Acorns Year is ready','Seven cards about the year you showed up. Tap to watch.',()=>{T={si:0,wsel:0};go('year')}),500)}}
+  if(m===12){refresh();setTimeout(()=>banner('Your Acorns Year is ready','Your year, card by card. Tap to watch.',()=>{T={si:0,wsel:0};go('year')}),500)}}
 (function(){const f=SCR['ac-home'];SCR['ac-home']=p=>{const r=f(p);if(S.yrClock)r.html+=yrClock();return r}})();
 /* Home banner: the halfway card at 6 months, the year at 12 */
 (function(){const f=heroCard;heroCard=function(){const c=f();if(!S.yrClock)return c;const m=S.yrMonth||1;

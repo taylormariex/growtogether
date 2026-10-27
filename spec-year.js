@@ -9,10 +9,10 @@ function ycLock(w){return `<span class="yc-lock ${w?'w':''}"><img src="${IMG.aco
 function ycFoot(w,right){return `<div class="yc-foot ${w?'w':''}"><span class="yc-lock ${w?'w':''}"><img src="${IMG.acorn}" alt="">acorns</span><span>${right||'acorns.com/j/'+S.me.toLowerCase()}</span></div>`}
 function ycDots(n,cls,fn){return Array.from({length:n},(_,k)=>`<i class="${fn(k)}" style="animation-delay:${120+k*16}ms"></i>`).join('')}
 /* the six Year cards */
-function yCard(n,o){o=o||{};const nm=S.me,W=48,RU=312;const miss=new Set([3,9,17,40,48]);const N=k=>`${String(k).padStart(2,'0')} / 07`;
+function yCard(n,o){o=o||{};const nm=S.me,W=48,RU=312;const miss=new Set([3,9,17,40,48]);const N=k=>`${String(k).padStart(2,'0')}`;
   const C=[
   ()=>`<div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">Acorns Year · 2026</span>
-     <div class="yc-panel" style="top:430px;height:194px"><div class="yc-h">Your year,<br>grown.</div><div class="yc-s">Seven cards about the year you showed up.</div>${o.share?ycFoot():`<div class="yc-foot">${ycLock()}<b>Tap to open</b></div>`}</div></div>`,
+     <div class="yc-panel" style="top:430px;height:194px"><div class="yc-h">Your year,<br>grown.</div><div class="yc-s">Every way you showed up this year, card by card.</div>${o.share?ycFoot():`<div class="yc-foot">${ycLock()}<b>Tap to open</b></div>`}</div></div>`,
   ()=>`<div class="yc" style="background-image:url(${YART}y-weeks-bg.jpg)"><div class="yc-hdr">${ycLock()}<span>${N(1)}</span></div>
      <div class="yc-big g" data-count="${W}">${o.anim?0:W}</div><div class="yc-lead">of 52 weeks,<br>you showed up.</div>
      <div class="yc-wk">${ycDots(52,'',k=>miss.has(k)?'ring':(k<16?'dk':'gr'))}</div>
@@ -70,7 +70,7 @@ function wrapped(o){const n=o.count;const i=Math.min(T.si||0,n);const end=i===n;
 function wrFit(el){const st=$('.wr-stage',el),c=$('#wrc',el);if(!st||!c)return;const z=zf();const r=st.getBoundingClientRect();const w=r.width/z-32,h=r.height/z-8;const s=Math.min(w/360,h/640);c.style.transform=`scale(${s})`;c.style.width='360px';c.style.height='640px'}
 function wrSnap(c){const w=c.firstElementChild.offsetWidth+14;const k=Math.round(c.scrollLeft/w);if(k!==T.wsel){T.wsel=k;$$('.wr-dots i',cur()).forEach((d,j)=>d.classList.toggle('on',j===k))}}
 function wrFocus(k){const c=$('#wrcar',cur());if(c)c.scrollTo({left:k*(c.firstElementChild.offsetWidth+14),behavior:'smooth'})}
-def('year',p=>{p=p||{};return wrapped({count:7,label:'Acorns Year',card:(k,o)=>yCard(k,o),cardFn:'yCard',shareTitle:'My Acorns Year',endTitle:'Your 2026, in seven cards.',bg:k=>['#0d2a0b','#16330f','#0d2a0b','#1d4a12','#16330f','#0d2a0b','#1d4a12'][k]||'#0b1f09'})});
+def('year',p=>{p=p||{};return wrapped({count:7,label:'Acorns Year',card:(k,o)=>yCard(k,o),cardFn:'yCard',shareTitle:'My Acorns Year',endTitle:'Your 2026, card by card.',bg:k=>['#0d2a0b','#16330f','#0d2a0b','#1d4a12','#16330f','#0d2a0b','#1d4a12'][k]||'#0b1f09'})});
 def('recap',p=>{const j=RC.find(x=>x.m===(p.m===undefined?9:p.m))||RC[0];const M=MONTHS[j.m];
   if(j.quiet)return {cls:'dark',html:`<div class="wr"><div class="wr-top"><div class="wr-row"><span class="wr-brand"><img src="${IMG.acorn}" alt="">${M} recap</span><button class="iconbtn" style="color:#fff" onclick="back()" aria-label="Close">${ic('close')}</button></div></div>
     <div class="wr-stage"><div class="wr-card" id="wrc"><div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">${M}</span><div class="yc-panel" style="top:448px;height:176px"><div class="yc-h" style="font-size:34px">Quiet month.</div><div class="yc-s">Your oak is still here, with every flourish. Nothing to share this time, and that’s okay.</div></div></div></div></div>
@@ -79,7 +79,7 @@ def('recap',p=>{const j=RC.find(x=>x.m===(p.m===undefined?9:p.m))||RC[0];const M
 function rCardAt(k,o,m){const j=RC.find(x=>x.m===m)||RC[0];return rCard(k,j,o)}
 /* journal uses the same months */
 def('journal',()=>({cls:'dark',html:`${topbar({title:'Journal'})}<div class="body"><p class="p" style="margin-top:0">A recap of your oak every month. In December they add up to your Acorns Year.</p>
-  <div class="jy" onclick="T.si=0;T.wsel=0;go('year')">${ycFrame(yCard(0,{}),110)}<div class="grow"><div class="eyebrow">December</div><div style="font-weight:600;font-size:18px;color:#fff;margin-top:4px">Your Acorns Year</div><div class="sm" style="color:var(--sk-sub);margin-top:2px">Seven cards · ready to watch</div><div class="mt12">${btn('Watch',"event.stopPropagation();T.si=0;T.wsel=0;go('year')",'wh','style="height:40px;width:auto;padding:0 18px;font-size:14px"')}</div></div></div>
+  <div class="jy" onclick="T.si=0;T.wsel=0;go('year')">${ycFrame(yCard(0,{}),110)}<div class="grow"><div class="eyebrow">December</div><div style="font-weight:600;font-size:18px;color:#fff;margin-top:4px">Your Acorns Year</div><div class="sm" style="color:var(--sk-sub);margin-top:2px">Ready to watch</div><div class="mt12">${btn('Watch',"event.stopPropagation();T.si=0;T.wsel=0;go('year')",'wh','style="height:40px;width:auto;padding:0 18px;font-size:14px"')}</div></div></div>
   <div class="sk-sec"><div class="h4">Monthly recaps</div></div>
   <div class="jl">${RC.map(j=>`<div class="e ${j.quiet?'q':''}" onclick="T.si=0;T.wsel=0;go('recap',{m:${j.m}})" style="cursor:pointer"><div class="card dk" style="padding:12px 14px"><div class="row"><img src="${IMG[j.quiet?'seedling':j.m>7?'seedling':'acorn']}" style="height:44px;${j.quiet?'opacity:.5':''}" alt=""><div class="grow"><div style="font-weight:600;color:#fff">${MONTHS[j.m]}</div><div class="sm" style="color:var(--sk-sub)">${j.quiet?'Quiet month. Your oak is still here.':`${j.w} of ${j.of} weeks · ${j.cap}`}</div></div>${ic('chev',16,'color:rgba(255,255,255,.4)')}</div></div></div>`).join('')}</div></div>`}));
 (function(){const st=document.createElement('style');st.textContent=`

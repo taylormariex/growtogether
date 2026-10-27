@@ -296,7 +296,7 @@ def('year',p=>{p=p||{};const nu=p.newUser;const W=nu?3:48,RU=nu?12:312,tp=nu?'':
   const miss=new Set([3,9,17,40,48]);
   const sl=[
    {tone:'lt',html:`<div class="y-card y-white">${'<div class="y-top"><span class="y-chip">Acorns Year · 2026</span></div>'}<div class="y-scene">${hills({})}<div class="sl-tree" style="bottom:22%"><div class="sway"><img class="grow-in" src="${IMG.oak}" style="height:230px" alt=""></div></div></div>
-     <div class="y-panel"><div class="y-h">${nu?'Your year, started.':'Your year, grown.'}</div><div class="y-s">${nu?'Three cards on how you began.':'Seven cards about the year you showed up.'}</div><div class="y-foot">${yLock()}<b>Tap to open</b></div></div></div>`},
+     <div class="y-panel"><div class="y-h">${nu?'Your year, started.':'Your year, grown.'}</div><div class="y-s">${nu?'Three cards on how you began.':'Your year, card by card.'}</div><div class="y-foot">${yLock()}<b>Tap to open</b></div></div></div>`},
    {tone:'lt',html:`<div class="y-card y-pale"><div class="y-top">${yLock()}<span class="y-n">01 / 06</span></div>
      <div class="y-num" id="ycnt">0</div><div class="y-lead">of 52 weeks,<br>you showed up.</div>
      ${yDots(52,k=>k<W?(miss.has(k)?'ring':(k<20?'dk':'gr')):'ring','y-wk')}

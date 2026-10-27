@@ -70,7 +70,7 @@ function render(id,params,dir){const fn=SCR[id];if(!fn){toast('Screen not built:
   closeOv(true);if(r.mount)setTimeout(()=>r.mount(el),20);const b=$('.body',el);if(b)b.scrollTop=0}
 
 /* ---------- Guide: one pop-up inside the phone (on start, and from ☰). No side panel, works the same on mobile ---------- */
-const RV_GO=[['Home','What Jordan sees after sign-up',"jumpAhead();spInit();home('gt-home')"],['Your grove','Trees, rain and cheers',"jumpAhead();spInit();GSEL=null;home('gt-grove')"],['Invite someone','Pick a person and their day',"jumpAhead();spInit();home('gt-home');T={};go('inv-pick')"],['Money Type','Three questions, then a plan',"T={};home('mt2-intro')"],['Skip and Stash','Skip something, invest the difference',"T={};home('ss2-pick')"],['Split a paycheck','Invest, Later and Savings at once',"T={};home('mm2-pay')"],['Future Club','Notes for me or for my kid',"T={};home('fc-types')"],['Acorns Year','Monthly recaps and the year story',"T={si:0};jumpAhead();spInit();home('journal')"],['Getting invited','The friend’s side, every path',"home('sam-hub')"],['Edge states','Empty, locked, failed, expired',"home('states')"]];
+const RV_GO=[['Home','What Jordan sees after sign-up',"jumpAhead();spInit();home('gt-home')"],['Your grove','Trees, rain and cheers',"jumpAhead();spInit();GSEL=null;home('gt-grove')"],['Invite someone','Pick a person and their day',"jumpAhead();spInit();home('gt-home');T={};go('inv-pick')"],['Money Type','Three questions, then a plan',"T={};home('mt2-intro')"],['Skip and Stash','Skip something, invest the difference',"T={};home('ss2-pick')"],['Split a paycheck','Invest, Later and Savings at once',"T={};home('mm2-intro')"],['Future Club','Notes for me or for my kid',"T={};home('fc-types')"],['Acorns Year','Monthly recaps and the year story',"T={si:0};jumpAhead();spInit();home('journal')"],['Getting invited','The friend’s side, every path',"home('sam-hub')"],['Edge states','Empty, locked, failed, expired',"home('states')"]];
 const RV_OLD=[['Money Type v1','Quiz and match',"T={};home('mt-why1')"],['Skip Week v1','7-day crew challenge',"T={};home('ss-why1')"],['Future Club capsule','Notes that open in a year',"T={};home('fc-why1')"],['Acorns Year v1','The year as stories',"T={};home('ay-1')"],['Money Manager v1','First split concept',"T={};home('mm-why1')"],['How it all connects','Ways in, products, flourishes',"home('map')"]];
 const RV_WEEK=[['todo','Not yet','Home nudges Jordan to invest this week.'],['done','Invested','The week counts. Home turns to friends.'],['reset','Missed last week','Starting over. Flourishes are kept.']];
 const RV_MOMENTS=[['Mom invests','Rain falls on both oaks in the grove',"jumpAhead();spInit();GSEL=null;home('gt-grove');setTimeout(()=>gvInvests('mom'),900)"],['Jess signs up','A friend joined, their seed is waiting',"jumpAhead();spInit();S.friendJoined='jess';S.hidden={};save();home('gt-home');setTimeout(()=>banner('Jess signed up','Their tree sprouts after their first investment.',()=>groveSheet('half')),600)"],['Paycheck lands','Home offers to split it',"spInit();S.pay.detected=true;S.hidden={};save();home('gt-home')"],['A skip is spotted','Home offers a one-tap stash',"spInit();S.detect.on=true;S.detect.cats=['Coffee'];S.hidden={};save();home('gt-home')"],['4 weeks later','Grove filled in, challenges running',"jumpAhead();spInit();home('gt-home')"]];
@@ -207,3 +207,149 @@ function gvRainAll(){const open=growing().filter(x=>x.open&&!S.watered[x.id]&&S.
   open.forEach((g,i)=>setTimeout(()=>{const a=gvAt(g.id);rain(a.el,a.x,a.y-10);S.watered[g.id]=Date.now();const b=$('#gv-'+g.id+' .gv-drop');if(b)b.remove()},i*350));save();haptic(12);
   toast(open.length===1?`Rain sent to ${nm(open[0].id)}. It only counts when ${open[0].id==='mom'?'she invests':'they invest'}.`:`Rain sent to ${open.length} people`);setTimeout(()=>{const d=$('#gvd');if(d)d.innerHTML=gvDock(null)},800)}
 (function(){const st=document.createElement('style');st.textContent='.gv .cloud{display:none}';document.head.appendChild(st)})();
+
+/* Money Type quiz v3: pick all that fit, Back and Continue in the footer, no auto-advance */
+function mtHas(a,k,v){a=a||{};const x=a[k];return Array.isArray(x)?x.indexOf(v)>-1:x===v}
+function mtScore(a){a=a||{};const card=mtHas(a,'spend','card'),auto=mtHas(a,'feel','auto'),when=mtHas(a,'feel','when'),here=mtHas(a,'rhythm','here'),pay=mtHas(a,'rhythm','pay');
+  if(card&&(when||mtHas(a,'feel','see'))&&!auto&&!pay)return 'spare';if(card&&!auto&&!pay)return 'spare';if(when||here)return 'moment';if(card&&pay&&!auto)return 'moment';return 'steady'}
+def('mt2-q',p=>{const i=p.i||0;const q=MTQ2[i];if(!T.mq)T.mq={};let v=T.mq[q.k];if(v!==undefined&&!Array.isArray(v))v=T.mq[q.k]=[v];v=v||[];
+  return {cls:'dark',html:`${topbar({close:`mtExit(${i})`,title:''})}<div class="body"><div style="padding:6px 0 0">${mtDots(i)}</div>
+  ${p.pre?`<div class="sk-chip mt16" style="display:inline-flex">${ic('spark',14,'color:#74c947')} Pre-filled from your patterns. Change what’s wrong.</div>`:''}
+  <div class="eyebrow mt24">Question ${i+1} of 3</div><div class="mtq mt8">${q.q}</div><div class="sm mt8" style="color:var(--sk-sub)">Pick all that fit.</div>
+  <div class="mt16">${q.o.map(([k,l,s])=>{const on=v.indexOf(k)>-1;return `<div class="qcard ${on?'on':''}" role="checkbox" aria-checked="${on}" onclick="mtTog(${i},'${k}')"><div class="grow"><div class="ql">${l}</div><div class="qs">${s}</div></div><div class="cbox ${on?'on':''}">${on?ic('check',14):''}</div></div>`}).join('')}</div></div>
+  <div class="foot"><div class="row" style="gap:10px">${btn(i===0?'Back':`${ic('back',18)} Back`,i===0?'back()':`back()`,'line','style="color:#fff;flex:1"')}${btn(i<2?'Continue':'See my type',`mtNext(${i},${p.pre?1:0})`,'wh',`style="flex:1.6" ${v.length?'':'disabled'}`)}</div></div>`}});
+function mtTog(i,k){const q=MTQ2[i];let v=T.mq[q.k];if(!Array.isArray(v))v=T.mq[q.k]=v?[v]:[];const j=v.indexOf(k);j>-1?v.splice(j,1):v.push(k);haptic(6);refresh()}
+function mtNext(i,pre){if(i<2){go('mt2-q',{i:i+1,pre});return}S.mt2={a:JSON.parse(JSON.stringify(T.mq)),type:mtScore(T.mq)};S.resume=null;save();go('mt2-reveal')}
+
+/* ---------- Stories v2: full-bleed slides, overlaid header, no seams ---------- */
+function stories(id,slides,o){o=o||{};const i=Math.min(T.si||0,slides.length-1);const s=slides[i];
+  return {cls:'dark',html:`<div class="stp2" style="background:${s.bg||'#0b1f09'}"><div class="stc2" onpointerdown="stHold(1)" onpointerup="stHold(0,event)" onpointerleave="stHold(0)">${s.html}</div>
+  <div class="st-top"><div class="stbars">${slides.map((_,k)=>`<i class="${k<i?'done':k===i?'on':''}"><b></b></i>`).join('')}</div>
+   <div class="row" style="padding:10px 12px 0;justify-content:space-between"><div class="st-lab">${o.label||'Acorns'}</div><button class="iconbtn" onclick="T.si=0;back()" aria-label="Close">${ic('close')}</button></div></div>
+  ${s.foot||(i<slides.length-1?`<div class="st-hint">Tap to continue</div>`:'')}</div>`,
+  mount(el){clearTimeout(STP);if(i<slides.length-1&&!o.manual)STP=setTimeout(()=>{if(cur()===el){T.si=i+1;refresh()}},6000);if(s.mount)s.mount(el)}}}
+function stScene(inner,opt){opt=opt||{};return `<div class="sl-scene">${hills({dark:1})}${inner||''}</div>`}
+function countUp(el,to,ms){if(!el)return;const t0=performance.now();const f=t=>{const p=Math.min(1,(t-t0)/ms);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
+def('year',p=>{p=p||{};const nu=p.newUser;const weeks=nu?3:41;const fl=nu?['roots']:['roots','acorns','nest','gold','bird'];const showN=!!T.yn;const trees=nu?1:4;
+  const sl=[
+   {html:`${stScene(`<div class="sl-tree" style="bottom:30%"><div class="sway"><img class="grow-in" src="${IMG[nu?'acorn':'oak']}" style="height:${nu?96:210}px" alt=""></div></div><div class="gv-fire">${Array.from({length:10}).map((_,k)=>`<i style="left:${6+k*9}%;bottom:${34+(k*17)%40}%;animation-delay:-${k*.6}s"></i>`).join('')}</div>`)}
+     <div class="sl-text"><div class="eyebrow">2026</div><div class="sl-h">Your Acorns Year</div><p class="sl-p">${nu?'It’s just getting started. Here’s your first chapter.':`${weeks} weeks. ${fl.length} flourishes. ${trees} trees beside you.`}</p></div>`},
+   {html:`<div class="sl-mid"><div class="eyebrow">You showed up</div><div class="sl-big"><span id="ycnt">0</span></div><div class="sl-h2">weeks invested</div>
+     <div class="cal52 y52">${Array.from({length:52},(_,k)=>`<i data-k="${k}"></i>`).join('')}</div><p class="sl-p">${nu?'Every one counts.':'Including a fresh start in July. Every week counted.'}</p></div>`,
+    mount(el){countUp($('#ycnt',el),weeks,1400);const on=nu?[49,50,51]:Array.from({length:52},(_,k)=>k).filter(k=>!(k>=26&&k<=36));on.forEach((k,n)=>setTimeout(()=>{const d=$(`.y52 i[data-k="${k}"]`,el);if(d)d.classList.add('on')},120+n*28))}},
+   {html:`<div class="sl-full"><div class="sl-cap"><div class="eyebrow">Your oak’s year</div><div class="sl-h2" id="ymon">January</div></div>
+     <div class="sl-stage">${oakStage({h:520,flush:1,weeks:0,fl:[],ghost:[],id:'yT'})}</div></div>`,
+    mount(el){const seq=nu?[[0,'January'],[4,'March']]:[[0,'January'],[6,'March'],[14,'June'],[26,'September'],[41,'December']];const host=$('.sl-stage',el);
+     seq.forEach(([w,m],n)=>setTimeout(()=>{if(!host||!document.body.contains(host))return;const flN=fl.slice(0,Math.min(fl.length,n+ (nu?1:0)));host.innerHTML=oakStage({h:520,flush:1,weeks:w,fl:flN,id:'yT'});const t=$('#yT',host);if(t)t.classList.add('breathe');$('#ymon',el).textContent=m;haptic(6)},n*1000))}}];
+  if(!nu)sl.push({html:`<div class="sl-mid" style="justify-content:center"><div class="eyebrow">Highlights</div><div class="sl-h2" style="margin-bottom:18px">Three things you did</div>
+    ${[['seedling','Most roots','26 weeks of recurring in a row'],['roundup','Most acorns','March: 4 acorns from Round-Ups®'],['learn','A first','Your first songbird landed']].map(([im,t,s],n)=>`<div class="yhl rise d${n*2+1}"><div class="yi"><img src="${IMG[im]}" alt=""></div><div><b>${t}</b><span>${s}</span></div></div>`).join('')}</div>`});
+  sl.push({html:`${stScene(`<div class="hr-row" style="bottom:30%">${(nu?[{h:`<img src="${IMG.acorn}" style="height:64px">`,l:'You',me:1},{h:spot(),l:'Invite'}]:[{h:`<img src="${IMG.seedling}" style="height:92px">`,l:showN?'Sam':'Friend'},{h:`<img src="${IMG.oak}" style="height:150px">`,l:'You',me:1},{h:`<img src="${IMG.oak}" style="height:118px">`,l:showN?'Mom':'Family'}]).map(x=>`<div class="hr-it">${x.h}<div class="hr-lbl ${x.me?'me':''}">${x.l}</div></div>`).join('')}</div>`)}
+    <div class="sl-text"><div class="eyebrow">Your grove</div><div class="sl-h">${trees} tree${trees===1?'':'s'} planted</div><p class="sl-p">${nu?'Invite one person. Grow beside them.':'You grew side by side, week after week.'}</p>
+    <div class="row mt12" style="justify-content:center;gap:10px" onpointerdown="event.stopPropagation()" onpointerup="event.stopPropagation()"><span class="sm" style="color:var(--sk-sub)">Show names</span><div class="tog ${showN?'on':''}" onclick="event.stopPropagation();T.yn=!T.yn;refresh()"></div></div></div>`});
+  sl.push({html:`<div class="sl-mid" style="justify-content:center"><div class="eyebrow">Share your year</div><div style="width:58%;margin:14px auto 0">${storyCard({eyebrow:'My Acorns Year',title:`${weeks} weeks invested.`,sub:`${fl.length} flourishes. ${trees} trees beside me.`})}</div><p class="sl-p" style="margin-top:14px">No amounts, ever. Your name stays off unless you add it.</p></div>`,
+    foot:`<div class="foot" style="position:relative;z-index:3">${btn(`${ic('share',18)} Share`,"T.sbT=undefined;T.sbName=undefined;go('share-b',{kind:'year'})",'wh')}${btn('Save image',"toast('Saved to Photos')",'ghost')}</div>`});
+  return stories('year',sl,{label:'Acorns Year'})});
+(function(){const st=document.createElement('style');st.textContent=`.stp2{position:absolute;inset:0;overflow:hidden;color:#fff}
+.stc2{position:absolute;inset:0;-webkit-user-select:none;user-select:none;display:flex;flex-direction:column}
+.st-top{position:absolute;left:0;right:0;top:0;z-index:4;padding-top:calc(var(--safeTop) + 2px);background:linear-gradient(180deg,rgba(6,20,8,.55),transparent)}
+.st-lab{height:30px;padding:0 12px;border-radius:15px;background:rgba(10,29,8,.55);border:1px solid var(--sk-line);font-size:12px;font-weight:600;display:flex;align-items:center;backdrop-filter:blur(8px)}
+.st-hint{position:absolute;left:0;right:0;bottom:calc(var(--safeBot) + 14px);text-align:center;font-size:12px;color:rgba(255,255,255,.55);z-index:3;animation:fadeIn 1.2s 1.6s both}
+.sl-scene{position:absolute;inset:0}.sl-scene .gv-fire{z-index:1}
+.sl-tree{position:absolute;left:50%;transform:translateX(-50%)}.sl-tree img{display:block;filter:drop-shadow(0 12px 12px rgba(0,0,0,.4))}
+.sl-text{position:absolute;left:0;right:0;bottom:calc(var(--safeBot) + 50px);padding:0 28px;text-align:center;z-index:2}
+.sl-h{font-size:38px;font-weight:600;letter-spacing:-.6px;line-height:1.08;margin-top:8px}.sl-h2{font-size:24px;font-weight:600;letter-spacing:-.3px;margin-top:6px}
+.sl-p{font-size:15px;color:rgba(255,255,255,.72);line-height:1.45;margin:10px auto 0;max-width:300px}
+.sl-mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:calc(var(--safeTop) + 70px) 28px calc(var(--safeBot) + 60px)}
+.sl-big{font-size:132px;font-weight:600;color:#74c947;line-height:.95;letter-spacing:-4px;font-variant-numeric:tabular-nums;margin-top:6px}
+.y52{width:100%;margin-top:26px}.y52 i{transition:background .3s,transform .3s}.y52 i.on{transform:scale(1.08)}
+.sl-full{flex:1;display:flex;flex-direction:column}.sl-cap{padding:calc(var(--safeTop) + 78px) 28px 0;text-align:center;position:relative;z-index:2}
+.sl-stage{position:absolute;left:0;right:0;bottom:0;height:72%}.sl-stage .os{height:100%!important}
+.yhl{display:flex;gap:14px;align-items:center;text-align:left;width:100%;padding:14px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid var(--sk-line);margin-top:10px}
+.yhl .yi{width:56px;height:56px;border-radius:16px;background:rgba(116,201,71,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}.yhl .yi img{height:40px}
+.yhl b{display:block;font-size:16px}.yhl span{display:block;font-size:13px;color:var(--sk-sub);margin-top:2px}
+.stp2 .hr-row{z-index:1}.stp2 .hr-it img{filter:drop-shadow(0 10px 10px rgba(0,0,0,.4))}`;document.head.appendChild(st)})();
+
+/* ---------- Acorns Year v3: the six light cards from the Figma set, as tappable stories ---------- */
+function yLock(){return `<span class="y-lock"><img src="${IMG.acorn}" alt="">acorns <em>year</em></span>`}
+function yMed(img){return `<div class="y-med"><img src="${IMG[img]}" alt=""></div>`}
+function yDots(n,fill,cls){return `<div class="y-dots ${cls||''}">${Array.from({length:n},(_,k)=>`<i class="${fill(k)}" style="animation-delay:${k*18}ms"></i>`).join('')}</div>`}
+def('year',p=>{p=p||{};const nu=p.newUser;const W=nu?3:48,RU=nu?12:312,tp=nu?'':'Top 6%';const st=rstage(S.streak||48);const name=S.me;
+  const miss=new Set([3,9,17,40,48]);
+  const sl=[
+   {tone:'lt',html:`<div class="y-card y-white">${'<div class="y-top"><span class="y-chip">Acorns Year · 2026</span></div>'}<div class="y-scene">${hills({})}<div class="sl-tree" style="bottom:22%"><div class="sway"><img class="grow-in" src="${IMG.oak}" style="height:230px" alt=""></div></div></div>
+     <div class="y-panel"><div class="y-h">${nu?'Your year, started.':'Your year, grown.'}</div><div class="y-s">${nu?'Three cards on how you began.':'Six cards on how you showed up.'}</div><div class="y-foot">${yLock()}<b>Tap to open</b></div></div></div>`},
+   {tone:'lt',html:`<div class="y-card y-pale"><div class="y-top">${yLock()}<span class="y-n">01 / 06</span></div>
+     <div class="y-num" id="ycnt">0</div><div class="y-lead">of 52 weeks,<br>you showed up.</div>
+     ${yDots(52,k=>k<W?(miss.has(k)?'ring':(k<20?'dk':'gr')):'ring','y-wk')}
+     <div class="y-bot"><span><i class="y-pip"></i>Longest run: 21 weeks in a row.</span></div>${yMed('seedling')}</div>`,
+    mount(el){countUp($('#ycnt',el),W,1300)}},
+   {tone:'lt',html:`<div class="y-card y-white"><div class="y-top"><span class="y-chip">Round-Ups®</span><span class="y-n pill">02 / 06</span></div><div class="y-scene">${hills({})}<div class="sl-tree" style="bottom:24%"><img class="grow-in" src="${IMG.roundup}" style="height:190px" alt=""></div></div>
+     <div class="y-panel"><div class="y-num sm" id="yru">0</div><div class="y-s">everyday purchases<br>rounded up into investing.</div><div class="y-chips"><span>Mostly coffee</span><span>Then groceries</span></div></div></div>`,
+    mount(el){countUp($('#yru',el),RU,1200)}},
+   {tone:'dk',html:`<div class="y-card y-green"><div class="y-top">${yLock()}<span class="y-n">03 / 06</span></div>
+     <div class="y-num w">${tp||'Week 3'}</div><div class="y-lead w">${nu?'and counting. Every week counts.':'most consistent investors on Acorns this year.'}</div>
+     ${yDots(60,k=>k<6?'gold':'lt','y-rank')}
+     <div class="y-bot w"><span>Ranked by weeks invested.<br>Never by balance.</span></div>${yMed('oak')}</div>`},
+   {tone:'lt',html:`<div class="y-card y-white"><div class="y-top"><span class="y-chip">Your investor type</span><span class="y-n pill">04 / 06</span></div><div class="y-scene">${hills({})}<div class="sl-tree" style="bottom:22%"><div class="sway"><img class="grow-in" src="${IMG.oak}" style="height:250px" alt=""></div></div></div>
+     <div class="y-panel"><div class="y-h">The Steady Oak</div><div class="y-s">You don’t chase. You show up, rain or shine.</div><div class="y-chips"><span>1 in 9 investors</span></div></div></div>`},
+   {tone:'dk',html:`<div class="y-card y-green y-sum"><div class="y-top"><span class="y-who">${name}’s 2026</span><span class="y-n">05 / 06</span></div><div class="y-h w" style="margin-top:2px">Acorns Year</div>
+     <div class="y-grid">${[[`${W}/52`,'weeks invested'],[`${RU}`,'Round-Ups'],[tp||'Week 3','most consistent'],['Steady Oak','investor type']].map(([a,b],n)=>`<div class="rise d${n+1}"><b>${a}</b><span>${b}</span></div>`).join('')}</div>
+     <div class="y-pic">${hills({})}<div class="sl-tree" style="bottom:18%"><img src="${IMG.oak}" style="height:96px" alt=""></div><span>Steady Oak · 1 in 9</span></div>
+     <div class="y-sfoot"><span class="y-btn">Start yours</span><span>acorns.com/j/${name.toLowerCase()}</span></div></div>`,
+    foot:`<div class="foot y-actions">${btn(`${ic('share',18)} Share my year`,"T.sbT=undefined;T.sbName=undefined;go('share-b',{kind:'year'})",'wh')}${btn('Save image',"toast('Saved to Photos')",'ghost')}</div>`}];
+  return stories('year',sl,{label:''})});
+/* stories v2: light/dark header per slide */
+(function(){const base=stories;stories=function(id,slides,o){const r=base(id,slides,o);const i=Math.min(T.si||0,slides.length-1);if(slides[i].tone==='lt')r.html=r.html.replace('class="stp2"','class="stp2 lt"');if(o&&o.label==='')r.html=r.html.replace(/<div class="st-lab">[^<]*<\/div>/,'<div></div>');return r}})();
+(function(){const st=document.createElement('style');st.textContent=`
+.stp2.lt .st-top{background:none}.stp2.lt .stbars i{background:rgba(0,0,0,.12)}.stp2.lt .stbars i b{background:#2f7a12}.stp2.lt .iconbtn{color:#191919}.stp2.lt .st-hint{color:rgba(0,0,0,.45)}
+.y-card{position:absolute;inset:0;display:flex;flex-direction:column;padding:calc(var(--safeTop) + 62px) 22px calc(var(--safeBot) + 40px);overflow:hidden;color:#191919}
+.y-white{background:#fbfdf8}.y-pale{background:radial-gradient(120% 80% at 80% 0%,#ffffff 0%,#e9f6df 45%,#d8efc6 100%)}.y-green{background:linear-gradient(160deg,#7fcf52,#5fb33a);color:#fff}
+.y-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:3}
+.y-chip{height:30px;padding:0 12px;border-radius:15px;background:rgba(255,255,255,.85);color:#2f7a12;font-weight:600;font-size:12px;display:inline-flex;align-items:center;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.y-n{font-size:12px;font-weight:600;color:#3c4a40}.y-n.pill{height:30px;padding:0 12px;border-radius:15px;background:rgba(255,255,255,.85);display:inline-flex;align-items:center}.y-green .y-n{color:rgba(255,255,255,.85)}
+.y-lock{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:13px;color:#2f7a12}.y-lock img{height:16px}.y-lock em{font-style:normal;font-weight:500;opacity:.75}.y-green .y-lock{color:#fff}
+.y-scene{position:absolute;left:0;right:0;top:0;height:68%}.y-scene .sk-hero{height:100%!important;margin:0!important}
+.y-panel{position:absolute;left:14px;right:14px;bottom:calc(var(--safeBot) + 34px);background:#fff;border-radius:22px;padding:20px 20px 18px;box-shadow:0 10px 30px rgba(0,0,0,.08);z-index:2}
+.y-h{font-size:40px;font-weight:600;letter-spacing:-.8px;line-height:1.04}.y-h.w{color:#fff}
+.y-s{font-size:15px;color:#555;margin-top:8px;line-height:1.4}
+.y-foot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;font-size:13px}.y-foot b{font-weight:600}
+.y-num{font-size:150px;font-weight:600;letter-spacing:-6px;line-height:.92;color:#3f9a1a;margin-top:26px;font-variant-numeric:tabular-nums}.y-num.sm{font-size:70px;letter-spacing:-2px;margin:0;color:#191919}.y-num.w{color:#fff;font-size:92px;letter-spacing:-3px}
+.y-lead{font-size:26px;font-weight:600;line-height:1.2;margin-top:10px;letter-spacing:-.3px}.y-lead.w{color:#fff;font-size:22px}
+.y-dots{display:grid;grid-template-columns:repeat(13,1fr);gap:6px;margin-top:22px}.y-dots i{aspect-ratio:1;border-radius:50%;display:block;animation:orbIn .45s cubic-bezier(.3,1.6,.5,1) both}
+.y-dots i.dk{background:#191919}.y-dots i.gr{background:#5fb33a}.y-dots i.ring{box-shadow:inset 0 0 0 1.5px #8a9a8e}
+.y-rank{grid-template-columns:repeat(10,1fr);gap:7px}.y-dots i.gold{background:#f5c451;box-shadow:inset 0 0 0 2px #e0a92c}.y-dots i.lt{background:rgba(255,255,255,.35)}
+.y-bot{margin-top:auto;font-size:13px;font-weight:600;position:relative;z-index:2}.y-bot.w{color:rgba(255,255,255,.9);font-weight:500}.y-pip{display:inline-block;width:10px;height:10px;border-radius:5px;background:#5fb33a;margin-right:8px;vertical-align:-1px}
+.y-med{position:absolute;right:22px;bottom:calc(var(--safeBot) + 70px);width:104px;height:104px;border-radius:52px;background:radial-gradient(circle at 50% 40%,#fff,#e7f4dc);box-shadow:0 0 0 5px rgba(255,255,255,.9),0 12px 24px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}.y-med img{height:70px}
+.y-chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}.y-chips span{height:32px;padding:0 14px;border-radius:16px;background:#f1f4ef;font-size:13px;font-weight:600;display:inline-flex;align-items:center}
+.y-who{font-size:13px;font-weight:600;color:rgba(255,255,255,.85)}
+.y-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.y-grid div{padding:14px;border-radius:16px;background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);min-height:84px;display:flex;flex-direction:column;justify-content:space-between}
+.y-grid b{font-size:24px;font-weight:600;letter-spacing:-.4px}.y-grid span{font-size:11px;color:rgba(255,255,255,.85);margin-top:10px}
+.y-pic{position:relative;height:130px;border-radius:16px;overflow:hidden;margin-top:10px;box-shadow:0 0 0 3px rgba(255,255,255,.9)}.y-pic .sk-hero{height:100%!important;margin:0!important}
+.y-pic span{position:absolute;left:10px;bottom:10px;height:28px;padding:0 12px;border-radius:14px;background:rgba(10,29,8,.55);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;backdrop-filter:blur(6px);z-index:2}
+.y-sfoot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,.9)}.y-btn{height:40px;padding:0 18px;border-radius:20px;background:#111;color:#fff;font-weight:600;font-size:14px;display:inline-flex;align-items:center}
+.y-sum{padding-bottom:calc(var(--safeBot) + 150px)}.y-actions{position:absolute;left:0;right:0;bottom:0;z-index:5;background:linear-gradient(180deg,transparent,rgba(60,140,30,.9) 30%)}`;document.head.appendChild(st)})();
+
+/* Year cards: one header row only. Bars sit at the very top; the card's own top row carries the counter and the close button. */
+(function(){const f=SCR['year'];SCR['year']=p=>{const r=f(p);
+  r.html=r.html.replace(/<div class="row" style="padding:10px 12px 0;justify-content:space-between">[\s\S]*?<\/button><\/div><\/div>/,'</div>');
+  r.html=r.html.replace(/(<div class="y-top">[\s\S]*?)(<\/div>)/g,(m,a,b)=>a+`<button class="y-x" onclick="event.stopPropagation();T.si=0;back()" onpointerdown="event.stopPropagation()" onpointerup="event.stopPropagation()" aria-label="Close">${ic('close',18)}</button>`+b);
+  r.html=r.html.replace('<span class="y-n">','<span class="y-n" style="margin-left:auto;margin-right:8px">').replace(/<span class="y-n pill">/g,'<span class="y-n pill" style="margin-left:auto;margin-right:8px">');
+  return r}})();
+(function(){const st=document.createElement('style');st.textContent=`
+.stp2 .st-top{padding-top:calc(var(--safeTop) + 4px)!important;background:none!important}
+.y-card{padding:calc(var(--safeTop) + 22px) 20px calc(var(--safeBot) + 28px)!important}
+.y-top{margin-top:0!important;gap:0}.y-top>*:first-child{margin-right:auto}
+.y-top .y-n[style]{margin-left:0!important}
+.y-x{width:32px;height:32px;border-radius:16px;background:rgba(255,255,255,.85);color:#191919;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.y-green .y-x{background:rgba(255,255,255,.2);color:#fff}
+.y-scene{top:0!important;height:64%!important}
+.y-panel{left:16px;right:16px;bottom:calc(var(--safeBot) + 24px);padding:20px}
+.y-h{font-size:36px}
+.y-num{font-size:132px;margin-top:22px}.y-num.w{font-size:84px;margin-top:22px}
+.y-lead{font-size:24px}
+.y-dots{gap:5px;margin-top:20px}.y-rank{gap:8px;margin-top:22px}
+.y-med{width:92px;height:92px;bottom:calc(var(--safeBot) + 64px);right:20px}.y-med img{height:62px}
+.y-bot{padding-right:110px}
+.y-sum{padding-bottom:calc(var(--safeBot) + 140px)!important}
+.y-grid{margin-top:14px}.y-grid div{min-height:76px}.y-pic{height:118px}
+.y-actions{padding-top:28px}`;document.head.appendChild(st)})();

@@ -718,6 +718,16 @@ input,textarea{font-family:inherit}
 .story.v2.sq .st2-art{top:16%;bottom:47%}.story.v2.sq .st2-art img{max-height:100%}
 .scr.chd input[type=search],.scr.chd input[placeholder*="Search"],.scr.chd .search,.scr.chd .search input{background:rgba(255,255,255,.06)!important;color:#fff!important;box-shadow:inset 0 0 0 1px var(--sk-line)!important}
 .scr.chd .badge{background:rgba(116,201,71,.16);color:#bceaa3}
+.y-card{padding-top:calc(var(--safeTop) + 100px)!important}.y-top{margin-top:4px}
+.y-scene{top:0;height:66%}.y-card .y-top+.y-scene{top:0}
+.stp2 .stbars{padding:0 14px!important}
+.y-card{padding-top:calc(var(--safeTop) + 24px)!important}
+.y-sum .y-grid div{min-height:92px}.y-sum .y-pic{height:160px}.y-sum .y-grid b{font-size:26px}
+.y-white .y-scene{height:100%!important}
+.y-white .y-scene .sl-tree{bottom:36%!important}
+.y-white .y-scene::after{content:"";position:absolute;left:0;right:0;bottom:0;height:30%;background:linear-gradient(180deg,rgba(78,160,44,0),rgba(56,134,30,.35));pointer-events:none}
+.y-panel{box-shadow:0 18px 40px rgba(20,60,10,.22)}
+.y-white .y-scene .sl-tree{bottom:33%!important}
 
 </style>
 </head>
@@ -2212,7 +2222,7 @@ def('gt-home',()=>{spInit();const w=S.streak;const g=S.grove;const inv=g.filter(
    <div class="card dk tap" style="padding:0;overflow:hidden" onclick="home('gt-grove')"><div style="position:relative">${(()=>{const gr=g.filter(x=>x.status==='growing');const sz=id=>{const k=rstage(wk(id))[2];return k==='oak'?78:k==='seedling'?58:44};const mk=x=>({html:`<div style="position:relative"><img src="${IMG[rstage(wk(x.id))[2]]}" style="height:${sz(x.id)}px">${waterCue(x)&&!S.watered[x.id]?'<span class="dropbadge">'+ic('drop',11,'color:#fff')+'</span>':''}</div>`,label:nm(x.id)});const L=gr.slice(0,2).map(mk),R=gr.slice(2,4).map(mk);if(inv.length&&R.length<2)R.push({html:spot(),label:'Waiting'});if(!gr.length&&!inv.length){L.push({html:spot(),label:'Invite'})}return hillRow([...L,{html:`<img src="${IMG[rstage(w)[2]]}" style="height:${rstage(w)[2]==='acorn'?52:84}px">`,label:'You',me:1},...R],{h:190})})()}
     <div style="position:absolute;left:12px;top:12px" class="sk-chip">${ic('grove',14,'color:#74c947')} ${g.filter(x=>x.status==='growing').length} growing${inv.length?` · ${inv.length} waiting`:''}</div></div></div>
    <div class="sk-sec"><div class="h4">Ways to grow</div></div>
-   <div class="row" style="gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none">${[['Skip and Stash','roundup',"go('ss2-pick')"],['Money Type','seedling',"T={};go('mt2-intro')"],['Split a paycheck','later',"T={};go('mm2-pay')"],['Future Club','learn',"go('fc-types')"],['Journal','oak',"go('journal')"]].map(([t,im,a])=>`<div class="fl-tok" style="width:84px" onclick="${a}"><div class="im" style="width:84px"><img src="${IMG[im]}" alt=""></div><div class="nm">${t}</div></div>`).join('')}</div>
+   <div class="row" style="gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none">${[['Skip and Stash','roundup',"go('ss2-pick')"],['Money Type','seedling',"T={};go('mt2-intro')"],['Split a paycheck','later',"T={};go('mm2-intro')"],['Future Club','learn',"go('fc-types')"],['Journal','oak',"go('journal')"]].map(([t,im,a])=>`<div class="fl-tok" style="width:84px" onclick="${a}"><div class="im" style="width:84px"><img src="${IMG[im]}" alt=""></div><div class="nm">${t}</div></div>`).join('')}</div>
    <div class="sk-sec"><div class="h4">Challenges</div><span class="sm" style="cursor:pointer" onclick="T={};go('gt-ch-new')">+ Start</span></div>
    ${S.challenges.length?S.challenges.slice(0,3).map(c=>{const t=CH_TYPES[c.type];return skRow(`<span style="color:#74c947">${ic(t.icon,22)}</span>`,c.title,`${c.prog.me||0} of ${c.len} ${c.unit} · ${c.people.length} people`,(c.prog.me||0)>=c.len,`go('gt-ch-detail',{id:'${c.id}'})`)}).join(''):`<div class="sm" style="color:var(--sk-sub)">Bring people in on a no-delivery week, a Round-Ups month, or 8 weeks side by side.</div>`}
    <div class="sk-sec"><div class="h4">Flourishes</div><span class="sm">${S.flourishes.length}/9</span></div>
@@ -2295,7 +2305,7 @@ def('gt-home',()=>{spInit();const s=skState();const gr=growing(),inv=S.grove.fil
     <div class="bnt" onclick="home('gt-oak')"><div class="bh">Flourishes</div><div class="bb"><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">${S.flourishes.filter(k=>FLIMG[k]).slice(0,4).map(k=>`<img src="${IMG[FLIMG[k]]}" style="height:30px" alt="${FLNAME[k]}">`).join('')||`<img src="${IMG.seedling}" style="height:30px;filter:grayscale(1);opacity:.4" alt="">`}</div><div class="bs">${S.flourishes.length} of 9 grown</div></div></div>
    </div>
    <div class="sk-sec"><div class="h4">Ways to grow</div></div>
-   <div class="row" style="gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;align-items:flex-start">${[['Skip and Stash','roundup',"go('ss2-pick')"],['Money Type','seedling',"T={};go('mt2-intro')"],['Split a paycheck','later',"T={};go('mm2-pay')"],['Future Club','learn',"go('fc-types')"],['Journal','oak',"go('journal')"]].map(([t,im,a])=>`<div class="fl-tok" style="width:78px" onclick="${a}"><div class="im" style="width:78px"><img src="${IMG[im]}" alt=""></div><div class="nm">${t}</div></div>`).join('')}</div>
+   <div class="row" style="gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;align-items:flex-start">${[['Skip and Stash','roundup',"go('ss2-pick')"],['Money Type','seedling',"T={};go('mt2-intro')"],['Split a paycheck','later',"T={};go('mm2-intro')"],['Future Club','learn',"go('fc-types')"],['Journal','oak',"go('journal')"]].map(([t,im,a])=>`<div class="fl-tok" style="width:78px" onclick="${a}"><div class="im" style="width:78px"><img src="${IMG[im]}" alt=""></div><div class="nm">${t}</div></div>`).join('')}</div>
    <div class="sk-sec" style="align-items:center"><div class="h4">Timeline</div><div class="tl-seg"><button class="${TLV==='hi'?'on':''}" onclick="TLV='hi';refresh()">Highlights</button><button class="${TLV==='la'?'on':''}" onclick="TLV='la';refresh()">Latest</button></div></div>
    ${tlItems().map(tlCard).join('')}
    <div style="height:80px"></div></div>
@@ -2318,7 +2328,7 @@ const MTQ2=[{k:'rhythm',q:'How does money usually reach you?',o:[['pay','Every p
   {k:'spend',q:'How do you mostly pay?',o:[['card','Card swipes','Coffee, groceries, rides'],['bank','Bank transfers and bills','Rent, autopay, transfers'],['mix','A mix','A bit of everything']]},
   {k:'feel',q:'What sounds most like you?',o:[['auto','Set it and forget it','Automatic is best'],['see','I like to see it work','Show me it adding up'],['when','I’ll do it when I can','Flexible beats fixed']]}];
 const DAYS7=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-function mtScore(a){a=a||{};if(a.spend==='card'&&a.feel!=='auto')return 'spare';if(a.feel==='when'||a.rhythm==='here')return 'moment';return 'steady'}
+function mtScore(a){a=a||{};if(mtHas(a,'spend','card')&&a.feel!=='auto')return 'spare';if(mtHas(a,'feel','when')||mtHas(a,'rhythm','here'))return 'moment';return 'steady'}
 function mtExit(i){S.resume={t:'Finish your Money Type',s:`${i||0} of 3 answered. Pick up right where you were.`,act:`T.mq=S.mt2.a||{};go('mt2-q',{i:${Math.min(2,i||0)}})`};save();home('gt-home')}
 function mtDots(i){return `<div class="dots" style="justify-content:center">${[0,1,2].map(k=>`<i class="${k===i?'on':''}"></i>`).join('')}</div>`}
 
@@ -2348,13 +2358,13 @@ def('mt2-reveal',()=>{const t=MT2[S.mt2.type||'steady'];const plan=t.plan;const 
   return {cls:'dark',html:`<div class="hero-wrap">${oakStage({h:300,flush:1,weeks:0,fl:[],ghost,id:'mtT'})}<div class="top"><button class="iconbtn" onclick="back()">${ic('back')}</button><button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button></div></div>
   <div class="body center" style="padding-top:6px"><div class="eyebrow">Your money type</div><div class="h1 mt8">You’re a ${t.n}.</div><p class="p mt8">${t.line}</p>
   <div class="card dk mt16" style="text-align:left"><div class="row"><div class="sk-badge"><img src="${IMG[plan==='ru'?'roundup':'seedling']}" alt=""></div><div class="grow"><div class="sm" style="color:#bceaa3;font-weight:700;letter-spacing:1px;font-size:11px">RECOMMENDED FOR YOU</div>
-   <div style="font-weight:600;font-size:16px;margin-top:2px">${plan==='ru'?'Round-Ups® on your card':plan==='both'?'$5 a week, plus Round-Ups®':`$${S.mt2.a&&S.mt2.a.rhythm==='pay'?10:5} every Friday`}</div><div class="sm" style="color:var(--sk-sub)">${plan==='ru'?'Every 10 Round-Ups, an acorn.':'Grows Roots on your oak. Counts toward your streak.'}</div></div></div></div>
+   <div style="font-weight:600;font-size:16px;margin-top:2px">${plan==='ru'?'Round-Ups® on your card':plan==='both'?'$5 a week, plus Round-Ups®':`$${S.mt2.a&&mtHas(S.mt2.a,'rhythm','pay')?10:5} every Friday`}</div><div class="sm" style="color:var(--sk-sub)">${plan==='ru'?'Every 10 Round-Ups, an acorn.':'Grows Roots on your oak. Counts toward your streak.'}</div></div></div></div>
   <p class="sm mt12" style="color:var(--sk-sub)">About habits only. It doesn’t change your portfolio or risk.</p></div>
   ${foot(btn('Set it up',`T.mp={mode:'${plan}'};go('mt2-plan')`,'wh'),btn(`${ic('share',18)} Share my type`,"S.mtShared=true;T.sbT=undefined;T.sbName=undefined;go('share-b',{kind:'type'})",'ghost'))}`,
   mount(el){const tr=$('#mtT',el);setTimeout(()=>{tr&&tr.classList.add('breathe');haptic(20)},350)}}});
 /* 6 · Plan builder */
-def('mt2-plan',()=>{const m=T.mp||(T.mp={mode:'rec'});const a=(S.mt2&&S.mt2.a)||{};if(m.amt===undefined){m.amt=a.rhythm==='pay'?10:5;m.freq='Weekly';m.day=a.rhythm==='wknd'?'Sat':'Fri';m.commit=12;m.cards=S.cards.filter(c=>c.linked).map(c=>c.id)}
-  const rec=m.mode!=='ru',ru=m.mode!=='rec';const ghost=[];if(rec)ghost.push('roots');if(ru)ghost.push('acorns');const dots=Math.max(1,Math.round(m.commit/4));const sug=a.rhythm==='wknd'?'Sat':'Fri';
+def('mt2-plan',()=>{const m=T.mp||(T.mp={mode:'rec'});const a=(S.mt2&&S.mt2.a)||{};if(m.amt===undefined){m.amt=mtHas(a,'rhythm','pay')?10:5;m.freq='Weekly';m.day=mtHas(a,'rhythm','wknd')?'Sat':'Fri';m.commit=12;m.cards=S.cards.filter(c=>c.linked).map(c=>c.id)}
+  const rec=m.mode!=='ru',ru=m.mode!=='rec';const ghost=[];if(rec)ghost.push('roots');if(ru)ghost.push('acorns');const dots=Math.max(1,Math.round(m.commit/4));const sug=mtHas(a,'rhythm','wknd')?'Sat':'Fri';
   const ok=(!ru||m.cards.length)&&(!rec||m.amt>=5);
   return {cls:'dark',html:`<div class="hero-wrap">${oakStage({h:270,flush:1,weeks:Math.max(0,S.streak),fl:S.flourishes.filter(k=>ghost.indexOf(k)<0),ghost})}<div class="top"><button class="iconbtn" onclick="back()">${ic('back')}</button><div class="t" style="color:#fff">Your plan</div><button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button></div></div>
   <div class="body" style="padding-top:12px"><div class="seg">${[['rec','Recurring'],['ru','Round-Ups®'],['both','Both']].map(([k,l])=>`<button class="${m.mode===k?'on':''}" onclick="T.mp.mode='${k}';refresh()">${l}</button>`).join('')}</div>
@@ -2362,7 +2372,7 @@ def('mt2-plan',()=>{const m=T.mp||(T.mp={mode:'rec'});const a=(S.mt2&&S.mt2.a)||
    <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="amt" style="color:#fff;font-size:44px;margin:0" onclick="keypad(T.mp.amt,v=>{T.mp.amt=v;refresh()},'Recurring')">${money(m.amt)}</div><div class="seg" style="width:170px">${['Weekly','Daily'].map(f=>`<button class="${m.freq===f?'on':''}" onclick="T.mp.freq='${f}';refresh()">${f}</button>`).join('')}</div></div>
    <div class="chips mt12">${[5,10,25,50].map(v=>`<button class="chip ${m.amt===v?'on':''}" onclick="T.mp.amt=${v};refresh()">$${v}</button>`).join('')}<button class="chip" onclick="keypad(T.mp.amt,v=>{T.mp.amt=v;refresh()},'Recurring')">Other</button></div>
    ${m.amt<5?`<div class="lockrow mt8">${ic('lock',16)}Recurring starts at $5.</div>`:''}
-   ${m.freq==='Weekly'?`<div class="sm mt16" style="color:var(--sk-sub)">Start day · <b style="color:#bceaa3">${sug} is suggested</b> (${a.rhythm==='wknd'?'your weekends':'your payday'})</div><div class="days mt8">${DAYS7.map(d=>`<button class="${m.day===d?'on':''}" onclick="T.mp.day='${d}';refresh()">${d}${d===sug?'<span class="me"></span>':''}</button>`).join('')}</div>`:''}
+   ${m.freq==='Weekly'?`<div class="sm mt16" style="color:var(--sk-sub)">Start day · <b style="color:#bceaa3">${sug} is suggested</b> (${mtHas(a,'rhythm','wknd')?'your weekends':'your payday'})</div><div class="days mt8">${DAYS7.map(d=>`<button class="${m.day===d?'on':''}" onclick="T.mp.day='${d}';refresh()">${d}${d===sug?'<span class="me"></span>':''}</button>`).join('')}</div>`:''}
    <div class="sm mt16" style="color:var(--sk-sub)">Grow roots for</div><div class="seg mt8">${[4,12,26,52].map(c=>`<button class="${m.commit===c?'on':''}" onclick="T.mp.commit=${c};refresh()">${c} wks</button>`).join('')}</div>
    <div class="ghostroots">${Array.from({length:13},(_,k)=>`<i class="${k<dots?'on':''}"></i>`).join('')}</div>
    <p class="sm mt12 center" style="color:#bceaa3">Lands every ${m.freq==='Daily'?'weekday':DAYS7.indexOf(m.day)>-1?{Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'}[m.day]:m.day}. Counts toward your streak.</p>`:''}
@@ -2767,7 +2777,7 @@ def('menu',()=>({cls:'dark',html:`<div class="body" style="padding-top:0">
   <div class="sk-sec"><div class="h4">Ways in</div></div>
   ${skRow(`<img src="${IMG.seedling}">`,'Money Type','Detected path or 3 questions, then a plan','nav',"T={};home('mt2-intro')")}
   ${skRow(`<img src="${IMG.roundup}">`,'Skip and Stash','Quick Stash, Skip Jar, Skip Week, review','nav',"T={};home('ss2-pick')")}
-  ${skRow(`<img src="${IMG.later}">`,'Split a paycheck','Invest, Later, Savings in one gesture','nav',"T={};home('mm2-pay')")}
+  ${skRow(`<img src="${IMG.later}">`,'Split a paycheck','Invest, Later, Savings in one gesture','nav',"T={};home('mm2-intro')")}
   ${skRow(`<img src="${IMG.oak}">`,'Invite to your grove','One person, their day, a new tree','nav',"T={};jumpAhead();spInit();home('gt-home');go('inv-pick')")}
   ${skRow(`<img src="${IMG.early}">`,'Future Club','A capsule for me, a sapling for my kid','nav',"T={};home('fc-types')")}
   ${skRow(`<img src="${IMG.learn}">`,'Acorns Year and Journal','Monthly recaps, the year story, share cards','nav',"T={si:0};jumpAhead();spInit();home('journal')")}
@@ -2873,7 +2883,7 @@ function render(id,params,dir){const fn=SCR[id];if(!fn){toast('Screen not built:
   closeOv(true);if(r.mount)setTimeout(()=>r.mount(el),20);const b=$('.body',el);if(b)b.scrollTop=0}
 
 /* ---------- Guide: one pop-up inside the phone (on start, and from ☰). No side panel, works the same on mobile ---------- */
-const RV_GO=[['Home','What Jordan sees after sign-up',"jumpAhead();spInit();home('gt-home')"],['Your grove','Trees, rain and cheers',"jumpAhead();spInit();GSEL=null;home('gt-grove')"],['Invite someone','Pick a person and their day',"jumpAhead();spInit();home('gt-home');T={};go('inv-pick')"],['Money Type','Three questions, then a plan',"T={};home('mt2-intro')"],['Skip and Stash','Skip something, invest the difference',"T={};home('ss2-pick')"],['Split a paycheck','Invest, Later and Savings at once',"T={};home('mm2-pay')"],['Future Club','Notes for me or for my kid',"T={};home('fc-types')"],['Acorns Year','Monthly recaps and the year story',"T={si:0};jumpAhead();spInit();home('journal')"],['Getting invited','The friend’s side, every path',"home('sam-hub')"],['Edge states','Empty, locked, failed, expired',"home('states')"]];
+const RV_GO=[['Home','What Jordan sees after sign-up',"jumpAhead();spInit();home('gt-home')"],['Your grove','Trees, rain and cheers',"jumpAhead();spInit();GSEL=null;home('gt-grove')"],['Invite someone','Pick a person and their day',"jumpAhead();spInit();home('gt-home');T={};go('inv-pick')"],['Money Type','Three questions, then a plan',"T={};home('mt2-intro')"],['Skip and Stash','Skip something, invest the difference',"T={};home('ss2-pick')"],['Split a paycheck','Invest, Later and Savings at once',"T={};home('mm2-intro')"],['Future Club','Notes for me or for my kid',"T={};home('fc-types')"],['Acorns Year','Monthly recaps and the year story',"T={si:0};jumpAhead();spInit();home('journal')"],['Getting invited','The friend’s side, every path',"home('sam-hub')"],['Edge states','Empty, locked, failed, expired',"home('states')"]];
 const RV_OLD=[['Money Type v1','Quiz and match',"T={};home('mt-why1')"],['Skip Week v1','7-day crew challenge',"T={};home('ss-why1')"],['Future Club capsule','Notes that open in a year',"T={};home('fc-why1')"],['Acorns Year v1','The year as stories',"T={};home('ay-1')"],['Money Manager v1','First split concept',"T={};home('mm-why1')"],['How it all connects','Ways in, products, flourishes',"home('map')"]];
 const RV_WEEK=[['todo','Not yet','Home nudges Jordan to invest this week.'],['done','Invested','The week counts. Home turns to friends.'],['reset','Missed last week','Starting over. Flourishes are kept.']];
 const RV_MOMENTS=[['Mom invests','Rain falls on both oaks in the grove',"jumpAhead();spInit();GSEL=null;home('gt-grove');setTimeout(()=>gvInvests('mom'),900)"],['Jess signs up','A friend joined, their seed is waiting',"jumpAhead();spInit();S.friendJoined='jess';S.hidden={};save();home('gt-home');setTimeout(()=>banner('Jess signed up','Their tree sprouts after their first investment.',()=>groveSheet('half')),600)"],['Paycheck lands','Home offers to split it',"spInit();S.pay.detected=true;S.hidden={};save();home('gt-home')"],['A skip is spotted','Home offers a one-tap stash',"spInit();S.detect.on=true;S.detect.cats=['Coffee'];S.hidden={};save();home('gt-home')"],['4 weeks later','Grove filled in, challenges running',"jumpAhead();spInit();home('gt-home')"]];
@@ -2886,7 +2896,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 4:50 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 5:04 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -3011,6 +3021,285 @@ function gvRainAll(){const open=growing().filter(x=>x.open&&!S.watered[x.id]&&S.
   toast(open.length===1?`Rain sent to ${nm(open[0].id)}. It only counts when ${open[0].id==='mom'?'she invests':'they invest'}.`:`Rain sent to ${open.length} people`);setTimeout(()=>{const d=$('#gvd');if(d)d.innerHTML=gvDock(null)},800)}
 (function(){const st=document.createElement('style');st.textContent='.gv .cloud{display:none}';document.head.appendChild(st)})();
 
+/* Money Type quiz v3: pick all that fit, Back and Continue in the footer, no auto-advance */
+function mtHas(a,k,v){a=a||{};const x=a[k];return Array.isArray(x)?x.indexOf(v)>-1:x===v}
+function mtScore(a){a=a||{};const card=mtHas(a,'spend','card'),auto=mtHas(a,'feel','auto'),when=mtHas(a,'feel','when'),here=mtHas(a,'rhythm','here'),pay=mtHas(a,'rhythm','pay');
+  if(card&&(when||mtHas(a,'feel','see'))&&!auto&&!pay)return 'spare';if(card&&!auto&&!pay)return 'spare';if(when||here)return 'moment';if(card&&pay&&!auto)return 'moment';return 'steady'}
+def('mt2-q',p=>{const i=p.i||0;const q=MTQ2[i];if(!T.mq)T.mq={};let v=T.mq[q.k];if(v!==undefined&&!Array.isArray(v))v=T.mq[q.k]=[v];v=v||[];
+  return {cls:'dark',html:`${topbar({close:`mtExit(${i})`,title:''})}<div class="body"><div style="padding:6px 0 0">${mtDots(i)}</div>
+  ${p.pre?`<div class="sk-chip mt16" style="display:inline-flex">${ic('spark',14,'color:#74c947')} Pre-filled from your patterns. Change what’s wrong.</div>`:''}
+  <div class="eyebrow mt24">Question ${i+1} of 3</div><div class="mtq mt8">${q.q}</div><div class="sm mt8" style="color:var(--sk-sub)">Pick all that fit.</div>
+  <div class="mt16">${q.o.map(([k,l,s])=>{const on=v.indexOf(k)>-1;return `<div class="qcard ${on?'on':''}" role="checkbox" aria-checked="${on}" onclick="mtTog(${i},'${k}')"><div class="grow"><div class="ql">${l}</div><div class="qs">${s}</div></div><div class="cbox ${on?'on':''}">${on?ic('check',14):''}</div></div>`}).join('')}</div></div>
+  <div class="foot"><div class="row" style="gap:10px">${btn(i===0?'Back':`${ic('back',18)} Back`,i===0?'back()':`back()`,'line','style="color:#fff;flex:1"')}${btn(i<2?'Continue':'See my type',`mtNext(${i},${p.pre?1:0})`,'wh',`style="flex:1.6" ${v.length?'':'disabled'}`)}</div></div>`}});
+function mtTog(i,k){const q=MTQ2[i];let v=T.mq[q.k];if(!Array.isArray(v))v=T.mq[q.k]=v?[v]:[];const j=v.indexOf(k);j>-1?v.splice(j,1):v.push(k);haptic(6);refresh()}
+function mtNext(i,pre){if(i<2){go('mt2-q',{i:i+1,pre});return}S.mt2={a:JSON.parse(JSON.stringify(T.mq)),type:mtScore(T.mq)};S.resume=null;save();go('mt2-reveal')}
+
+/* ---------- Stories v2: full-bleed slides, overlaid header, no seams ---------- */
+function stories(id,slides,o){o=o||{};const i=Math.min(T.si||0,slides.length-1);const s=slides[i];
+  return {cls:'dark',html:`<div class="stp2" style="background:${s.bg||'#0b1f09'}"><div class="stc2" onpointerdown="stHold(1)" onpointerup="stHold(0,event)" onpointerleave="stHold(0)">${s.html}</div>
+  <div class="st-top"><div class="stbars">${slides.map((_,k)=>`<i class="${k<i?'done':k===i?'on':''}"><b></b></i>`).join('')}</div>
+   <div class="row" style="padding:10px 12px 0;justify-content:space-between"><div class="st-lab">${o.label||'Acorns'}</div><button class="iconbtn" onclick="T.si=0;back()" aria-label="Close">${ic('close')}</button></div></div>
+  ${s.foot||(i<slides.length-1?`<div class="st-hint">Tap to continue</div>`:'')}</div>`,
+  mount(el){clearTimeout(STP);if(i<slides.length-1&&!o.manual)STP=setTimeout(()=>{if(cur()===el){T.si=i+1;refresh()}},6000);if(s.mount)s.mount(el)}}}
+function stScene(inner,opt){opt=opt||{};return `<div class="sl-scene">${hills({dark:1})}${inner||''}</div>`}
+function countUp(el,to,ms){if(!el)return;const t0=performance.now();const f=t=>{const p=Math.min(1,(t-t0)/ms);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
+def('year',p=>{p=p||{};const nu=p.newUser;const weeks=nu?3:41;const fl=nu?['roots']:['roots','acorns','nest','gold','bird'];const showN=!!T.yn;const trees=nu?1:4;
+  const sl=[
+   {html:`${stScene(`<div class="sl-tree" style="bottom:30%"><div class="sway"><img class="grow-in" src="${IMG[nu?'acorn':'oak']}" style="height:${nu?96:210}px" alt=""></div></div><div class="gv-fire">${Array.from({length:10}).map((_,k)=>`<i style="left:${6+k*9}%;bottom:${34+(k*17)%40}%;animation-delay:-${k*.6}s"></i>`).join('')}</div>`)}
+     <div class="sl-text"><div class="eyebrow">2026</div><div class="sl-h">Your Acorns Year</div><p class="sl-p">${nu?'It’s just getting started. Here’s your first chapter.':`${weeks} weeks. ${fl.length} flourishes. ${trees} trees beside you.`}</p></div>`},
+   {html:`<div class="sl-mid"><div class="eyebrow">You showed up</div><div class="sl-big"><span id="ycnt">0</span></div><div class="sl-h2">weeks invested</div>
+     <div class="cal52 y52">${Array.from({length:52},(_,k)=>`<i data-k="${k}"></i>`).join('')}</div><p class="sl-p">${nu?'Every one counts.':'Including a fresh start in July. Every week counted.'}</p></div>`,
+    mount(el){countUp($('#ycnt',el),weeks,1400);const on=nu?[49,50,51]:Array.from({length:52},(_,k)=>k).filter(k=>!(k>=26&&k<=36));on.forEach((k,n)=>setTimeout(()=>{const d=$(`.y52 i[data-k="${k}"]`,el);if(d)d.classList.add('on')},120+n*28))}},
+   {html:`<div class="sl-full"><div class="sl-cap"><div class="eyebrow">Your oak’s year</div><div class="sl-h2" id="ymon">January</div></div>
+     <div class="sl-stage">${oakStage({h:520,flush:1,weeks:0,fl:[],ghost:[],id:'yT'})}</div></div>`,
+    mount(el){const seq=nu?[[0,'January'],[4,'March']]:[[0,'January'],[6,'March'],[14,'June'],[26,'September'],[41,'December']];const host=$('.sl-stage',el);
+     seq.forEach(([w,m],n)=>setTimeout(()=>{if(!host||!document.body.contains(host))return;const flN=fl.slice(0,Math.min(fl.length,n+ (nu?1:0)));host.innerHTML=oakStage({h:520,flush:1,weeks:w,fl:flN,id:'yT'});const t=$('#yT',host);if(t)t.classList.add('breathe');$('#ymon',el).textContent=m;haptic(6)},n*1000))}}];
+  if(!nu)sl.push({html:`<div class="sl-mid" style="justify-content:center"><div class="eyebrow">Highlights</div><div class="sl-h2" style="margin-bottom:18px">Three things you did</div>
+    ${[['seedling','Most roots','26 weeks of recurring in a row'],['roundup','Most acorns','March: 4 acorns from Round-Ups®'],['learn','A first','Your first songbird landed']].map(([im,t,s],n)=>`<div class="yhl rise d${n*2+1}"><div class="yi"><img src="${IMG[im]}" alt=""></div><div><b>${t}</b><span>${s}</span></div></div>`).join('')}</div>`});
+  sl.push({html:`${stScene(`<div class="hr-row" style="bottom:30%">${(nu?[{h:`<img src="${IMG.acorn}" style="height:64px">`,l:'You',me:1},{h:spot(),l:'Invite'}]:[{h:`<img src="${IMG.seedling}" style="height:92px">`,l:showN?'Sam':'Friend'},{h:`<img src="${IMG.oak}" style="height:150px">`,l:'You',me:1},{h:`<img src="${IMG.oak}" style="height:118px">`,l:showN?'Mom':'Family'}]).map(x=>`<div class="hr-it">${x.h}<div class="hr-lbl ${x.me?'me':''}">${x.l}</div></div>`).join('')}</div>`)}
+    <div class="sl-text"><div class="eyebrow">Your grove</div><div class="sl-h">${trees} tree${trees===1?'':'s'} planted</div><p class="sl-p">${nu?'Invite one person. Grow beside them.':'You grew side by side, week after week.'}</p>
+    <div class="row mt12" style="justify-content:center;gap:10px" onpointerdown="event.stopPropagation()" onpointerup="event.stopPropagation()"><span class="sm" style="color:var(--sk-sub)">Show names</span><div class="tog ${showN?'on':''}" onclick="event.stopPropagation();T.yn=!T.yn;refresh()"></div></div></div>`});
+  sl.push({html:`<div class="sl-mid" style="justify-content:center"><div class="eyebrow">Share your year</div><div style="width:58%;margin:14px auto 0">${storyCard({eyebrow:'My Acorns Year',title:`${weeks} weeks invested.`,sub:`${fl.length} flourishes. ${trees} trees beside me.`})}</div><p class="sl-p" style="margin-top:14px">No amounts, ever. Your name stays off unless you add it.</p></div>`,
+    foot:`<div class="foot" style="position:relative;z-index:3">${btn(`${ic('share',18)} Share`,"T.sbT=undefined;T.sbName=undefined;go('share-b',{kind:'year'})",'wh')}${btn('Save image',"toast('Saved to Photos')",'ghost')}</div>`});
+  return stories('year',sl,{label:'Acorns Year'})});
+(function(){const st=document.createElement('style');st.textContent=`.stp2{position:absolute;inset:0;overflow:hidden;color:#fff}
+.stc2{position:absolute;inset:0;-webkit-user-select:none;user-select:none;display:flex;flex-direction:column}
+.st-top{position:absolute;left:0;right:0;top:0;z-index:4;padding-top:calc(var(--safeTop) + 2px);background:linear-gradient(180deg,rgba(6,20,8,.55),transparent)}
+.st-lab{height:30px;padding:0 12px;border-radius:15px;background:rgba(10,29,8,.55);border:1px solid var(--sk-line);font-size:12px;font-weight:600;display:flex;align-items:center;backdrop-filter:blur(8px)}
+.st-hint{position:absolute;left:0;right:0;bottom:calc(var(--safeBot) + 14px);text-align:center;font-size:12px;color:rgba(255,255,255,.55);z-index:3;animation:fadeIn 1.2s 1.6s both}
+.sl-scene{position:absolute;inset:0}.sl-scene .gv-fire{z-index:1}
+.sl-tree{position:absolute;left:50%;transform:translateX(-50%)}.sl-tree img{display:block;filter:drop-shadow(0 12px 12px rgba(0,0,0,.4))}
+.sl-text{position:absolute;left:0;right:0;bottom:calc(var(--safeBot) + 50px);padding:0 28px;text-align:center;z-index:2}
+.sl-h{font-size:38px;font-weight:600;letter-spacing:-.6px;line-height:1.08;margin-top:8px}.sl-h2{font-size:24px;font-weight:600;letter-spacing:-.3px;margin-top:6px}
+.sl-p{font-size:15px;color:rgba(255,255,255,.72);line-height:1.45;margin:10px auto 0;max-width:300px}
+.sl-mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:calc(var(--safeTop) + 70px) 28px calc(var(--safeBot) + 60px)}
+.sl-big{font-size:132px;font-weight:600;color:#74c947;line-height:.95;letter-spacing:-4px;font-variant-numeric:tabular-nums;margin-top:6px}
+.y52{width:100%;margin-top:26px}.y52 i{transition:background .3s,transform .3s}.y52 i.on{transform:scale(1.08)}
+.sl-full{flex:1;display:flex;flex-direction:column}.sl-cap{padding:calc(var(--safeTop) + 78px) 28px 0;text-align:center;position:relative;z-index:2}
+.sl-stage{position:absolute;left:0;right:0;bottom:0;height:72%}.sl-stage .os{height:100%!important}
+.yhl{display:flex;gap:14px;align-items:center;text-align:left;width:100%;padding:14px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid var(--sk-line);margin-top:10px}
+.yhl .yi{width:56px;height:56px;border-radius:16px;background:rgba(116,201,71,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}.yhl .yi img{height:40px}
+.yhl b{display:block;font-size:16px}.yhl span{display:block;font-size:13px;color:var(--sk-sub);margin-top:2px}
+.stp2 .hr-row{z-index:1}.stp2 .hr-it img{filter:drop-shadow(0 10px 10px rgba(0,0,0,.4))}`;document.head.appendChild(st)})();
+
+/* ---------- Acorns Year v3: the six light cards from the Figma set, as tappable stories ---------- */
+function yLock(){return `<span class="y-lock"><img src="${IMG.acorn}" alt="">acorns <em>year</em></span>`}
+function yMed(img){return `<div class="y-med"><img src="${IMG[img]}" alt=""></div>`}
+function yDots(n,fill,cls){return `<div class="y-dots ${cls||''}">${Array.from({length:n},(_,k)=>`<i class="${fill(k)}" style="animation-delay:${k*18}ms"></i>`).join('')}</div>`}
+def('year',p=>{p=p||{};const nu=p.newUser;const W=nu?3:48,RU=nu?12:312,tp=nu?'':'Top 6%';const st=rstage(S.streak||48);const name=S.me;
+  const miss=new Set([3,9,17,40,48]);
+  const sl=[
+   {tone:'lt',html:`<div class="y-card y-white">${'<div class="y-top"><span class="y-chip">Acorns Year · 2026</span></div>'}<div class="y-scene">${hills({})}<div class="sl-tree" style="bottom:22%"><div class="sway"><img class="grow-in" src="${IMG.oak}" style="height:230px" alt=""></div></div></div>
+     <div class="y-panel"><div class="y-h">${nu?'Your year, started.':'Your year, grown.'}</div><div class="y-s">${nu?'Three cards on how you began.':'Six cards on how you showed up.'}</div><div class="y-foot">${yLock()}<b>Tap to open</b></div></div></div>`},
+   {tone:'lt',html:`<div class="y-card y-pale"><div class="y-top">${yLock()}<span class="y-n">01 / 06</span></div>
+     <div class="y-num" id="ycnt">0</div><div class="y-lead">of 52 weeks,<br>you showed up.</div>
+     ${yDots(52,k=>k<W?(miss.has(k)?'ring':(k<20?'dk':'gr')):'ring','y-wk')}
+     <div class="y-bot"><span><i class="y-pip"></i>Longest run: 21 weeks in a row.</span></div>${yMed('seedling')}</div>`,
+    mount(el){countUp($('#ycnt',el),W,1300)}},
+   {tone:'lt',html:`<div class="y-card y-white"><div class="y-top"><span class="y-chip">Round-Ups®</span><span class="y-n pill">02 / 06</span></div><div class="y-scene">${hills({})}<div class="sl-tree" style="bottom:24%"><img class="grow-in" src="${IMG.roundup}" style="height:190px" alt=""></div></div>
+     <div class="y-panel"><div class="y-num sm" id="yru">0</div><div class="y-s">everyday purchases<br>rounded up into investing.</div><div class="y-chips"><span>Mostly coffee</span><span>Then groceries</span></div></div></div>`,
+    mount(el){countUp($('#yru',el),RU,1200)}},
+   {tone:'dk',html:`<div class="y-card y-green"><div class="y-top">${yLock()}<span class="y-n">03 / 06</span></div>
+     <div class="y-num w">${tp||'Week 3'}</div><div class="y-lead w">${nu?'and counting. Every week counts.':'most consistent investors on Acorns this year.'}</div>
+     ${yDots(60,k=>k<6?'gold':'lt','y-rank')}
+     <div class="y-bot w"><span>Ranked by weeks invested.<br>Never by balance.</span></div>${yMed('oak')}</div>`},
+   {tone:'lt',html:`<div class="y-card y-white"><div class="y-top"><span class="y-chip">Your investor type</span><span class="y-n pill">04 / 06</span></div><div class="y-scene">${hills({})}<div class="sl-tree" style="bottom:22%"><div class="sway"><img class="grow-in" src="${IMG.oak}" style="height:250px" alt=""></div></div></div>
+     <div class="y-panel"><div class="y-h">The Steady Oak</div><div class="y-s">You don’t chase. You show up, rain or shine.</div><div class="y-chips"><span>1 in 9 investors</span></div></div></div>`},
+   {tone:'dk',html:`<div class="y-card y-green y-sum"><div class="y-top"><span class="y-who">${name}’s 2026</span><span class="y-n">05 / 06</span></div><div class="y-h w" style="margin-top:2px">Acorns Year</div>
+     <div class="y-grid">${[[`${W}/52`,'weeks invested'],[`${RU}`,'Round-Ups'],[tp||'Week 3','most consistent'],['Steady Oak','investor type']].map(([a,b],n)=>`<div class="rise d${n+1}"><b>${a}</b><span>${b}</span></div>`).join('')}</div>
+     <div class="y-pic">${hills({})}<div class="sl-tree" style="bottom:18%"><img src="${IMG.oak}" style="height:96px" alt=""></div><span>Steady Oak · 1 in 9</span></div>
+     <div class="y-sfoot"><span class="y-btn">Start yours</span><span>acorns.com/j/${name.toLowerCase()}</span></div></div>`,
+    foot:`<div class="foot y-actions">${btn(`${ic('share',18)} Share my year`,"T.sbT=undefined;T.sbName=undefined;go('share-b',{kind:'year'})",'wh')}${btn('Save image',"toast('Saved to Photos')",'ghost')}</div>`}];
+  return stories('year',sl,{label:''})});
+/* stories v2: light/dark header per slide */
+(function(){const base=stories;stories=function(id,slides,o){const r=base(id,slides,o);const i=Math.min(T.si||0,slides.length-1);if(slides[i].tone==='lt')r.html=r.html.replace('class="stp2"','class="stp2 lt"');if(o&&o.label==='')r.html=r.html.replace(/<div class="st-lab">[^<]*<\/div>/,'<div></div>');return r}})();
+(function(){const st=document.createElement('style');st.textContent=`
+.stp2.lt .st-top{background:none}.stp2.lt .stbars i{background:rgba(0,0,0,.12)}.stp2.lt .stbars i b{background:#2f7a12}.stp2.lt .iconbtn{color:#191919}.stp2.lt .st-hint{color:rgba(0,0,0,.45)}
+.y-card{position:absolute;inset:0;display:flex;flex-direction:column;padding:calc(var(--safeTop) + 62px) 22px calc(var(--safeBot) + 40px);overflow:hidden;color:#191919}
+.y-white{background:#fbfdf8}.y-pale{background:radial-gradient(120% 80% at 80% 0%,#ffffff 0%,#e9f6df 45%,#d8efc6 100%)}.y-green{background:linear-gradient(160deg,#7fcf52,#5fb33a);color:#fff}
+.y-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:3}
+.y-chip{height:30px;padding:0 12px;border-radius:15px;background:rgba(255,255,255,.85);color:#2f7a12;font-weight:600;font-size:12px;display:inline-flex;align-items:center;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.y-n{font-size:12px;font-weight:600;color:#3c4a40}.y-n.pill{height:30px;padding:0 12px;border-radius:15px;background:rgba(255,255,255,.85);display:inline-flex;align-items:center}.y-green .y-n{color:rgba(255,255,255,.85)}
+.y-lock{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:13px;color:#2f7a12}.y-lock img{height:16px}.y-lock em{font-style:normal;font-weight:500;opacity:.75}.y-green .y-lock{color:#fff}
+.y-scene{position:absolute;left:0;right:0;top:0;height:68%}.y-scene .sk-hero{height:100%!important;margin:0!important}
+.y-panel{position:absolute;left:14px;right:14px;bottom:calc(var(--safeBot) + 34px);background:#fff;border-radius:22px;padding:20px 20px 18px;box-shadow:0 10px 30px rgba(0,0,0,.08);z-index:2}
+.y-h{font-size:40px;font-weight:600;letter-spacing:-.8px;line-height:1.04}.y-h.w{color:#fff}
+.y-s{font-size:15px;color:#555;margin-top:8px;line-height:1.4}
+.y-foot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;font-size:13px}.y-foot b{font-weight:600}
+.y-num{font-size:150px;font-weight:600;letter-spacing:-6px;line-height:.92;color:#3f9a1a;margin-top:26px;font-variant-numeric:tabular-nums}.y-num.sm{font-size:70px;letter-spacing:-2px;margin:0;color:#191919}.y-num.w{color:#fff;font-size:92px;letter-spacing:-3px}
+.y-lead{font-size:26px;font-weight:600;line-height:1.2;margin-top:10px;letter-spacing:-.3px}.y-lead.w{color:#fff;font-size:22px}
+.y-dots{display:grid;grid-template-columns:repeat(13,1fr);gap:6px;margin-top:22px}.y-dots i{aspect-ratio:1;border-radius:50%;display:block;animation:orbIn .45s cubic-bezier(.3,1.6,.5,1) both}
+.y-dots i.dk{background:#191919}.y-dots i.gr{background:#5fb33a}.y-dots i.ring{box-shadow:inset 0 0 0 1.5px #8a9a8e}
+.y-rank{grid-template-columns:repeat(10,1fr);gap:7px}.y-dots i.gold{background:#f5c451;box-shadow:inset 0 0 0 2px #e0a92c}.y-dots i.lt{background:rgba(255,255,255,.35)}
+.y-bot{margin-top:auto;font-size:13px;font-weight:600;position:relative;z-index:2}.y-bot.w{color:rgba(255,255,255,.9);font-weight:500}.y-pip{display:inline-block;width:10px;height:10px;border-radius:5px;background:#5fb33a;margin-right:8px;vertical-align:-1px}
+.y-med{position:absolute;right:22px;bottom:calc(var(--safeBot) + 70px);width:104px;height:104px;border-radius:52px;background:radial-gradient(circle at 50% 40%,#fff,#e7f4dc);box-shadow:0 0 0 5px rgba(255,255,255,.9),0 12px 24px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}.y-med img{height:70px}
+.y-chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}.y-chips span{height:32px;padding:0 14px;border-radius:16px;background:#f1f4ef;font-size:13px;font-weight:600;display:inline-flex;align-items:center}
+.y-who{font-size:13px;font-weight:600;color:rgba(255,255,255,.85)}
+.y-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.y-grid div{padding:14px;border-radius:16px;background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);min-height:84px;display:flex;flex-direction:column;justify-content:space-between}
+.y-grid b{font-size:24px;font-weight:600;letter-spacing:-.4px}.y-grid span{font-size:11px;color:rgba(255,255,255,.85);margin-top:10px}
+.y-pic{position:relative;height:130px;border-radius:16px;overflow:hidden;margin-top:10px;box-shadow:0 0 0 3px rgba(255,255,255,.9)}.y-pic .sk-hero{height:100%!important;margin:0!important}
+.y-pic span{position:absolute;left:10px;bottom:10px;height:28px;padding:0 12px;border-radius:14px;background:rgba(10,29,8,.55);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;backdrop-filter:blur(6px);z-index:2}
+.y-sfoot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,.9)}.y-btn{height:40px;padding:0 18px;border-radius:20px;background:#111;color:#fff;font-weight:600;font-size:14px;display:inline-flex;align-items:center}
+.y-sum{padding-bottom:calc(var(--safeBot) + 150px)}.y-actions{position:absolute;left:0;right:0;bottom:0;z-index:5;background:linear-gradient(180deg,transparent,rgba(60,140,30,.9) 30%)}`;document.head.appendChild(st)})();
+
+/* Year cards: one header row only. Bars sit at the very top; the card's own top row carries the counter and the close button. */
+(function(){const f=SCR['year'];SCR['year']=p=>{const r=f(p);
+  r.html=r.html.replace(/<div class="row" style="padding:10px 12px 0;justify-content:space-between">[\s\S]*?<\/button><\/div><\/div>/,'</div>');
+  r.html=r.html.replace(/(<div class="y-top">[\s\S]*?)(<\/div>)/g,(m,a,b)=>a+`<button class="y-x" onclick="event.stopPropagation();T.si=0;back()" onpointerdown="event.stopPropagation()" onpointerup="event.stopPropagation()" aria-label="Close">${ic('close',18)}</button>`+b);
+  r.html=r.html.replace('<span class="y-n">','<span class="y-n" style="margin-left:auto;margin-right:8px">').replace(/<span class="y-n pill">/g,'<span class="y-n pill" style="margin-left:auto;margin-right:8px">');
+  return r}})();
+(function(){const st=document.createElement('style');st.textContent=`
+.stp2 .st-top{padding-top:calc(var(--safeTop) + 4px)!important;background:none!important}
+.y-card{padding:calc(var(--safeTop) + 22px) 20px calc(var(--safeBot) + 28px)!important}
+.y-top{margin-top:0!important;gap:0}.y-top>*:first-child{margin-right:auto}
+.y-top .y-n[style]{margin-left:0!important}
+.y-x{width:32px;height:32px;border-radius:16px;background:rgba(255,255,255,.85);color:#191919;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.y-green .y-x{background:rgba(255,255,255,.2);color:#fff}
+.y-scene{top:0!important;height:64%!important}
+.y-panel{left:16px;right:16px;bottom:calc(var(--safeBot) + 24px);padding:20px}
+.y-h{font-size:36px}
+.y-num{font-size:132px;margin-top:22px}.y-num.w{font-size:84px;margin-top:22px}
+.y-lead{font-size:24px}
+.y-dots{gap:5px;margin-top:20px}.y-rank{gap:8px;margin-top:22px}
+.y-med{width:92px;height:92px;bottom:calc(var(--safeBot) + 64px);right:20px}.y-med img{height:62px}
+.y-bot{padding-right:110px}
+.y-sum{padding-bottom:calc(var(--safeBot) + 140px)!important}
+.y-grid{margin-top:14px}.y-grid div{min-height:76px}.y-pic{height:118px}
+.y-actions{padding-top:28px}`;document.head.appendChild(st)})();
+
+/* =====================================================================
+   Acorns Year + monthly recaps · Wrapped-style card system built from the Figma v2 set.
+   Every card is a 360×640 artboard (the Figma size), scaled to fit. Each one stands on its own
+   (lockup + link on every card) and the set reads as one system (shared header, numbering, palette).
+   Compliance: weeks, counts and ranks only. Never amounts, balances or returns.
+   ===================================================================== */
+const YART='art/';
+function ycLock(w){return `<span class="yc-lock ${w?'w':''}"><img src="${IMG.acorn}" alt="">acorns <em>year</em></span>`}
+function ycFoot(w,right){return `<div class="yc-foot ${w?'w':''}"><span class="yc-lock ${w?'w':''}"><img src="${IMG.acorn}" alt="">acorns</span><span>${right||'acorns.com/j/'+S.me.toLowerCase()}</span></div>`}
+function ycDots(n,cls,fn){return Array.from({length:n},(_,k)=>`<i class="${fn(k)}" style="animation-delay:${120+k*16}ms"></i>`).join('')}
+/* the six Year cards */
+function yCard(n,o){o=o||{};const nm=S.me,W=48,RU=312;const miss=new Set([3,9,17,40,48]);const N=k=>`${String(k).padStart(2,'0')} / 06`;
+  const C=[
+  ()=>`<div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">Acorns Year · 2026</span>
+     <div class="yc-panel" style="top:430px;height:194px"><div class="yc-h">Your year,<br>grown.</div><div class="yc-s">Six cards on how you showed up.</div>${o.share?ycFoot():`<div class="yc-foot">${ycLock()}<b>Tap to open</b></div>`}</div></div>`,
+  ()=>`<div class="yc" style="background-image:url(${YART}y-weeks-bg.jpg)"><div class="yc-hdr">${ycLock()}<span>${N(1)}</span></div>
+     <div class="yc-big g" data-count="${W}">${o.anim?0:W}</div><div class="yc-lead">of 52 weeks,<br>you showed up.</div>
+     <div class="yc-wk">${ycDots(52,'',k=>miss.has(k)?'ring':(k<16?'dk':'gr'))}</div>
+     <div class="yc-legend"><i></i>Longest run: 21 weeks in a row.</div><img class="yc-med" style="left:210px;top:432px;width:124px" src="${YART}y-med-pip-c.png" alt="">${o.share?ycFoot(0,''):''}</div>`,
+  ()=>`<div class="yc" style="background-image:url(${YART}y-roundups.jpg)"><span class="yc-chip" style="left:18px;top:18px">Round-Ups®</span><span class="yc-chip" style="right:18px;top:18px">${N(2)}</span>
+     <div class="yc-panel" style="top:415px;height:209px"><div class="yc-num" data-count="${RU}">${o.anim?0:RU}</div><div class="yc-s">everyday purchases<br>rounded up into investing.</div><div class="yc-chips"><span>Mostly coffee</span><span>Then groceries</span></div>${o.share?ycFoot():''}</div></div>`,
+  ()=>`<div class="yc" style="background-image:url(${YART}y-rank-bg.jpg)"><div class="yc-hdr w">${ycLock(1)}<span>${N(3)}</span></div>
+     <div class="yc-big w" style="font-size:76px;top:78px;letter-spacing:-2px">Top 6%</div><div class="yc-lead w" style="top:166px;font-size:19px">most consistent investors on<br>Acorns this year.</div>
+     <div class="yc-rank">${ycDots(100,'',k=>k<6?'gold':'lt')}</div>
+     <div class="yc-note">Ranked by weeks invested.<br>Never by balance.</div><img class="yc-med" style="left:232px;top:490px;width:104px" src="${YART}y-med-stage-c.png" alt=""></div>`,
+  ()=>`<div class="yc" style="background-image:url(${YART}y-type.jpg)"><span class="yc-chip" style="left:18px;top:18px">Your investor type</span><span class="yc-chip" style="right:18px;top:18px">${N(4)}</span>
+     <div class="yc-panel" style="top:449px;height:175px"><div class="yc-h" style="font-size:31px">The Steady Oak</div><div class="yc-s">You don’t chase. You show up,<br>rain or shine.</div><div class="yc-chips"><span>1 in 9 investors</span></div>${o.share?ycFoot():''}</div></div>`,
+  ()=>`<div class="yc" style="background-image:url(${YART}y-sum-bg.jpg)"><div class="yc-who">${nm}’s 2026</div><div class="yc-title">Acorns Year</div>
+     <div class="yc-tiles">${[[`${W}/52`,'weeks invested'],[`${RU}`,'Round-Ups'],['Top 6%','most consistent'],['Steady Oak','investor type']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>
+     <img class="yc-photo" src="${YART}y-photo.jpg" alt="Steady Oak, 1 in 9">
+     <div class="yc-sfoot"><span class="yc-btn">Start yours</span><span>acorns.com/j/${nm.toLowerCase()}</span></div></div>`];
+  return C[n]()}
+/* monthly recap cards: same system, four cards */
+const RC=[{m:9,w:4,of:4,fl:'acorns',tr:1,cap:'Two leaves, one bird.'},{m:8,w:4,of:5,fl:'roots',tr:2,cap:'Roots went deep.'},{m:7,w:0,of:4,quiet:1},{m:6,w:3,of:4,fl:null,tr:1,cap:'A first friend.'},{m:5,w:2,of:5,fl:null,tr:0,cap:'An acorn, planted.'}];
+function rCard(n,j,o){o=o||{};const M=MONTHS[j.m];const N=k=>`${String(k).padStart(2,'0')} / 04`;const flN=j.fl?FLNAME[j.fl]:'Steady growth';
+  const C=[
+  ()=>`<div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">${M} recap</span>
+     <div class="yc-panel" style="top:430px;height:194px"><div class="yc-h">${M},<br>grown.</div><div class="yc-s">${j.cap}</div>${ycFoot()}</div></div>`,
+  ()=>`<div class="yc" style="background-image:url(${YART}y-weeks-bg.jpg)"><div class="yc-hdr">${ycLock()}<span>${N(1)}</span></div>
+     <div class="yc-big g" data-count="${j.w}">${o.anim?0:j.w}</div><div class="yc-lead">of ${j.of} weeks in ${M},<br>you showed up.</div>
+     <div class="yc-mo">${Array.from({length:j.of},(_,k)=>`<i class="${k<j.w?'gr':'ring'}" style="animation-delay:${200+k*120}ms"></i>`).join('')}</div>
+     <img class="yc-med" style="left:210px;top:432px;width:124px" src="${YART}y-med-pip-c.png" alt="">${ycFoot()}</div>`,
+  ()=>`<div class="yc" style="background-image:url(${YART}y-type.jpg)"><span class="yc-chip" style="left:18px;top:18px">New this month</span><span class="yc-chip" style="right:18px;top:18px">${N(2)}</span>
+     <div class="yc-panel" style="top:449px;height:175px"><div class="yc-row"><div class="yc-fl">${j.fl?`<img src="${IMG[FLIMG[j.fl]]}" alt="">`:`<img src="${IMG.seedling}" alt="">`}</div><div><div class="yc-h" style="font-size:28px">${j.fl?flN:'Steady growth'}</div><div class="yc-s" style="margin-top:4px">${j.fl?'A new flourish on your oak.':'No new flourish. Still growing.'}</div></div></div>${ycFoot()}</div></div>`,
+  ()=>`<div class="yc" style="background-image:url(${YART}y-sum-bg.jpg)"><div class="yc-who">${S.me}’s ${M}</div><div class="yc-title">Monthly recap</div>
+     <div class="yc-tiles">${[[`${j.w}/${j.of}`,'weeks invested'],[j.fl?'1':'0','new flourish'],[`${j.tr}`,'tree'+(j.tr===1?'':'s')+' in your grove'],[rstage(Math.max(S.streak,5))[1],'your oak']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>
+     <img class="yc-photo" src="${YART}y-photo.jpg" alt="">
+     <div class="yc-sfoot"><span class="yc-btn">Start yours</span><span>acorns.com/j/${S.me.toLowerCase()}</span></div></div>`];
+  return C[n]()}
+/* card frame: scales a 360×640 artboard into any box */
+function ycFrame(html,w){const s=w/360;return `<div class="ycf" style="width:${w}px;height:${Math.round(640*s)}px"><div class="ycs" style="transform:scale(${s})">${html}</div></div>`}
+function ycShare(html,title){share({title,story:ycFrame(html,300),done:()=>{}})}
+/* Wrapped-style player: card centered, Share under each card, a carousel of every card at the end */
+function wrapped(o){const n=o.count;const i=Math.min(T.si||0,n);const end=i===n;
+  const bars=`<div class="wr-bars">${Array.from({length:n+1},(_,k)=>`<i class="${k<i?'done':k===i?'on':''}"><b></b></i>`).join('')}</div>`;
+  const top=`<div class="wr-top">${bars}<div class="wr-row"><span class="wr-brand"><img src="${IMG.acorn}" alt="">${o.label}</span><button class="iconbtn" style="color:#fff" onclick="event.stopPropagation();T.si=0;back()" aria-label="Close">${ic('close')}</button></div></div>`;
+  if(end){const sel=T.wsel||0;return {cls:'dark',html:`<div class="wr">${top}<div class="wr-end"><div class="wr-endt">${o.endTitle}</div>
+     <div class="wr-car" id="wrcar" onscroll="wrSnap(this)">${Array.from({length:n},(_,k)=>`<div class="wr-slot" onclick="T.wsel=${k};wrFocus(${k})">${ycFrame(o.card(k,{share:1}),Math.min(228,innerWidth*.56))}</div>`).join('')}</div>
+     <div class="wr-dots">${Array.from({length:n},(_,k)=>`<i class="${k===sel?'on':''}"></i>`).join('')}</div>
+     <div class="wr-acts">${btn(`${ic('share',18)} Share this card`,`ycShare(${o.cardFn}(T.wsel||0,{share:1}${o.arg||''}),'${o.shareTitle}')`,'wh','style="background:#fff;color:#0a1d08"')}
+      <button class="wr-link" onclick="toast('All ${n} cards saved to Photos')">${ic('share',16)} Save all ${n}</button><button class="wr-link" onclick="T.si=0;refresh()">↺ Replay from beginning</button></div>
+     <p class="wr-legal">Cards show weeks and counts only. Never balances, amounts or returns.</p></div></div>`,mount(el){const c=$('#wrcar',el);if(c)c.scrollLeft=sel*(c.firstElementChild.offsetWidth+14)}}}
+  return {cls:'dark',html:`<div class="wr" style="background:${o.bg?o.bg(i):'#0b1f09'}">${top}
+   <div class="wr-stage" onpointerdown="stHold(1)" onpointerup="stHold(0,event)" onpointerleave="stHold(0)"><div class="wr-card" id="wrc">${o.card(i,{anim:1})}</div></div>
+   <div class="wr-bottom">${btn(`${ic('share',18)} Share`,`event.stopPropagation();ycShare(${o.cardFn}(${i},{share:1}${o.arg||''}),'${o.shareTitle}')`,'wh','style="background:#fff;color:#0a1d08;width:auto;padding:0 28px"')}<div class="wr-hint">Tap for next</div></div></div>`,
+   mount(el){wrFit(el);clearTimeout(STP);STP=setTimeout(()=>{if(cur()===el){T.si=i+1;refresh()}},6500);$$('[data-count]',el).forEach(x=>countUp(x,+x.dataset.count,1200));haptic(4)}}}
+function wrFit(el){const st=$('.wr-stage',el),c=$('#wrc',el);if(!st||!c)return;const z=zf();const r=st.getBoundingClientRect();const w=r.width/z-32,h=r.height/z-8;const s=Math.min(w/360,h/640);c.style.transform=`scale(${s})`;c.style.width='360px';c.style.height='640px'}
+function wrSnap(c){const w=c.firstElementChild.offsetWidth+14;const k=Math.round(c.scrollLeft/w);if(k!==T.wsel){T.wsel=k;$$('.wr-dots i',cur()).forEach((d,j)=>d.classList.toggle('on',j===k))}}
+function wrFocus(k){const c=$('#wrcar',cur());if(c)c.scrollTo({left:k*(c.firstElementChild.offsetWidth+14),behavior:'smooth'})}
+def('year',p=>{p=p||{};return wrapped({count:6,label:'Acorns Year',card:(k,o)=>yCard(k,o),cardFn:'yCard',shareTitle:'My Acorns Year',endTitle:'Your 2026, in six cards.',bg:k=>['#0d2a0b','#16330f','#0d2a0b','#1d4a12','#0d2a0b','#1d4a12'][k]||'#0b1f09'})});
+def('recap',p=>{const j=RC.find(x=>x.m===(p.m===undefined?9:p.m))||RC[0];const M=MONTHS[j.m];
+  if(j.quiet)return {cls:'dark',html:`<div class="wr"><div class="wr-top"><div class="wr-row"><span class="wr-brand"><img src="${IMG.acorn}" alt="">${M} recap</span><button class="iconbtn" style="color:#fff" onclick="back()" aria-label="Close">${ic('close')}</button></div></div>
+    <div class="wr-stage"><div class="wr-card" id="wrc"><div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">${M}</span><div class="yc-panel" style="top:448px;height:176px"><div class="yc-h" style="font-size:34px">Quiet month.</div><div class="yc-s">Your oak is still here, with every flourish. Nothing to share this time, and that’s okay.</div></div></div></div></div>
+    <div class="wr-bottom">${btn('Back to Journal','back()','wh','style="background:#fff;color:#0a1d08;width:auto;padding:0 28px"')}</div></div>`,mount(el){wrFit(el)}};
+  return wrapped({count:4,label:`${M} recap`,card:(k,o)=>rCard(k,j,o),cardFn:'rCardAt',arg:`,${j.m}`,shareTitle:`My ${M} on Acorns`,endTitle:`Your ${M}, in four cards.`})});
+function rCardAt(k,o,m){const j=RC.find(x=>x.m===m)||RC[0];return rCard(k,j,o)}
+/* journal uses the same months */
+def('journal',()=>({cls:'dark',html:`${topbar({title:'Journal'})}<div class="body"><p class="p" style="margin-top:0">A recap of your oak every month. In December they add up to your Acorns Year.</p>
+  <div class="jy" onclick="T.si=0;T.wsel=0;go('year')">${ycFrame(yCard(0,{}),110)}<div class="grow"><div class="eyebrow">December</div><div style="font-weight:600;font-size:18px;color:#fff;margin-top:4px">Your Acorns Year</div><div class="sm" style="color:var(--sk-sub);margin-top:2px">Six cards · ready to watch</div><div class="mt12">${btn('Watch',"event.stopPropagation();T.si=0;T.wsel=0;go('year')",'wh','style="height:40px;width:auto;padding:0 18px;font-size:14px"')}</div></div></div>
+  <div class="sk-sec"><div class="h4">Monthly recaps</div></div>
+  <div class="jl">${RC.map(j=>`<div class="e ${j.quiet?'q':''}" onclick="T.si=0;T.wsel=0;go('recap',{m:${j.m}})" style="cursor:pointer"><div class="card dk" style="padding:12px 14px"><div class="row"><img src="${IMG[j.quiet?'seedling':j.m>7?'seedling':'acorn']}" style="height:44px;${j.quiet?'opacity:.5':''}" alt=""><div class="grow"><div style="font-weight:600;color:#fff">${MONTHS[j.m]}</div><div class="sm" style="color:var(--sk-sub)">${j.quiet?'Quiet month. Your oak is still here.':`${j.w} of ${j.of} weeks · ${j.cap}`}</div></div>${ic('chev',16,'color:rgba(255,255,255,.4)')}</div></div></div>`).join('')}</div></div>`}));
+(function(){const st=document.createElement('style');st.textContent=`
+.yc{position:relative;width:360px;height:640px;border-radius:22px;overflow:hidden;background-size:cover;background-position:center;color:#191919;font-family:inherit;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.ycf{position:relative;flex-shrink:0}.ycs{position:absolute;left:0;top:0;width:360px;height:640px;transform-origin:0 0}
+.yc-chip{position:absolute;height:36px;padding:0 16px;border-radius:18px;background:rgba(255,255,255,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#2f7a12;font-size:13px;font-weight:600;display:flex;align-items:center;white-space:nowrap}
+.yc-panel{position:absolute;left:16px;width:328px;background:#fff;border-radius:22px;padding:20px 20px 18px;box-sizing:border-box;box-shadow:0 10px 30px rgba(30,70,15,.12);display:flex;flex-direction:column}
+.yc-h{font-size:40px;font-weight:600;letter-spacing:-.9px;line-height:1.02}.yc-s{font-size:14px;color:#5d655f;margin-top:10px;line-height:1.38}
+.yc-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;font-size:12px;color:#3c4a40}.yc-foot b{font-weight:600;color:#191919}.yc-foot.w{color:rgba(255,255,255,.9)}
+.yc>.yc-foot{position:absolute;left:26px;right:26px;bottom:22px}
+.yc-lock{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:13px;color:#2f7a12}.yc-lock img{height:17px}.yc-lock em{font-style:normal;font-weight:500;opacity:.7}.yc-lock.w{color:#fff}
+.yc-hdr{position:absolute;left:26px;right:26px;top:28px;display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;color:#3c4a40}.yc-hdr.w{color:rgba(255,255,255,.9)}
+.yc-big{position:absolute;left:24px;top:70px;font-size:150px;font-weight:600;letter-spacing:-7px;line-height:1;font-variant-numeric:tabular-nums}.yc-big.g{color:#3f9a1a}.yc-big.w{color:#fff}
+.yc-lead{position:absolute;left:26px;top:233px;font-size:27px;font-weight:600;letter-spacing:-.4px;line-height:1.2}.yc-lead.w{color:#fff}
+.yc-wk{position:absolute;left:26px;top:327px;width:308px;display:grid;grid-template-columns:repeat(13,1fr);gap:5px}
+.yc-wk i,.yc-rank i,.yc-mo i{display:block;aspect-ratio:1;border-radius:50%;animation:orbIn .4s cubic-bezier(.3,1.6,.5,1) both}
+.yc-wk i.dk{background:#191919}.yc-wk i.gr,.yc-mo i.gr{background:#5fb33a}.yc-wk i.ring,.yc-mo i.ring{box-shadow:inset 0 0 0 1.6px #8a9a8e}
+.yc-mo{position:absolute;left:26px;top:330px;width:220px;display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.yc-legend{position:absolute;left:26px;top:594px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}.yc-legend i{width:10px;height:10px;border-radius:5px;background:#5fb33a}
+.yc-med{position:absolute;height:auto;filter:drop-shadow(0 10px 18px rgba(0,0,0,.18))}
+.yc-rank{position:absolute;left:26px;top:246px;width:232px;display:grid;grid-template-columns:repeat(10,1fr);gap:6px}.yc-rank i.gold{background:#f5c451;box-shadow:inset 0 0 0 2px #e0a92c}.yc-rank i.lt{background:rgba(255,255,255,.32)}
+.yc-note{position:absolute;left:26px;top:578px;font-size:12px;color:rgba(255,255,255,.92);line-height:1.45}
+.yc-num{font-size:64px;font-weight:600;letter-spacing:-2px;line-height:1;font-variant-numeric:tabular-nums}
+.yc-chips{display:flex;gap:8px;margin-top:14px}.yc-chips span{height:32px;padding:0 14px;border-radius:16px;background:#f1f4ef;font-size:13px;font-weight:600;display:inline-flex;align-items:center}
+.yc-row{display:flex;gap:14px;align-items:center}.yc-fl{width:64px;height:64px;border-radius:18px;background:#eef6e8;display:flex;align-items:center;justify-content:center;flex-shrink:0}.yc-fl img{height:46px}
+.yc-who{position:absolute;left:26px;top:28px;font-size:13px;font-weight:600;color:rgba(255,255,255,.88)}.yc-title{position:absolute;left:26px;top:52px;font-size:40px;font-weight:600;letter-spacing:-.8px;color:#fff}
+.yc-tiles{position:absolute;left:26px;top:124px;width:308px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.yc-tiles div{height:124px;box-sizing:border-box;padding:16px;border-radius:18px;background:rgba(255,255,255,.17);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);display:flex;flex-direction:column;justify-content:space-between;color:#fff}
+.yc-tiles b{font-size:26px;font-weight:600;letter-spacing:-.5px;line-height:1.05}.yc-tiles span{font-size:11px;color:rgba(255,255,255,.85)}
+.yc-photo{position:absolute;left:26px;top:398px;width:308px;height:154px;border-radius:16px;object-fit:cover}
+.yc-sfoot{position:absolute;left:26px;right:26px;top:568px;height:48px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,.92)}.yc-btn{height:44px;padding:0 20px;border-radius:22px;background:#111;color:#fff;font-weight:600;font-size:14px;display:inline-flex;align-items:center}
+.wr{position:absolute;inset:0;display:flex;flex-direction:column;background:#0b1f09;color:#fff;transition:background .5s}
+.wr-top{padding:calc(var(--safeTop) + 4px) 14px 0;flex-shrink:0}
+.wr-bars{display:flex;gap:4px}.wr-bars i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.25);overflow:hidden;display:block}.wr-bars i b{display:block;height:100%;width:0;background:#fff}.wr-bars i.done b{width:100%}.wr-bars i.on b{animation:stbar 6.5s linear forwards}
+.wr-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px}.wr-brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}.wr-brand img{height:20px}
+.wr-stage{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;-webkit-user-select:none;user-select:none}
+.wr-card{transform-origin:50% 50%;flex-shrink:0;animation:wrIn .5s cubic-bezier(.2,.9,.25,1) both}@keyframes wrIn{from{opacity:0;transform:translateY(16px) scale(.96)}}
+.wr-bottom{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px 0 calc(var(--safeBot) + 14px)}.wr-hint{font-size:12px;color:rgba(255,255,255,.5)}
+.wr-end{flex:1;display:flex;flex-direction:column;min-height:0;padding-top:8px}.wr-endt{font-size:24px;font-weight:600;text-align:center;letter-spacing:-.3px;padding:0 24px}
+.wr-car{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:18px calc(50% - 114px);scrollbar-width:none;flex-shrink:0}.wr-car::-webkit-scrollbar{display:none}.wr-slot{scroll-snap-align:center;cursor:pointer}
+.wr-dots{display:flex;justify-content:center;gap:6px}.wr-dots i{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.3);transition:all .2s}.wr-dots i.on{width:18px;background:#fff}
+.wr-acts{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:auto;padding:12px 24px 0}.wr-acts .btn{width:auto;padding:0 30px}
+.wr-link{display:flex;align-items:center;gap:6px;height:40px;font-weight:600;font-size:14px;color:#fff}
+.wr-legal{font-size:11px;color:rgba(255,255,255,.45);text-align:center;padding:4px 24px calc(var(--safeBot) + 10px);margin:0}
+.jy{display:flex;gap:16px;align-items:center;padding:14px;border-radius:20px;background:var(--sk-card);border:1px solid var(--sk-line);margin-top:16px;cursor:pointer}.jy .yc{box-shadow:0 8px 20px rgba(0,0,0,.35)}`;document.head.appendChild(st)})();
+
+/* Split a paycheck: the "why" before any numbers */
+def('mm2-intro',()=>({cls:'dark',html:`${topbar({close:true,title:''})}<div class="body"><div class="eyebrow">Money Manager</div><div class="h1 mt8" style="color:#fff">Split your paycheck.<br>Grow three ways.</div>
+  <p class="p mt12">Choose how much of each paycheck goes where, once. Every payday, Acorns moves the slices for you, so investing, retirement and a safety net all happen without thinking about it.</p>
+  <div class="mt24">${[['seedling','Invest','Your everyday investing. Keeps your streak going and grows Roots on your oak.'],['later','Later','Retirement (IRA). A gold leaf for every month you add to it.'],['moneybag','Savings','A rainy-day cushion. Builds a nest on your oak.']].map(([im,t,s])=>`<div class="qcard" style="cursor:default"><div class="qi"><img src="${IMG[im]}" alt=""></div><div class="grow"><div class="ql">${t}</div><div class="qs">${s}</div></div></div>`).join('')}</div>
+  <p class="sm mt12" style="color:var(--sk-sub)">Your grove sees the flourishes, never the amounts. You can change or pause the split anytime.</p></div>
+  ${foot(btn('Set up my split',"go('mm2-pay')",'wh'),btn('Not now','back()','ghost'))}`}));
+(function(){const f=SCR['mm2-pay'];SCR['mm2-pay']=p=>{const r=f(p);r.html=r.html.replace('<div class="h2" style="color:#fff">One paycheck, three habits.</div><p class="p mt8">Tell us about your pay. Only you see these numbers.</p>','<div class="eyebrow">Step 1 of 3 · Your paycheck</div><div class="h2 mt8" style="color:#fff">How much, and how often?</div><p class="p mt8">We use this to work out each slice. Only you see these numbers.</p>');return r}})();
+
 
 </script>
 <script>
@@ -3022,7 +3311,7 @@ function gvRainAll(){const open=growing().filter(x=>x.open&&!S.watered[x.id]&&S.
     'invite':()=>{jumpAhead();spInit();home('gt-home');T={};go('inv-pick')},
     'money-type':()=>{T={};home('mt2-intro')},
     'skip-and-stash':()=>{T={};home('ss2-pick')},
-    'split':()=>{T={};home('mm2-pay')},
+    'split':()=>{T={};home('mm2-intro')},
     'future-club':()=>{T={};home('fc-types')},
     'year':()=>{T={si:0};jumpAhead();spInit();home('journal')},
     'invited':()=>home('sam-hub'),

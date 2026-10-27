@@ -274,3 +274,13 @@
 .story.v2.sq .st2-art{top:16%;bottom:47%}.story.v2.sq .st2-art img{max-height:100%}
 .scr.chd input[type=search],.scr.chd input[placeholder*="Search"],.scr.chd .search,.scr.chd .search input{background:rgba(255,255,255,.06)!important;color:#fff!important;box-shadow:inset 0 0 0 1px var(--sk-line)!important}
 .scr.chd .badge{background:rgba(116,201,71,.16);color:#bceaa3}
+.y-card{padding-top:calc(var(--safeTop) + 100px)!important}.y-top{margin-top:4px}
+.y-scene{top:0;height:66%}.y-card .y-top+.y-scene{top:0}
+.stp2 .stbars{padding:0 14px!important}
+.y-card{padding-top:calc(var(--safeTop) + 24px)!important}
+.y-sum .y-grid div{min-height:92px}.y-sum .y-pic{height:160px}.y-sum .y-grid b{font-size:26px}
+.y-white .y-scene{height:100%!important}
+.y-white .y-scene .sl-tree{bottom:36%!important}
+.y-white .y-scene::after{content:"";position:absolute;left:0;right:0;bottom:0;height:30%;background:linear-gradient(180deg,rgba(78,160,44,0),rgba(56,134,30,.35));pointer-events:none}
+.y-panel{box-shadow:0 18px 40px rgba(20,60,10,.22)}
+.y-white .y-scene .sl-tree{bottom:33%!important}

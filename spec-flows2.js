@@ -249,7 +249,7 @@ def('menu',()=>({cls:'dark',html:`<div class="body" style="padding-top:0">
   <div class="sk-sec"><div class="h4">Ways in</div></div>
   ${skRow(`<img src="${IMG.seedling}">`,'Money Type','Detected path or 3 questions, then a plan','nav',"T={};home('mt2-intro')")}
   ${skRow(`<img src="${IMG.roundup}">`,'Skip and Stash','Quick Stash, Skip Jar, Skip Week, review','nav',"T={};home('ss2-pick')")}
-  ${skRow(`<img src="${IMG.later}">`,'Split a paycheck','Invest, Later, Savings in one gesture','nav',"T={};home('mm2-pay')")}
+  ${skRow(`<img src="${IMG.later}">`,'Split a paycheck','Invest, Later, Savings in one gesture','nav',"T={};home('mm2-intro')")}
   ${skRow(`<img src="${IMG.oak}">`,'Invite to your grove','One person, their day, a new tree','nav',"T={};jumpAhead();spInit();home('gt-home');go('inv-pick')")}
   ${skRow(`<img src="${IMG.early}">`,'Future Club','A capsule for me, a sapling for my kid','nav',"T={};home('fc-types')")}
   ${skRow(`<img src="${IMG.learn}">`,'Acorns Year and Journal','Monthly recaps, the year story, share cards','nav',"T={si:0};jumpAhead();spInit();home('journal')")}

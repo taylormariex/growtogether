@@ -24,7 +24,7 @@ def('gt-grove',()=>{spInit();const gr=growing();const done=gr.filter(x=>!x.open)
    <div class="gv-sky"></div><div class="gv-sun"></div>
    <div class="gv-world" id="gvw">
     <div class="gv-far"></div><div class="gv-forest far"></div><div class="gv-mist"></div><div class="gv-forest mid"></div>
-    <div class="gv-slope"></div><div class="gv-light"></div><div class="gv-wood">${[[8,.22,'oak'],[19,.26,'seedling'],[33,.2,'oak'],[47,.24,'ancient'],[61,.21,'oak'],[74,.25,'seedling'],[90,.23,'oak']].map(([x,d,k])=>`<img src="${IMG[k]}" style="left:${x}%;top:${30+d*62}%;--sc:${(.40+d*.52).toFixed(2)}" alt="">`).join('')}</div>
+    <div class="gv-slope"></div><div class="gv-light"></div>
     ${gvSlots().map(gvTree).join('')}
     <button class="gv-it me ${GSEL==='me'?'sel':''}" id="gv-me" style="left:50%;top:97%;--sc:.9;z-index:120" onclick="event.stopPropagation();gvSel('me')" aria-label="Your oak"><div class="sway"><img src="${IMG[st[2]]}" style="height:${meH}px" alt=""></div><div class="gv-tag me">You · ${plw(S.streak)}</div></button>
     <div class="gv-grass"></div><div class="gv-fire">${Array.from({length:7}).map((_,i)=>`<i style="left:${10+i*13}%;bottom:${8+(i*17)%44}%;animation-delay:-${i*.8}s"></i>`).join('')}</div>
@@ -248,7 +248,7 @@ function stories(id,slides,o){o=o||{};const i=Math.min(T.si||0,slides.length-1);
   ${s.foot||(i<slides.length-1?`<div class="st-hint">Tap to continue</div>`:'')}</div>`,
   mount(el){clearTimeout(STP);if(i<slides.length-1&&!o.manual)STP=setTimeout(()=>{if(cur()===el){T.si=i+1;refresh()}},6000);if(s.mount)s.mount(el)}}}
 function stScene(inner,opt){opt=opt||{};return `<div class="sl-scene">${hills({dark:1})}${inner||''}</div>`}
-function countUp(el,to,ms){if(!el)return;const t0=performance.now();const f=t=>{const p=Math.min(1,(t-t0)/ms);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
+function countUp(el,to,ms,suf){if(!el)return;const t0=performance.now();const f=t=>{const p=Math.min(1,(t-t0)/ms);el.textContent=Math.round(to*(1-Math.pow(1-p,3)))+(suf||'');if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
 def('year',p=>{p=p||{};const nu=p.newUser;const weeks=nu?3:41;const fl=nu?['roots']:['roots','acorns','nest','gold','bird'];const showN=!!T.yn;const trees=nu?1:4;
   const sl=[
    {html:`${stScene(`<div class="sl-tree" style="bottom:30%"><div class="sway"><img class="grow-in" src="${IMG[nu?'acorn':'oak']}" style="height:${nu?96:210}px" alt=""></div></div><div class="gv-fire">${Array.from({length:10}).map((_,k)=>`<i style="left:${6+k*9}%;bottom:${34+(k*17)%40}%;animation-delay:-${k*.6}s"></i>`).join('')}</div>`)}

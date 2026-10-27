@@ -732,22 +732,23 @@ function sgCreate(){const g=Object.assign({},T.sg,{id:'g-'+Date.now(),pct:0,join
 function sgOpen(id){const g=sgAll().find(x=>x.id===id);if(!g)return;S.sg=g;T.sgPrev=null;save();go('sg-home')}
 def('sg-list',()=>{const gs=sgAll();if(S.sg&&!gs.includes(S.sg)){const f=gs.find(x=>x.id===S.sg.id);if(f)S.sg=f}
  const named=ws=>ws.map(nm).join(ws.length>2?', ':' and ').replace(/, ([^,]*)$/,' and $1');
- /* the goal closest to its next milestone leads */
- const lead=gs.slice().sort((a,b)=>{const d=g=>{const p=g.pct||0;const nx=SG_MS.find(m=>p<m[0]);return nx?nx[0]-p:999};return d(a)-d(b)})[0];
- const hero=g=>{const p=g.pct||0;const nx=SG_MS.find(m=>p<m[0]);const ws=sgWhos(g);
-  return `<button class="sgl-hero" onclick="sgOpen('${g.id}')"><div class="sgx-hero">${sgScene(g,p,{anim:1})}<div class="sgx-num"><b>${p}%</b><em>${g.name} · with ${named(ws)}</em></div></div>
-   <div class="sgl-hb"><div class="grow"><b>${nx?`${nx[0]-p}% to ${nx[1]}`:'You made it'}</b><em>${g.joined?`You and ${named(ws)} are both adding`:`Waiting on ${named(ws)} to join`}</em></div><span class="sgl-go">${ic('chev',16)}</span></div></button>`};
- const row=g=>{const K=SG_KIND[g.kind]||SG_KIND.Trip;const p=g.pct||0;const nx=SG_MS.find(m=>p<m[0]);const ws=sgWhos(g);
-  return `<button class="sgl-row" onclick="sgOpen('${g.id}')"><span class="sgl-ic" style="background:${K.bg}">${sgGlyph(K.ic,20,'#2f7a12')}</span><div class="grow"><b>${g.name}</b><em>with ${named(ws)} · ${g.joined?(nx?`${nx[0]-p}% to ${nx[1].toLowerCase()}`:'made it'):'waiting on '+named(ws)}</em></div><div class="sgl-ring">${sgRing(p,46)}<b>${p}%</b></div></button>`};
- const others=gs.filter(g=>g!==lead);
+ /* goals in order of what's closest to a milestone; the hero is a carousel of all of them */
+ const order=gs.slice().sort((a,b)=>{const d=g=>{const p=g.pct||0;const nx=SG_MS.find(m=>p<m[0]);return g.joined?(nx?nx[0]-p:999):500};return d(a)-d(b)});
+ const sel=Math.min(T.sgl||0,order.length-1);
+ const pulse=g=>{const ws=sgWhos(g);if(!g.joined)return {t:`Waiting on ${named(ws)}`,k:'wait'};const last=(g.log||[])[0];if(last&&last.w!=='me'&&last.w!=='ms')return {t:`${nm(last.w)} added ${String(last.d||'recently').toLowerCase()}`,k:'them'};if(last&&last.w==='ms')return {t:last.t,k:'ms'};return {t:`You added ${last?String(last.d).toLowerCase():'recently'}`,k:'me'}};
+ const hero=(g,i)=>{const p=g.pct||0;const nx=SG_MS.find(m=>p<m[0]);const ws=sgWhos(g);const pl=pulse(g);
+  return `<div class="sgl-slide" data-i="${i}"><button class="sgl-hero ${i===sel?'on':''}" onclick="sgOpen('${g.id}')"><div class="sgx-hero">${sgScene(g,p,{anim:i===sel})}<div class="sgx-num"><b data-count="${p}">${i===sel?0:p}%</b><em>${g.name} · with ${named(ws)}</em></div></div>
+   <div class="sgl-hb"><div class="grow"><b>${nx?`${nx[0]-p}% to ${nx[1]}`:'You made it'}</b><em class="sgl-pulse ${pl.k}"><i></i>${pl.t}</em></div><span class="sgl-go">${ic('chev',16)}</span></div></button></div>`};
  return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Shared goals</b><button class="iconbtn" onclick="T.sg=null;go('sg-new')" aria-label="New shared goal">${ic('plus',22)}</button></div>
  <div class="sg-body sgx-body">
-  ${lead?hero(lead):''}
-  ${others.length?`<div class="sgl-sec">Also saving for</div><div class="sgx-card" style="padding:4px 16px">${others.map(row).join('')}</div>`:''}
-  <button class="sgl-new" onclick="T.sg=null;go('sg-new')">${ic('plus',16)} Start another goal with someone</button>
+  <div class="sgl-car" id="sglcar" onscroll="sglSnap(this)">${order.map(hero).join('')}</div>
+  ${order.length>1?`<div class="wr-dots sgl-dots">${order.map((_,k)=>`<i class="${k===sel?'on':''}"></i>`).join('')}</div>`:''}
+  <div class="sgl-people"><div class="sgl-sec">Saving with you</div><div class="sgl-pp">${[...new Set(order.flatMap(sgWhos))].map(id=>{const mine=order.filter(g=>sgWhos(g).includes(id));return `<button class="sgl-p" onclick="T.sgl=${order.indexOf(mine[0])};refresh();sglFocus(${order.indexOf(mine[0])})">${sgAv(id,44)}<b>${nm(id)}</b><em>${mine.length} goal${mine.length===1?'':'s'}</em></button>`}).join('')}<button class="sgl-p add" onclick="T.sg=null;go('sg-new')"><span class="sg-av add" style="width:44px;height:44px">${ic('plus',18)}</span><b>Someone new</b><em>Start a goal</em></button></div></div>
   <p class="sgx-priv">${ic('lock',12)} Everyone sees progress as a percent. Nobody sees anyone else’s dollars.</p>
- </div>`,mount(el){const n=el.querySelector('.sgl-hero [data-count]');}}});
-/* after a goal is set up, the back button leads here; a sent invite lands on the goal, then home is the list */
+ </div>`,mount(el){const c=$('#sglcar',el);if(c){const w=c.firstElementChild?c.firstElementChild.offsetWidth:0;c.scrollLeft=sel*w}const n=el.querySelector('.sgl-hero.on [data-count]');if(n)countUp(n,+n.dataset.count,900,'%')}}});
+function sglSnap(c){const w=c.firstElementChild.offsetWidth;const k=Math.round(c.scrollLeft/w);if(k!==(T.sgl||0)){T.sgl=k;const el=cur();$$('.sgl-dots i',el).forEach((d,j)=>d.classList.toggle('on',j===k));$$('.sgl-hero',el).forEach((h,j)=>h.classList.toggle('on',j===k));haptic(4);
+  const h=$$('.sgl-slide',el)[k];if(h&&!h.dataset.played){h.dataset.played=1;const n=h.querySelector('[data-count]');if(n)countUp(n,+n.dataset.count,800,'%');const sc=h.querySelector('.sgx-prog');if(sc){sc.style.animation='none';sc.offsetHeight;sc.style.animation=''}}}}
+function sglFocus(k){const c=$('#sglcar',cur());if(c)c.scrollTo({left:k*c.firstElementChild.offsetWidth,behavior:'smooth'})}
 document.head.insertAdjacentHTML('beforeend',`<style>
 .sgl-hero{display:flex;gap:10px;margin-top:4px}.sgl-hero>div{flex:1;padding:14px 16px;border-radius:20px;background:#fff}.sgl-hero b{display:block;font-size:30px;font-weight:700;letter-spacing:-1px;line-height:1;color:#163d0c}.sgl-hero em{display:block;font-style:normal;font-size:12px;color:#6b706c;margin-top:4px}
 .sgl-card{display:block;width:100%;margin-top:12px;padding:14px;border-radius:24px;text-align:left;color:#191919;box-shadow:0 1px 0 rgba(0,0,0,.04)}.sgl-card:active{transform:scale(.99)}
@@ -770,7 +771,14 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 (function(){const f=SCR.splash;SCR.splash=p=>{const r=f(p);if(p.k==='split'&&p.b===4){const m=r.mount;r.mount=el=>{if(m)m(el);setTimeout(()=>{ART.confetti($('#screen'),40);haptic(12)},500)}}return r}})();
 
 document.head.insertAdjacentHTML('beforeend',`<style>
-.sgl-hero{display:block;width:100%;padding:0;border-radius:28px;overflow:hidden;background:#fff;text-align:left;color:#191919;box-shadow:0 1px 0 rgba(0,0,0,.04)}.sgl-hero .sgx-scene{border-radius:0}.sgl-hero .sgx-num em{font-size:12px;max-width:200px;line-height:1.3}
+.sgl-car{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -16px;padding:4px 16px 0;gap:12px}.sgl-car::-webkit-scrollbar{display:none}
+.sgl-slide{flex:none;width:calc(100% - 0px);scroll-snap-align:center}
+.sgl-hero{display:block;width:100%;padding:0;border-radius:28px;overflow:hidden;background:#fff;text-align:left;color:#191919;box-shadow:0 1px 0 rgba(0,0,0,.04);transition:transform .25s cubic-bezier(.2,.9,.25,1),box-shadow .25s}.sgl-hero:active{transform:scale(.985)}.sgl-hero.on{box-shadow:0 14px 34px rgba(30,70,15,.12)}
+.sgl-dots{margin-top:12px}.sgl-dots i{background:rgba(0,0,0,.15)}.sgl-dots i.on{background:#2f7a12}
+.sgl-pulse{display:flex!important;align-items:center;gap:6px}.sgl-pulse i{width:7px;height:7px;border-radius:4px;background:#9aa69c;flex:none}.sgl-pulse.them i{background:#2f9a1c;box-shadow:0 0 0 0 rgba(47,154,28,.5);animation:sglPulse 1.8s ease-out infinite}.sgl-pulse.ms i{background:#f5a623}.sgl-pulse.wait i{background:#e0b64a}
+@keyframes sglPulse{0%{box-shadow:0 0 0 0 rgba(47,154,28,.45)}100%{box-shadow:0 0 0 8px rgba(47,154,28,0)}}
+.sgl-people{margin-top:8px}.sgl-pp{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px 4px}.sgl-pp::-webkit-scrollbar{display:none}
+.sgl-p{flex:none;width:92px;padding:12px 8px 10px;border-radius:20px;background:#fff;display:flex;flex-direction:column;align-items:center;gap:6px;color:#191919;transition:transform .2s}.sgl-p:active{transform:scale(.96)}.sgl-p b{font-size:13px}.sgl-p em{font-style:normal;font-size:11px;color:#6b706c;margin-top:-4px}.sgl-p.add{background:transparent;box-shadow:inset 0 0 0 1.5px #d3d9cf}.sgl-hero .sgx-scene{border-radius:0}.sgl-hero .sgx-num em{font-size:12px;max-width:200px;line-height:1.3}
 .sgl-hb{display:flex;align-items:center;gap:12px;padding:14px 16px}.sgl-hb b{display:block;font-size:17px;letter-spacing:-.2px}.sgl-hb em{display:block;font-style:normal;font-size:13px;color:#6b706c;margin-top:2px}.sgl-go{width:32px;height:32px;border-radius:16px;background:#f0f2ee;display:flex;align-items:center;justify-content:center;color:#191919;flex:none}
 .sgl-sec{margin:20px 4px 8px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5d655f}
 .sgl-row{display:flex;align-items:center;gap:12px;width:100%;padding:12px 0;text-align:left;color:#191919}.sgl-row+.sgl-row{border-top:1px solid #f0f2ee}.sgl-row b{display:block;font-size:15px}.sgl-row em{display:block;font-style:normal;font-size:12px;color:#6b706c;margin-top:2px}

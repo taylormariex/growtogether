@@ -169,3 +169,23 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .scr.has-actabs .qz-foot{bottom:calc(var(--safeBot) + 80px)}.scr.has-actabs:has(>.qz-foot) .sg-body{bottom:calc(var(--safeBot) + 150px)!important}
 .scr.has-actabs .sg-foot.sgx-two{bottom:calc(var(--safeBot) + 80px)}
 </style>`);
+
+/* ---------- Skip & Stash: the ☰ is the prototype menu everywhere. The extras live in the product. ---------- */
+(function(){const f=SCR['ss-hub'];if(!f)return;SCR['ss-hub']=p=>{const r=f(p);const det=S.detect&&S.detect.on;const rules=(S.rules||[]).length;
+  const row=(i,t,d,js)=>`<button class="ssx-row" onclick="${js}"><span class="ssx-ri">${ic(i,18)}</span><span class="grow"><b>${t}</b><em>${d}</em></span>${ic('chev',16,'opacity:.35')}</button>`;
+  const setup=`<div class="sgx-card ssx-setup"><div class="sgx-ch"><div><b>Make skipping effortless</b><em>Optional. A tap always works on its own.</em></div></div>
+   ${row('gear','Skip Rules',rules?`${rules} rule${rules===1?'':'s'} on · stash on check-in`:'Stash automatically when you check in “Skipped it”',"go('sr-intro')")}
+   ${row('spark','Spot my skips',det?`On · ${S.detect.cats.join(', ')}`:'Off. We never read spending unless you turn this on',det?"go('ss-settings')":"go('ss-detect')")}
+   ${row('bell','Reminders','A check-in on your lock screen. See one.',"T.lk=null;go('ss-lock')")}</div>`;
+  const review=`<button class="ssx-review" onclick="go('ss-review')"><span class="ssx-ri cal">${ic('cal',18)}</span><span class="grow"><b>Sunday review</b><em>Count the week’s skips in one place</em></span>${ic('chev',16,'opacity:.4')}</button>`;
+  r.html=r.html.replace(/<button class="iconbtn" onclick="ssMore\(\)"[^>]*>[\s\S]*?<\/button>/,`<span class="ssx-hr"><button class="iconbtn" onclick="go('ss-settings')" aria-label="Settings">${ic('gear',20)}</button><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></span>`);
+  r.html=r.html.replace('<button class="ssx-total"',setup+'<button class="ssx-total"');
+  r.html=r.html.replace('<div class="sgx-card"><div class="sgx-ch"><div><b>Recent</b>',review+'<div class="sgx-card"><div class="sgx-ch"><div><b>Recent</b>');
+  return r}})();
+document.head.insertAdjacentHTML('beforeend',`<style>
+.ssx-hr{display:flex;align-items:center;gap:0;margin-right:-6px}
+.ssx-row{display:flex;align-items:center;gap:12px;width:100%;padding:12px 0;text-align:left;color:#191919}.ssx-row+.ssx-row{border-top:1px solid #f0f2ee}.ssx-row b{display:block;font-size:15px}.ssx-row em{display:block;font-style:normal;font-size:12px;color:#6b706c;margin-top:2px}
+.ssx-ri{flex:none;width:38px;height:38px;border-radius:19px;background:#eef3e8;color:#2f7a12;display:flex;align-items:center;justify-content:center}.ssx-ri.cal{background:#e3f4d8}
+.ssx-setup{margin-top:12px}.ssx-setup .sgx-ch{margin-bottom:2px}
+.ssx-review{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:12px 14px;border-radius:18px;background:#fff;text-align:left;color:#191919}.ssx-review b{display:block;font-size:15px}.ssx-review em{display:block;font-style:normal;font-size:12px;color:#6b706c;margin-top:2px}
+</style>`);

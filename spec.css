@@ -284,3 +284,12 @@
 .y-white .y-scene::after{content:"";position:absolute;left:0;right:0;bottom:0;height:30%;background:linear-gradient(180deg,rgba(78,160,44,0),rgba(56,134,30,.35));pointer-events:none}
 .y-panel{box-shadow:0 18px 40px rgba(20,60,10,.22)}
 .y-white .y-scene .sl-tree{bottom:33%!important}
+.ach-tree{bottom:50px!important;right:18%!important}
+.as-note{bottom:auto!important;top:calc(var(--safeTop) + 6px)}
+.scr.acl .btn.wh{background:#74c947!important;color:#0a1d08!important}
+.scr.acl .btn.wh[disabled]{background:#e3e7e0!important;color:#8a938c!important}
+.scr.acl .vis span,.scr.acl .sk-list .k{color:#5d655f!important}
+.scr.acl [style*="color:rgba(255,255,255"]{color:#8a938c!important}
+.scr.acl .y-x{background:#f1f3ef;color:#191919}
+.scr.acl .sb-tpl button{background:#f1f3ef;color:#191919}.scr.acl .sb-tpl button.on{background:#74c947;color:#0a1d08}
+.scr.acl .sk-title,.scr.acl .sk-sub{color:#191919}.scr.acl .sk-sub{color:#5d655f}

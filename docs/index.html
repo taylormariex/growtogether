@@ -728,6 +728,15 @@ input,textarea{font-family:inherit}
 .y-white .y-scene::after{content:"";position:absolute;left:0;right:0;bottom:0;height:30%;background:linear-gradient(180deg,rgba(78,160,44,0),rgba(56,134,30,.35));pointer-events:none}
 .y-panel{box-shadow:0 18px 40px rgba(20,60,10,.22)}
 .y-white .y-scene .sl-tree{bottom:33%!important}
+.ach-tree{bottom:50px!important;right:18%!important}
+.as-note{bottom:auto!important;top:calc(var(--safeTop) + 6px)}
+.scr.acl .btn.wh{background:#74c947!important;color:#0a1d08!important}
+.scr.acl .btn.wh[disabled]{background:#e3e7e0!important;color:#8a938c!important}
+.scr.acl .vis span,.scr.acl .sk-list .k{color:#5d655f!important}
+.scr.acl [style*="color:rgba(255,255,255"]{color:#8a938c!important}
+.scr.acl .y-x{background:#f1f3ef;color:#191919}
+.scr.acl .sb-tpl button{background:#f1f3ef;color:#191919}.scr.acl .sb-tpl button.on{background:#74c947;color:#0a1d08}
+.scr.acl .sk-title,.scr.acl .sk-sub{color:#191919}.scr.acl .sk-sub{color:#5d655f}
 
 </style>
 </head>
@@ -912,7 +921,7 @@ ART.oak=function(stage,fl,opt){opt=opt||{};stage=Math.max(0,Math.min(5,stage|0))
   return `<span style="display:inline-flex;align-items:flex-end;justify-content:center;width:${w}px;height:${h}px;${opt.dim?'filter:saturate(.35) brightness(.85);opacity:.7':''}"><img src="${IMG[k]}" alt="" style="height:${ih}px;width:auto;filter:drop-shadow(0 8px 8px rgba(0,0,0,.3))"></span>`};
 ART.squirrel=function(opt){opt=opt||{};const w=opt.w||120;if(opt.hold==='can')return `<div style="width:${w*.7}px;height:${w*.7}px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#8cc4f7,#2f7fc8);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(47,127,200,.45)"><svg width="${w*.36}" height="${w*.36}" viewBox="0 0 24 24"><path d="M12 3c4 5 6 8 6 11a6 6 0 01-12 0c0-3 2-6 6-11z" fill="#fff"/></svg></div>`;const k=opt.hold==='flowers'?'earn':opt.hold==='heart'?'roundup':opt.hold==='can'?'learn':'acorn';
   return `<img src="${IMG[k==='acorn'?'acorn':k]}" alt="" style="height:${Math.round(w*.8)}px;width:auto;filter:drop-shadow(0 10px 14px rgba(0,0,0,.25))">`};
-ART.hills=function(opt){opt=opt||{};const dark=!!opt.dark;
+ART.hills=function(opt){opt=opt||{};const dark=!!opt.dark&&!window.__LIGHT;
   if(!dark)return `<div style="position:absolute;inset:0;overflow:hidden;background:linear-gradient(180deg,#f4fbef,#e2f5d6)" aria-hidden="true"><div style="position:absolute;left:-30%;width:90%;bottom:-40%;height:85%;border-radius:50%;background:#c9efb3"></div><div style="position:absolute;right:-30%;width:95%;bottom:-45%;height:88%;border-radius:50%;background:#b2e595"></div><div style="position:absolute;left:-35%;right:-35%;bottom:-64%;height:98%;border-radius:50%;background:radial-gradient(ellipse 60% 55% at 50% 4%,#9be06f,#74c947 45%,#5aa832)"></div></div>`;
   let t1='',t2='';for(let i=0;i<22;i++){t1+=`<circle cx="${i*19}" cy="${34-((i*53)%10)}" r="${14+((i*37)%8)}"/>`}for(let i=0;i<17;i++){t2+=`<circle cx="${i*25+6}" cy="${44-((i*41)%8)}" r="${13+((i*29)%7)}"/>`}
   return `<div style="position:absolute;inset:0;overflow:hidden;background:linear-gradient(180deg,#0b1f09 0%,#0d2a0a 55%,#12350e 100%)" aria-hidden="true">
@@ -1835,7 +1844,7 @@ def('gt-home',()=>{const w=S.streak;const g=S.grove;const inv=g.filter(x=>x.stat
   <div class="body" style="padding-top:0">${skHero(w,{sub:S.invested?`This week counts. ${S.recurring?`Next $${S.amount} goes in ${S.day}.`:''}`:'Invest any amount this week to keep it growing.'})}
    ${S.invested?'':`<div class="mt24">${btn('Invest this week',"T={};S.afterCount='gt-home';S.ret='gt-home';go('inv-1')",'wh')}</div>`}
    <div class="sk-sec"><div class="h4">Your grove</div><span class="sm" onclick="home('gt-grove')" style="cursor:pointer">Open ${ic('chev',12)}</span></div>
-   <div class="card dk tap" style="padding:0;overflow:hidden" onclick="home('gt-grove')"><div style="position:relative">${(()=>{const gr=g.filter(x=>x.status==='growing');const sz=id=>{const k=rstage(wk(id))[2];return k==='oak'?78:k==='seedling'?58:44};const mk=x=>({html:`<img src="${IMG[rstage(wk(x.id))[2]]}" style="height:${sz(x.id)}px;${x.open?'filter:saturate(.4) brightness(.8)':''}">`,label:nm(x.id)});const L=gr.slice(0,2).map(mk),R=gr.slice(2,4).map(mk);if(inv.length&&R.length<2)R.push({html:spot(),label:'Invited'});return hillRow([...L,{html:`<img src="${IMG[rstage(w)[2]]}" style="height:${rstage(w)[2]==='acorn'?52:84}px">`,label:'You',me:1},...R],{h:190})})()}
+   <div class="card dk tap" style="padding:0;overflow:hidden" onclick="home('gt-grove')"><div style="position:relative">${(()=>{const gr=g.filter(x=>x.status==='growing');const sz=id=>{const k=rstage(wk(id))[2];return k in OAKS?78:k==='seedling'?58:44};const mk=x=>({html:`<img src="${IMG[rstage(wk(x.id))[2]]}" style="height:${sz(x.id)}px;${x.open?'filter:saturate(.4) brightness(.8)':''}">`,label:nm(x.id)});const L=gr.slice(0,2).map(mk),R=gr.slice(2,4).map(mk);if(inv.length&&R.length<2)R.push({html:spot(),label:'Invited'});return hillRow([...L,{html:`<img src="${IMG[rstage(w)[2]]}" style="height:${rstage(w)[2]==='acorn'?52:84}px">`,label:'You',me:1},...R],{h:190})})()}
      <div style="position:absolute;left:12px;top:12px" class="sk-chip">${ic('grove',14,'color:#74c947')} ${g.filter(x=>x.status==='growing').length} growing${inv.length?` · ${inv.length} invited`:''}</div></div>
      ${open?`<div class="row" style="padding:12px 16px;border-top:1px solid var(--sk-line)">${ic('drop',18,'color:#4da1ef')}<div class="sm grow" style="color:#fff"><b>${nm(open.id)} hasn’t invested yet this week.</b> Send rain as a gentle nudge. It only counts when they invest.</div></div>`:g.length?'':`<div class="sm" style="padding:12px 16px;color:#fff">Plant someone beside you.</div>`}</div>
    <div class="sk-sec"><div class="h4">Challenges</div><span class="sm" style="cursor:pointer" onclick="T={};go('gt-ch-new')">+ Start</span></div>
@@ -1855,10 +1864,10 @@ def('gt-home',()=>{const w=S.streak;const g=S.grove;const inv=g.filter(x=>x.stat
 let GSEL=null;
 const PLOTS=[[200,338],[340,370],[660,370],[800,338],[90,294],[910,294],[500,300]];
 def('gt-grove',()=>{const g=S.grove;const grow=g.filter(x=>x.status==='growing');const done=grow.filter(x=>!x.open).length+(S.invested?1:0);const tot=grow.length+1;
-  const trees=g.map((x,i)=>{const [l,b]=PLOTS[i%PLOTS.length];const W=wk(x.id);const st=rstage(W);const h=st[2]==='oak'?150:st[2]==='seedling'?100:66;
+  const trees=g.map((x,i)=>{const [l,b]=PLOTS[i%PLOTS.length];const W=wk(x.id);const st=rstage(W);const h=st[2] in OAKS?150:st[2]==='seedling'?100:66;
     if(x.status!=='growing')return `<div class="gw-plot" style="left:${l}px;bottom:${b+10}px" onclick="groveSel('${x.id}')">${av(x.id,'s')}</div><div style="position:absolute;left:${l}px;bottom:${b-18}px;transform:translateX(-50%)" class="gw-tag"><span class="pip" style="background:rgba(255,255,255,.12)">${ic('cal',11)}</span>Waiting for ${nm(x.id)}</div>`;
     return `<div class="gw-tree ${GSEL===x.id?'sel':''}" id="gt-${x.id}" style="left:${l}px;bottom:${b}px" onclick="groveSel('${x.id}')"><img src="${IMG[st[2]]}" style="height:${h}px;${x.open?'filter:saturate(.4) brightness(.8)':''}"><div class="gw-tag"><span class="pip" style="background:${x.open?'#4da1ef':'#74c947'}">${x.open?ic('drop',11,'color:#fff'):ic('check',11,'color:#0a1d08')}</span>${nm(x.id)} · ${W}w</div></div>`}).join('');
-  const meH=rstage(S.streak)[2]==='oak'?180:rstage(S.streak)[2]==='seedling'?130:110;
+  const meH=rstage(S.streak)[2] in OAKS?180:rstage(S.streak)[2]==='seedling'?130:110;
   const empty=[0,1].map(k=>{const i=g.length+k;if(i>=PLOTS.length)return '';const [l,b]=PLOTS[i];return `<div class="gw-plot" style="left:${l}px;bottom:${b+10}px" onclick="T={};go('gt-add')">${ic('plus',22)}</div>`}).join('');
   const sel=GSEL&&inGrove(GSEL);
   return {cls:'dark',html:`<div class="gw"><div class="gw-scroll" id="gws"><div class="gw-world">
@@ -2178,9 +2187,9 @@ function waterCue(g){return g.status==='growing'&&g.open&&S.waterOK[g.id]&&!S.mu
 function gsBody(){const gr=S.grove.filter(g=>g.status==='growing'),inv=S.grove.filter(g=>g.status==='invited');const free=Math.max(0,(S.slots||5)-S.grove.length);
   if(!S.grove.length)return `<div class="center" style="padding:30px 10px"><div class="spot" style="margin:0 auto;width:72px;height:72px;border-radius:36px">${ic('plus',26)}</div><div class="h3 mt16" style="color:#fff">Plant your first friend</div><p class="sm mt8" style="color:var(--sk-sub)">Invite one person. Grow beside them.</p><div class="mt24">${btn('Invite someone',"gsClose();T={};setTimeout(()=>go('inv-pick'),250)",'wh')}</div></div>`;
   return `<div class="row between"><div><div class="h3" style="color:#fff">Your grove</div><div class="sm" style="color:var(--sk-sub)">${gr.length} growing${inv.length?` · ${inv.length} waiting`:''} · only you see this</div></div>${free?`<button class="btn wh sm" onclick="gsClose();T={};setTimeout(()=>go('inv-pick'),250)">${ic('plus',16)} Invite</button>`:''}</div>
-  <div class="row mt16" style="gap:14px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none">${gr.map(g=>`<div class="center" style="flex-shrink:0;width:58px"><div style="height:62px;display:flex;align-items:flex-end;justify-content:center;position:relative">${treeImg(wk(g.id),rstage(wk(g.id))[2]==='oak'?60:rstage(wk(g.id))[2]==='seedling'?48:36)}${waterCue(g)?`<span class="dropbadge">${ic('drop',11,'color:#fff')}</span>`:''}</div><div style="font-size:11px;font-weight:600;margin-top:4px">${nm(g.id)}</div></div>`).join('')}${inv.map(g=>`<div class="center" style="flex-shrink:0;width:58px"><div style="height:62px;display:flex;align-items:flex-end;justify-content:center"><div class="spot">${av(g.id,'s')}</div></div><div style="font-size:11px;font-weight:600;margin-top:4px;color:var(--sk-sub)">${nm(g.id)}</div></div>`).join('')}</div>
+  <div class="row mt16" style="gap:14px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none">${gr.map(g=>`<div class="center" style="flex-shrink:0;width:58px"><div style="height:62px;display:flex;align-items:flex-end;justify-content:center;position:relative">${treeImg(wk(g.id),rstage(wk(g.id))[2] in OAKS?60:rstage(wk(g.id))[2]==='seedling'?48:36)}${waterCue(g)?`<span class="dropbadge">${ic('drop',11,'color:#fff')}</span>`:''}</div><div style="font-size:11px;font-weight:600;margin-top:4px">${nm(g.id)}</div></div>`).join('')}${inv.map(g=>`<div class="center" style="flex-shrink:0;width:58px"><div style="height:62px;display:flex;align-items:flex-end;justify-content:center"><div class="spot">${av(g.id,'s')}</div></div><div style="font-size:11px;font-weight:600;margin-top:4px;color:var(--sk-sub)">${nm(g.id)}</div></div>`).join('')}</div>
   <p class="sm" style="color:var(--sk-sub)">Watering encourages them. It only counts when they invest.</p>
-  <div class="mt12">${gr.map(g=>{const W=wk(g.id),st=rstage(W),cue=waterCue(g),sent=S.watered[g.id];return `<div class="gfriend"><div class="tr">${treeImg(W,st[2]==='oak'?70:st[2]==='seedling'?56:40)}${cue?`<span class="dropbadge">${ic('drop',11,'color:#fff')}</span>`:''}</div>
+  <div class="mt12">${gr.map(g=>{const W=wk(g.id),st=rstage(W),cue=waterCue(g),sent=S.watered[g.id];return `<div class="gfriend"><div class="tr">${treeImg(W,st[2] in OAKS?70:st[2]==='seedling'?56:40)}${cue?`<span class="dropbadge">${ic('drop',11,'color:#fff')}</span>`:''}</div>
      <div class="grow"><div style="font-weight:600">${PEOPLE[g.id].full}</div><div class="sm" style="color:var(--sk-sub)">${st[1]} · ${W} weeks${cue?' · hasn’t invested yet this week':''}</div><div class="fls">${(PFL[g.id]||[]).filter(k=>FLIMG[k]).map(k=>`<img src="${IMG[FLIMG[k]]}" alt="${FLNAME[k]}">`).join('')}</div></div>
      ${cue?(sent?`<span class="wbtn off">${ic('check',14)} Sent</span>`:`<button class="wbtn" onclick="gsWater('${g.id}',this)">${ic('drop',14)} Water</button>`):''}</div>`}).join('')}
    ${inv.map(g=>`<div class="gfriend"><div class="tr"><div class="spot">${ic('oak',18)}</div></div><div class="grow"><div style="font-weight:600">${PEOPLE[g.id].full}</div><div class="sm" style="color:var(--sk-sub)">Invite sent · ${g.day||'Fri'} · sprouts after their first investment</div>
@@ -2219,7 +2228,7 @@ def('gt-home',()=>{spInit();const w=S.streak;const g=S.grove;const inv=g.filter(
    :`<div class="sk-title"><b>${w}</b> Week Streak</div><div class="sk-sub">${s==='done'?`This week counts.${S.recurring?` Next $${S.amount} lands ${S.day}.`:''}`:'Invest any amount this week to keep it growing.'}</div>`}
    <div class="mt24" id="nbgW">${nbgBlock()}</div>
    <div class="sk-sec"><div class="h4">Your grove</div><span class="sm" onclick="groveSheet('half')" style="cursor:pointer">Open ${ic('chev',12)}</span></div>
-   <div class="card dk tap" style="padding:0;overflow:hidden" onclick="home('gt-grove')"><div style="position:relative">${(()=>{const gr=g.filter(x=>x.status==='growing');const sz=id=>{const k=rstage(wk(id))[2];return k==='oak'?78:k==='seedling'?58:44};const mk=x=>({html:`<div style="position:relative"><img src="${IMG[rstage(wk(x.id))[2]]}" style="height:${sz(x.id)}px">${waterCue(x)&&!S.watered[x.id]?'<span class="dropbadge">'+ic('drop',11,'color:#fff')+'</span>':''}</div>`,label:nm(x.id)});const L=gr.slice(0,2).map(mk),R=gr.slice(2,4).map(mk);if(inv.length&&R.length<2)R.push({html:spot(),label:'Waiting'});if(!gr.length&&!inv.length){L.push({html:spot(),label:'Invite'})}return hillRow([...L,{html:`<img src="${IMG[rstage(w)[2]]}" style="height:${rstage(w)[2]==='acorn'?52:84}px">`,label:'You',me:1},...R],{h:190})})()}
+   <div class="card dk tap" style="padding:0;overflow:hidden" onclick="home('gt-grove')"><div style="position:relative">${(()=>{const gr=g.filter(x=>x.status==='growing');const sz=id=>{const k=rstage(wk(id))[2];return k in OAKS?78:k==='seedling'?58:44};const mk=x=>({html:`<div style="position:relative"><img src="${IMG[rstage(wk(x.id))[2]]}" style="height:${sz(x.id)}px">${waterCue(x)&&!S.watered[x.id]?'<span class="dropbadge">'+ic('drop',11,'color:#fff')+'</span>':''}</div>`,label:nm(x.id)});const L=gr.slice(0,2).map(mk),R=gr.slice(2,4).map(mk);if(inv.length&&R.length<2)R.push({html:spot(),label:'Waiting'});if(!gr.length&&!inv.length){L.push({html:spot(),label:'Invite'})}return hillRow([...L,{html:`<img src="${IMG[rstage(w)[2]]}" style="height:${rstage(w)[2]==='acorn'?52:84}px">`,label:'You',me:1},...R],{h:190})})()}
     <div style="position:absolute;left:12px;top:12px" class="sk-chip">${ic('grove',14,'color:#74c947')} ${g.filter(x=>x.status==='growing').length} growing${inv.length?` · ${inv.length} waiting`:''}</div></div></div>
    <div class="sk-sec"><div class="h4">Ways to grow</div></div>
    <div class="row" style="gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none">${[['Skip and Stash','roundup',"go('ss2-pick')"],['Money Type','seedling',"T={};go('mt2-intro')"],['Split a paycheck','later',"T={};go('mm2-intro')"],['Future Club','learn',"go('fc-types')"],['Journal','oak',"go('journal')"]].map(([t,im,a])=>`<div class="fl-tok" style="width:84px" onclick="${a}"><div class="im" style="width:84px"><img src="${IMG[im]}" alt=""></div><div class="nm">${t}</div></div>`).join('')}</div>
@@ -2821,9 +2830,9 @@ function gvSlots(){const gr=S.grove.slice(0,6);const out=gr.map((g,i)=>({g,front
   const back=out.filter(s=>!s.front),pos=GV_BACKS[back.length]||[];back.forEach((s,i)=>s.x=pos[i]);out.filter(s=>s.front).forEach((s,i)=>s.x=GV_FRONT[i]);return out}
 function gvTree(s){if(s.empty)return `<button class="gv-it ${s.front?'f':'b'}" style="left:${s.x}%" onclick="event.stopPropagation();T={};go('inv-pick')" aria-label="Plant a friend"><div class="gv-plot">${ic('plus',s.front?22:16)}</div><div class="gv-tag">Plant a friend</div></button>`;
   const g=s.g,id=g.id;if(g.status!=='growing')return `<button class="gv-it ${s.front?'f':'b'} ${GSEL===id?'sel':''}" id="gv-${id}" style="left:${s.x}%" onclick="event.stopPropagation();gvSel('${id}')" aria-label="${nm(id)}, invite waiting"><div class="gv-plot seed"><img src="${IMG.acorn}" style="height:${s.front?30:22}px" alt=""></div><div class="gv-tag">${nm(id)} · waiting</div></button>`;
-  const W=wk(id),st=rstage(W);const h=s.front?(st[2]==='oak'?118:st[2]==='seedling'?92:56):(st[2]==='oak'?74:st[2]==='seedling'?58:38);const cue=g.open&&!S.watered[id];
+  const W=wk(id),st=rstage(W);const h=s.front?(st[2] in OAKS?118:st[2]==='seedling'?92:56):(st[2] in OAKS?74:st[2]==='seedling'?58:38);const cue=g.open&&!S.watered[id];
   return `<button class="gv-it ${s.front?'f':'b'} ${GSEL===id?'sel':''} ${g.open?'open':''}" id="gv-${id}" style="left:${s.x}%" onclick="event.stopPropagation();gvSel('${id}')" aria-label="${nm(id)}, ${W} weeks${g.open?', has not invested yet this week':''}"><div class="sway" style="animation-delay:-${(s.x%7)}s"><img src="${IMG[st[2]]}" style="height:${h}px" alt=""></div>${cue?`<span class="dropbadge gv-drop">${ic('drop',11,'color:#fff')}</span>`:''}<div class="gv-tag"><i style="background:${g.open?'#4da1ef':'#74c947'}"></i>${nm(id)}</div></button>`}
-def('gt-grove',()=>{spInit();const gr=growing();const done=gr.filter(x=>!x.open).length+(S.invested?1:0);const tot=gr.length+1;const st=rstage(S.streak);const meH=st[2]==='oak'?156:st[2]==='seedling'?128:84;
+def('gt-grove',()=>{spInit();const gr=growing();const done=gr.filter(x=>!x.open).length+(S.invested?1:0);const tot=gr.length+1;const st=rstage(S.streak);const meH=st[2] in OAKS?156:st[2]==='seedling'?128:84;
   return {cls:'dark',html:`<div class="gv" onclick="gvSel(null)">
    <div class="gv-sky">${Array.from({length:26}).map((_,i)=>`<i style="left:${(i*37)%100}%;top:${(i*23)%60}%;animation-delay:-${i%5}s"></i>`).join('')}</div>
    <div class="cloud" style="top:22%;width:110px;animation-duration:70s"></div><div class="cloud" style="top:30%;width:70px;animation-duration:95s;animation-delay:-40s"></div>
@@ -2896,7 +2905,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 5:04 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 6:06 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -2923,9 +2932,9 @@ function tlItems(){const w=S.streak,st=rstage(w);const it=[];
   S.flourishes.slice(-3).reverse().forEach(k=>FLIMG[k]&&FT[k]&&it.push({k:'f-'+k,lab:FLNAME[k],t:FT[k],d:'Your oak',sideImg:FLIMG[k],n:3}));
   it.push({k:'start',lab:'Welcome to Acorns',t:'Started my journey',d:'Oct 2026',side:'acorn',n:5});
   return TLV==='hi'?it.filter(x=>x.k==='streak'||x.k.indexOf('f-')===0||x.water||x.k==='start').slice(0,5):it}
-function tlCard(x){const on=CHEER[x.k];const art=x.side||x.sideImg;const ah=x.side==='oak'?56:x.side==='seedling'?52:44;
+function tlCard(x){const on=CHEER[x.k];const art=x.side||x.sideImg;const ah=x.side in OAKS?56:x.side==='seedling'?52:44;
   const heart=x.n!==undefined?`<button class="tl-h ${on?'on':''}" type="button" onpointerdown="event.preventDefault()" onclick="event.preventDefault();event.stopPropagation();tlCheer(this,'${x.k}',${x.n})" aria-label="Cheer">${on?'♥':'♡'} ${x.n+(on?1:0)}</button>`:'';
-  if(x.hero){const hh=x.hero==='oak'?96:x.hero==='seedling'?84:64;return `<div class="tl"><div class="tl-ring"><img src="${IMG[x.hero]}" style="height:${hh}px" alt=""></div><div class="lab">${x.lab}</div><div class="ttl">${x.t}</div><div class="meta"><span>${x.d}</span>${heart}</div></div>`}
+  if(x.hero){const hh=x.hero in OAKS?96:x.hero==='seedling'?84:64;return `<div class="tl"><div class="tl-ring"><img src="${IMG[x.hero]}" style="height:${hh}px" alt=""></div><div class="lab">${x.lab}</div><div class="ttl">${x.t}</div><div class="meta"><span>${x.d}</span>${heart}</div></div>`}
   return `<div class="tl"><div class="tl-row"><div class="grow"><div class="lab">${x.lab}</div><div class="ttl ${x.tone==='n'?'n':''}">${x.t}</div>${x.s?`<div class="tl-s">${x.s}</div>`:''}</div>${art?`<div class="tl-art"><img src="${IMG[art]}" style="height:${ah}px;${x.water?'filter:saturate(.55) brightness(.85)':''}" alt=""></div>`:''}</div>
    ${x.water?`<button class="tl-rain" onclick="groveSheet('full')">${ic('drop',15)} Send rain</button>`:`<div class="meta"><span>${x.d}</span>${heart}</div>`}</div>`}
 (function(){const st=document.createElement('style');st.textContent=`.tl{padding:16px 16px 14px}
@@ -3300,25 +3309,291 @@ def('mm2-intro',()=>({cls:'dark',html:`${topbar({close:true,title:''})}<div clas
   ${foot(btn('Set up my split',"go('mm2-pay')",'wh'),btn('Not now','back()','ghost'))}`}));
 (function(){const f=SCR['mm2-pay'];SCR['mm2-pay']=p=>{const r=f(p);r.html=r.html.replace('<div class="h2" style="color:#fff">One paycheck, three habits.</div><p class="p mt8">Tell us about your pay. Only you see these numbers.</p>','<div class="eyebrow">Step 1 of 3 · Your paycheck</div><div class="h2 mt8" style="color:#fff">How much, and how often?</div><p class="p mt8">We use this to work out each slice. Only you see these numbers.</p>');return r}})();
 
+/* =====================================================================
+   Lives inside the real app.
+   · Acorns Home (light, current look) is the hub. New ideas attach to existing surfaces.
+   · Existing products (Money Manager, Invest, Round-Ups) are shown as-is from Figma, never redesigned.
+   · Every idea opens with a splash: what it is, why it's here, where it lives.
+   · Streak and Grove stay in the dark Streak world. Setup flows use the current light style.
+   ===================================================================== */
+var OAKS={oak:1,ancient:1};
+IMG.ancient='art/tree-ancient.png';
+RSTAGES[7][2]='ancient';
+WEEKS.mom=330;
+const ACI={money:'$4,812.40',inv:'$4,812.40'};
+
+/* ---------- existing product screens (pixel copies from Figma, unchanged) with tap targets ---------- */
+function appShot(img,spots,note){return `<div class="as"><img class="as-img" src="art/${img}" alt="">${spots.map(([x,y,w,h,js,lab])=>`<button class="as-hot" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%" onclick="${js}" aria-label="${lab}"></button>`).join('')}
+  ${note?`<div class="as-note">${ic('eye',13)} Existing screen, unchanged</div>`:''}</div>`}
+def('ac-mm',()=>({cls:'lt',html:`${appShot('app-money-manager.jpg',[[2,2,14,6,'back()','Close'],[83,2,14,6,"toast('Money Manager settings (existing)')",'Settings']],1)}
+  <div class="as-add" role="region" aria-label="New: your split grows your oak">
+   <div class="row" style="gap:12px"><img src="${IMG.later}" style="height:40px" alt=""><div class="grow"><div class="as-k">New · Grow Together</div><div class="as-t">Your split grows your oak</div></div><button class="iconbtn" style="color:#191919;width:36px;height:36px" onclick="this.closest('.as-add').classList.add('min')" aria-label="Collapse">${ic('chev',16,'transform:rotate(90deg)')}</button></div>
+   <p class="as-p">Nothing about your split changes. Each slice now adds a flourish your grove can see: <b>Investing</b> keeps your streak and grows Roots, <b>Saving</b> builds a nest. Never amounts.</p>
+   <div class="row mt12" style="gap:8px"><button class="btn pri sm" style="flex:1" onclick="go('mm-oak')">See it on my oak</button><button class="btn line sm" style="flex:1;color:#191919" onclick="toast('Opens the existing Money Manager editor')">Edit split</button></div></div>`}));
+def('mm-oak',()=>{spInit();return {cls:'dark',html:`<div class="hero-wrap">${oakStage({h:360,flush:1,ghost:['roots','nest']})}<div class="top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back')}</button><div class="t" style="color:#fff">Your split, on your oak</div><div style="width:44px"></div></div></div>
+  <div class="body" style="padding-top:12px"><p class="p" style="margin-top:0">Your Money Manager split already runs every payday. Grow Together just shows it growing.</p>
+  ${[['seedling','Investing · 5%','Counts toward your streak. Grows Roots.'],['moneybag','Saving · 10%','Builds a nest for rainy days.'],['later','Giving · coming soon','Part of Money Manager. No flourish yet.']].map(([im,t,s])=>skRow(`<img src="${IMG[im]}" alt="">`,t,s,null,'')).join('')}
+  <p class="sm mt16" style="color:var(--sk-sub)">Flourishes are based on your schedule only. Your grove never sees amounts.</p></div>
+  ${foot(btn('Back to Money Manager','back()','wh'))}`}});
+def('ac-invest',()=>({cls:'lt',html:appShot('app-invest.jpg',[[2,2,12,6,'back()','Back'],[4,47,92,5,"go('ac-ru')",'Round-Ups Settings'],[4,52,92,5,"T={};go('rec-1')",'Recurring'],[0,90,20,10,"home('ac-home')",'Home'],[80,90,20,10,"toast('Existing Earning tab')",'Earning']],1)}));
+def('ac-ru',()=>({cls:'lt',html:`${appShot('app-roundups.jpg',[[2,2,14,6,'back()','Close'],[90,2,9,6,"toast('Round-Ups help (existing)')",'Help'],[88,50,10,4,"S.ru.on=!S.ru.on;save();toast(S.ru.on?'Round-Ups on':'Round-Ups off')",'Set to automatic']],1)}
+  ${S.ret==='mt2-reveal'?`<div class="as-add"><div class="as-k">From your Money Type</div><div class="as-t">This is the Round-Ups® you already have</div><p class="as-p">Turn on automatic, then come back. Your first acorns grow on your oak.</p><div class="mt12">${btn('Done, back to my type',"S.ru.on=true;addFlourish('acorns');save();back();toast('Round-Ups on')",'pri')}</div></div>`:''}`}));
+
+/* ---------- Acorns Home (current look) with the new entry points attached ---------- */
+function acTabs(on){const t=[['ac-home','Home','home'],['ac-invest','Investing','card'],['ac-mm','Money Hub',''],['learn','Learning','spark'],['earn','Earning','flag']];
+  return `<nav class="ac-tabs" aria-label="Main">${t.map(([id,l,i])=>i===''?`<button class="ac-hub" onclick="go('ac-mm')" aria-label="Money Hub"><span>$</span><em>${l}</em></button>`:`<button class="${on===id?'on':''}" onclick="${id==='ac-home'?"home('ac-home')":id==='ac-invest'?"go('ac-invest')":`toast('Existing ${l} tab, unchanged')`}">${ic(i,22)}<em>${l}</em></button>`).join('')}</nav>`}
+const FORYOU=[['grove','Your grove','Grow beside your people. Rain, cheers, trees.','oak'],['money-type','Find your money type','Three questions. The right first habit.','seedling'],['skip-and-stash','Skip it, stash it','Skipped coffee? Invest the difference.','roundup'],['invite','Invite someone','Their first investment plants a tree beside yours.','learn'],['future-club','Future Club','Notes for later, from people who care.','early'],['year','Your Acorns Year','Six cards on how you showed up.','later']];
+def('ac-home',()=>{spInit();const st=rstage(S.streak);const th={acorn:58,seedling:84,oak:118,ancient:140}[st[2]];const s=skState();
+  return {cls:'lt ach',html:`<div class="ach-scroll"><div class="ach-hero" style="background-image:url(art/home-hero.jpg)">
+   <div class="ach-top"><div class="ach-av" aria-hidden="true">${S.me[0]}</div><button class="ach-pill" onclick="toast('Ask Acorns (existing)')">Ask ${IMG.acorn?`<img src="${IMG.acorn}" alt="">`:''}</button><div style="flex:1"></div><button class="ach-pill" onclick="go('splash',{k:'invite'})">Get $250</button><button class="iconbtn" style="color:#fff" onclick="protoMenu()" aria-label="Prototype guide">${ic('menu',22)}</button></div>
+   <div class="ach-val"><div>Your Acorns value is</div><b>${ACI.money}</b></div>
+   <button class="ach-tree" onclick="home('gt-home')" aria-label="Your oak, ${S.streak} week streak. Open Streaks."><img src="${IMG[st[2]]}" style="height:${th}px" alt=""></button>
+   <button class="ach-streak" onclick="home('gt-home')"><span class="ring">${ringSvg(s==='done'?1:.35,26)}</span><span><b>${s==='reset'?'Plant this week':plw(S.streak)+' streak'}</b><em>${s==='done'?'This week counts':s==='reset'?'Start growing again':'Grow your week'}</em></span>${ic('chev',16)}</button></div>
+  <div class="ach-sheet"><div class="ach-seg" role="tablist"><button class="on" role="tab" aria-selected="true">Accounts</button><button role="tab" aria-selected="false" onclick="go('ac-mm')">Money Manager</button></div>
+   <div class="ach-sec">Investing</div>
+   <div class="ach-acct" onclick="go('ac-invest')" role="button"><div class="row"><span class="ach-ic">${ic('card',18)}</span><b class="grow">Invest</b><b>${ACI.inv}</b>${ic('chev',16,'opacity:.4')}</div>
+    <div class="ach-chips"><button onclick="event.stopPropagation();home('gt-home')" class="g"><img src="${IMG[st[2]]}" alt="">${plw(S.streak)}</button><span>Recurring: ${S.recurring?`$${S.amount}/${S.day}`:'Off'}</span><span>Round-Ups®: ${S.ru.on?'On':'Off'}</span></div></div>
+   <div class="ach-acct"><div class="row"><span class="ach-ic">${ic('spark',18)}</span><b class="grow">Later</b><button class="ach-start" onclick="toast('Existing Later setup')">Start investing</button></div></div>
+   <div class="ach-sec" style="margin-top:26px">New ways to grow</div>
+   <div class="ach-fy">${FORYOU.map(([k,t,d,im])=>`<button class="ach-card" onclick="go('splash',{k:'${k}'})"><img src="${IMG[im]}" alt=""><b>${t}</b><span>${d}</span></button>`).join('')}</div>
+   <p class="ach-legal">Placeholder names and values. Investing involves risk, including loss of principal.</p><div style="height:90px"></div></div></div>
+  ${acTabs('ac-home')}`}});
+
+/* ---------- splash: what it is, why it's here, where it lives ---------- */
+const SPL={
+ grove:{t:'Your grove',e:'Grow Together · Streaks',img:'oak',what:'A shared hill where your oak grows beside the people you invite. Everyone keeps their own streak.',why:'People stick with habits they share. Seeing Mom’s oak, or sending a little rain when she hasn’t invested yet, keeps both of you going.',where:'Home → tap your oak, or the streak chip on Invest. Then the Grove tab.',go:"jumpAhead();spInit();GSEL=null;home('gt-grove')",cta:'Open my grove'},
+ invite:{t:'Invite someone',e:'Grow Together · Referrals',img:'learn',what:'Invite one person at a time. Pick their day so you invest in rhythm. Their first investment plants a tree beside yours.',why:'Turns the existing “Get $250” referral into a relationship, not a link. Rewards still follow the Referrals program.',where:'Home → “Get $250”, or an empty plot in your grove.',go:"jumpAhead();spInit();T={};go('inv-pick')",cta:'Invite someone'},
+ 'money-type':{t:'Find your money type',e:'Post sign-up',img:'seedling',what:'Three quick questions about how money reaches you and how you spend. You get a type and the first habit that fits.',why:'New investors stall at “where do I start?”. This picks Recurring or Round-Ups for them, then hands off to the setup they already have.',where:'Right after sign-up, and the “New ways to grow” card on Home.',go:"T={};home('mt2-intro')",cta:'Start'},
+ 'skip-and-stash':{t:'Skip it, stash it',e:'Everyday wins',img:'roundup',what:'Skip something (coffee, takeout, a ride) and invest what you didn’t spend. Quick Stash, a Skip Jar, or a 7-day Skip Week with friends.',why:'It turns a small choice into a real investment, and a real investment counts toward your streak. Works without reading your spending.',where:'Home → “New ways to grow”, and reminders you set.',go:"T={};home('ss2-pick')",cta:'Pick how to skip'},
+ split:{t:'Money Manager, growing',e:'Existing product · new layer',img:'later',what:'Your Money Manager split stays exactly as it is. Each slice now shows up on your oak: Investing grows Roots and keeps your streak, Saving builds a nest.',why:'People set a split once and forget it. Seeing it grow gives them a reason to keep it.',where:'Home → Money Manager. A small card explains the new layer. Nothing else changes.',go:"home('ac-home');go('ac-mm')",cta:'Open Money Manager'},
+ 'future-club':{t:'Future Club',e:'Acorns Early · Gold',img:'early',what:'Friends and family write notes for later. For you, they open on a date. For your kid, each approved note blooms a leaf, and family can add a gift.',why:'Gives people a reason to bring family in, and gives kids something more than a balance.',where:'Home → “New ways to grow”, and the Early account.',go:"T={};home('fc-types')",cta:'Start a club'},
+ year:{t:'Your Acorns Year',e:'Every December',img:'later',what:'Six cards on how you showed up: weeks invested, Round-Ups, how consistent you were, your type. Each card works on its own, and together they tell your year.',why:'Made to share. Every card carries your link, and never shows a balance or return.',where:'Home banner in December, and a monthly recap the rest of the year.',go:"T={si:0};jumpAhead();spInit();home('journal')",cta:'Watch my year'},
+ challenges:{t:'Challenges',e:'Grow Together · Streaks',img:'earn',what:'Bring people in on a no-delivery week, a Round-Ups month, or 8 weeks side by side. Run several at once.',why:'One investment counts toward every challenge it fits, so doing more never means doing more work.',where:'Streaks → Challenges tab, or any tree in your grove.',go:"jumpAhead();spInit();home('gt-ch')",cta:'See challenges'},
+ invited:{t:'Getting invited',e:'The friend’s side',img:'acorn',what:'What Sam sees when Jordan’s link lands: already on Acorns, brand new, signed out, an old link, under 18.',why:'Every path has to end in one place: planted beside Jordan.',where:'A text, a story or a QR code, opening the app or the web.',go:"home('sam-hub')",cta:'See every path'}};
+def('splash',p=>{const s=SPL[p.k]||SPL.grove;return {cls:'lt',html:`<div class="spl-hero" style="background-image:url(art/home-hero.jpg)"><div class="top" style="position:absolute;left:0;right:0;top:0"><button class="iconbtn" style="color:#fff" onclick="back()" aria-label="Back">${ic('back')}</button><div style="flex:1"></div><button class="iconbtn" style="color:#fff" onclick="protoMenu()" aria-label="Prototype guide">${ic('menu',22)}</button></div>
+   <img class="spl-art" src="${IMG[s.img]}" alt=""></div>
+  <div class="body spl-body"><div class="spl-e">${s.e}</div><h1 class="spl-t">${s.t}</h1>
+   ${[['What it is',s.what],['Why it’s here',s.why],['Where it lives',s.where]].map(([h,b])=>`<div class="spl-row"><b>${h}</b><p>${b}</p></div>`).join('')}</div>
+  <div class="foot">${btn(s.cta,`(function(){${s.go.replace(/"/g,'&quot;')}})()`,'pri')}${btn('Back to Home',"home('ac-home')",'ghost','style="color:#191919"')}</div>`}});
+
+/* ---------- light theme for setup flows (matches the current app) ---------- */
+const LIGHT_IDS=/^(mt2-|ss2-|qs-|jar|ss-review|ss-detect|ss-delta|ss-settings|ss-log|ss-lock|fc-types|sap-|sapf-|inv-pick|inv-perm|inv-contacts|inv-day|inv-review|inv-existing|inv-expired|inv-waiting|states|water-set)/;
+Object.keys(SCR).forEach(id=>{if(!LIGHT_IDS.test(id)||id==='ss-lock')return;const f=SCR[id];SCR[id]=p=>{window.__LIGHT=true;let r;try{r=f(p)}finally{window.__LIGHT=false}if(r)r.cls=(r.cls||'').replace(/\bdark\b|\bchd\b/g,'').trim()+' acl';return r}});
+/* Money Type hands off to the products people already have */
+(function(){const f=SCR['mt2-reveal'];SCR['mt2-reveal']=p=>{const r=f(p);const t=MT2[S.mt2.type||'steady'];const plan=t.plan;
+  const cta=plan==='ru'?btn('Turn on Round-Ups®',"S.ret='mt2-reveal';go('ac-ru')",'pri'):btn('Set up Recurring',"S.ret='mt2-reveal';T={};go('rec-1')",'pri');
+  const alt=plan==='both'?btn('Turn on Round-Ups® too',"S.ret='mt2-reveal';go('ac-ru')",'line','style="color:#191919"'):'';
+  r.html=r.html.replace(/<div class="foot">[\s\S]*$/,`<div class="foot">${cta}${alt}${btn(`${ic('share',18)} Share my type`,"S.mtShared=true;T.sbT=undefined;T.sbName=undefined;go('share-b',{kind:'type'})",'ghost','style="color:#191919"')}</div>`);
+  r.html=r.html.replace('About habits only. It doesn’t change your portfolio or risk.','About habits only. It doesn’t change your portfolio or risk. Setup happens in the Recurring and Round-Ups® you already have.');return r}})();
+/* paycheck prompt goes to the real Money Manager */
+(function(){const n=nbgCands;nbgCands=function(){return n().map(c=>c.k==='pay'?Object.assign(c,{t:'Your paycheck landed.',s:'Money Manager will split it the way you set. Tap to see it grow your oak.',cta:'Open',act:"go('ac-mm')"}):c)}})();
+
+/* ---------- navigation: Acorns Home is home; nobody gets stuck ---------- */
+function back(){if(stack.length<2){home('ac-home');return}stack.pop();const t=stack[stack.length-1];render(t.id,t.params,'back')}
+(function(){const NOEXIT=new Set(['sys-load','menu','ac-home','gt-home','gt-grove','gt-ch','gt-oak']);
+  Object.keys(SCR).forEach(id=>{const f=SCR[id];SCR[id]=p=>{const r=f(p);if(!r||typeof r.html!=='string')return r;let h=r.html;
+    h=h.replace(/home\('menu'\)/g,"home('ac-home')");
+    h=h.replace(/<button class="iconbtn"([^>]*)onclick="back\(\)"(?![^>]*aria-label)/g,'<button class="iconbtn"$1onclick="back()" aria-label="Back"');
+    h=h.replace(/<button class="iconbtn"([^>]*)onclick="protoMenu\(\)"(?![^>]*aria-label)/g,'<button class="iconbtn"$1onclick="protoMenu()" aria-label="Prototype guide"');
+    if(!NOEXIT.has(id)&&!/back\(\)|home\(|back2\(|finish\(\)|shareSent/.test(h))h=`<button class="x-float" onclick="back()" aria-label="Close">${ic('close',20)}</button>`+h;
+    r.html=h;return r}})})();
+/* Streak world: the close goes back to Acorns Home */
+(function(){const f=SCR['gt-home'];SCR['gt-home']=p=>{const r=f(p);r.html=r.html.replace(`<button class="iconbtn" onclick="home('ac-home')" aria-label="Close">${ic('close')}</button>`,`<button class="iconbtn" onclick="home('ac-home')" aria-label="Back to Acorns Home">${ic('back')}</button>`);return r}})();
+
+/* ---------- guide v3: no earlier versions; every idea opens on its splash ---------- */
+const RV_GO2=[['Acorns Home','Where everything lives',"jumpAhead();spInit();home('ac-home')"],['Your grove','Trees, rain and cheers',"home('ac-home');go('splash',{k:'grove'})"],['Invite someone','From “Get $250” to a new tree',"home('ac-home');go('splash',{k:'invite'})"],['Money Type','Three questions, then the right habit',"home('ac-home');go('splash',{k:'money-type'})"],['Skip and Stash','Skip something, invest the difference',"home('ac-home');go('splash',{k:'skip-and-stash'})"],['Money Manager, growing','Existing split, new layer on your oak',"home('ac-home');go('splash',{k:'split'})"],['Future Club','Notes for me or for my kid',"home('ac-home');go('splash',{k:'future-club'})"],['Acorns Year','Six cards, made to share',"home('ac-home');go('splash',{k:'year'})"],['Challenges','Several at once',"home('ac-home');go('splash',{k:'challenges'})"],['Getting invited','The friend’s side, every path',"home('ac-home');go('splash',{k:'invited'})"],['Edge states','Empty, locked, failed, expired',"home('states')"]];
+RV_GO.length=0;RV_GO2.forEach(x=>RV_GO.push(x));RV_OLD.length=0;
+(function(){const f=rvHTML;rvHTML=function(first){let h=f(first);h=h.replace(/<div class="rv-sec">Earlier versions<\/div><div class="rv-g"><\/div>/,'');
+  h=h.replace("closeOv();setTimeout(()=>{jumpAhead();spInit();home('gt-home')},250)","closeOv();setTimeout(()=>{jumpAhead();spInit();home('ac-home')},250)");
+  h=h.replace(/demoSet\('(\w+)'\);home\('gt-home'\)/g,"demoSet('$1');home('ac-home')");return h}})();
+def('menu',()=>({cls:'lt',html:`<div class="spl-hero" style="background-image:url(art/home-hero.jpg);height:62%"><img class="spl-art" src="${IMG.oak}" alt="" style="height:150px"></div>
+  <div class="body center" style="display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:calc(var(--safeBot) + 20px)">${btn('Open the guide',"protoMenu0()",'pri')}</div>`,mount(){setTimeout(()=>{if(cur()&&cur().dataset.id==='menu')protoMenu0()},350)}}));
+
+(function(){const st=document.createElement('style');st.textContent=`
+:focus-visible{outline:2px solid #74c947;outline-offset:2px;border-radius:8px}
+.scr.lt{background:#fff;color:#191919}
+.as{position:absolute;inset:0;background:#fff;overflow:hidden}.as-img{width:100%;display:block}
+.as-hot{position:absolute;background:transparent;border:0;border-radius:12px}.as-hot:active{background:rgba(0,0,0,.06)}
+.as-note{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--safeBot) + 12px);background:rgba(25,25,25,.78);color:#fff;font-size:12px;font-weight:600;padding:6px 12px;border-radius:14px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.as-add{position:absolute;left:12px;right:12px;bottom:calc(var(--safeBot) + 46px);background:#fff;border-radius:22px;padding:16px;box-shadow:0 14px 40px rgba(20,60,10,.22);z-index:3;transition:transform .3s}
+.as-add.min{transform:translateY(calc(100% - 64px))}
+.as-k{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#2f7a12}.as-t{font-size:17px;font-weight:600;color:#191919;margin-top:2px}.as-p{font-size:14px;color:#4a524c;line-height:1.45;margin:10px 0 0}
+.btn.sm{height:44px!important}
+.ach{background:#fff}.ach-scroll{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none}.ach-scroll::-webkit-scrollbar{display:none}
+.ach-hero{position:relative;height:470px;background-size:cover;background-position:center top;color:#fff}
+.ach-top{position:absolute;left:16px;right:8px;top:calc(var(--safeTop) + 4px);display:flex;align-items:center;gap:8px}
+.ach-av{width:36px;height:36px;border-radius:18px;background:#fff;color:#2f7a12;font-weight:700;display:flex;align-items:center;justify-content:center}
+.ach-pill{height:34px;padding:0 14px;border-radius:17px;background:rgba(255,255,255,.22);box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);color:#fff;font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px}.ach-pill img{height:16px}
+.ach-val{position:absolute;left:24px;top:calc(var(--safeTop) + 70px)}.ach-val div{font-size:22px;font-weight:600}.ach-val b{display:block;font-size:44px;font-weight:600;letter-spacing:-1px;margin-top:2px}
+.ach-tree{position:absolute;right:16%;bottom:132px;transform:translateX(50%);background:none;border:0;padding:0}.ach-tree img{display:block;filter:drop-shadow(0 10px 12px rgba(0,60,0,.3))}
+.ach-streak{position:absolute;left:16px;bottom:56px;height:52px;padding:0 14px 0 8px;border-radius:26px;background:rgba(255,255,255,.95);color:#191919;display:flex;align-items:center;gap:10px;box-shadow:0 8px 20px rgba(0,60,0,.15)}
+.ach-streak .ring svg circle:first-child{stroke:rgba(0,0,0,.12)}.ach-streak b{display:block;font-size:14px;text-align:left}.ach-streak em{display:block;font-style:normal;font-size:12px;color:#5d655f;text-align:left}
+.ach-sheet{position:relative;margin-top:-28px;background:#fff;border-radius:26px 26px 0 0;padding:16px 20px 0}
+.ach-seg{display:flex;background:#f1f3ef;border-radius:22px;padding:4px}.ach-seg button{flex:1;height:40px;border-radius:18px;font-weight:600;font-size:15px;color:#191919}.ach-seg button.on{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.ach-sec{font-size:15px;font-weight:600;color:#5d655f;margin:22px 0 10px}
+.ach-acct{padding:12px 0;border-bottom:1px solid #eef0ec;cursor:pointer}.ach-acct b{font-size:16px;font-weight:600}.ach-ic{width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#191919}
+.ach-chips{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}.ach-chips span,.ach-chips button{height:30px;padding:0 10px;border-radius:15px;background:#f1f3ef;font-size:12px;font-weight:600;color:#3c4a40;display:inline-flex;align-items:center;gap:5px}.ach-chips .g{background:#e5f5d8;color:#2f7a12}.ach-chips img{height:18px}
+.ach-start{height:36px;padding:0 16px;border-radius:18px;background:#6944ff;color:#fff;font-weight:600;font-size:14px}
+.ach-fy{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ach-card{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:14px;border-radius:20px;background:#f4f8f1;border:1px solid #e4ece0;min-height:150px}.ach-card img{height:44px;margin-bottom:10px}.ach-card b{font-size:15px;color:#191919;line-height:1.25}.ach-card span{font-size:13px;color:#5d655f;margin-top:4px;line-height:1.35}
+.ach-legal{font-size:12px;color:#7a837c;margin-top:18px;line-height:1.4}
+.ac-tabs{position:absolute;left:0;right:0;bottom:0;height:calc(var(--safeBot) + 64px);padding-bottom:var(--safeBot);background:#fff;border-top:1px solid #eef0ec;display:flex;align-items:flex-start;z-index:6}
+.ac-tabs>button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding-top:9px;color:#8a938c;min-height:56px}.ac-tabs>button.on{color:#191919}.ac-tabs em{font-style:normal;font-size:11px;font-weight:600}
+.ac-hub{position:relative}.ac-hub span{width:46px;height:46px;margin-top:-14px;border-radius:23px;background:#111;color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 4px #fff}
+.spl-hero{position:relative;height:300px;background-size:cover;background-position:center top}.spl-art{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);height:120px;filter:drop-shadow(0 12px 14px rgba(0,60,0,.25))}
+.spl-body{padding-top:22px}.spl-e{font-size:12px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:#2f7a12}.spl-t{font-size:32px;font-weight:600;letter-spacing:-.6px;margin:6px 0 4px;color:#191919}
+.spl-row{padding:14px 0;border-bottom:1px solid #eef0ec}.spl-row:last-child{border-bottom:0}.spl-row b{font-size:14px;color:#191919}.spl-row p{font-size:15px;color:#4a524c;line-height:1.45;margin:4px 0 0}
+.x-float{position:absolute;right:12px;top:calc(var(--safeTop) + 4px);z-index:20;width:44px;height:44px;border-radius:22px;background:rgba(0,0,0,.35);color:#fff;display:flex;align-items:center;justify-content:center}
+/* light Acorns theme for setup flows */
+.scr.acl{background:#fff!important;color:#191919}
+.scr.acl .top,.scr.acl .top .t,.scr.acl .iconbtn{color:#191919}
+.scr.acl .hero-wrap .top .iconbtn,.scr.acl .hero-wrap .top .t{color:#191919!important}
+.scr.acl [style*="color:#fff"]{color:#191919!important}
+.scr.acl .h1,.scr.acl .h2,.scr.acl .h3,.scr.acl .h4,.scr.acl .mtq,.scr.acl .ql,.scr.acl .ttl,.scr.acl .amt{color:#191919}
+.scr.acl .p,.scr.acl .sm,.scr.acl .qs,.scr.acl .sub,.scr.acl [style*="color:var(--sk-sub)"]{color:#5d655f!important}
+.scr.acl .eyebrow{color:#2f7a12}
+.scr.acl .qcard{background:#f6f8f4;border:1px solid #e4e9e1;color:#191919}.scr.acl .qcard.on{background:#edf8e6;border-color:#74c947;box-shadow:0 8px 20px rgba(60,120,30,.12)}
+.scr.acl .qcard .qi,.scr.acl .sk-badge{background:#e7f3df;box-shadow:none;color:#2f7a12}.scr.acl .cbox{border-color:#c5cdc1}
+.scr.acl .sk-list,.scr.acl .vis div,.scr.acl .card.dk,.scr.acl .card.flat,.scr.acl .gfriend,.scr.acl .st-tile{background:#f6f8f4!important;border:1px solid #e4e9e1!important;color:#191919}
+.scr.acl .sk-list .li{border-color:#e8ebe5;color:#191919}.scr.acl .sk-list .k{color:#5d655f}.scr.acl .sk-list .v,.scr.acl .vis b,.scr.acl .st-tile .n{color:#191919}
+.scr.acl .sk-row .t{color:#191919}.scr.acl .sk-row .s{color:#5d655f}
+.scr.acl .seg{background:#f1f3ef}.scr.acl .seg button{color:#3c4a40}.scr.acl .seg button.on{background:#74c947;color:#0a1d08}
+.scr.acl .chip,.scr.acl .days button,.scr.acl .stepper button,.scr.acl .scrub button{background:#f1f3ef;color:#191919}.scr.acl .chip.on,.scr.acl .days button.on,.scr.acl .scrub button.on{background:#74c947;color:#0a1d08}
+.scr.acl .btn.line{box-shadow:inset 0 0 0 1.5px #d3d9cf;color:#191919!important}.scr.acl .btn.ghost{color:#191919!important}
+.scr.acl .inp,.scr.acl .msgbox{background:#f6f8f4;border-color:#dfe5da;color:#191919}
+.scr.acl .lockrow{background:#fff4e0;color:#6b4c00}
+.scr.acl .nbg{background:#edf8e6;border-color:#cde9bd;color:#191919}.scr.acl .nbg .k{color:#2f7a12}.scr.acl .nbg .s{color:#5d655f}.scr.acl .nbg .sbtn{color:#3c4a40}
+.scr.acl .sk-chip{background:#eef6e8;color:#2f7a12;border-color:#cfe6c1}
+.scr.acl .jl::before{background:#dbe7d3}.scr.acl .jl .e::before{box-shadow:0 0 0 3px #fff}
+.scr.acl .leaf{color:#fff}.scr.acl .ghostroots i{background:#e3ecdd}.scr.acl .ghostroots i.on{background:#74c947}
+.scr.acl .tog{background:#d9ddd6}.scr.acl .tog.on{background:#74c947}
+.scr.acl .swipe .fg{background:#f6f8f4;border-color:#e4e9e1}
+.scr.acl .divider{background:#eef0ec!important}
+.scr.acl .hold{background:#74c947;color:#0a1d08}
+.scr.acl .bento .bnt{background:#f6f8f4;border-color:#e4e9e1}
+/* accessibility: bigger hit areas and readable minimums */
+.tl-h{min-width:44px;min-height:44px;justify-content:flex-end}
+.chip{min-height:40px}.sk-row{min-height:52px}
+.sm{font-size:max(13px,1em)}`;document.head.appendChild(st)})();
+
+/* ---------- Skip Jar v2: a glass jar that fills with real acorns, on the Home hill ---------- */
+function jarSlots(n){const out=[];const per=[4,3,4,3,4,3];let k=0,row=0;while(k<n&&row<6){const c=per[row];for(let i=0;i<c&&k<n;i++,k++){const x=(c===4?12:24)+i*25+((k*7)%5)-2;const y=6+row*21;out.push([x,y,((k*37)%30)-15])}row++}return out}
+function jarViz(j,big){const n=Math.min(22,j.coins||0);const w=big?168:72,h=big?200:86;const full=j.coins>=8;
+  const acorns=jarSlots(n).map(([x,y,r],i)=>`<img src="${IMG.acorn}" style="left:${x}%;bottom:${y}%;transform:rotate(${r}deg)${i===n-1&&big?';animation:acDrop .5s cubic-bezier(.4,0,.6,1.4)':''}" alt="">`).join('');
+  return `<div class="jr ${full?'full':''}" style="width:${w}px;height:${h}px" ${big?'id="bigjar"':''} role="img" aria-label="${j.name||'Skip jar'}: ${j.coins} skips">
+   <svg class="jr-glass" viewBox="0 0 168 200" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="jg" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity=".18"/><stop offset="1" stop-color="#fff" stop-opacity=".45"/></linearGradient></defs>
+    <path d="M44 34 h80 v14 c22 6 34 22 34 44 v78 c0 16 -12 26 -28 26 h-92 c-16 0 -28 -10 -28 -26 v-78 c0 -22 12 -38 34 -44 z" fill="url(#jg)" stroke="#fff" stroke-opacity=".9" stroke-width="2.5"/>
+    <path d="M24 98 c0 -14 6 -24 16 -30" stroke="#fff" stroke-opacity=".85" stroke-width="5" stroke-linecap="round" fill="none"/></svg>
+   <div class="jr-in">${acorns}</div>
+   <svg class="jr-lid" viewBox="0 0 168 40" aria-hidden="true"><rect x="38" y="4" width="92" height="30" rx="9" fill="#8a6446"/><rect x="38" y="4" width="92" height="12" rx="6" fill="#a37b58"/><rect x="38" y="26" width="92" height="8" rx="3" fill="#6f4f36"/></svg>
+   ${big?`<div class="jr-tag">${j.name}</div>`:''}</div>`}
+function jarDrop(id){const j=S.jars.find(x=>x.id===id);j.coins++;j.last=Date.now();S.skipLog.unshift({t:j.name,amt:j.est,src:'self',when:'Today',stash:false});save();haptic(10);refresh()}
+(function(){const f=SCR['jar'];SCR['jar']=p=>{const r=f(p);const j=S.jars.find(x=>x.id===(p&&p.id))||S.jars[0];
+  r.html=r.html.replace('<div style="display:flex;justify-content:center;margin-top:10px">'+jarViz(j,1)+'</div>','');
+  r.html=r.html.replace(/<div class="body center">/,`<div class="body center" style="padding-top:0"><div class="jr-hero" style="background-image:url(art/home-hero.jpg)">${jarViz(j,1)}</div>`);
+  return r}})();
+(function(){const st=document.createElement('style');st.textContent=`
+.jr{position:relative;flex-shrink:0;margin:0 auto}.jr-glass{position:absolute;inset:0;width:100%;height:100%;z-index:2;filter:drop-shadow(0 10px 18px rgba(20,70,10,.25))}
+.jr-in{position:absolute;left:13%;right:13%;bottom:4%;top:24%;z-index:1;overflow:hidden;border-radius:0 0 22% 22%}
+.jr-in img{position:absolute;width:24%;height:auto;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
+.jr-lid{position:absolute;left:0;top:0;width:100%;height:20%;z-index:3}
+.jr-tag{position:absolute;left:50%;top:27%;transform:translateX(-50%) rotate(-3deg);z-index:4;background:#fff;color:#2f7a12;font-weight:700;font-size:13px;padding:5px 12px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,.12);white-space:nowrap}
+.jr.full .jr-glass{animation:pulse 1.8s ease-in-out infinite}
+@keyframes acDrop{0%{transform:translateY(-160px) rotate(0)}70%{transform:translateY(6px) rotate(8deg)}100%{transform:translateY(0)}}
+.jr-hero{height:300px;margin:0 calc(-1*var(--pad)) 8px;background-size:cover;background-position:center 60%;display:flex;align-items:flex-end;justify-content:center;padding-bottom:30px;border-radius:0 0 28px 28px}
+.scr.acl .jar-mini{display:none}.scr.acl [style*="color:#bceaa3"]{color:#2f7a12!important}.scr.acl [style*="color:#8cc4f7"]{color:#1f6fb8!important}`;document.head.appendChild(st)})();
+
+/* =====================================================================
+   Story Landers · the pattern from 2026 Registration Experiments (MM Onboarding, Variant 1).
+   Beats: illustration up top, one line of a sentence that carries across beats, round arrow to advance,
+   segmented progress, Skip intro. Ends on a "Welcome to …" lander with where it lives and one CTA.
+   ===================================================================== */
+const LV={
+ forest:()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow"></div><img class="lv-c rise" src="${IMG.acorn}" style="height:86px;bottom:30%" alt=""></div>`,
+ pair:(a,b)=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow"></div><div class="lv-row"><img class="rise" src="${IMG[a||'seedling']}" style="height:110px" alt=""><img class="rise d2" src="${IMG[b||'oak']}" style="height:150px" alt=""></div></div>`,
+ grove:()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow"></div><div class="lv-row" style="gap:6px">${[['seedling',78],['oak',120],['ancient',150],['oak',104],['acorn',52]].map(([k,h],i)=>`<img class="rise d${i}" src="${IMG[k]}" style="height:${h}px" alt="">`).join('')}</div></div>`,
+ rain:()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" style="background:radial-gradient(closest-side,rgba(77,161,239,.25),transparent)"></div><div class="lv-drops">${Array.from({length:16},(_,i)=>`<i style="left:${30+(i*37)%40}%;animation-delay:${(i%8)*.18}s"></i>`).join('')}</div><img class="lv-c" src="${IMG.ancient}" style="height:170px;bottom:29%;filter:saturate(.6) brightness(.85)" alt=""></div>`,
+ weeks:()=>`<div class="lv-mid"><div class="lv-weeks">${Array.from({length:8},(_,i)=>`<i style="animation-delay:${i*.12}s">${ic('check',14)}</i>`).join('')}</div><div class="lv-pill rise d4">${ic('spark',14,'color:#74c947')} Counted for you, Mom and Sam</div></div>`,
+ link:()=>`<div class="lv-mid"><div class="lv-phone rise"><div class="lv-bub">Saved you a spot in my grove. One small investment a week and we both grow.</div><div style="width:150px;margin:10px 0 0 auto">${ycFrame(storyCard({eyebrow:'Grow with me',title:`${S.me} saved you a spot.`,sub:'Pick your day too.'}),150).replace('class="ycf"','class="ycf" style="width:150px"')}</div></div></div>`,
+ days:()=>`<div class="lv-mid"><div class="lv-days rise">${['M','T','W','T','F','S','S'].map((d,i)=>`<i class="${i===4?'on':''}">${d}</i>`).join('')}</div><div class="lv-row" style="position:relative;margin-top:30px;gap:40px"><img class="rise d2" src="${IMG.oak}" style="height:110px" alt=""><div class="lv-seed rise d4"><img src="${IMG.acorn}" alt=""></div></div></div>`,
+ quiz:()=>`<div class="lv-mid">${['Every paycheck','Card swipes','I like to see it work'].map((t,i)=>`<div class="lv-q rise d${i*2}" style="transform:rotate(${[-4,3,-2][i]}deg)">${t}<span>${ic('check',14)}</span></div>`).join('')}</div>`,
+ type:()=>`<div class="lv-mid"><div style="width:170px" class="rise">${ycFrame(yCard(4,{}),170)}</div></div>`,
+ handoff:()=>`<div class="lv-mid"><div class="lv-shot rise"><img src="art/app-roundups.jpg" alt=""></div></div>`,
+ coffee:()=>`<div class="lv-mid"><div class="lv-chip rise">Coffee · $6</div><div class="lv-arrow rise d2">${ic('chev',22,'transform:rotate(90deg)')}</div><img class="rise d4" src="${IMG.acorn}" style="height:80px" alt=""></div>`,
+ jar:()=>`<div class="lv-mid"><div class="rise">${jarViz({name:'Coffee jar',coins:7},1)}</div></div>`,
+ grow:()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow"></div><img class="lv-c rise" src="${IMG.seedling}" style="height:130px;bottom:30%" alt=""><div class="lv-pill rise d3" style="position:absolute;left:50%;transform:translateX(-50%);top:18%">${ringSvg(1,20)} This week counts</div></div>`,
+ mm:()=>`<div class="lv-mid"><div class="lv-shot clover rise"><img src="art/app-money-manager.jpg" alt=""></div></div>`,
+ flour:()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow"></div>${oakStage({h:520,flush:1,fl:['roots','nest'],weeks:24}).replace('class="os sk-hero"','class="os sk-hero" style="position:absolute;inset:0;height:100%!important"')}</div>`,
+ note:()=>`<div class="lv-mid"><div class="lv-notes">${[['Grandma','For your first bike, and every adventure after.',-6],['Priya','Happy birthday, little one!',5],['Sam','Here’s to the long game.',-2]].map(([n,t,r],i)=>`<div class="lv-note rise d${i*2}" style="transform:rotate(${r}deg)"><p>${t}</p><b>${n}</b></div>`).join('')}</div></div>`,
+ sapling:()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow"></div><div class="lv-row" style="gap:36px"><img class="rise" src="${IMG.oak}" style="height:140px" alt=""><div style="position:relative"><img class="rise d2" src="${IMG.seedling}" style="height:96px" alt="">${[0,1,2].map(i=>`<i class="leaf new" style="position:absolute;width:18px;height:18px;left:${10+i*22}px;top:-14px;animation-delay:${.6+i*.3}s"></i>`).join('')}</div></div></div>`,
+ cards:()=>`<div class="lv-mid"><div class="lv-fan">${[0,1,3].map((k,i)=>`<div class="lv-fc rise d${i*2}" style="transform:rotate(${[-10,0,10][i]}deg) translateY(${[14,0,14][i]}px)">${ycFrame(yCard(k,{}),132)}</div>`).join('')}</div></div>`,
+ ch:()=>`<div class="lv-mid">${[['No-delivery week','4 of 7 days'],['8 weeks side by side','4 of 8 weeks'],['Round-Ups month','12 of 30 days']].map(([t,s],i)=>`<div class="lv-q rise d${i*2}" style="justify-content:space-between;width:250px">${t}<em>${s}</em></div>`).join('')}</div>`,
+ phone:()=>`<div class="lv-mid"><div class="lv-phone rise"><div class="lv-bub" style="margin-left:0;margin-right:auto;background:#e9e9eb;color:#191919">Jordan saved you a spot in her grove</div><div class="lv-bub" style="font-size:12px;opacity:.8">acorns.com/j/jordan</div></div></div>`,
+ paths:()=>`<div class="lv-mid">${['Already on Acorns','New to Acorns','Signed out','Old link'].map((t,i)=>`<div class="lv-q rise d${i}" style="width:220px">${t}<span>${ic('chev',14)}</span></div>`).join('')}</div>`};
+const LANDERS={
+ grove:{name:'your grove',beats:[['forest','Habits are hard…'],['pair','until someone grows with you.'],['grove','Invite your people. Your oaks grow side by side.'],['rain','Send a little rain when someone needs a nudge.'],['weeks','One investment counts for everyone it fits.']],
+  t:'Welcome to your grove',s:'Plant someone beside you. You see each other’s oaks and weeks. Nobody sees a balance.',where:'Lives in Streaks → Grove, and your oak on Home.',cta:'Open my grove'},
+ invite:{name:'invites',beats:[['link','One link…'],['pair','can plant a whole tree.'],['days','Pick one person, and the day you both invest.'],['grove','Their first investment plants a tree beside yours.']],
+  t:'Invite someone',s:'You send it yourself. Their tree plants after their first real investment. Rewards follow the Referrals program.',where:'Lives on Home → “Get $250”, and any open plot in your grove.',cta:'Invite someone'},
+ 'money-type':{name:'Money Type',beats:[['forest','Not sure where to start?'],['quiz','Three quick questions…'],['type','find your money type.'],['handoff','Then you set it up in the Recurring or Round-Ups® you already have.']],
+  t:'Find your money type',s:'About habits only. It never changes your portfolio or risk.',where:'Right after sign-up, and “New ways to grow” on Home.',cta:'Start'},
+ 'skip-and-stash':{name:'Skip and Stash',beats:[['coffee','Skipped coffee today?'],['jar','That’s money you didn’t spend.'],['grow','Stash it in one hold, and your week counts.']],
+  t:'Skip it, stash it',s:'Quick Stash, a Skip Jar, or a Skip Week with friends. Works without ever reading your spending.',where:'Lives on Home → “New ways to grow”, and reminders you set.',cta:'Pick how to skip'},
+ split:{name:'Money Manager',beats:[['mm','Your Money Manager split…'],['mm','already works every payday.'],['flour','Now each slice grows your oak.'],['weeks','Investing keeps your streak. Saving builds a nest.']],
+  t:'Money Manager, growing',s:'Your split stays exactly the same. Grow Together just shows it growing.',where:'Lives in Money Manager. One small card explains the new layer.',cta:'Open Money Manager'},
+ 'future-club':{name:'Future Club',beats:[['note','Some notes…'],['note','are meant for later.'],['sapling','For your kid, every approved note blooms a leaf.']],
+  t:'Future Club',s:'A capsule that opens on a date for you, or a sapling for your kid that family can add to.',where:'Lives on Home → “New ways to grow”, and the Early account.',cta:'Start a club'},
+ year:{name:'Acorns Year',beats:[['forest','This year…'],['weeks','you showed up 48 weeks.'],['cards','Every card tells part of it.'],['cards','Together, they tell your year.']],
+  t:'Your Acorns Year',s:'Six cards made to share. Weeks and counts only. Never balances or returns.',where:'Lives on Home in December, with a recap every month.',cta:'Watch my year'},
+ challenges:{name:'Challenges',beats:[['forest','Better together…'],['ch','A no-delivery week. 8 weeks side by side.'],['weeks','One investment counts toward every challenge.']],
+  t:'Challenges',s:'Run as many as you like with anyone in your grove.',where:'Lives in Streaks → Challenges, and on any tree in your grove.',cta:'See challenges'},
+ invited:{name:'invites',beats:[['phone','A link lands…'],['paths','on Sam’s phone. Every path is different…'],['pair','and every one ends planted beside Jordan.']],
+  t:'Getting invited',s:'Already on Acorns, brand new, signed out, an old link, under 18. Each one is mapped.',where:'Starts from a text, a story or a QR code.',cta:'See every path'}};
+def('splash',p=>{const k=p.k in LANDERS?p.k:'grove';const L=LANDERS[k],S0=SPL[k]||SPL.grove;const n=L.beats.length;const b=Math.min(p.b||0,n);const fin=b===n;
+  const bars=`<div class="ld-bars">${Array.from({length:n},(_,i)=>`<i class="${i<b||fin?'on':''}"></i>`).join('')}</div>`;
+  const top=`<div class="ld-top"><button class="iconbtn" onclick="${b>0&&!fin?`ldGo(${b-1})`:'back()'}" aria-label="${b>0&&!fin?'Previous':'Close'}" style="color:#fff">${ic(b>0&&!fin?'back':'close')}</button>${fin?'<div style="flex:1"></div>':bars}<button class="ld-skip" onclick="ldGo(${fin?0:n})">${fin?'Replay':'Skip intro'}</button></div>`;
+  if(fin)return {cls:'dark ldr',html:`${top}<div class="ld-art fin">${LV[L.beats[n-1][0]]()}</div>
+    <div class="ld-fin"><h1 class="ld-h">${L.t}</h1><p class="ld-s">${L.s}</p>
+     <div class="ld-info">${ic('home',18)}<div><b>Where it lives</b><span>${L.where}</span></div></div></div>
+    <div class="foot">${btn(L.cta,`(function(){${S0.go.replace(/"/g,'&quot;')}})()`,'pri','style="background:#3f8f1f;color:#fff"')}</div>`};
+  const [v,line]=L.beats[b];return {cls:'dark ldr',html:`${top}<div class="ld-tap" onclick="ldGo(${b+1})"><div class="ld-art" key="${b}">${LV[v]()}</div><div class="ld-line">${line}</div></div>
+   <div class="ld-next"><button onclick="ldGo(${b+1})" aria-label="Next">${ic('back',20,'transform:rotate(180deg)')}</button></div>`,mount(){haptic(4)}}});
+function ldGo(b){const t=stack[stack.length-1];t.params=Object.assign({},t.params,{b});refresh()}
+(function(){const st=document.createElement('style');st.textContent=`
+.scr.ldr{background:#222a20!important}
+.ld-top{display:flex;align-items:center;gap:10px;padding:var(--safeTop) 8px 0 4px;height:calc(var(--safeTop) + 52px);position:relative;z-index:5}
+.ld-bars{flex:1;display:flex;gap:6px;padding:0 6px}.ld-bars i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.22);display:block;transition:background .3s}.ld-bars i.on{background:#fff}
+.ld-skip{font-size:13px;font-weight:600;color:#fff;height:44px;padding:0 10px;white-space:nowrap}
+.ld-tap{flex:1;display:flex;flex-direction:column;cursor:pointer;-webkit-user-select:none;user-select:none;min-height:0}
+.ld-art{position:relative;height:56%;margin-top:-4px;overflow:hidden;animation:fadeIn .5s ease both}.ld-art.fin{height:34%;opacity:.9}
+.ld-line{padding:26px 32px 0;text-align:center;font-size:29px;font-weight:600;line-height:1.24;letter-spacing:-.3px;color:#fff;animation:ldUp .55s cubic-bezier(.2,.9,.25,1) both}
+@keyframes ldUp{from{opacity:0;transform:translateY(14px)}}
+.ld-next{display:flex;justify-content:center;padding:0 0 calc(var(--safeBot) + 26px)}.ld-next button{width:52px;height:52px;border-radius:26px;background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center}
+.ld-fin{flex:1;padding:8px 28px 0;text-align:center;display:flex;flex-direction:column;align-items:center}
+.ld-h{font-size:32px;font-weight:600;letter-spacing:-.5px;line-height:1.15;color:#fff;margin:0}.ld-s{font-size:15px;color:rgba(255,255,255,.75);line-height:1.45;margin:12px 0 0;max-width:320px}
+.ld-info{margin-top:auto;margin-bottom:18px;width:100%;display:flex;gap:12px;align-items:flex-start;text-align:left;padding:14px 16px;border-radius:18px;border:1.5px dashed rgba(255,255,255,.22);color:#bceaa3}.ld-info b{display:block;color:#fff;font-size:14px}.ld-info span{display:block;font-size:13px;color:rgba(255,255,255,.7);margin-top:2px;line-height:1.4}
+.lv-forest{position:absolute;inset:0}.lv-glow{position:absolute;left:15%;right:15%;top:18%;bottom:20%;border-radius:50%;background:radial-gradient(closest-side,rgba(188,234,163,.28),transparent)}
+.lv-c{position:absolute;left:50%;transform:translateX(-50%);filter:drop-shadow(0 12px 14px rgba(0,0,0,.4))}
+.lv-row{position:absolute;left:0;right:0;bottom:30%;display:flex;justify-content:center;align-items:flex-end;gap:20px}.lv-row img{filter:drop-shadow(0 10px 12px rgba(0,0,0,.4))}
+.lv-drops i{position:absolute;top:8%;width:3px;height:16px;border-radius:2px;background:linear-gradient(#8cc4f7,rgba(140,196,247,0));animation:lvRain 1.4s linear infinite;z-index:2}@keyframes lvRain{from{transform:translateY(-30px);opacity:0}20%{opacity:1}to{transform:translateY(150px);opacity:0}}
+.lv-mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px}
+.lv-weeks{display:flex;gap:8px}.lv-weeks i{width:30px;height:30px;border-radius:9px;background:#74c947;color:#0a1d08;display:flex;align-items:center;justify-content:center;animation:orbIn .45s cubic-bezier(.3,1.6,.5,1) both}
+.lv-pill{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:18px;background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-weight:600;margin-top:10px}
+.lv-phone{width:250px;padding:16px;border-radius:24px;background:#fff}.lv-bub{background:#1a8cff;color:#fff;border-radius:18px;padding:10px 12px;font-size:14px;line-height:1.35;margin-left:30px}.lv-bub+.lv-bub{margin-top:8px}
+.lv-days{display:flex;gap:6px}.lv-days i{width:34px;height:40px;border-radius:10px;background:rgba(255,255,255,.1);color:#fff;font-style:normal;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center}.lv-days i.on{background:#74c947;color:#0a1d08}
+.lv-seed{width:64px;height:64px;border-radius:32px;border:2px dashed rgba(116,201,71,.7);display:flex;align-items:center;justify-content:center}.lv-seed img{height:34px}
+.lv-q{display:flex;align-items:center;gap:12px;height:56px;padding:0 18px;border-radius:16px;background:#2f3a2c;border:1px solid rgba(116,201,71,.35);color:#fff;font-weight:600;font-size:15px}.lv-q span{width:24px;height:24px;border-radius:7px;background:#74c947;color:#0a1d08;display:flex;align-items:center;justify-content:center;margin-left:auto}.lv-q em{font-style:normal;font-size:12px;color:#bceaa3}
+.lv-shot{width:220px;height:300px;border-radius:24px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.4)}.lv-shot img{width:100%;display:block}.lv-shot.clover img{margin-top:-30px}
+.lv-chip{height:54px;padding:0 22px;border-radius:27px;background:#fff;color:#191919;font-weight:600;font-size:18px;display:flex;align-items:center}.lv-arrow{color:rgba(255,255,255,.6)}
+.lv-notes{position:relative;width:240px;height:260px}.lv-note{position:absolute;left:0;right:0;background:#f9f8f1;color:#191919;border-radius:14px;padding:14px 16px;box-shadow:0 12px 24px rgba(0,0,0,.35)}.lv-note:nth-child(1){top:0}.lv-note:nth-child(2){top:84px}.lv-note:nth-child(3){top:168px}.lv-note p{margin:0;font-size:14px;line-height:1.4}.lv-note b{display:block;margin-top:6px;font-size:12px;color:#2f7a12}
+.lv-fan{display:flex;align-items:center;justify-content:center}.lv-fc{margin:0 -22px}`;document.head.appendChild(st)})();
+
 
 </script>
 <script>
 (function boot(){
-  const DEEP={
-    'start':()=>startGT(),
-    'home':()=>{jumpAhead();spInit();home('gt-home')},
-    'grove':()=>{jumpAhead();spInit();GSEL=null;home('gt-grove')},
-    'invite':()=>{jumpAhead();spInit();home('gt-home');T={};go('inv-pick')},
-    'money-type':()=>{T={};home('mt2-intro')},
-    'skip-and-stash':()=>{T={};home('ss2-pick')},
-    'split':()=>{T={};home('mm2-intro')},
-    'future-club':()=>{T={};home('fc-types')},
-    'year':()=>{T={si:0};jumpAhead();spInit();home('journal')},
-    'invited':()=>home('sam-hub'),
-    'challenges':()=>{jumpAhead();spInit();home('gt-ch')},
-    'your-oak':()=>{jumpAhead();spInit();home('gt-oak')},
-    'edge-states':()=>home('states'),
-    'guide':()=>home('menu')};
+  const SP=k=>()=>{jumpAhead();spInit();home('ac-home');go('splash',{k})};
+  const DEEP={'start':()=>startGT(),'home':()=>{jumpAhead();spInit();home('ac-home')},'grove':SP('grove'),'invite':SP('invite'),'money-type':SP('money-type'),'skip-and-stash':SP('skip-and-stash'),'split':SP('split'),'money-manager':SP('split'),'future-club':SP('future-club'),'year':SP('year'),'invited':SP('invited'),'challenges':SP('challenges'),'your-oak':()=>{jumpAhead();spInit();home('gt-oak')},'streak':()=>{jumpAhead();spInit();home('gt-home')},'edge-states':()=>home('states'),'guide':()=>home('menu')};
   const open=h=>{h=decodeURIComponent(h||'').replace(/^#/,'').trim().toLowerCase();try{if(DEEP[h]){spInit();DEEP[h]();return true}if(h&&SCR[h]){spInit();home(h);return true}}catch(e){console.error(e)}return false};
   if(!open(location.hash))home('menu');
   window.addEventListener('hashchange',()=>{closeOv(true);open(location.hash)});

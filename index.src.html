@@ -35,21 +35,8 @@
 <!--JS-->
 <script>
 (function boot(){
-  const DEEP={
-    'start':()=>startGT(),
-    'home':()=>{jumpAhead();spInit();home('gt-home')},
-    'grove':()=>{jumpAhead();spInit();GSEL=null;home('gt-grove')},
-    'invite':()=>{jumpAhead();spInit();home('gt-home');T={};go('inv-pick')},
-    'money-type':()=>{T={};home('mt2-intro')},
-    'skip-and-stash':()=>{T={};home('ss2-pick')},
-    'split':()=>{T={};home('mm2-intro')},
-    'future-club':()=>{T={};home('fc-types')},
-    'year':()=>{T={si:0};jumpAhead();spInit();home('journal')},
-    'invited':()=>home('sam-hub'),
-    'challenges':()=>{jumpAhead();spInit();home('gt-ch')},
-    'your-oak':()=>{jumpAhead();spInit();home('gt-oak')},
-    'edge-states':()=>home('states'),
-    'guide':()=>home('menu')};
+  const SP=k=>()=>{jumpAhead();spInit();home('ac-home');go('splash',{k})};
+  const DEEP={'start':()=>startGT(),'home':()=>{jumpAhead();spInit();home('ac-home')},'grove':SP('grove'),'invite':SP('invite'),'money-type':SP('money-type'),'skip-and-stash':SP('skip-and-stash'),'split':SP('split'),'money-manager':SP('split'),'future-club':SP('future-club'),'year':SP('year'),'invited':SP('invited'),'challenges':SP('challenges'),'your-oak':()=>{jumpAhead();spInit();home('gt-oak')},'streak':()=>{jumpAhead();spInit();home('gt-home')},'edge-states':()=>home('states'),'guide':()=>home('menu')};
   const open=h=>{h=decodeURIComponent(h||'').replace(/^#/,'').trim().toLowerCase();try{if(DEEP[h]){spInit();DEEP[h]();return true}if(h&&SCR[h]){spInit();home(h);return true}}catch(e){console.error(e)}return false};
   if(!open(location.hash))home('menu');
   window.addEventListener('hashchange',()=>{closeOv(true);open(location.hash)});

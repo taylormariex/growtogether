@@ -53,7 +53,7 @@ function focusBoot(){const k=window.FOCUS;const F=FOCUS_SPEC[k];if(!F)return;
    <p class="p mt12" style="max-width:320px">${(LANDERS[k]||{}).s||''}</p></div>
    ${foot(btn('Replay the story','focusStart()','wh'),btn(F.hubLabel,`focusHub()`,'ghost'))}`}));
  focusStart()}
-function focusStart(){const k=window.FOCUS;jumpAhead();spInit();T={};stack=[{id:'focus-end',params:{}}];go('splash',{k,b:0},'fade')}
+function focusStart(){const k=window.FOCUS;if(k==='invite'){S.grove=[];S.notThem={}}jumpAhead();spInit();T={};stack=[{id:'focus-end',params:{}}];go('splash',{k,b:0},'fade')}
 function focusHub(){const k=window.FOCUS,F=FOCUS_SPEC[k];stack=[{id:'focus-end',params:{}}];
  if(k==='split'&&!S.sg){S.sg=sgDemo();save()}
  if(k==='year'){yrGo();return}

@@ -2975,7 +2975,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 9:48 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 9:56 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -3169,7 +3169,7 @@ def('year',p=>{p=p||{};const nu=p.newUser;const W=nu?3:48,RU=nu?12:312,tp=nu?'':
   const miss=new Set([3,9,17,40,48]);
   const sl=[
    {tone:'lt',html:`<div class="y-card y-white">${'<div class="y-top"><span class="y-chip">Acorns Year · 2026</span></div>'}<div class="y-scene">${hills({})}<div class="sl-tree" style="bottom:22%"><div class="sway"><img class="grow-in" src="${IMG.oak}" style="height:230px" alt=""></div></div></div>
-     <div class="y-panel"><div class="y-h">${nu?'Your year, started.':'Your year, grown.'}</div><div class="y-s">${nu?'Three cards on how you began.':'Six cards about your year of investing.'}</div><div class="y-foot">${yLock()}<b>Tap to open</b></div></div></div>`},
+     <div class="y-panel"><div class="y-h">${nu?'Your year, started.':'Your year, grown.'}</div><div class="y-s">${nu?'Three cards on how you began.':'Seven cards about the year you showed up.'}</div><div class="y-foot">${yLock()}<b>Tap to open</b></div></div></div>`},
    {tone:'lt',html:`<div class="y-card y-pale"><div class="y-top">${yLock()}<span class="y-n">01 / 06</span></div>
      <div class="y-num" id="ycnt">0</div><div class="y-lead">of 52 weeks,<br>you showed up.</div>
      ${yDots(52,k=>k<W?(miss.has(k)?'ring':(k<20?'dk':'gr')):'ring','y-wk')}
@@ -3288,24 +3288,27 @@ function ycLock(w){return `<span class="yc-lock ${w?'w':''}"><img src="${IMG.aco
 function ycFoot(w,right){return `<div class="yc-foot ${w?'w':''}"><span class="yc-lock ${w?'w':''}"><img src="${IMG.acorn}" alt="">acorns</span><span>${right||'acorns.com/j/'+S.me.toLowerCase()}</span></div>`}
 function ycDots(n,cls,fn){return Array.from({length:n},(_,k)=>`<i class="${fn(k)}" style="animation-delay:${120+k*16}ms"></i>`).join('')}
 /* the six Year cards */
-function yCard(n,o){o=o||{};const nm=S.me,W=48,RU=312;const miss=new Set([3,9,17,40,48]);const N=k=>`${String(k).padStart(2,'0')} / 06`;
+function yCard(n,o){o=o||{};const nm=S.me,W=48,RU=312;const miss=new Set([3,9,17,40,48]);const N=k=>`${String(k).padStart(2,'0')} / 07`;
   const C=[
   ()=>`<div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">Acorns Year · 2026</span>
-     <div class="yc-panel" style="top:430px;height:194px"><div class="yc-h">Your year,<br>grown.</div><div class="yc-s">Six cards about your year of investing.</div>${o.share?ycFoot():`<div class="yc-foot">${ycLock()}<b>Tap to open</b></div>`}</div></div>`,
+     <div class="yc-panel" style="top:430px;height:194px"><div class="yc-h">Your year,<br>grown.</div><div class="yc-s">Seven cards about the year you showed up.</div>${o.share?ycFoot():`<div class="yc-foot">${ycLock()}<b>Tap to open</b></div>`}</div></div>`,
   ()=>`<div class="yc" style="background-image:url(${YART}y-weeks-bg.jpg)"><div class="yc-hdr">${ycLock()}<span>${N(1)}</span></div>
      <div class="yc-big g" data-count="${W}">${o.anim?0:W}</div><div class="yc-lead">of 52 weeks,<br>you showed up.</div>
      <div class="yc-wk">${ycDots(52,'',k=>miss.has(k)?'ring':(k<16?'dk':'gr'))}</div>
      <div class="yc-legend"><i></i>Longest run: 21 weeks in a row.</div><img class="yc-med" style="left:210px;top:432px;width:124px" src="${YART}y-med-pip-c.png" alt="">${o.share?ycFoot(0,''):''}</div>`,
   ()=>`<div class="yc" style="background-image:url(${YART}y-roundups.jpg)"><span class="yc-chip" style="left:18px;top:18px">Round-Ups®</span><span class="yc-chip" style="right:18px;top:18px">${N(2)}</span>
-     <div class="yc-panel" style="top:415px;height:209px"><div class="yc-num" data-count="${RU}">${o.anim?0:RU}</div><div class="yc-s">everyday purchases<br>rounded up into investing.</div><div class="yc-chips"><span>Mostly coffee</span><span>Then groceries</span></div>${o.share?ycFoot():''}</div></div>`,
+     <div class="yc-panel" style="top:415px;height:209px"><div class="yc-num" data-count="${RU}">${o.anim?0:RU}</div><div class="yc-s">everyday purchases<br>rounded up into investing.</div><div class="yc-chips"><span>Mostly coffee</span><span>+ 26 skips stashed</span></div>${o.share?ycFoot():''}</div></div>`,
   ()=>`<div class="yc" style="background-image:url(${YART}y-rank-bg.jpg)"><div class="yc-hdr w">${ycLock(1)}<span>${N(3)}</span></div>
      <div class="yc-big w" style="font-size:76px;top:78px;letter-spacing:-2px">Top 6%</div><div class="yc-lead w" style="top:166px;font-size:19px">most consistent investors on<br>Acorns this year.</div>
      <div class="yc-rank">${ycDots(100,'',k=>k<6?'gold':'lt')}</div>
      <div class="yc-note">Ranked by weeks invested.<br>Never by balance.</div><img class="yc-med" style="left:232px;top:490px;width:104px" src="${YART}y-med-stage-c.png" alt=""></div>`,
-  ()=>`<div class="yc" style="background-image:url(${YART}y-type.jpg)"><span class="yc-chip" style="left:18px;top:18px">Your investor type</span><span class="yc-chip" style="right:18px;top:18px">${N(4)}</span>
+  ()=>`<div class="yc yc-grove"><span class="yc-chip" style="left:18px;top:18px">Grown together</span><span class="yc-chip" style="right:18px;top:18px">${N(4)}</span>
+     <div class="yc-trees">${[['mom','ancient',118,'Mom'],['me','oak',150,'You'],['sam','oak',132,'Sam'],['jess','seedling',84,'Jess']].map(([id,im,h,l],i)=>`<div class="yc-tree" style="animation-delay:${200+i*140}ms"><img src="${IMG[im]}" style="height:${h}px" alt=""><b>${l}</b></div>`).join('')}</div>
+     <div class="yc-panel" style="top:430px;height:194px"><div class="yc-h" style="font-size:34px">3 trees in<br>your grove.</div><div class="yc-s">41 weeks side by side. Halfway to Lisbon with Sam.</div>${o.share?ycFoot():''}</div></div>`,
+  ()=>`<div class="yc" style="background-image:url(${YART}y-type.jpg)"><span class="yc-chip" style="left:18px;top:18px">Your investor type</span><span class="yc-chip" style="right:18px;top:18px">${N(5)}</span>
      <div class="yc-panel" style="top:449px;height:175px"><div class="yc-h" style="font-size:31px">The Steady Oak</div><div class="yc-s">You don’t chase. You show up,<br>rain or shine.</div><div class="yc-chips"><span>1 in 9 investors</span></div>${o.share?ycFoot():''}</div></div>`,
   ()=>`<div class="yc" style="background-image:url(${YART}y-sum-bg.jpg)"><div class="yc-who">${nm}’s 2026</div><div class="yc-title">Acorns Year</div>
-     <div class="yc-tiles">${[[`${W}/52`,'weeks invested'],[`${RU}`,'Round-Ups'],['Top 6%','most consistent'],['Steady Oak','investor type']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>
+     <div class="yc-tiles">${[[`${W}/52`,'weeks invested'],['Top 6%','most consistent'],['3 trees','in your grove'],['Steady Oak','investor type']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>
      <img class="yc-photo" src="${YART}y-photo.jpg" alt="Steady Oak, 1 in 9">
      <div class="yc-sfoot"><span class="yc-btn">Start yours</span><span>acorns.com/j/${nm.toLowerCase()}</span></div></div>`];
   return C[n]()}
@@ -3346,7 +3349,7 @@ function wrapped(o){const n=o.count;const i=Math.min(T.si||0,n);const end=i===n;
 function wrFit(el){const st=$('.wr-stage',el),c=$('#wrc',el);if(!st||!c)return;const z=zf();const r=st.getBoundingClientRect();const w=r.width/z-32,h=r.height/z-8;const s=Math.min(w/360,h/640);c.style.transform=`scale(${s})`;c.style.width='360px';c.style.height='640px'}
 function wrSnap(c){const w=c.firstElementChild.offsetWidth+14;const k=Math.round(c.scrollLeft/w);if(k!==T.wsel){T.wsel=k;$$('.wr-dots i',cur()).forEach((d,j)=>d.classList.toggle('on',j===k))}}
 function wrFocus(k){const c=$('#wrcar',cur());if(c)c.scrollTo({left:k*(c.firstElementChild.offsetWidth+14),behavior:'smooth'})}
-def('year',p=>{p=p||{};return wrapped({count:6,label:'Acorns Year',card:(k,o)=>yCard(k,o),cardFn:'yCard',shareTitle:'My Acorns Year',endTitle:'Your 2026, in six cards.',bg:k=>['#0d2a0b','#16330f','#0d2a0b','#1d4a12','#0d2a0b','#1d4a12'][k]||'#0b1f09'})});
+def('year',p=>{p=p||{};return wrapped({count:7,label:'Acorns Year',card:(k,o)=>yCard(k,o),cardFn:'yCard',shareTitle:'My Acorns Year',endTitle:'Your 2026, in seven cards.',bg:k=>['#0d2a0b','#16330f','#0d2a0b','#1d4a12','#16330f','#0d2a0b','#1d4a12'][k]||'#0b1f09'})});
 def('recap',p=>{const j=RC.find(x=>x.m===(p.m===undefined?9:p.m))||RC[0];const M=MONTHS[j.m];
   if(j.quiet)return {cls:'dark',html:`<div class="wr"><div class="wr-top"><div class="wr-row"><span class="wr-brand"><img src="${IMG.acorn}" alt="">${M} recap</span><button class="iconbtn" style="color:#fff" onclick="back()" aria-label="Close">${ic('close')}</button></div></div>
     <div class="wr-stage"><div class="wr-card" id="wrc"><div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">${M}</span><div class="yc-panel" style="top:448px;height:176px"><div class="yc-h" style="font-size:34px">Quiet month.</div><div class="yc-s">Your oak is still here, with every flourish. Nothing to share this time, and that’s okay.</div></div></div></div></div>
@@ -3355,7 +3358,7 @@ def('recap',p=>{const j=RC.find(x=>x.m===(p.m===undefined?9:p.m))||RC[0];const M
 function rCardAt(k,o,m){const j=RC.find(x=>x.m===m)||RC[0];return rCard(k,j,o)}
 /* journal uses the same months */
 def('journal',()=>({cls:'dark',html:`${topbar({title:'Journal'})}<div class="body"><p class="p" style="margin-top:0">A recap of your oak every month. In December they add up to your Acorns Year.</p>
-  <div class="jy" onclick="T.si=0;T.wsel=0;go('year')">${ycFrame(yCard(0,{}),110)}<div class="grow"><div class="eyebrow">December</div><div style="font-weight:600;font-size:18px;color:#fff;margin-top:4px">Your Acorns Year</div><div class="sm" style="color:var(--sk-sub);margin-top:2px">Six cards · ready to watch</div><div class="mt12">${btn('Watch',"event.stopPropagation();T.si=0;T.wsel=0;go('year')",'wh','style="height:40px;width:auto;padding:0 18px;font-size:14px"')}</div></div></div>
+  <div class="jy" onclick="T.si=0;T.wsel=0;go('year')">${ycFrame(yCard(0,{}),110)}<div class="grow"><div class="eyebrow">December</div><div style="font-weight:600;font-size:18px;color:#fff;margin-top:4px">Your Acorns Year</div><div class="sm" style="color:var(--sk-sub);margin-top:2px">Seven cards · ready to watch</div><div class="mt12">${btn('Watch',"event.stopPropagation();T.si=0;T.wsel=0;go('year')",'wh','style="height:40px;width:auto;padding:0 18px;font-size:14px"')}</div></div></div>
   <div class="sk-sec"><div class="h4">Monthly recaps</div></div>
   <div class="jl">${RC.map(j=>`<div class="e ${j.quiet?'q':''}" onclick="T.si=0;T.wsel=0;go('recap',{m:${j.m}})" style="cursor:pointer"><div class="card dk" style="padding:12px 14px"><div class="row"><img src="${IMG[j.quiet?'seedling':j.m>7?'seedling':'acorn']}" style="height:44px;${j.quiet?'opacity:.5':''}" alt=""><div class="grow"><div style="font-weight:600;color:#fff">${MONTHS[j.m]}</div><div class="sm" style="color:var(--sk-sub)">${j.quiet?'Quiet month. Your oak is still here.':`${j.w} of ${j.of} weeks · ${j.cap}`}</div></div>${ic('chev',16,'color:rgba(255,255,255,.4)')}</div></div></div>`).join('')}</div></div>`}));
 (function(){const st=document.createElement('style');st.textContent=`
@@ -3386,6 +3389,7 @@ def('journal',()=>({cls:'dark',html:`${topbar({title:'Journal'})}<div class="bod
 .yc-tiles div{height:124px;box-sizing:border-box;padding:16px;border-radius:18px;background:rgba(255,255,255,.17);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);display:flex;flex-direction:column;justify-content:space-between;color:#fff}
 .yc-tiles b{font-size:26px;font-weight:600;letter-spacing:-.5px;line-height:1.05}.yc-tiles span{font-size:11px;color:rgba(255,255,255,.85)}
 .yc-photo{position:absolute;left:26px;top:398px;width:308px;height:154px;border-radius:16px;object-fit:cover}
+.yc-grove{background:linear-gradient(180deg,#eef7e6 0%,#d9efc6 55%,#8fcf5b 100%)}.yc-trees{position:absolute;left:0;right:0;top:160px;height:260px;display:flex;align-items:flex-end;justify-content:center;gap:6px;padding:0 14px}.yc-tree{display:flex;flex-direction:column;align-items:center;gap:6px;animation:orbIn .5s cubic-bezier(.3,1.5,.5,1) both}.yc-tree b{font-size:11px;font-weight:700;color:#2f5c1a;background:rgba(255,255,255,.85);padding:2px 8px;border-radius:8px}
 .yc-sfoot{position:absolute;left:26px;right:26px;top:568px;height:48px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,.92)}.yc-btn{height:44px;padding:0 20px;border-radius:22px;background:#111;color:#fff;font-weight:600;font-size:14px;display:inline-flex;align-items:center}
 .wr{position:absolute;inset:0;display:flex;flex-direction:column;background:#0b1f09;color:#fff;transition:background .5s}
 .wr-top{padding:calc(var(--safeTop) + 4px) 14px 0;flex-shrink:0}
@@ -3447,7 +3451,7 @@ def('ac-ru',()=>({cls:'lt',html:`${appShot('app-roundups.jpg',[[2,2,14,6,'back()
 /* ---------- Acorns Home (current look) with the new entry points attached ---------- */
 function acTabs(on){const t=[['ac-home','Home','home'],['ac-invest','Investing','card'],['ac-mm','Money Hub',''],['learn','Learning','spark'],['earn','Earning','flag']];
   return `<nav class="ac-tabs" aria-label="Main">${t.map(([id,l,i])=>i===''?`<button class="ac-hub" onclick="go('ac-mm')" aria-label="Money Hub"><span>$</span><em>${l}</em></button>`:`<button class="${on===id?'on':''}" onclick="${id==='ac-home'?"home('ac-home')":id==='ac-invest'?"go('ac-invest')":`toast('Existing ${l} tab, unchanged')`}">${ic(i,22)}<em>${l}</em></button>`).join('')}</nav>`}
-const FORYOU=[['grove','Your grove','Invite people and grow side by side.','oak'],['money-type','Find your money type','Three questions. The right first habit.','seedling'],['skip-and-stash','Skip it, stash it','Skipped coffee? Invest the difference.','roundup'],['invite','Invite someone','Their first investment plants a tree beside yours.','learn'],['future-club','Future Club','Notes for later, from people who care.','early'],['year','Your Acorns Year','Six cards about your year of investing.','later']];
+const FORYOU=[['grove','Your grove','Invite people and grow side by side.','oak'],['money-type','Find your money type','Three questions. The right first habit.','seedling'],['skip-and-stash','Skip it, stash it','Skipped coffee? Invest the difference.','roundup'],['invite','Invite someone','Their first investment plants a tree beside yours.','learn'],['future-club','Future Club','Notes for later, from people who care.','early'],['year','Your Acorns Year','Seven cards about the year you showed up.','later']];
 const IC2={};IC2.flame='<path fill-rule="evenodd" d="M19.48 12.35c-1.57-4.08-7.16-4.3-5.81-10.23.1-.44-.37-.78-.75-.55C9.29 3.71 6.68 8 8.87 13.62c.18.46-.36.89-.75.59-1.81-1.37-2-3.34-1.84-4.75.06-.52-.62-.77-.91-.34C4.69 10.16 4 11.84 4 14.37c.38 5.6 5.11 7.32 6.81 7.54 2.43.31 5.06-.14 6.95-1.87 2.08-1.93 2.84-5.01 1.72-7.69zm-9.28 5.03c1.44-.35 2.18-1.39 2.38-2.31.33-1.43-.96-2.83-.09-5.09.33 1.87 3.27 3.04 3.27 5.08.08 2.53-2.66 4.7-5.56 2.32z" fill="currentColor"/>';
 IC2.bars='<rect x="3.5" y="3.5" width="17" height="17" rx="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 15.5v-4M12 15.5v-7M15 15.5v-2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>';
 IC2.sun='<circle cx="12" cy="13" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 4v2M4.5 13h-2M21.5 13h-2M6.2 7.2 4.8 5.8M17.8 7.2l1.4-1.4M3 19h18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>';
@@ -3501,7 +3505,7 @@ const SPL={
  'skip-and-stash':{t:'Skip it, stash it',e:'Everyday wins',img:'roundup',what:'Skip something (coffee, takeout, a ride) and invest what you didn’t spend. Quick Stash, a Skip Jar, or a 7-day Skip Week with friends.',why:'It turns a small choice into a real investment, and a real investment counts toward your streak. Works without reading your spending.',where:'A banner on Home, and reminders you set.',go:"home('ac-home');go('ss-hub')",cta:'Pick how to skip'},
  split:{t:'Shared goals',e:'Money Manager',img:'later',what:'A new slice in your Money Manager split for a goal you share with someone, like a trip or a first apartment. You each fund your own part from your own paycheck.',why:'Saving toward something together keeps both people going, without either one seeing the other’s money.',where:'Money Hub tab → Money Manager. One card starts it.',go:"home('ac-home');T.sg=null;go('sg-new')",cta:'Start a shared goal'},
  'future-club':{t:'Future Club',e:'Acorns Early · Gold',img:'early',what:'Family writes notes for your kid to read when they’re older. Each note you approve adds a leaf to their sapling, and family can add a gift.',why:'Gives families a reason to join, and gives kids something to read besides a balance.',where:'Home → Kids, on your kid’s Early account.',go:"T={};home('fc-types')",cta:'Start a club'},
- year:{t:'Your Acorns Year',e:'Every December',img:'later',what:'Six cards on how you showed up: weeks invested, Round-Ups, how consistent you were, your type. Each card works on its own, and together they tell your year.',why:'Made to share. Every card carries your link, and never shows a balance or return.',where:'Home banner in December, and a monthly recap the rest of the year.',go:"T={si:0};jumpAhead();spInit();home('journal')",cta:'Watch my year'},
+ year:{t:'Your Acorns Year',e:'Every December',img:'later',what:'Seven cards on how you showed up: weeks invested, your grove, how consistent you were, your type. Each card works on its own, and together they tell your year.',why:'Made to share. Every card carries your link, and never shows a balance or return.',where:'Home banner in December, and a monthly recap the rest of the year.',go:"T={si:0};jumpAhead();spInit();home('journal')",cta:'Watch my year'},
  challenges:{t:'Challenges',e:'Grow Together · Streaks',img:'earn',what:'Bring people in on a no-delivery week, a Round-Ups month, or 8 weeks side by side. Run several at once.',why:'One investment counts toward every challenge it fits, so doing more never means doing more work.',where:'Streaks → Challenges tab, or any tree in your grove.',go:"jumpAhead();spInit();home('gt-ch')",cta:'See challenges'},
  invited:{t:'Getting invited',e:'The friend’s side',img:'acorn',what:'What Sam sees when Jordan’s link lands: already on Acorns, brand new, signed out, an old link, under 18.',why:'Every path ends the same way: Sam’s tree planted beside Jordan’s.',where:'A text, a story or a QR code, opening the app or the web.',go:"home('sam-hub')",cta:'See every path'}};
 def('splash',p=>{const s=SPL[p.k]||SPL.grove;return {cls:'lt',html:`<div class="spl-hero" style="background-image:url(../art/home-hero.jpg)"><div class="top" style="position:absolute;left:0;right:0;top:0"><button class="iconbtn" style="color:#fff" onclick="back()" aria-label="Back">${ic('back')}</button><div style="flex:1"></div><button class="iconbtn" style="color:#fff" onclick="protoMenu()" aria-label="Prototype guide">${ic('menu',22)}</button></div>
@@ -3535,7 +3539,7 @@ function back(){if(stack.length<2){home('ac-home');return}stack.pop();const t=st
 (function(){const f=SCR['gt-home'];SCR['gt-home']=p=>{const r=f(p);r.html=r.html.replace(`<button class="iconbtn" onclick="home('ac-home')" aria-label="Close">${ic('close')}</button>`,`<button class="iconbtn" onclick="home('ac-home')" aria-label="Back to Acorns Home">${ic('back')}</button>`);return r}})();
 
 /* ---------- guide v3: no earlier versions; every idea opens on its splash ---------- */
-const RV_GO2=[['Acorns Home','Where everything lives',"jumpAhead();spInit();home('ac-home')"],['Your grove','Trees, rain and cheers',"home('ac-home');go('splash',{k:'grove'})"],['Invite someone','From “$500” to a new tree',"home('ac-home');go('splash',{k:'invite'})"],['Money Type','Three questions, then the right habit',"home('ac-home');go('splash',{k:'money-type'})"],['Skip and Stash','Skip something, invest the difference',"home('ac-home');go('splash',{k:'skip-and-stash'})"],['Money Manager, growing','Existing split, new layer on your oak',"home('ac-home');go('splash',{k:'split'})"],['Future Club','Notes for me or for my kid',"home('ac-home');go('splash',{k:'future-club'})"],['Acorns Year','Six cards, made to share',"home('ac-home');go('splash',{k:'year'})"],['Challenges','Several at once',"home('ac-home');go('splash',{k:'challenges'})"],['Getting invited','The friend’s side, every path',"home('ac-home');go('splash',{k:'invited'})"],['Edge states','Empty, locked, failed, expired',"home('states')"]];
+const RV_GO2=[['Acorns Home','Where everything lives',"jumpAhead();spInit();home('ac-home')"],['Your grove','Trees, rain and cheers',"home('ac-home');go('splash',{k:'grove'})"],['Invite someone','From “$500” to a new tree',"home('ac-home');go('splash',{k:'invite'})"],['Money Type','Three questions, then the right habit',"home('ac-home');go('splash',{k:'money-type'})"],['Skip and Stash','Skip something, invest the difference',"home('ac-home');go('splash',{k:'skip-and-stash'})"],['Money Manager, growing','Existing split, new layer on your oak',"home('ac-home');go('splash',{k:'split'})"],['Future Club','Notes for me or for my kid',"home('ac-home');go('splash',{k:'future-club'})"],['Acorns Year','Seven cards, made to share',"home('ac-home');go('splash',{k:'year'})"],['Challenges','Several at once',"home('ac-home');go('splash',{k:'challenges'})"],['Getting invited','The friend’s side, every path',"home('ac-home');go('splash',{k:'invited'})"],['Edge states','Empty, locked, failed, expired',"home('states')"]];
 RV_GO.length=0;RV_GO2.forEach(x=>RV_GO.push(x));RV_OLD.length=0;
 (function(){const f=rvHTML;rvHTML=function(first){let h=f(first);h=h.replace(/<div class="rv-sec">Earlier versions<\/div><div class="rv-g"><\/div>/,'');
   h=h.replace("closeOv();setTimeout(()=>{jumpAhead();spInit();home('gt-home')},250)","closeOv();setTimeout(()=>{jumpAhead();spInit();home('ac-home')},250)");
@@ -3766,8 +3770,8 @@ const LV={
 const LANDERS={
  grove:{name:'your grove',beats:[['forest','Habits are easier with company.'],['pair','Invite someone, and your trees grow side by side.'],['grove','You see each other’s weeks, never each other’s balances.'],['rain','If someone hasn’t invested yet, send a little rain as a nudge.'],['weeks','One investment counts for you and everyone you grow with.']],
   t:'Welcome to your grove',s:'Invite the people you want to grow with. You see each other’s trees and weeks. Nobody sees a balance.',where:'Lives in Streaks: the streak chip on Invest or the streak card in Profile, then Grove.',cta:'Open my grove'},
- invite:{name:'invites',beats:[['link','Text a friend your invite.'],['days','You each pick the day you invest.'],['pair','Their first investment plants a tree beside yours.'],['grove','Then you cheer each other on, week by week.']],
-  t:'Invite someone',s:'You send the invite yourself. Their tree appears after their first investment. Rewards follow the Referrals program.',where:'Lives in Profile → Invite friends, and any open spot in your grove.',cta:'Invite someone'},
+ invite:{name:'invites',beats:[['forest','Money is hard to start alone. Most people never say that out loud.'],['pair','Two is better than one. A little, once a week, side by side.'],['grove','You see each other’s weeks, never each other’s money. No judgment. Just growing.'],['ivrain','On the weeks they stall, you send a little rain. On yours, they do.'],['link','The best thing you can do for someone you love is help them grow. Invite them.']],
+  t:'Invite someone',s:'Growing money is easier with company, and bringing someone along is a gift. You see each other’s weeks, never a balance. Rewards follow the Referrals program.',where:'Lives in Profile → Invite friends, and any open spot in your grove.',cta:'Invite someone'},
  'money-type':{name:'Money Type',beats:[['forest','Not sure where to start?'],['quiz','Answer three quick questions.'],['type','We’ll match you with a first habit.'],['handoff','Then set it up in Recurring or Round-Ups®, tools you already have.']],
   t:'Find your money type',s:'Based on your habits only. It never changes your portfolio or risk.',where:'Right after sign-up, and a banner on Home.',cta:'Start'},
  'skip-and-stash':{name:'Skip and Stash',beats:[['coffee','Skipped coffee today?'],['jar','That’s $6 you didn’t spend.'],['skipinv','One tap, and it’s invested. This week counts.']],
@@ -3776,8 +3780,8 @@ const LANDERS={
   t:'Shared goals',s:'Save for a trip or a first apartment with someone. Add a paycheck slice, a recurring transfer, or money anytime. You both see progress, never each other’s dollars.',where:'Lives in Money Manager, from the Money Hub tab. One small card explains it.',cta:'Start a shared goal'},
  'future-club':{name:'Future Club',beats:[['note','Family can write your kid notes to read when they’re older.'],['later','Each note stays sealed until a date you pick, like their 18th birthday.'],['sapling','Every note you approve adds a leaf to their sapling.']],
   t:'Future Club',s:'Notes from family, saved for your kid to read later. Family can add a gift to their Early account too.',where:'Lives on Home → Kids, on your kid’s Early account.',cta:'Start a club'},
- year:{name:'Acorns Year',beats:[['yrwin','Every milestone gets its moment. We celebrate each one with you.'],['yrrecap','Every month, a recap of how you showed up.'],['yrwrap','In December, it all adds up. Your Acorns Year.'],['yrpride','48 weeks. Top 6%. Be proud of that.'],['yrinvite','Show it off. Friends start their own from your link.']],
-  t:'Your Acorns Year',s:'Milestones along the way, a recap every month, and in December six cards about the year you showed up. Share any of it. Every card carries your link.',where:'Lives on Home in December, with a recap every month.',cta:'Watch my year'},
+ year:{name:'Acorns Year',beats:[['yrwin','Every milestone gets its moment. We celebrate each one with you.'],['yrrecap','Every month, a recap of how you showed up.'],['yrwrap','In December, it all adds up. Your Acorns Year, in seven cards.'],['yrpride','How many weeks you showed up. How consistent you were. Something to be proud of.'],['yrinvite','Show it off. Friends start their own from your link.']],
+  t:'Your Acorns Year',s:'Milestones along the way, a recap every month, and in December seven cards about the year you showed up. Share any of it. Every card carries your link.',where:'Lives on Home in December, with a recap every month.',cta:'Watch my year'},
  challenges:{name:'Challenges',beats:[['forest','Some goals are easier together.'],['ch','Try a no-delivery week, or invest side by side for 8 weeks.'],['weeks','One investment counts toward every challenge you’re in.']],
   t:'Challenges',s:'Run as many as you like with anyone in your grove.',where:'Lives in Streaks → Challenges, and on any tree in your grove.',cta:'See challenges'},
  invited:{name:'invites',beats:[['phone','Sam gets Jordan’s invite.'],['paths','New or already on Acorns, the link takes Sam to the right step.'],['pair','After Sam’s first investment, their trees grow side by side.']],
@@ -3914,12 +3918,12 @@ function lfCrop(k,kind){const ph=(inner,cls)=>`<div class="lf-ph ${cls||''}">${i
  return ph(`<div style="height:24px"></div><div class="lf-bub">Saved you a spot in my grove.</div>`,'msg')+`<div class="lf-pop lf-link"><span><img src="${IMG.oak}" alt=""></span><div><b>Join ${S.me}’s grove</b><em>acorns.com/j/${S.me.toLowerCase()}</em></div></div>`}
 const LFX={
  grove:['gt-grove',{},'Invite the people you want to grow with. Your trees sit side by side, you each see the other’s weekly streak, and you can send a nudge when someone hasn’t invested yet. Nobody sees a balance.',()=>`<div class="lx lx-card"><span class="lx-drop">${ic('drop',18)}</span><div><b>Mom hasn’t invested yet</b><em>Send a little rain as a nudge</em></div></div>`],
- invite:['inv-pick',{},'Pick one person and a day you’ll both invest. You send the invite from your own phone, and their tree joins yours after their first investment.',()=>`<div class="lx lx-card"><span class="lx-av" style="background:#e8a45c">J</span><div><b>Jess Park</b><em>Invest on Fridays together</em></div><i class="lx-btn">Invite</i></div>`],
+ invite:['inv-pick',{},'Pick one person you want to grow with and a day you’ll both invest. You send it from your own phone. Their first investment plants a tree beside yours, and from then on you cheer each other on, week by week.',()=>`<div class="lx lx-card"><span class="lx-av" style="background:#e8a45c">J</span><div><b>Jess Park</b><em>Invest on Fridays together</em></div><i class="lx-btn">Invite</i></div>`],
  'money-type':['mt2-reveal',{},'Answer three questions about how you get paid and how you spend. You get a money type and one habit to start, like Round-Ups® or $5 every Friday, set up with the tools you already have.',()=>`<div class="lx lx-card"><span class="lx-img"><img src="${IMG.roundup}" alt=""></span><div><em class="lx-k">Recommended for you</em><b>Round-Ups® on your card</b><em>Spare change, invested</em></div></div>`],
  'skip-and-stash':['jar',{id:'j1'},'Skipped coffee or takeout? Invest what you would have spent in one tap, drop skips in a jar to invest later, or do a 7-day Skip Week with friends.',()=>`<div class="lx lx-card"><div class="ld-cup" style="transform:scale(.75);margin:-6px"><span></span></div><div><b>Coffee · skipped</b><em>Invest the $6 you saved</em></div></div>`],
  split:['ac-mm',{},'Your Money Manager split doesn’t change. Each payday, the Investing slice counts as your investment for the week, so your streak keeps growing.',()=>`<div class="lx lx-card"><span class="lx-img"><img src="${IMG.oak}" alt=""></span><div><em class="lx-k">Grow Together</em><b>Your Investing slice now grows your oak</b></div></div>`],
  'future-club':['sap-home',{},'Family writes notes for your kid to read when they’re older. You approve each one, and every approved note adds a leaf to their sapling.',()=>`<div class="lx lx-note"><p>For your first bike, and every adventure after.</p><div><span style="background:#7a5af5">G</span><b>Grandma</b><em>to Ava</em></div></div>`],
- year:['journal',{},'Milestones as you hit them, a recap every month, and in December your Acorns Year: six cards about the year you showed up, like 48 weeks invested and a top-6% consistency rank. Share any of it. Friends who tap your link start their own.',()=>`<div class="lx lx-card"><span class="lx-big">48</span><div><b>weeks invested</b><em>Your Acorns Year · 2026</em></div></div>`],
+ year:['journal',{},'Milestones as you hit them, a recap every month, and in December your Acorns Year: seven cards about the year you showed up, like how many weeks you invested, how consistent you were and the trees in your grove. Share any of it. Friends who tap your link start their own.',()=>`<div class="lx lx-card"><span class="lx-img"><img src="${IMG.acorn}" alt=""></span><div><em class="lx-k">December</em><b>Your Acorns Year</b><em>Seven cards, ready to share</em></div></div>`],
  challenges:['gt-ch',{},'Start a challenge with people in your grove, like a no-delivery week or 8 weeks of investing side by side. One investment counts toward every challenge you’re in.',()=>`<div class="lx lx-ch"><b>8 weeks side by side</b>${[['J','#191919','You',4],['S','#2f7a12','Sam',4]].map(([a,c,n,v])=>`<div class="lx-pr"><span style="background:${c}">${a}</span><em>${n}</em><i><u style="width:${v/8*100}%"></u></i><small>${v}/8</small></div>`).join('')}</div>`],
  invited:['sam-web',{},'When Sam taps Jordan’s link, Acorns sends Sam to the right next step, whether Sam is new to Acorns, already a customer, or signed out.',()=>`<div class="lx lx-card"><span class="lx-img"><img src="${IMG.oak}" alt=""></span><div><b>Join ${S.me}’s grove</b><em>acorns.com/j/${S.me.toLowerCase()}</em></div></div>`]};
 function lfShot(k){const x=LFX[k];if(!x||!SCR[x[0]])return '';const bS=JSON.stringify(S),bT=JSON.stringify(T);let r;
@@ -4428,15 +4432,21 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 
 /* Acorns Year story: the cards themselves are the beats */
 Object.assign(LV,{
- yrwin:()=>`${ldGlow()}<div class="lv-mid"><div class="yr-ms">${[[sgGlyph('sprout',28,'#fff'),'First investment','Week 1 · Your streak starts'],[`<div class="ld-cup" style="transform:scale(.6);margin:-14px"><span></span></div>`,'Ten skips stashed','Skip and Stash · $84 invested'],[sgGlyph('flag',28,'#fff'),'Halfway to Lisbon','Shared goal · with Sam'],[`<img src="${IMG.seedling}" style="height:34px" alt="">`,'Jess planted beside you','Your grove · 3 trees']].map(([g,t,w],i)=>`<div class="yr-m rise d${Math.min(5,i*2)}"><span class="sgx-badge" style="width:60px;height:60px">${g}</span><div><b>${t}</b><em>${w}</em></div></div>`).join('')}</div></div>`,
- yrrecap:()=>`${ldGlow()}<div class="lv-mid"><div class="rise" style="width:210px">${ycFrame(rCard(1,RC[0],{}),210)}</div></div>`,
- yrwrap:()=>`${ldGlow()}<div class="lv-mid"><div class="lv-fan">${[0,1,3].map((k,i)=>`<div class="lv-fc rise d${i*2}" style="transform:rotate(${[-10,0,10][i]}deg) translateY(${[14,0,14][i]}px)">${ycFrame(yCard(k,{share:1}),132)}</div>`).join('')}</div></div>`,
- yrpride:()=>`${ldGlow()}<div class="lv-mid"><div class="lv-fan" style="gap:0"><div class="lv-fc rise" style="margin:0 -6px;transform:rotate(-5deg) translateY(10px)">${ycFrame(yCard(1,{share:1}),168)}</div><div class="lv-fc rise d2" style="margin:0 -6px;transform:rotate(5deg)">${ycFrame(yCard(3,{}),168)}</div></div></div>`,
- yrinvite:()=>`${ldGlow()}<div class="lv-mid"><div class="ld-msg rise"><div class="ld-msg-hd"><span class="av-c" style="background:#e8a45c">J</span><div><b>Jess</b><em>Text message</em></div></div><div class="ld-msg-body"><div class="lv-bub">my acorns year 🌳 48 weeks!!</div><div style="width:150px;margin:8px 0 0 auto">${ycFrame(yCard(5,{}),150)}</div><div class="ld-msg-meta">Delivered</div></div><div class="ld-msg-body in" style="margin-top:8px"><div class="lv-bub" style="background:#e9e9eb;color:#191919">ok starting mine today</div><div class="ld-msg-meta">Just now</div></div></div></div>`});
+ yrwin:()=>`${ldGlow()}<div class="lv-mid"><div class="yr-ms">${[[sgGlyph('sprout',28,'#fff'),'First investment','Your streak starts'],[`<div class="ld-cup" style="transform:scale(.6);margin:-14px"><span></span></div>`,'Ten skips stashed','Skip and Stash'],[sgGlyph('flag',28,'#fff'),'Halfway to a shared goal','Saving with someone'],[`<img src="${IMG.seedling}" style="height:34px" alt="">`,'A friend plants beside you','Your grove']].map(([g,t,w],i)=>`<div class="yr-m rise d${Math.min(5,i*2)}"><span class="sgx-badge" style="width:60px;height:60px">${g}</span><div><b>${t}</b><em>${w}</em></div></div>`).join('')}</div></div>`,
+ yrrecap:()=>`${ldGlow()}<div class="lv-mid"><div class="rise" style="width:210px">${ycFrame(`<div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">Monthly recap</span><div class="yc-panel" style="top:430px;height:194px"><div class="yc-h">Your month,<br>grown.</div><div class="yc-s">How many weeks you showed up, and what’s new on your oak.</div>${ycFoot()}</div></div>`,210)}</div></div>`,
+ yrwrap:()=>`${ldGlow()}<div class="lv-mid"><div class="lv-fan">${[1,0,2].map((k,i)=>`<div class="lv-fc rise d${i*2}" style="transform:rotate(${[-10,0,10][i]}deg) translateY(${[14,0,14][i]}px)">${ycFrame(k===0?yCard(0,{share:1}):yBack(k===1?'Weeks':'Consistency'),132)}</div>`).join('')}</div></div>`,
+ yrpride:()=>`${ldGlow()}<div class="lv-mid"><div class="lv-fan" style="gap:0"><div class="lv-fc rise" style="margin:0 -6px;transform:rotate(-5deg) translateY(10px)">${ycFrame(yBack('Weeks you showed up'),168)}</div><div class="lv-fc rise d2" style="margin:0 -6px;transform:rotate(5deg)">${ycFrame(yBack('How consistent you were'),168)}</div></div></div>`,
+ yrinvite:()=>`${ldGlow()}<div class="lv-mid"><div class="ld-msg rise"><div class="ld-msg-hd"><span class="av-c" style="background:#e8a45c">J</span><div><b>Jess</b><em>Text message</em></div></div><div class="ld-msg-body"><div class="lv-bub">my acorns year is in 🌳</div><div style="width:150px;margin:8px 0 0 auto">${ycFrame(yCard(0,{share:1}),150)}</div><div class="ld-msg-meta">Delivered</div></div><div class="ld-msg-body in" style="margin-top:8px"><div class="lv-bub" style="background:#e9e9eb;color:#191919">ok starting mine today</div><div class="ld-msg-meta">Just now</div></div></div></div>`});
 document.head.insertAdjacentHTML('beforeend','<style>.ld-art.mock .ycf .yc{box-shadow:0 30px 60px rgba(0,0,0,.55)}.yr-ms{display:flex;flex-direction:column;gap:14px}.yr-m{display:flex;align-items:center;gap:16px;width:290px;padding:12px 16px 12px 12px;border-radius:22px;background:rgba(255,255,255,.96);color:#191919;box-shadow:0 20px 44px rgba(0,0,0,.4)}.yr-m b{display:block;font-size:17px}.yr-m em{display:block;font-style:normal;font-size:13px;color:#6b706c;margin-top:2px}.yr-m .sgx-badge{box-shadow:0 0 0 5px rgba(116,201,71,.18)}</style>');
 
+/* a face-down Year card: the story runs before the year is in */
+function yBack(label){return `<div class="yc yc-back"><div class="yc-back-in"><img src="${IMG.acorn}" alt=""><b>${label}</b><em>Unlocks in December</em></div></div>`}
+document.head.insertAdjacentHTML('beforeend','<style>.yc-back{background:linear-gradient(160deg,#2f7a12,#174512 70%,#0f2e0b)!important;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 10px rgba(255,255,255,.08)}.yc-back-in{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:0 40px}.yc-back-in img{height:110px;filter:drop-shadow(0 14px 22px rgba(0,0,0,.35));opacity:.95}.yc-back-in b{font-size:30px;line-height:1.1;color:#fff;letter-spacing:-.5px}.yc-back-in em{font-style:normal;font-size:14px;color:#bceaa3;font-weight:600}</style>');
 /* the Year story celebrates as it goes: confetti on the milestone and pride beats */
-(function(){const f=SCR.splash;SCR.splash=p=>{const r=f(p);if(p.k==='year'&&(p.b===0||p.b===3||p.b===4)){const m=r.mount;r.mount=el=>{if(m)m(el);setTimeout(()=>{ART.confetti($('#screen'),p.b===3?60:30);haptic(p.b===3?20:8)},350)}}return r}})();
+(function(){const f=SCR.splash;SCR.splash=p=>{const r=f(p);if(p.k==='year'&&p.b===0){const m=r.mount;r.mount=el=>{if(m)m(el);setTimeout(()=>{ART.confetti($('#screen'),24);haptic(8)},350)}}return r}})();
+
+/* Invite story: rain on a friend's tree, then on yours */
+LV.ivrain=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" style="background:radial-gradient(closest-side,rgba(77,161,239,.25),transparent)"></div><div class="lv-drops">${Array.from({length:14},(_,i)=>`<i style="left:${18+(i*23)%64}%;animation-delay:${(i%7)*.2}s"></i>`).join('')}</div><div class="lv-row" style="gap:30px;position:relative;z-index:1"><img class="rise" src="${IMG.oak}" style="height:180px" alt=""><img class="rise d2" src="${IMG.seedling}" style="height:120px;filter:saturate(.7)" alt=""></div></div>`;
 
 
 /* =====================================================================
@@ -4594,6 +4604,45 @@ RV_GO.splice(1,0,['Your first week','The existing Streaks intro after funding',"
 
 
 /* =====================================================================
+   Acorns Year, lived forward · the story introduces it, then the person is
+   back on Home. A prototype clock moves time: at 6 months a halfway card
+   arrives on its own; at 12 months a notification says the year is ready.
+   ===================================================================== */
+function yrGo(){jumpAhead();spInit();S.yrClock=1;S.yrMonth=1;S.recapSeen=true;save();home('ac-home');setTimeout(()=>toast('Your year starts now. Use the clock to move ahead.'),500)}
+if(typeof SPL!=='undefined'&&SPL.year){SPL.year.go="yrGo()";SPL.year.cta='Start my year'}
+if(typeof LANDERS!=='undefined'&&LANDERS.year)LANDERS.year.cta='Start my year';
+
+/* the halfway card: one card on its own, no deck yet */
+function yMidCard(o){o=o||{};return `<div class="yc" style="background-image:url(${YART}y-weeks-bg.jpg)"><div class="yc-hdr">${ycLock()}<span>Halfway</span></div>
+  <div class="yc-big g" data-count="24">${o.anim?0:24}</div><div class="yc-lead">of 26 weeks,<br>you showed up.</div>
+  <div class="yc-wk">${ycDots(26,'',k=>k===9||k===17?'ring':'gr')}</div>
+  <div class="yc-legend"><i></i>Six months in. Keep going.</div><img class="yc-med" style="left:210px;top:432px;width:124px" src="${YART}y-med-pip-c.png" alt="">${ycFoot()}</div>`}
+def('yr-mid',()=>({cls:'dark',html:`<div class="wr" style="background:#16330f"><div class="wr-top"><div class="wr-row"><span class="wr-brand"><img src="${IMG.acorn}" alt="">Six months in</span><button class="iconbtn" style="color:#fff" onclick="back()" aria-label="Close">${ic('close')}</button></div></div>
+  <div class="wr-stage"><div class="wr-card" id="wrc">${yMidCard({anim:1})}</div></div>
+  <div class="wr-bottom">${btn(`${ic('share',18)} Share`,"ycShare(yMidCard({}),'Six months on Acorns')",'wh','style="background:#fff;color:#0a1d08;width:auto;padding:0 28px"')}<div class="wr-hint">Your Acorns Year arrives in December</div></div></div>`,
+  mount(el){wrFit(el);$$('[data-count]',el).forEach(x=>countUp(x,+x.dataset.count,1200));setTimeout(()=>{ART.confetti($('#screen'),40);haptic(14)},400)}}));
+
+/* the clock: a prototype control pinned above the tab bar on Home */
+function yrClock(){const m=S.yrMonth||1;
+  const next=m<6?['6 months','yrJump(6)']:m<12?['12 months','yrJump(12)']:null;
+  return `<div class="yr-clock"><span>Prototype</span><b>Month ${m}</b>${next?`<button onclick="${next[1]}">${ic('ff',12)} Jump to ${next[0]}</button>`:`<button onclick="T={si:0,wsel:0};go('year')">${ic('ff',12)} Watch my year</button>`}</div>`}
+function yrJump(m){S.yrMonth=m;S.heroIdx=0;save();
+  if(m===6){go('yr-mid');return}
+  if(m===12){refresh();setTimeout(()=>banner('Your Acorns Year is ready','Seven cards about the year you showed up. Tap to watch.',()=>{T={si:0,wsel:0};go('year')}),500)}}
+(function(){const f=SCR['ac-home'];SCR['ac-home']=p=>{const r=f(p);if(S.yrClock)r.html+=yrClock();return r}})();
+/* Home banner: the halfway card at 6 months, the year at 12 */
+(function(){const f=heroCard;heroCard=function(){const c=f();if(!S.yrClock)return c;const m=S.yrMonth||1;
+  if(m>=12)return {k:'yr12',e:'Acorns Year',t:'Your 2026 <g>is ready to watch</g>',img:'later',a:"T={si:0,wsel:0};go('year')"};
+  if(m>=6)return {k:'yr6',e:'Six months in',t:'24 of 26 weeks. <g>See your halfway card</g>',img:'seedling',a:"go('yr-mid')"};
+  return c}})();
+document.head.insertAdjacentHTML('beforeend',`<style>
+.yr-clock{position:absolute;left:16px;right:16px;bottom:calc(var(--safeBot) + 74px);z-index:4;display:flex;align-items:center;gap:8px;padding:8px 10px 8px 14px;border-radius:18px;border:1.5px dashed #e6d9a8;background:rgba(255,251,234,.97);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+.yr-clock span{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8a6d12}.yr-clock b{font-size:14px;color:#191919}
+.yr-clock button{margin-left:auto;display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:17px;background:#fdf0c2;color:#5e4a0c;font-size:13px;font-weight:600}
+</style>`);
+
+
+/* =====================================================================
    Focus builds · one experience on its own, for review.
    Each standalone page sets window.FOCUS to a lander key before the app
    boots (see build.py). Without it, this file does nothing and the full
@@ -4611,9 +4660,9 @@ const FOCUS_SPEC={
  split:{title:'Shared goals',hub:'sg-home',hubLabel:'Open the goal',
    go:"T.sg=null;S.sg=null;save();go('sg-new')",
    side:'Save for a trip or a first apartment with someone. Add a paycheck slice, a recurring transfer, or money anytime. Invite them by text, watch the journey fill in together, and share milestones. You both see progress, never each other’s dollars.'},
- year:{title:'Acorns Year',hub:'year',hubLabel:'Watch my year',
-   go:"T={si:0,wsel:0};jumpAhead();spInit();go('year')",
-   side:'Six cards about your year of investing. Each one stands on its own when you share it to Messages, Stories or WhatsApp. Weeks and counts only. Never balances or returns.'},
+ year:{title:'Acorns Year',hub:'ac-home',hubLabel:'Start my year',
+   go:"yrGo()",allow:['ac-home'],
+   side:'The story introduces it, then you’re back on Home. Use the prototype clock to move time: at six months a halfway card arrives on its own, at twelve a notification says your Acorns Year is ready. Seven cards about the year you showed up. Weeks and counts only. Never balances or returns.'},
  invite:{title:'Invite to your grove',hub:'gt-grove',hubLabel:'Open my grove',
    go:"jumpAhead();spInit();T={};go('inv-pick')",
    side:'Invite one person, pick the day you’ll both invest, and send it from your own phone. Their seed is planted when they sign up and sprouts beside your oak after their first investment.'}};
@@ -4632,10 +4681,10 @@ function focusBoot(){const k=window.FOCUS;const F=FOCUS_SPEC[k];if(!F)return;
  /* exits to the rest of the app land on the end card */
  const _home=home;home=function(id,params,dir){
   if(k==='invite'&&id==='gt-home'){const c=cur();if(!c||c.dataset.id!=='gt-grove'){id='gt-grove';GSEL=null}}
-  if(FOCUS_HUBS.has(id)||!SCR[id]){id='focus-end';params={}}
+  if((FOCUS_HUBS.has(id)&&!(F.allow||[]).includes(id))||!SCR[id]){id='focus-end';params={}}
   _home(id,params,dir)};
  const _back2=back2;back2=function(id){if(FOCUS_HUBS.has(id)){home('focus-end');return}_back2(id)};
- const _go=go;go=function(id,params,dir){if(id==='splash'){params=Object.assign({},params,{k});}if(FOCUS_HUBS.has(id)){home('focus-end');return}_go(id,params,dir)};
+ const _go=go;go=function(id,params,dir){if(id==='splash'){params=Object.assign({},params,{k});}if(FOCUS_HUBS.has(id)&&!(F.allow||[]).includes(id)){home('focus-end');return}_go(id,params,dir)};
  protoMenu=function(){sheet(`<div class="h3">Prototype</div><p class="sm mt8">For walkthroughs. Not part of the product.</p>
   <div class="mt16">
   <div class="li" onclick="closeOv();setTimeout(focusStart,200)">${ic('ff')}<div class="grow"><div class="ttl">Replay the story</div><div class="sub">Back to the first card</div></div></div>
@@ -4651,7 +4700,7 @@ function focusBoot(){const k=window.FOCUS;const F=FOCUS_SPEC[k];if(!F)return;
 function focusStart(){const k=window.FOCUS;jumpAhead();spInit();T={};stack=[{id:'focus-end',params:{}}];go('splash',{k,b:0},'fade')}
 function focusHub(){const k=window.FOCUS,F=FOCUS_SPEC[k];stack=[{id:'focus-end',params:{}}];
  if(k==='split'&&!S.sg){S.sg=sgDemo();save()}
- if(k==='year'){T={si:0,wsel:0}}
+ if(k==='year'){yrGo();return}
  if(k==='invite'){jumpAhead();spInit();GSEL=null}
  go(F.hub,{},'fwd')}
 

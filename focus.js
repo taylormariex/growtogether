@@ -16,9 +16,9 @@ const FOCUS_SPEC={
  split:{title:'Shared goals',hub:'sg-home',hubLabel:'Open the goal',
    go:"T.sg=null;S.sg=null;save();go('sg-new')",
    side:'Save for a trip or a first apartment with someone. Add a paycheck slice, a recurring transfer, or money anytime. Invite them by text, watch the journey fill in together, and share milestones. You both see progress, never each other’s dollars.'},
- year:{title:'Acorns Year',hub:'year',hubLabel:'Watch my year',
-   go:"T={si:0,wsel:0};jumpAhead();spInit();go('year')",
-   side:'Six cards about your year of investing. Each one stands on its own when you share it to Messages, Stories or WhatsApp. Weeks and counts only. Never balances or returns.'},
+ year:{title:'Acorns Year',hub:'ac-home',hubLabel:'Start my year',
+   go:"yrGo()",allow:['ac-home'],
+   side:'The story introduces it, then you’re back on Home. Use the prototype clock to move time: at six months a halfway card arrives on its own, at twelve a notification says your Acorns Year is ready. Seven cards about the year you showed up. Weeks and counts only. Never balances or returns.'},
  invite:{title:'Invite to your grove',hub:'gt-grove',hubLabel:'Open my grove',
    go:"jumpAhead();spInit();T={};go('inv-pick')",
    side:'Invite one person, pick the day you’ll both invest, and send it from your own phone. Their seed is planted when they sign up and sprouts beside your oak after their first investment.'}};
@@ -37,10 +37,10 @@ function focusBoot(){const k=window.FOCUS;const F=FOCUS_SPEC[k];if(!F)return;
  /* exits to the rest of the app land on the end card */
  const _home=home;home=function(id,params,dir){
   if(k==='invite'&&id==='gt-home'){const c=cur();if(!c||c.dataset.id!=='gt-grove'){id='gt-grove';GSEL=null}}
-  if(FOCUS_HUBS.has(id)||!SCR[id]){id='focus-end';params={}}
+  if((FOCUS_HUBS.has(id)&&!(F.allow||[]).includes(id))||!SCR[id]){id='focus-end';params={}}
   _home(id,params,dir)};
  const _back2=back2;back2=function(id){if(FOCUS_HUBS.has(id)){home('focus-end');return}_back2(id)};
- const _go=go;go=function(id,params,dir){if(id==='splash'){params=Object.assign({},params,{k});}if(FOCUS_HUBS.has(id)){home('focus-end');return}_go(id,params,dir)};
+ const _go=go;go=function(id,params,dir){if(id==='splash'){params=Object.assign({},params,{k});}if(FOCUS_HUBS.has(id)&&!(F.allow||[]).includes(id)){home('focus-end');return}_go(id,params,dir)};
  protoMenu=function(){sheet(`<div class="h3">Prototype</div><p class="sm mt8">For walkthroughs. Not part of the product.</p>
   <div class="mt16">
   <div class="li" onclick="closeOv();setTimeout(focusStart,200)">${ic('ff')}<div class="grow"><div class="ttl">Replay the story</div><div class="sub">Back to the first card</div></div></div>
@@ -56,6 +56,6 @@ function focusBoot(){const k=window.FOCUS;const F=FOCUS_SPEC[k];if(!F)return;
 function focusStart(){const k=window.FOCUS;jumpAhead();spInit();T={};stack=[{id:'focus-end',params:{}}];go('splash',{k,b:0},'fade')}
 function focusHub(){const k=window.FOCUS,F=FOCUS_SPEC[k];stack=[{id:'focus-end',params:{}}];
  if(k==='split'&&!S.sg){S.sg=sgDemo();save()}
- if(k==='year'){T={si:0,wsel:0}}
+ if(k==='year'){yrGo();return}
  if(k==='invite'){jumpAhead();spInit();GSEL=null}
  go(F.hub,{},'fwd')}

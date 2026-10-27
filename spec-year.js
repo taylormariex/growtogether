@@ -9,24 +9,27 @@ function ycLock(w){return `<span class="yc-lock ${w?'w':''}"><img src="${IMG.aco
 function ycFoot(w,right){return `<div class="yc-foot ${w?'w':''}"><span class="yc-lock ${w?'w':''}"><img src="${IMG.acorn}" alt="">acorns</span><span>${right||'acorns.com/j/'+S.me.toLowerCase()}</span></div>`}
 function ycDots(n,cls,fn){return Array.from({length:n},(_,k)=>`<i class="${fn(k)}" style="animation-delay:${120+k*16}ms"></i>`).join('')}
 /* the six Year cards */
-function yCard(n,o){o=o||{};const nm=S.me,W=48,RU=312;const miss=new Set([3,9,17,40,48]);const N=k=>`${String(k).padStart(2,'0')} / 06`;
+function yCard(n,o){o=o||{};const nm=S.me,W=48,RU=312;const miss=new Set([3,9,17,40,48]);const N=k=>`${String(k).padStart(2,'0')} / 07`;
   const C=[
   ()=>`<div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">Acorns Year · 2026</span>
-     <div class="yc-panel" style="top:430px;height:194px"><div class="yc-h">Your year,<br>grown.</div><div class="yc-s">Six cards about your year of investing.</div>${o.share?ycFoot():`<div class="yc-foot">${ycLock()}<b>Tap to open</b></div>`}</div></div>`,
+     <div class="yc-panel" style="top:430px;height:194px"><div class="yc-h">Your year,<br>grown.</div><div class="yc-s">Seven cards about the year you showed up.</div>${o.share?ycFoot():`<div class="yc-foot">${ycLock()}<b>Tap to open</b></div>`}</div></div>`,
   ()=>`<div class="yc" style="background-image:url(${YART}y-weeks-bg.jpg)"><div class="yc-hdr">${ycLock()}<span>${N(1)}</span></div>
      <div class="yc-big g" data-count="${W}">${o.anim?0:W}</div><div class="yc-lead">of 52 weeks,<br>you showed up.</div>
      <div class="yc-wk">${ycDots(52,'',k=>miss.has(k)?'ring':(k<16?'dk':'gr'))}</div>
      <div class="yc-legend"><i></i>Longest run: 21 weeks in a row.</div><img class="yc-med" style="left:210px;top:432px;width:124px" src="${YART}y-med-pip-c.png" alt="">${o.share?ycFoot(0,''):''}</div>`,
   ()=>`<div class="yc" style="background-image:url(${YART}y-roundups.jpg)"><span class="yc-chip" style="left:18px;top:18px">Round-Ups®</span><span class="yc-chip" style="right:18px;top:18px">${N(2)}</span>
-     <div class="yc-panel" style="top:415px;height:209px"><div class="yc-num" data-count="${RU}">${o.anim?0:RU}</div><div class="yc-s">everyday purchases<br>rounded up into investing.</div><div class="yc-chips"><span>Mostly coffee</span><span>Then groceries</span></div>${o.share?ycFoot():''}</div></div>`,
+     <div class="yc-panel" style="top:415px;height:209px"><div class="yc-num" data-count="${RU}">${o.anim?0:RU}</div><div class="yc-s">everyday purchases<br>rounded up into investing.</div><div class="yc-chips"><span>Mostly coffee</span><span>+ 26 skips stashed</span></div>${o.share?ycFoot():''}</div></div>`,
   ()=>`<div class="yc" style="background-image:url(${YART}y-rank-bg.jpg)"><div class="yc-hdr w">${ycLock(1)}<span>${N(3)}</span></div>
      <div class="yc-big w" style="font-size:76px;top:78px;letter-spacing:-2px">Top 6%</div><div class="yc-lead w" style="top:166px;font-size:19px">most consistent investors on<br>Acorns this year.</div>
      <div class="yc-rank">${ycDots(100,'',k=>k<6?'gold':'lt')}</div>
      <div class="yc-note">Ranked by weeks invested.<br>Never by balance.</div><img class="yc-med" style="left:232px;top:490px;width:104px" src="${YART}y-med-stage-c.png" alt=""></div>`,
-  ()=>`<div class="yc" style="background-image:url(${YART}y-type.jpg)"><span class="yc-chip" style="left:18px;top:18px">Your investor type</span><span class="yc-chip" style="right:18px;top:18px">${N(4)}</span>
+  ()=>`<div class="yc yc-grove"><span class="yc-chip" style="left:18px;top:18px">Grown together</span><span class="yc-chip" style="right:18px;top:18px">${N(4)}</span>
+     <div class="yc-trees">${[['mom','ancient',118,'Mom'],['me','oak',150,'You'],['sam','oak',132,'Sam'],['jess','seedling',84,'Jess']].map(([id,im,h,l],i)=>`<div class="yc-tree" style="animation-delay:${200+i*140}ms"><img src="${IMG[im]}" style="height:${h}px" alt=""><b>${l}</b></div>`).join('')}</div>
+     <div class="yc-panel" style="top:430px;height:194px"><div class="yc-h" style="font-size:34px">3 trees in<br>your grove.</div><div class="yc-s">41 weeks side by side. Halfway to Lisbon with Sam.</div>${o.share?ycFoot():''}</div></div>`,
+  ()=>`<div class="yc" style="background-image:url(${YART}y-type.jpg)"><span class="yc-chip" style="left:18px;top:18px">Your investor type</span><span class="yc-chip" style="right:18px;top:18px">${N(5)}</span>
      <div class="yc-panel" style="top:449px;height:175px"><div class="yc-h" style="font-size:31px">The Steady Oak</div><div class="yc-s">You don’t chase. You show up,<br>rain or shine.</div><div class="yc-chips"><span>1 in 9 investors</span></div>${o.share?ycFoot():''}</div></div>`,
   ()=>`<div class="yc" style="background-image:url(${YART}y-sum-bg.jpg)"><div class="yc-who">${nm}’s 2026</div><div class="yc-title">Acorns Year</div>
-     <div class="yc-tiles">${[[`${W}/52`,'weeks invested'],[`${RU}`,'Round-Ups'],['Top 6%','most consistent'],['Steady Oak','investor type']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>
+     <div class="yc-tiles">${[[`${W}/52`,'weeks invested'],['Top 6%','most consistent'],['3 trees','in your grove'],['Steady Oak','investor type']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>
      <img class="yc-photo" src="${YART}y-photo.jpg" alt="Steady Oak, 1 in 9">
      <div class="yc-sfoot"><span class="yc-btn">Start yours</span><span>acorns.com/j/${nm.toLowerCase()}</span></div></div>`];
   return C[n]()}
@@ -67,7 +70,7 @@ function wrapped(o){const n=o.count;const i=Math.min(T.si||0,n);const end=i===n;
 function wrFit(el){const st=$('.wr-stage',el),c=$('#wrc',el);if(!st||!c)return;const z=zf();const r=st.getBoundingClientRect();const w=r.width/z-32,h=r.height/z-8;const s=Math.min(w/360,h/640);c.style.transform=`scale(${s})`;c.style.width='360px';c.style.height='640px'}
 function wrSnap(c){const w=c.firstElementChild.offsetWidth+14;const k=Math.round(c.scrollLeft/w);if(k!==T.wsel){T.wsel=k;$$('.wr-dots i',cur()).forEach((d,j)=>d.classList.toggle('on',j===k))}}
 function wrFocus(k){const c=$('#wrcar',cur());if(c)c.scrollTo({left:k*(c.firstElementChild.offsetWidth+14),behavior:'smooth'})}
-def('year',p=>{p=p||{};return wrapped({count:6,label:'Acorns Year',card:(k,o)=>yCard(k,o),cardFn:'yCard',shareTitle:'My Acorns Year',endTitle:'Your 2026, in six cards.',bg:k=>['#0d2a0b','#16330f','#0d2a0b','#1d4a12','#0d2a0b','#1d4a12'][k]||'#0b1f09'})});
+def('year',p=>{p=p||{};return wrapped({count:7,label:'Acorns Year',card:(k,o)=>yCard(k,o),cardFn:'yCard',shareTitle:'My Acorns Year',endTitle:'Your 2026, in seven cards.',bg:k=>['#0d2a0b','#16330f','#0d2a0b','#1d4a12','#16330f','#0d2a0b','#1d4a12'][k]||'#0b1f09'})});
 def('recap',p=>{const j=RC.find(x=>x.m===(p.m===undefined?9:p.m))||RC[0];const M=MONTHS[j.m];
   if(j.quiet)return {cls:'dark',html:`<div class="wr"><div class="wr-top"><div class="wr-row"><span class="wr-brand"><img src="${IMG.acorn}" alt="">${M} recap</span><button class="iconbtn" style="color:#fff" onclick="back()" aria-label="Close">${ic('close')}</button></div></div>
     <div class="wr-stage"><div class="wr-card" id="wrc"><div class="yc" style="background-image:url(${YART}y-cover.jpg)"><span class="yc-chip" style="left:18px;top:18px">${M}</span><div class="yc-panel" style="top:448px;height:176px"><div class="yc-h" style="font-size:34px">Quiet month.</div><div class="yc-s">Your oak is still here, with every flourish. Nothing to share this time, and that’s okay.</div></div></div></div></div>
@@ -76,7 +79,7 @@ def('recap',p=>{const j=RC.find(x=>x.m===(p.m===undefined?9:p.m))||RC[0];const M
 function rCardAt(k,o,m){const j=RC.find(x=>x.m===m)||RC[0];return rCard(k,j,o)}
 /* journal uses the same months */
 def('journal',()=>({cls:'dark',html:`${topbar({title:'Journal'})}<div class="body"><p class="p" style="margin-top:0">A recap of your oak every month. In December they add up to your Acorns Year.</p>
-  <div class="jy" onclick="T.si=0;T.wsel=0;go('year')">${ycFrame(yCard(0,{}),110)}<div class="grow"><div class="eyebrow">December</div><div style="font-weight:600;font-size:18px;color:#fff;margin-top:4px">Your Acorns Year</div><div class="sm" style="color:var(--sk-sub);margin-top:2px">Six cards · ready to watch</div><div class="mt12">${btn('Watch',"event.stopPropagation();T.si=0;T.wsel=0;go('year')",'wh','style="height:40px;width:auto;padding:0 18px;font-size:14px"')}</div></div></div>
+  <div class="jy" onclick="T.si=0;T.wsel=0;go('year')">${ycFrame(yCard(0,{}),110)}<div class="grow"><div class="eyebrow">December</div><div style="font-weight:600;font-size:18px;color:#fff;margin-top:4px">Your Acorns Year</div><div class="sm" style="color:var(--sk-sub);margin-top:2px">Seven cards · ready to watch</div><div class="mt12">${btn('Watch',"event.stopPropagation();T.si=0;T.wsel=0;go('year')",'wh','style="height:40px;width:auto;padding:0 18px;font-size:14px"')}</div></div></div>
   <div class="sk-sec"><div class="h4">Monthly recaps</div></div>
   <div class="jl">${RC.map(j=>`<div class="e ${j.quiet?'q':''}" onclick="T.si=0;T.wsel=0;go('recap',{m:${j.m}})" style="cursor:pointer"><div class="card dk" style="padding:12px 14px"><div class="row"><img src="${IMG[j.quiet?'seedling':j.m>7?'seedling':'acorn']}" style="height:44px;${j.quiet?'opacity:.5':''}" alt=""><div class="grow"><div style="font-weight:600;color:#fff">${MONTHS[j.m]}</div><div class="sm" style="color:var(--sk-sub)">${j.quiet?'Quiet month. Your oak is still here.':`${j.w} of ${j.of} weeks · ${j.cap}`}</div></div>${ic('chev',16,'color:rgba(255,255,255,.4)')}</div></div></div>`).join('')}</div></div>`}));
 (function(){const st=document.createElement('style');st.textContent=`
@@ -107,6 +110,7 @@ def('journal',()=>({cls:'dark',html:`${topbar({title:'Journal'})}<div class="bod
 .yc-tiles div{height:124px;box-sizing:border-box;padding:16px;border-radius:18px;background:rgba(255,255,255,.17);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);display:flex;flex-direction:column;justify-content:space-between;color:#fff}
 .yc-tiles b{font-size:26px;font-weight:600;letter-spacing:-.5px;line-height:1.05}.yc-tiles span{font-size:11px;color:rgba(255,255,255,.85)}
 .yc-photo{position:absolute;left:26px;top:398px;width:308px;height:154px;border-radius:16px;object-fit:cover}
+.yc-grove{background:linear-gradient(180deg,#eef7e6 0%,#d9efc6 55%,#8fcf5b 100%)}.yc-trees{position:absolute;left:0;right:0;top:160px;height:260px;display:flex;align-items:flex-end;justify-content:center;gap:6px;padding:0 14px}.yc-tree{display:flex;flex-direction:column;align-items:center;gap:6px;animation:orbIn .5s cubic-bezier(.3,1.5,.5,1) both}.yc-tree b{font-size:11px;font-weight:700;color:#2f5c1a;background:rgba(255,255,255,.85);padding:2px 8px;border-radius:8px}
 .yc-sfoot{position:absolute;left:26px;right:26px;top:568px;height:48px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,.92)}.yc-btn{height:44px;padding:0 20px;border-radius:22px;background:#111;color:#fff;font-weight:600;font-size:14px;display:inline-flex;align-items:center}
 .wr{position:absolute;inset:0;display:flex;flex-direction:column;background:#0b1f09;color:#fff;transition:background .5s}
 .wr-top{padding:calc(var(--safeTop) + 4px) 14px 0;flex-shrink:0}

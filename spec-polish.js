@@ -73,11 +73,16 @@ ycShare=function(html,title){progressShare({head:'Share your year',sub:title||''
 LV.yrten=()=>`${ldGlow()}<div class="lv-mid"><div class="yt-cel rise"><div class="yt-seal">${sealImg(2,132)}</div><em>Young Seedling</em><b>Ten weeks<br>in a row</b><p>Most people don’t make it past four.</p><div class="yt-acts"><span>${ic('share',14)} Share</span><span class="ok">${ic('check',14)} Nice</span></div></div></div>`;
 
 /* ---------- Skip & Invest story, card one: three skips become three sprouts ---------- */
-LV.sswhy=()=>`${ldGlow()}<div class="skw" id="skw"><div class="tl-ground"></div>
-  ${[['cup','Made coffee at home','$6',22],['car','Walked instead','$14',50],['bag','Cooked, didn’t order','$22',78]].map(([k,t,a,x],i)=>`<div class="skw-i" style="--x:${x}%;--i:${i}"><div class="skw-chip"><span class="skw-ic">${ssQIc(k)}</span><b>${t}</b><em>${a}</em></div><img class="skw-ac" src="${YART}stage-acorn-pad.png" alt=""><div class="skw-soil"></div><img class="skw-sp" src="${YART}stage-young-seedling-pad.png" alt=""></div>`).join('')}</div>`;
-(function(){const f=SCR.splash;if(!f)return;SCR.splash=p=>{const r=f(p);const m=r.mount;r.mount=el=>{if(m)m(el);const w=$('#skw',el);if(!w||w._on)return;w._on=1;
-  const H=w.offsetHeight;$$('.skw-i',w).forEach((it,i)=>{const x=parseFloat(it.style.getPropertyValue('--x'))/100;it.style.setProperty('--dx',((.5-x)*w.offsetWidth).toFixed(0)+'px');it.style.setProperty('--dy',(-(H-(H*.04+i*60+50))).toFixed(0)+'px')});
-  const run=()=>{if(!document.contains(w))return;w.classList.remove('go','out');void w.offsetWidth;w.classList.add('go');setTimeout(()=>{if(document.contains(w))w.classList.add('out')},9600);setTimeout(run,10300)};run()};return r}})();
+/* the coffee jar: each thing you skip becomes an acorn in the jar */
+const SKJ=[['cup','Coffee at home','$6'],['car','Walked instead','$14'],['bag','Cooked, didn’t order','$22']];
+LV.sswhy=()=>`${ldGlow()}<div class="skj" id="skj"><div class="tl-ground"></div>
+  <div class="skj-items">${SKJ.map(([k,t,a],i)=>`<div class="skj-it" style="--i:${i}"><span class="skj-ic">${ssQIc(k)}</span><b>${t}</b><em>${a}</em></div>`).join('')}</div>
+  <div class="skj-jar">${jarViz({coins:3,name:'Coffee jar'},1)}<div class="skj-ct"><em>in the jar</em><b>$<span id="skjn">0</span></b></div></div></div>`;
+(function(){const f=SCR.splash;if(!f)return;SCR.splash=p=>{const r=f(p);const m=r.mount;r.mount=el=>{if(m)m(el);const w=$('#skj',el);if(!w||w._on)return;w._on=1;const n=$('#skjn',w);const tot=[6,20,42];let raf=0;
+  const roll=(from,to)=>{cancelAnimationFrame(raf);const t0=performance.now();const st=t=>{const q=Math.min(1,(t-t0)/600),e=1-Math.pow(1-q,3);n.textContent=Math.round(from+(to-from)*e);if(q<1)raf=requestAnimationFrame(st)};raf=requestAnimationFrame(st)};
+  const run=()=>{if(!document.contains(w))return;w.classList.remove('go','out');n.textContent='0';void w.offsetWidth;w.classList.add('go');
+    tot.forEach((v,i)=>setTimeout(()=>{if(!document.contains(w))return;roll(i?tot[i-1]:0,v);const jr=$('.jr',w);jr.classList.remove('bump');void jr.offsetWidth;jr.classList.add('bump');haptic(6)},i*2400+1750));
+    setTimeout(()=>{if(document.contains(w))w.classList.add('out')},9400);setTimeout(run,10100)};run()};return r}})();
 
 /* ---------- Invite story, card one: an acorn is planted, then a time-lapse to the oak ---------- */
 LV.alone=()=>`${ldGlow()}<div class="tlp" id="tl"><div class="tl-ground"></div><div class="tl-rays"></div>${STAGE_SLUG.map((s,i)=>`<img class="tl-s" data-i="${i}" src="${YART}stage-${s}.png" alt="" style="height:${Math.round(STAGE_H[i]*1.3)}px">`).join('')}<div class="tl-soil"></div><div class="tl-motes">${Array.from({length:9},(_,k)=>`<i style="left:${18+(k*23)%66}%;animation-delay:-${(k*.7).toFixed(1)}s;animation-duration:${(3+(k%3)).toFixed(1)}s"></i>`).join('')}</div><div class="tl-yrs" id="tlyr"><em>Week</em><b id="tlyn">1</b></div></div>`;
@@ -143,24 +148,27 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ps-h{display:flex;align-items:flex-start;justify-content:space-between;margin-top:4px}.ps-h b{display:block;font-size:20px;letter-spacing:-.3px;color:#191919}.ps-h em{display:block;font-style:normal;font-size:13px;color:#6b706c;margin-top:3px}
 .ps-card{display:flex;justify-content:center;margin:16px 0 18px}.ps-in{transform:scale(.86);transform-origin:50% 0;margin-bottom:calc(-340px * .14)}.ps-in:has(.ycf){transform:scale(.6);margin-bottom:calc(-533px * .4)}
 .ps-acts{display:flex;gap:10px}.ps-acts button{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 4px 10px;border-radius:18px;background:#f4f6f1;color:#191919;font-size:12px;font-weight:600}.ps-acts button span{width:44px;height:44px;border-radius:22px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 0 rgba(0,0,0,.06)}
-/* three skips → three sprouts */
-.skw{position:absolute;left:0;right:0;bottom:22%;height:66%;pointer-events:none;transition:opacity .6s}.skw.out{opacity:0}
-.skw-i{position:absolute;left:var(--x);bottom:0;width:0;height:100%}
-.skw-chip{position:absolute;left:var(--dx);top:calc(4% + var(--i) * 60px);transform:translateX(-50%) translateY(10px);width:220px;padding:11px 14px 11px 11px;border-radius:18px;background:#fff;color:#191919;display:flex;align-items:center;gap:10px;box-shadow:0 16px 34px rgba(0,0,0,.35);opacity:0;z-index:2}
-.skw-chip b{font-size:14px;line-height:1.15;flex:1;font-weight:600}.skw-chip em{font-style:normal;font-size:14px;font-weight:700;color:#2f7a12}.skw-ic{width:34px;height:34px;border-radius:17px;background:#eef3e8;display:flex;align-items:center;justify-content:center;flex:none}.skw-ic svg{width:18px;height:18px}
-.skw-ac{position:absolute;left:0;bottom:0;height:60px;transform:translateX(-50%);transform-origin:50% 100%;opacity:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4))}
-.skw-sp{position:absolute;left:0;bottom:0;height:88px;transform:translateX(-50%) scaleY(.1);transform-origin:50% 92%;opacity:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4))}
-.skw-soil{position:absolute;left:0;bottom:2px;width:90px;height:20px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(60,40,20,.5),transparent);opacity:0}
-.skw.go .skw-chip{animation:skwChip .6s calc(var(--i) * 2.6s) cubic-bezier(.2,1.1,.3,1) both}
-.skw.go .skw-ac{animation:skwDrop 2.1s calc(var(--i) * 2.6s + .55s) linear both}
-.skw.go .skw-soil{animation:tlSoil .8s calc(var(--i) * 2.6s + 2.3s) ease both}
-.skw.go .skw-sp{animation:skwGrow 1s calc(var(--i) * 2.6s + 2.45s) cubic-bezier(.2,1.25,.3,1) both}
-@keyframes skwChip{0%{opacity:0;transform:translateX(-50%) translateY(14px) scale(.96)}100%{opacity:1;transform:translateX(-50%)}}
-@keyframes skwDrop{0%{opacity:0;clip-path:inset(0 0 16% 0);transform:translate(calc(-50% + var(--dx)),var(--dy)) scale(.55)}8%{opacity:1}40%{clip-path:inset(0 0 16% 0)}
-  42%{clip-path:inset(0);transform:translate(-50%,0) scale(1);animation-timing-function:ease-out}50%{transform:translate(-50%,-16px) scale(1);animation-timing-function:ease-in}57%{transform:translate(-50%,0) scale(1,.94)}62%{transform:translate(-50%,0) scale(1)}
-  82%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,10px) scale(.6,.4)}}
-@keyframes skwGrow{0%{opacity:0;transform:translateX(-50%) scaleY(.1)}30%{opacity:1}100%{opacity:1;transform:translateX(-50%) scale(1)}}
-.skw .tl-ground{width:340px;height:90px}
+/* the coffee jar */
+.skj{position:absolute;left:0;right:0;bottom:20%;height:70%;pointer-events:none;transition:opacity .6s}.skj.out{opacity:0}
+.skj .tl-ground{width:320px;height:84px;bottom:-30px}
+.skj-jar{position:absolute;left:50%;bottom:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.skj-jar .jr{filter:drop-shadow(0 24px 30px rgba(0,0,0,.45))}.skj-jar .jr-tag{display:none}
+.skj-jar .jr.bump{animation:skjBump .5s cubic-bezier(.3,1.6,.5,1)}@keyframes skjBump{0%{transform:none}40%{transform:translateY(5px) scale(1.03,.96)}100%{transform:none}}
+.skj-jar .jr-in img{opacity:0;width:30%}
+.skj.go .jr-lid{animation:skjLid 7.2s linear both}
+@keyframes skjLid{0%,17%{transform:none}21%{transform:translateY(-16px) rotate(-7deg)}31%{transform:translateY(-16px) rotate(-7deg)}36%,51%{transform:none}55%{transform:translateY(-16px) rotate(-7deg)}65%{transform:translateY(-16px) rotate(-7deg)}70%,84%{transform:none}88%{transform:translateY(-16px) rotate(-7deg)}97%{transform:translateY(-16px) rotate(-7deg)}100%{transform:none}}
+.skj.go .jr-in img:nth-child(1){animation:skjDrop .8s 1.5s cubic-bezier(.4,0,.6,1.35) both}
+.skj.go .jr-in img:nth-child(2){animation:skjDrop .8s 3.9s cubic-bezier(.4,0,.6,1.35) both}
+.skj.go .jr-in img:nth-child(3){animation:skjDrop .8s 6.3s cubic-bezier(.4,0,.6,1.35) both}
+@keyframes skjDrop{0%{opacity:1;transform:translateY(-190px) rotate(-30deg)}70%{opacity:1;transform:translateY(6px) rotate(6deg)}100%{opacity:1;transform:translateY(0)}}
+.skj-ct{margin-top:14px;display:flex;align-items:baseline;gap:8px;padding:8px 16px;border-radius:18px;background:rgba(10,29,8,.6);box-shadow:inset 0 0 0 1px rgba(188,234,163,.25);color:#bceaa3;font-variant-numeric:tabular-nums}
+.skj-ct em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.skj-ct b{font-size:20px;color:#fff}
+.skj-items{position:absolute;left:0;right:0;top:0;height:46%}
+.skj-it{position:absolute;left:50%;top:18%;transform:translateX(-50%) translateY(14px);display:flex;align-items:center;gap:10px;width:230px;padding:11px 14px 11px 11px;border-radius:18px;background:#fff;color:#191919;box-shadow:0 16px 34px rgba(0,0,0,.35);opacity:0}
+.skj-it b{flex:1;font-size:14px;font-weight:600;line-height:1.15}.skj-it em{font-style:normal;font-size:14px;font-weight:700;color:#2f7a12}
+.skj-ic{width:34px;height:34px;border-radius:17px;background:#eef3e8;display:flex;align-items:center;justify-content:center;flex:none}.skj-ic svg{width:18px;height:18px}
+.skj.go .skj-it{animation:skjIt 2.4s calc(var(--i) * 2.4s + .2s) ease both}
+@keyframes skjIt{0%{opacity:0;transform:translateX(-50%) translateY(14px) scale(.96)}12%{opacity:1;transform:translateX(-50%)}52%{opacity:1;transform:translateX(-50%)}68%{opacity:0;transform:translateX(-50%) translateY(130px) scale(.4)}100%{opacity:0;transform:translateX(-50%) translateY(130px) scale(.4)}}
 /* polaroids: real photographs */
 .pol-ph img{width:100%;height:100%;object-fit:cover;display:block}
 /* time-lapse */

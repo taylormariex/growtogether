@@ -22,6 +22,11 @@ const FOCUS_SPEC={
  'money-type':{title:'Know yourself',hub:'qz-hub',hubLabel:'Open Know yourself',
    go:"T={};go('qz-hub')",
    side:'Short quizzes about how you actually are with money, a minute each, taken whenever you feel like one: Money Type, Saver Style, Spending Triggers, Growing Together, with more arriving over time. Each one ends with a type, one thing to learn, and one thing in the app to try. Your types show up on your Acorns Year.'},
+ clubs:{title:'Clubs',hub:'cl-home',hubLabel:'Open Clubs',go:"T={};go('cl-home')",side:'Public and private clubs anyone can start. A feed, chat, polls, events, admins, and a weekly board on percent to goal and streak. Find them by search, by what friends joined, and by what Acorns features.'},
+ feed:{title:'Friends',hub:'fd-home',hubLabel:'Open Friends',go:"T={};go('fd-home')",side:'Follow people. A real feed of milestones, streaks, clubs and posts, with comments. Visibility per post. Starting amounts hidden.'},
+ monthly:{title:'Challenges',hub:'mc-home',hubLabel:'Open Challenges',go:"T={};go('mc-home')",side:'Monthly challenges you join with a tap. A room, a board, a finisher card, sponsors. Challenge a friend head-to-head for a week.'},
+ live:{title:'Live rooms',hub:'lv-home',hubLabel:'Open Live rooms',go:"T={};go('lv-home')",side:'Scheduled sessions you join with other people at the same time, led by coaches and creators, with a live board of who deposited. Host your own and share a link.'},
+ server:{title:'The Server',hub:'sv-home',hubLabel:'Open the Server',go:"T={};go(soState().sv.onboarded?'sv-home':'sv-onboard')",side:'Acorns as the server. Channels by topic, voice rooms, roles that unlock channels, member moderators, forums with guidelines, creator servers with paid tiers.'},
  invite:{title:'Invite to your grove',hub:'gt-grove',hubLabel:'Open my grove',allow:['gt-ch'],
    go:"jumpAhead();spInit();T={};go('inv-pick')",
    side:'Invite one person, pick the day you’ll both invest, and send it from your own phone. Their seed is planted when they sign up and sprouts beside your oak after their first investment.'}};

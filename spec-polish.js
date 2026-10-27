@@ -43,7 +43,7 @@ ssBadges=function(n,nx){return sealRow(SS_MS,SS_MS.filter(m=>n>=m[0]).map(m=>m[0
 function dkDate(){return new Date().toLocaleDateString('en-US',{day:'numeric',month:'long'})}
 function dkCard(o){o=o||{};return `<div class="dkc ${o.cls||''}"><div class="dkc-top"><span class="dkc-lk"><img src="${IMG.acorn}" alt="">acorns</span><span class="dkc-dt">${o.date||dkDate()}</span></div>
   <div class="dkc-stage">${hills({dark:1})}<div class="dkc-glow"></div><div class="dkc-ring">${o.seal||''}</div></div>
-  <div class="dkc-txt"><b>${o.title||''}</b><em>${o.sub||''}</em></div>${o.foot?`<div class="dkc-foot">${o.foot}</div>`:''}</div>`}
+  <div class="dkc-txt"><b style="${(o.title||'').length>20?'font-size:17px':''}">${o.title||''}</b><em>${o.sub||''}</em></div>${o.foot?`<div class="dkc-foot">${o.foot}</div>`:''}</div>`}
 /* streak card: the stage seal */
 function streakCard(w){const i=stageIdx(w||S.streak);return dkCard({seal:sealImg(i,140),title:RSTAGES[i][1],sub:`${plw(w||S.streak)} streak`})}
 

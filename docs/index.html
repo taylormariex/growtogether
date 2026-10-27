@@ -2078,7 +2078,7 @@ def('gt-why3',()=>({cls:'dark',html:whyShell(2,`${whyScene(`
   <p class="p rise d2 mt12">Your grove is everyone growing with you. You see their oaks. They see yours. Nobody sees a balance.</p>`,'gt-why4')}));
 
 /* ---------- Challenges tab in the Streak world ---------- */
-def('gt-ch',()=>({cls:'dark',html:`<div class="top"><div class="h3" style="padding-left:14px;color:#fff">Challenges</div><button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button></div>
+def('gt-ch',()=>({cls:'dark',html:`<div class="top"><button class="iconbtn" onclick="home('gt-grove')" aria-label="Back to grove">${ic('back')}</button><div class="h3" style="flex:1;text-align:center;color:#fff">Grove challenges</div><button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button></div>
   <div class="body"><p class="sk-sub" style="text-align:left;margin:0;max-width:none">Run as many as you like. One investment counts toward every one it fits.</p>
   ${S.invites.length?`<div class="sk-sec"><div class="h4">Invitations</div></div>${S.invites.map(v=>skRow(`<img src="${IMG.learn}">`,`${v.title}`,`${nm(v.from)} invited you · ${v.len} ${v.unit}`,'nav',`go('gt-ch-invite',{id:'${v.id}'})`)).join('')}`:''}
   <div class="sk-sec"><div class="h4">Running</div><span class="sm">${S.challenges.length}</span></div>
@@ -2375,7 +2375,7 @@ def('gt-home',()=>{spInit();const s=skState();const gr=growing(),inv=S.grove.fil
     <div class="bnt" onclick="home('gt-grove')"><div class="bh">Your grove</div>
      ${gr.length||inv.length?`<div class="avr">${shown.map(g=>`<div style="position:relative">${ringAv(g.id,g.open?0:1)}${g.open?`<span class="dropbadge" style="position:absolute;right:-3px;top:-3px">${ic('drop',11,'color:#fff')}</span>`:''}</div>`).join('')}${more>0?`<div class="more">+${more}</div>`:''}</div>
      ${open.length?`<div class="bs" style="margin-top:10px;color:#8cc4f7">${nm(open[0].id)} hasn’t invested yet</div>`:`<div class="bs" style="margin-top:10px">Everyone invested</div>`}`:`<div class="bb"><div class="spot" style="margin:0 0 8px">${ic('plus',18)}</div><div class="bs">Invite someone to grow with you</div></div>`}</div>
-    <div class="bnt" onclick="home('gt-ch')"><div class="bh">Challenges</div><div class="bb"><div class="big">${S.challenges.length||'Start one'}</div><div class="bs">${S.challenges.length?'running at once':'Bring people in'}</div></div></div>
+    <div class="bnt" onclick="home('gt-ch')"><div class="bh">Grove challenges</div><div class="bb"><div class="big">${S.challenges.length||'Start one'}</div><div class="bs">${S.challenges.length?'running at once':'Bring people in'}</div></div></div>
     <div class="bnt" onclick="home('gt-oak')"><div class="bh">Your oak</div><div style="position:absolute;left:0;right:0;bottom:8px;display:flex;justify-content:center"><img src="${IMG[rstage(S.streak)[2]]}" style="height:${rstage(S.streak)[2]==='acorn'?60:96}px" alt=""></div></div>
     <div class="bnt" onclick="home('gt-oak')"><div class="bh">Oak extras</div><div class="bb"><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">${S.flourishes.filter(k=>FLIMG[k]).slice(0,4).map(k=>`<img src="${IMG[FLIMG[k]]}" style="height:30px" alt="${FLNAME[k]}">`).join('')||`<img src="${IMG.seedling}" style="height:30px;filter:grayscale(1);opacity:.4" alt="">`}</div><div class="bs">${S.flourishes.length} of 9 added</div></div></div>
    </div>
@@ -2932,7 +2932,8 @@ function gvDock(id){const gr=growing();const open=gr.filter(x=>x.open&&!S.watere
   /* whole grove: grove-level moves only. People get their own dock when you tap a tree. */
   if(!id){const done=gr.filter(x=>!x.open).length+(S.invested?1:0),tot=gr.length+1;const notyet=gr.filter(x=>x.open);
     return `<div class="row"><div class="grow"><div class="h4" style="color:#fff">${done} of ${tot} grew this week</div><div class="sm" style="color:var(--sk-sub)">${notyet.length?`${notyet.map(x=>nm(x.id)).join(' and ')} ${notyet.length>1?'haven’t':'hasn’t'} invested yet.`:'Everyone’s in.'} Tap a tree to do something together.</div></div>${ringSvg(done/Math.max(1,tot),36)}</div>
-    ${acts([S.invested?['share','Share grove',"shareOak()"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['user','Invite',"T={};go('inv-pick')"],['flag','Challenge',"T={chp:[]};go('gt-ch-new')"],open.length?['drop',`Rain all (${open.length})`,`gvRainAll()`,'blue']:['menu','Grove list',"groveSheet('half')"]])}`}
+    ${(()=>{const n=(S.challenges||[]).length;return n?`<button class="gv-chrow" onclick="home('gt-ch')"><span class="ic">${ic('flag',16)}</span><b>${n} challenge${n===1?'':'s'} running</b><em>${S.challenges.slice(0,2).map(c=>c.title).join(' · ')}</em>${ic('chev',14,'opacity:.5')}</button>`:''})()}
+    ${acts([S.invested?['share','Share grove',"shareOak()"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['user','Invite',"T={};go('inv-pick')"],['flag','Challenge',"T={chp:[]};go('gt-ch-new')"],open.length?['drop',`Rain all (${open.length})`,`gvRainAll()`,'blue']:['menu','Everyone',"groveSheet('half')"]])}`}
   /* you */
   if(id==='me'){const st=rstage(S.streak);return `<div class="row">${sgAv('me',40)}<div class="grow"><div class="h4" style="color:#fff">You · ${st[1]}</div><div class="sm" style="color:var(--sk-sub)">${plw(S.streak)} streak · ${S.flourishes.length} oak extras</div></div><button class="iconbtn" onclick="gvSel(null)" aria-label="Back to grove">${ic('close',18)}</button></div>
     ${acts([S.invested?['check','Counted',"toast('This week already counts')"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['oak','My oak',"home('gt-oak')"],['share','Share',"shareOak()"],['eye','Privacy',"go('gt-privacy')"]])}`}
@@ -2993,7 +2994,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 10:42 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 10:43 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -3336,6 +3337,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .gvs .gw-acts{gap:6px;margin-top:8px}.gvs .gw-act{padding:6px 0 5px;font-size:11px;background:rgba(255,255,255,.04)}.gvs .gw-act .ic{width:32px;height:32px}
 .gvs .gv.focus .gv-dock{border-color:rgba(188,234,163,.45);box-shadow:0 0 0 1px rgba(188,234,163,.2),0 20px 40px rgba(0,0,0,.35)}
 .gvs .gv-fire i{background:#f2e3b8;box-shadow:0 0 8px #f2e3b8}
+.gv-chrow{display:flex;align-items:center;gap:10px;width:100%;margin-top:10px;padding:8px 10px;border-radius:14px;background:rgba(255,255,255,.06);text-align:left;color:#fff}.gv-chrow .ic{width:28px;height:28px;border-radius:14px;background:rgba(116,201,71,.18);color:#74c947;display:flex;align-items:center;justify-content:center;flex:none}.gv-chrow b{font-size:13px;flex:none}.gv-chrow em{flex:1;font-style:normal;font-size:12px;color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gvs .gv-wood{position:absolute;inset:0;pointer-events:none}.gvs .gv-wood img{position:absolute;height:110px;transform:translate(-50%,-100%) scale(var(--sc));transform-origin:50% 100%;filter:saturate(.7) brightness(.85) blur(.3px);opacity:.75}
 </style>`);
 /* gvAt reads positions from the world box; keep the sheet's "open spot" tile as the invite entry */
@@ -4702,7 +4704,7 @@ def('kids',()=>({cls:'lt',html:`${topbar({title:'Kids'})}<div class="body"><div 
   <div class="kid-new" onclick="go('splash',{k:'future-club'})"><div class="as-k">Future Club</div><div class="row mt8" style="gap:14px"><img src="${IMG.seedling}" style="height:56px" alt=""><div class="grow"><b style="font-size:16px">Start Ava’s Future Club</b><div class="sm" style="color:#5d655f;margin-top:2px">Family writes Ava notes to read when she’s older. Each note you approve adds a leaf to her sapling.</div></div></div></div>
   <p class="sm mt16" style="color:#5d655f">Everything else on Kids is the existing Acorns Early experience.</p></div>`}));
 /* Streaks keeps the app nav. Grove and Challenges sit behind an in-page pill, like Community’s Explore | Stats */
-function tabbarDk(on){const t=[['gt-home','Oak'],['gt-grove','Grove'],['gt-ch','Challenges']];const cur0=on==='gt-oak'?'gt-home':on;
+function tabbarDk(on){if(on==='gt-ch')return '';const t=[['gt-home','Oak'],['gt-grove','Grove']];const cur0=on==='gt-oak'?'gt-home':on;
   return `<div class="sk-pill" role="tablist" aria-label="Grow Together">${t.map(([id,l])=>`<button class="${cur0===id?'on':''}" role="tab" aria-selected="${cur0===id}" onclick="home('${id}')">${l}</button>`).join('')}</div>`}
 (function(){const st=document.createElement('style');st.textContent=`
 .ach-yk{display:flex;background:rgba(255,255,255,.2);border-radius:18px;padding:3px}.ach-yk button{height:30px;padding:0 12px;border-radius:15px;font-weight:600;font-size:13px;color:#fff}.ach-yk button.on{background:#fff;color:#2f7a12}
@@ -4712,8 +4714,8 @@ function tabbarDk(on){const t=[['gt-home','Oak'],['gt-grove','Grove'],['gt-ch','
 .ach-val{top:calc(var(--safeTop) + 58px)!important}
 .kid-card{padding:16px;border-radius:18px;background:#f6f8f4;border:1px solid #e4e9e1}.kid-card b{display:block;font-size:16px}.kid-card span{font-size:13px;color:#5d655f}
 .kid-new{margin-top:12px;padding:16px;border-radius:18px;background:#edf8e6;border:1px solid #cde9bd;cursor:pointer}
-.sk-pill{order:-1;flex:none;margin:0 16px 10px;display:flex;gap:4px;padding:4px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08)}.scr>.top{order:-2}
-.gvs .sk-pill{position:absolute;left:16px;right:16px;top:calc(var(--safeTop) + 52px);margin:0;z-index:9;background:rgba(8,22,7,.5);backdrop-filter:blur(10px)}
+.sk-pill{order:-1;flex:none;margin:0 auto 10px;width:220px;display:flex;gap:4px;padding:4px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08)}.scr>.top{order:-2}
+.gvs .sk-pill{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--safeTop) + 52px);margin:0;z-index:9;background:rgba(8,22,7,.5);backdrop-filter:blur(10px)}
 .sk-pill button{flex:1;height:36px;border-radius:14px;font-weight:600;font-size:14px;color:rgba(255,255,255,.75)}.sk-pill button.on{background:#74c947;color:#0a1d08}
 .scr:has(>.sk-pill)>.body>.p:first-child,.scr:has(>.sk-pill)>.body>.sk-sub:first-child{margin-top:0}
 .gv-dock{bottom:calc(var(--safeBot) + 70px)!important}`;document.head.appendChild(st)})();

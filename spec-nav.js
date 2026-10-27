@@ -18,7 +18,7 @@ def('kids',()=>({cls:'lt',html:`${topbar({title:'Kids'})}<div class="body"><div 
   <div class="kid-new" onclick="go('splash',{k:'future-club'})"><div class="as-k">Future Club</div><div class="row mt8" style="gap:14px"><img src="${IMG.seedling}" style="height:56px" alt=""><div class="grow"><b style="font-size:16px">Start Ava’s Future Club</b><div class="sm" style="color:#5d655f;margin-top:2px">Family writes Ava notes to read when she’s older. Each note you approve adds a leaf to her sapling.</div></div></div></div>
   <p class="sm mt16" style="color:#5d655f">Everything else on Kids is the existing Acorns Early experience.</p></div>`}));
 /* Streaks keeps the app nav. Grove and Challenges sit behind an in-page pill, like Community’s Explore | Stats */
-function tabbarDk(on){const t=[['gt-home','Oak'],['gt-grove','Grove'],['gt-ch','Challenges']];const cur0=on==='gt-oak'?'gt-home':on;
+function tabbarDk(on){if(on==='gt-ch')return '';const t=[['gt-home','Oak'],['gt-grove','Grove']];const cur0=on==='gt-oak'?'gt-home':on;
   return `<div class="sk-pill" role="tablist" aria-label="Grow Together">${t.map(([id,l])=>`<button class="${cur0===id?'on':''}" role="tab" aria-selected="${cur0===id}" onclick="home('${id}')">${l}</button>`).join('')}</div>`}
 (function(){const st=document.createElement('style');st.textContent=`
 .ach-yk{display:flex;background:rgba(255,255,255,.2);border-radius:18px;padding:3px}.ach-yk button{height:30px;padding:0 12px;border-radius:15px;font-weight:600;font-size:13px;color:#fff}.ach-yk button.on{background:#fff;color:#2f7a12}
@@ -28,8 +28,8 @@ function tabbarDk(on){const t=[['gt-home','Oak'],['gt-grove','Grove'],['gt-ch','
 .ach-val{top:calc(var(--safeTop) + 58px)!important}
 .kid-card{padding:16px;border-radius:18px;background:#f6f8f4;border:1px solid #e4e9e1}.kid-card b{display:block;font-size:16px}.kid-card span{font-size:13px;color:#5d655f}
 .kid-new{margin-top:12px;padding:16px;border-radius:18px;background:#edf8e6;border:1px solid #cde9bd;cursor:pointer}
-.sk-pill{order:-1;flex:none;margin:0 16px 10px;display:flex;gap:4px;padding:4px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08)}.scr>.top{order:-2}
-.gvs .sk-pill{position:absolute;left:16px;right:16px;top:calc(var(--safeTop) + 52px);margin:0;z-index:9;background:rgba(8,22,7,.5);backdrop-filter:blur(10px)}
+.sk-pill{order:-1;flex:none;margin:0 auto 10px;width:220px;display:flex;gap:4px;padding:4px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08)}.scr>.top{order:-2}
+.gvs .sk-pill{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--safeTop) + 52px);margin:0;z-index:9;background:rgba(8,22,7,.5);backdrop-filter:blur(10px)}
 .sk-pill button{flex:1;height:36px;border-radius:14px;font-weight:600;font-size:14px;color:rgba(255,255,255,.75)}.sk-pill button.on{background:#74c947;color:#0a1d08}
 .scr:has(>.sk-pill)>.body>.p:first-child,.scr:has(>.sk-pill)>.body>.sk-sub:first-child{margin-top:0}
 .gv-dock{bottom:calc(var(--safeBot) + 70px)!important}`;document.head.appendChild(st)})();

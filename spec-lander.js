@@ -34,7 +34,7 @@ const LANDERS={
   t:'Find your money type',s:'Based on your habits only. It never changes your portfolio or risk.',where:'Right after sign-up, and a banner on Home.',cta:'Start'},
  'skip-and-stash':{name:'Skip and Stash',beats:[['coffee','Skipped coffee today?'],['jar','That’s $6 you didn’t spend.'],['skipinv','One tap, and it’s invested. This week counts.']],
   t:'Skip it, stash it',s:'Invest a skip right away, save skips in a jar, or do a Skip Week with friends. We never need to read your spending.',where:'Lives in a banner on Home, and in reminders you set.',cta:'Start stashing'},
- split:{name:'Shared goals',beats:[['sgwant','There’s something you want. A trip. A first place. A wedding. And someone you want it with.'],['sgalone','Saving for it alone feels slow. Saving for it together is a thing you do with them.'],['goalsplit','Name it, invite them, and you each add your own way. A slice of a paycheck, a transfer, whenever you can.'],['goalring','You see how far along you are together. Never each other’s dollars, and never who put in more.'],['sgcheer','Every milestone, you get there at the same time. That’s the part people remember.']],
+ split:{name:'Shared goals',beats:[['sgwant','Everyone’s saving for something. The good ones come with a person attached.'],['sgalone','Saving for it alone feels slow. Saving for it together is a thing you do with them.'],['goalsplit','Name it, invite them, and you each add your own way. A slice of a paycheck, a transfer, whenever you can.'],['goalring','You see how far along you are together. Never each other’s dollars, and never who put in more.'],['sgcheer','Every milestone, you get there at the same time. That’s the part people remember.']],
   t:'Shared goals',s:'Pick something you want with someone, and save for it together. You each add your own way. You see progress as one number, never each other’s dollars.',where:'Lives in Money Manager, from the Money Hub tab. One small card explains it.',cta:'See shared goals'},
  'future-club':{name:'Future Club',beats:[['note','Family can write your kid notes to read when they’re older.'],['later','Each note stays sealed until a date you pick, like their 18th birthday.'],['sapling','Every note you approve adds a leaf to their sapling.']],
   t:'Future Club',s:'Notes from family, saved for your kid to read later. Family can add a gift to their Early account too.',where:'Lives on Home → Kids, on your kid’s Early account.',cta:'Start a club'},
@@ -192,7 +192,7 @@ function ldFinal(k,L,S0){const f=LF[k]||LF.grove;const w=f[1];const fs=w.length<
   <div class="lf-body"><div class="lf-eye">${f[0]}</div><div class="lf-word" style="font-size:${fs}px">${w}</div><p class="lf-p">${X?X[2]:L.s}</p>
    <div class="lf-crop">${X?lfShot(k):lfCrop(k,f[2])}</div>
    <p class="lf-where">${L.where}</p></div>
-  <div class="lf-foot"><button class="btn lf-cta" onclick="(function(){${S0.go.replace(/"/g,'&quot;')}})()">${L.cta}</button></div>`}}
+  <div class="lf-foot"><button class="btn lf-cta" onclick="(function(){${S0.go.replace(/"/g,'&quot;')}})()">${L.cta}</button>${k==='invite'?`<button class="lf-alt" onclick="jumpAhead();spInit();GSEL=null;home('gt-grove')">See my grove first</button>`:''}</div>`}}
 document.head.insertAdjacentHTML('beforeend',`<style>
 .scr.lfin{background:linear-gradient(180deg,#b9e3a0 0%,#dff2d3 38%,#f3f6f1 70%)!important}
 .lf-top{display:flex;align-items:center;justify-content:space-between;padding:calc(var(--safeTop) + 6px) 12px 0 8px}
@@ -224,7 +224,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .lf-tabs{display:flex;gap:4px;padding:5px;border-radius:30px;background:#0b1f09;border:1px solid rgba(116,201,71,.35)}.lf-tabs i{font-style:normal;height:50px;padding:0 18px;border-radius:25px;display:flex;align-items:center;font-size:17px;font-weight:600;color:rgba(255,255,255,.7)}.lf-tabs i.on{background:#74c947;color:#0a1d08}
 .lf-link{background:#fff;color:#191919}.lf-link span{border-radius:12px;background:linear-gradient(#cfeab0,#8fcf5b);align-items:flex-end}.lf-link b{display:block;font-size:16px}.lf-link em{display:block;font-style:normal;font-size:13px;color:#6b6b6b;margin-top:2px}
 .lf-where{margin:10px 0 0;text-align:center;font-size:12px;line-height:1.4;color:#6b706c;max-width:320px}
-.lf-foot{position:absolute;left:20px;right:20px;bottom:calc(var(--safeBot) + 18px)}
+.lf-foot{position:absolute;left:20px;right:20px;bottom:calc(var(--safeBot) + 18px)}.lf-alt{display:block;width:100%;height:40px;margin-top:4px;font-size:14px;font-weight:600;color:#2f5c1a}.lfin .lf-body{bottom:calc(var(--safeBot) + 128px)}
 .lf-cta{width:100%;height:56px;border-radius:28px;background:#74c947;color:#0a1d08;font-size:17px;font-weight:600}
 </style>`);
 

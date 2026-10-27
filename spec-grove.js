@@ -3,27 +3,35 @@
    Front row (near hill): two friends flank your oak. Back row (far ridge): four smaller trees.
    Everything happens in place: select, rain, cheer, invest, invite.
    ===================================================================== */
-const GV_FRONT=[16,84];const GV_BACKS={1:[50],2:[28,72],3:[18,50,82],4:[12,37,63,88]};
-function gvSlots(){const gr=S.grove.slice();const out=gr.map((g,i)=>({g,front:i<2}));out.push({empty:1,front:out.length<2});
-  const back=out.filter(s=>!s.front);const n=back.length;const pos=GV_BACKS[n]||back.map((_,i)=>Math.round(8+(i+.5)*(84/n)));back.forEach((s,i)=>{s.x=pos[i];if(n>6)s.small=1});out.filter(s=>s.front).forEach((s,i)=>s.x=GV_FRONT[i]);return out}
-function gvTree(s){if(s.empty)return `<button class="gv-it ${s.front?'f':'b'}" style="left:${s.x}%" onclick="event.stopPropagation();T={};go('inv-pick')" aria-label="Plant a friend"><div class="gv-plot">${ic('plus',s.front?22:16)}</div><div class="gv-tag">Invite a friend</div></button>`;
-  const g=s.g,id=g.id;if(g.status!=='growing')return `<button class="gv-it ${s.front?'f':'b'} ${GSEL===id?'sel':''}" id="gv-${id}" style="left:${s.x}%" onclick="event.stopPropagation();gvSel('${id}')" aria-label="${nm(id)}, invite waiting"><div class="gv-plot seed"><img src="${IMG.acorn}" style="height:${s.front?30:22}px" alt=""></div><div class="gv-tag">${nm(id)} · waiting</div></button>`;
-  const W=wk(id),st=rstage(W);const k=s.small?.72:1;const h=Math.round((s.front?(st[2] in OAKS?118:st[2]==='seedling'?92:56):(st[2] in OAKS?74:st[2]==='seedling'?58:38))*k);const cue=g.open&&!S.watered[id];
-  return `<button class="gv-it ${s.front?'f':'b'} ${s.small?'tiny':''} ${GSEL===id?'sel':''} ${g.open?'open':''}" id="gv-${id}" style="left:${s.x}%" onclick="event.stopPropagation();gvSel('${id}')" aria-label="${nm(id)}, ${W} weeks${g.open?', has not invested yet this week':''}"><div class="sway" style="animation-delay:-${(s.x%7)}s"><img src="${IMG[st[2]]}" style="height:${h}px" alt=""></div>${cue?`<span class="dropbadge gv-drop">${ic('drop',11,'color:#fff')}</span>`:''}<div class="gv-tag"><i style="background:${g.open?'#4da1ef':'#74c947'}"></i>${nm(id)}</div></button>`}
-def('gt-grove',()=>{spInit();const gr=growing();const done=gr.filter(x=>!x.open).length+(S.invested?1:0);const tot=gr.length+1;const st=rstage(S.streak);const meH=st[2] in OAKS?156:st[2]==='seedling'?128:84;
-  return {cls:'dark',html:`<div class="gv" onclick="gvSel(null)">
-   <div class="gv-sky">${Array.from({length:26}).map((_,i)=>`<i style="left:${(i*37)%100}%;top:${(i*23)%60}%;animation-delay:-${i%5}s"></i>`).join('')}</div>
-   <div class="cloud" style="top:22%;width:110px;animation-duration:70s"></div><div class="cloud" style="top:30%;width:70px;animation-duration:95s;animation-delay:-40s"></div>
+/* Grove v3 · a hillside you look across.
+   Trees sit on a slope in depth: near is big, far is small. A stable scatter places any number of
+   people so twenty still read as a wood. Your oak is the only thing centered. Names show on tap. */
+const GV_SEED=id=>{let h=0;for(const c of id)h=(h*31+c.charCodeAt(0))>>>0;return (h%1000)/1000};
+function gvSlots(){const gr=S.grove.slice();const n=gr.length;const out=[];
+  /* ring 1: up to 4 nearest, flanking your oak. ring 2: next 6. ring 3+: the rest, further back. */
+  const rings=[[0,4,.74,[30,70,17,83]],[4,10,.50,[22,38,54,68,82,46]],[10,99,.30,null]];
+  gr.forEach((g,i)=>{const r=rings.find(([a,b])=>i>=a&&i<b)||rings[2];const [a,b,depth,xs]=r;let x;
+    if(xs&&xs[i-a]!=null)x=xs[i-a];else{const k=i-a,m=Math.max(1,Math.min(b-a,n-a));x=Math.round(6+((k+.5)/m)*88)}
+    const j=(GV_SEED(g.id)-.5)*(xs?5:8);out.push({g,x:Math.max(16,Math.min(84,x+j)),depth:depth+(GV_SEED(g.id+'d')-.5)*.08})});
+  return out.sort((p,q)=>p.depth-q.depth)}
+function gvTree(s){const g=s.g,id=g.id;const d=s.depth;const sc=.42+d*.5;const y=44+d*42; /* % from top of world → bottom of tree */
+  const base=`style="left:${s.x}%;top:${y}%;--sc:${sc.toFixed(2)};z-index:${Math.round(d*100)}"`;
+  if(g.status!=='growing')return `<button class="gv-it ${GSEL===id?'sel':''}" id="gv-${id}" ${base} onclick="event.stopPropagation();gvSel('${id}')" aria-label="${nm(id)}, invite waiting"><div class="gv-seed"><img src="${IMG.acorn}" alt=""></div><div class="gv-tag">${nm(id)} · waiting</div></button>`;
+  const W=wk(id),st=rstage(W);const h=st[2] in OAKS?150:st[2]==='seedling'?104:62;const cue=g.open&&!S.watered[id];
+  return `<button class="gv-it ${GSEL===id?'sel':''} ${g.open?'open':''}" id="gv-${id}" ${base} onclick="event.stopPropagation();gvSel('${id}')" aria-label="${nm(id)}, ${W} weeks${g.open?', has not invested yet this week':''}"><div class="sway" style="animation-delay:-${(s.x%7)}s"><img src="${IMG[st[2]]}" style="height:${h}px" alt=""></div>${cue?`<span class="dropbadge gv-drop">${ic('drop',11,'color:#fff')}</span>`:''}<div class="gv-tag">${nm(id)}</div></button>`}
+def('gt-grove',()=>{spInit();const gr=growing();const done=gr.filter(x=>!x.open).length+(S.invested?1:0);const tot=gr.length+1;const st=rstage(S.streak);const meH=st[2] in OAKS?170:st[2]==='seedling'?130:84;
+  return {cls:'dark gvs',html:`<div class="gv" onclick="gvSel(null)">
+   <div class="gv-sky"></div><div class="gv-sun"></div>
    <div class="gv-world" id="gvw">
-    <div class="gv-canopy"></div><div class="gv-forest far"></div><div class="gv-forest mid"></div><div class="gv-mist"></div><div class="gv-ridge"></div><div class="gv-forest edge"></div><div class="gv-near"></div><div class="gv-grass"></div>
-    <div class="gv-row b">${gvSlots().filter(s=>!s.front).map(gvTree).join('')}</div>
-    <div class="gv-row f">${gvSlots().filter(s=>s.front).map(gvTree).join('')}
-     <button class="gv-it me ${GSEL==='me'?'sel':''}" id="gv-me" style="left:50%" onclick="event.stopPropagation();gvSel('me')" aria-label="Your oak"><div class="sway"><img src="${IMG[st[2]]}" style="height:${meH}px" alt=""></div><div class="gv-tag me">You · ${S.streak}w</div></button></div>
-    <div class="gv-fire">${Array.from({length:8}).map((_,i)=>`<i style="left:${8+i*12}%;bottom:${10+(i*13)%40}%;animation-delay:-${i*.7}s"></i>`).join('')}</div>
+    <div class="gv-far"></div><div class="gv-forest far"></div><div class="gv-mist"></div><div class="gv-forest mid"></div>
+    <div class="gv-slope"></div><div class="gv-light"></div>
+    ${gvSlots().map(gvTree).join('')}
+    <button class="gv-it me ${GSEL==='me'?'sel':''}" id="gv-me" style="left:50%;top:99%;--sc:.9;z-index:120" onclick="event.stopPropagation();gvSel('me')" aria-label="Your oak"><div class="sway"><img src="${IMG[st[2]]}" style="height:${meH}px" alt=""></div><div class="gv-tag me">You · ${plw(S.streak)}</div></button>
+    <div class="gv-grass"></div><div class="gv-fire">${Array.from({length:7}).map((_,i)=>`<i style="left:${10+i*13}%;bottom:${8+(i*17)%44}%;animation-delay:-${i*.8}s"></i>`).join('')}</div>
    </div>
-   <div class="gv-hud" onclick="event.stopPropagation()"><button class="iconbtn" style="background:rgba(10,29,8,.6)" onclick="home('gt-home')" aria-label="Back">${ic('back')}</button>
-    <div class="center"><div style="font-size:17px;font-weight:600;color:#fff">Your grove</div><div style="font-size:12px;color:var(--sk-sub)">${done} of ${tot} invested this week</div></div>
-    <button class="iconbtn" style="background:rgba(10,29,8,.6)" onclick="groveSheet('half')" aria-label="Grove list">${ic('menu',20)}</button></div>
+   <div class="gv-hud" onclick="event.stopPropagation()"><button class="iconbtn gv-hb" onclick="home('gt-home')" aria-label="Back">${ic('back')}</button>
+    <div class="center"><div class="gv-ht">Your grove</div><div class="gv-hs">${tot} growing · ${done} invested this week</div></div>
+    <button class="iconbtn gv-hb" onclick="groveSheet('half')" aria-label="Everyone">${ic('menu',20)}</button></div>
    <div class="gv-dock" id="gvd" onclick="event.stopPropagation()">${gvDock(GSEL)}</div></div>
   ${tabbarDk('gt-grove')}`,
   mount(el){if(GSEL)gvFocus(el,GSEL)}}});
@@ -31,7 +39,7 @@ function gvDock(id){const gr=growing();const open=gr.filter(x=>x.open&&!S.watere
   const acts=a=>`<div class="gw-acts">${a.map(([ic_,l,js,cls])=>`<button class="gw-act ${cls||''}" onclick="${js}"><span class="ic">${ic(ic_,18)}</span>${l}</button>`).join('')}</div>`;
   /* whole grove: grove-level moves only. People get their own dock when you tap a tree. */
   if(!id){const done=gr.filter(x=>!x.open).length+(S.invested?1:0),tot=gr.length+1;const notyet=gr.filter(x=>x.open);
-    return `<div class="row"><div class="gv-avs">${(()=>{const ids=['me'].concat(gr.map(x=>x.id));const show=ids.slice(0,4);return show.map(i=>sgAv(i,26)).join('')+(ids.length>4?`<span class="sg-av" style="width:26px;height:26px;font-size:10px;background:#3a563e">+${ids.length-4}</span>`:'')})()}</div><div class="grow"><div class="h4" style="color:#fff">${done} of ${tot} grew this week</div><div class="sm" style="color:var(--sk-sub)">${notyet.length?`${notyet.map(x=>nm(x.id)).join(' and ')} ${notyet.length>1?'haven’t':'hasn’t'} invested yet. Tap a tree to rain, cheer or challenge.`:'Tap a tree to cheer or challenge them.'}</div></div>${ringSvg(done/Math.max(1,tot),40)}</div>
+    return `<div class="row"><div class="grow"><div class="h4" style="color:#fff">${done} of ${tot} grew this week</div><div class="sm" style="color:var(--sk-sub)">${notyet.length?`${notyet.map(x=>nm(x.id)).join(' and ')} ${notyet.length>1?'haven’t':'hasn’t'} invested yet.`:'Everyone’s in.'} Tap a tree to do something together.</div></div>${ringSvg(done/Math.max(1,tot),36)}</div>
     ${acts([S.invested?['share','Share grove',"shareOak()"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['user','Invite',"T={};go('inv-pick')"],['flag','Challenge',"T={chp:[]};go('gt-ch-new')"],open.length?['drop',`Rain all (${open.length})`,`gvRainAll()`,'blue']:['menu','Grove list',"groveSheet('half')"]])}`}
   /* you */
   if(id==='me'){const st=rstage(S.streak);return `<div class="row">${sgAv('me',40)}<div class="grow"><div class="h4" style="color:#fff">You · ${st[1]}</div><div class="sm" style="color:var(--sk-sub)">${plw(S.streak)} streak · ${S.flourishes.length} oak extras</div></div><button class="iconbtn" onclick="gvSel(null)" aria-label="Back to grove">${ic('close',18)}</button></div>
@@ -404,3 +412,37 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .gv-mist{position:absolute;left:0;right:0;top:46%;height:16%;background:linear-gradient(180deg,transparent,rgba(188,234,163,.10) 50%,transparent);pointer-events:none}
 .gv-grass{position:absolute;left:-10%;right:-10%;top:92%;height:10%;background-image:radial-gradient(ellipse 5px 14px at 50% 100%,rgba(188,234,163,.35) 0 60%,transparent 61%),radial-gradient(ellipse 4px 10px at 50% 100%,rgba(116,201,71,.35) 0 60%,transparent 61%);background-size:44px 100%,31px 100%;background-position:0 0,17px 4px;background-repeat:repeat-x;pointer-events:none}
 </style>`);
+
+/* v3 look: dawn in a wood. Acorns greens, warm light, no night-club spotlight. */
+document.head.insertAdjacentHTML('beforeend',`<style>
+.scr.gvs .gv{background:linear-gradient(180deg,#0e2a12 0%,#17421c 30%,#2a6a24 60%,#3f8e2b 100%)}
+.gvs .gv-sky{position:absolute;inset:0;height:50%;background:radial-gradient(120% 80% at 50% 100%,rgba(242,227,184,.22),transparent 60%)}
+.gvs .gv-sun{position:absolute;left:50%;top:26%;width:220px;height:220px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(242,227,184,.28),rgba(242,227,184,.06) 60%,transparent)}
+.gvs .gv-world{top:calc(var(--safeTop) + 92px);bottom:calc(var(--safeBot) + 222px)}
+.gvs .gv-far{position:absolute;left:-10%;right:-10%;top:14%;height:30%;border-radius:50% 50% 0 0/40% 40% 0 0;background:linear-gradient(180deg,#1b4a1f,#1a4a1f)}
+.gvs .gv-forest.far{top:10%;height:26%;opacity:1}.gvs .gv-forest.mid{top:22%;height:22%}
+.gvs .gv-mist{top:30%;height:14%;background:linear-gradient(180deg,transparent,rgba(242,227,184,.14) 50%,transparent)}
+.gvs .gv-slope{position:absolute;left:-30%;right:-30%;top:36%;height:140%;border-radius:50% 50% 0 0/18% 18% 0 0;background:radial-gradient(ellipse 60% 40% at 50% 0%,#8fd45f 0%,#5fb53a 22%,#3f8e2b 48%,#2d6f22 72%,#1f5219 100%);box-shadow:inset 0 2px 0 rgba(242,227,184,.35)}
+.gvs .gv-light{position:absolute;left:0;right:0;top:34%;bottom:0;background:linear-gradient(100deg,rgba(242,227,184,.10),transparent 40%,transparent 60%,rgba(0,0,0,.12));pointer-events:none}
+.gvs .gv-grass{top:auto;bottom:-2%;height:9%;opacity:.8}
+.gvs .gv-canopy,.gvs .gv-ridge,.gvs .gv-near,.gvs .gv-forest.edge{display:none}
+.gvs .gv-it{position:absolute;bottom:auto;transform:translate(-50%,-100%) scale(var(--sc,1));transform-origin:50% 100%;display:flex;flex-direction:column;align-items:center;transition:opacity .3s,transform .35s cubic-bezier(.3,1.4,.5,1)}
+.gvs .gv-it img{filter:drop-shadow(0 10px 10px rgba(10,30,8,.35))}
+.gvs .gv-it.open img{filter:saturate(.6) brightness(.9) drop-shadow(0 10px 10px rgba(10,30,8,.35))}
+.gvs .gv-it::before{bottom:4px;width:120%;height:18px;background:radial-gradient(rgba(10,30,8,.35),transparent 70%);opacity:.7}
+.gvs .gv-it.sel::before{background:radial-gradient(rgba(188,234,163,.75),transparent 70%);opacity:1;animation:pulse 1.6s ease-in-out infinite}
+.gvs .gv-it.sel{transform:translate(-50%,-100%) scale(calc(var(--sc,1)*1.08))}
+.gvs .gv.focus .gv-it:not(.sel):not(.me){opacity:.55}
+.gvs .gv-tag{position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);opacity:0;pointer-events:none;background:#fff;color:#191919;border:0;box-shadow:0 4px 12px rgba(10,30,8,.25);transition:opacity .2s}
+.gvs .gv-it.sel .gv-tag,.gvs .gv-it.me .gv-tag{opacity:1}
+.gvs .gv-tag.me{background:#191919;color:#fff;top:auto;bottom:calc(100% + 6px)}
+.gvs .gv-seed{width:40px;height:40px;border-radius:20px;background:rgba(242,227,184,.25);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center}.gvs .gv-seed img{height:24px;filter:none}
+.gvs .gv-drop{right:-6px;top:-6px;box-shadow:0 0 0 2px #fff}
+.gvs .gv-hud{height:calc(var(--safeTop) + 52px)}.gvs .gv-hb{background:rgba(10,29,8,.35)!important;color:#fff}.gvs .gv-ht{font-size:17px;font-weight:600;color:#fff}.gvs .gv-hs{font-size:12px;color:rgba(255,255,255,.75)}
+.gvs .gv-dock{left:12px;right:12px;bottom:calc(var(--safeBot) + 70px)!important;padding:12px 12px 10px;border-radius:24px;background:rgba(14,36,14,.86);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(16px)}
+.gvs .gv-dock .h4{font-size:15px}.gvs .gv-dock .sm{font-size:12px;line-height:1.35}
+.gvs .gw-acts{gap:6px;margin-top:10px}.gvs .gw-act{padding:7px 0 6px;font-size:11px;background:rgba(255,255,255,.04)}.gvs .gw-act .ic{width:34px;height:34px}
+.gvs .gv.focus .gv-dock{border-color:rgba(188,234,163,.45);box-shadow:0 0 0 1px rgba(188,234,163,.2),0 20px 40px rgba(0,0,0,.35)}
+.gvs .gv-fire i{background:#f2e3b8;box-shadow:0 0 8px #f2e3b8}
+</style>`);
+/* gvAt reads positions from the world box; keep the sheet's "open spot" tile as the invite entry */

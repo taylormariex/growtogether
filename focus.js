@@ -24,7 +24,7 @@ const FOCUS_SPEC={
    side:'Invite one person, pick the day you’ll both invest, and send it from your own phone. Their seed is planted when they sign up and sprouts beside your oak after their first investment.'}};
 
 /* screens that belong to the rest of the app: reaching one ends the experience */
-const FOCUS_HUBS=new Set(['menu','ac-home','gt-home','gt-oak','profile','states','ac-invest','ac-mm','ac-ru','kids','sam-hub','mt2-intro','fc-types','gt-ch','journal']);
+const FOCUS_HUBS=new Set(['menu','states','sam-hub']); /* the Acorns tabs and the surfaces behind them stay reachable in every build */
 
 function focusBoot(){const k=window.FOCUS;const F=FOCUS_SPEC[k];if(!F)return;
  /* lander CTA goes straight into the experience */

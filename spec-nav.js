@@ -18,8 +18,8 @@ def('kids',()=>({cls:'lt',html:`${topbar({title:'Kids'})}<div class="body"><div 
   <div class="kid-new" onclick="go('splash',{k:'future-club'})"><div class="as-k">Future Club</div><div class="row mt8" style="gap:14px"><img src="${IMG.seedling}" style="height:56px" alt=""><div class="grow"><b style="font-size:16px">Start Ava’s Future Club</b><div class="sm" style="color:#5d655f;margin-top:2px">Family writes Ava notes to read when she’s older. Each note you approve adds a leaf to her sapling.</div></div></div></div>
   <p class="sm mt16" style="color:#5d655f">Everything else on Kids is the existing Acorns Early experience.</p></div>`}));
 /* Streaks keeps the app nav. Grove and Challenges sit behind an in-page pill, like Community’s Explore | Stats */
-function tabbarDk(on){const t=[['gt-home','Streak'],['gt-grove','Grove'],['gt-ch','Challenges']];const cur0=on==='gt-oak'?'gt-home':on;
-  return `<div class="sk-pill" role="tablist" aria-label="Streaks">${t.map(([id,l])=>`<button class="${cur0===id?'on':''}" role="tab" aria-selected="${cur0===id}" onclick="home('${id}')">${l}</button>`).join('')}</div>`}
+function tabbarDk(on){const t=[['gt-home','Oak'],['gt-grove','Grove'],['gt-ch','Challenges']];const cur0=on==='gt-oak'?'gt-home':on;
+  return `<div class="sk-pill" role="tablist" aria-label="Grow Together">${t.map(([id,l])=>`<button class="${cur0===id?'on':''}" role="tab" aria-selected="${cur0===id}" onclick="home('${id}')">${l}</button>`).join('')}</div>`}
 (function(){const st=document.createElement('style');st.textContent=`
 .ach-yk{display:flex;background:rgba(255,255,255,.2);border-radius:18px;padding:3px}.ach-yk button{height:30px;padding:0 12px;border-radius:15px;font-weight:600;font-size:13px;color:#fff}.ach-yk button.on{background:#fff;color:#2f7a12}
 .ach-banner{position:absolute;left:16px;right:16px;top:calc(var(--safeTop) + 160px);display:flex;align-items:center;background:rgba(10,40,6,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:18px;border:1px solid rgba(255,255,255,.18);z-index:3}
@@ -28,8 +28,8 @@ function tabbarDk(on){const t=[['gt-home','Streak'],['gt-grove','Grove'],['gt-ch
 .ach-val{top:calc(var(--safeTop) + 58px)!important}
 .kid-card{padding:16px;border-radius:18px;background:#f6f8f4;border:1px solid #e4e9e1}.kid-card b{display:block;font-size:16px}.kid-card span{font-size:13px;color:#5d655f}
 .kid-new{margin-top:12px;padding:16px;border-radius:18px;background:#edf8e6;border:1px solid #cde9bd;cursor:pointer}
-.sk-pill{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--safeBot) + 12px);z-index:9;display:flex;gap:4px;padding:4px;border-radius:26px;background:rgba(8,22,7,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(116,201,71,.25);box-shadow:0 10px 30px rgba(0,0,0,.4)}
-.sk-pill button{height:44px;padding:0 18px;border-radius:22px;font-weight:600;font-size:14px;color:rgba(255,255,255,.75)}.sk-pill button.on{background:#74c947;color:#0a1d08}
+.sk-pill{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--safeTop) + 50px);z-index:9;display:flex;gap:4px;padding:4px;border-radius:26px;background:rgba(8,22,7,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(116,201,71,.25);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.sk-pill button{height:34px;padding:0 14px;border-radius:17px;font-weight:600;font-size:13px;color:rgba(255,255,255,.75)}.sk-pill button.on{background:#74c947;color:#0a1d08}
 .gv-dock{bottom:calc(var(--safeBot) + 70px)!important}`;document.head.appendChild(st)})();
 
 /* Framing: this is a feature concept inside the existing app, not a redesign */
@@ -52,3 +52,21 @@ RV_GO.splice(1,0,['Your first week','The existing Streaks intro after funding',"
 (function(){const keep=[['Money Type','Money Type','Three habit questions set up Recurring or Round-Ups'],['Skip and Stash','Skip and Stash','Skip a spend, invest it right away'],['Future Club','Future Club','Family adds notes; gifts go to kids through Giftlinks'],['Acorns Year','Acorns Year and share cards','Shows weeks and oak extras, never amounts'],['Invite someone','Invite to your grove','One person, one weekly day. Their first investment plants a tree'],['Money Manager, growing','Shared goals','Save for a goal with someone, your way']];
   const m={};RV_GO.forEach(x=>m[x[0]]=x);RV_GO.length=0;keep.forEach(([k,t,d])=>m[k]&&RV_GO.push([t,d,m[k][2]]))})();
 (function(){const f=rvHTML;rvHTML=function(first){return f(first).replace(/<div class="rv-sec">This week, Jordan has…<\/div>[\s\S]*?(?=<div class="rv-foot">)/,'').replace('>Explore<','>The ideas<').replace('Jump anywhere, or make something happen.','Pick an idea to see how it works.')}})();
+
+/* ===== The Acorns tab bar is always there. Every screen in these experiences gets it, and each tab
+   goes where it really goes: Home, Investing (streaks, grove, year, skips), Money Hub (shared goals). ===== */
+const AC_TAB_FOR=id=>{if(!id)return null;if(/^(ac-home|kids|profile|gt-notes)$/.test(id))return 'ac-home';if(/^(ac-mm|sg-|mm)/.test(id))return 'ac-mm';if(/^ac-invest$/.test(id))return 'ac-invest';
+  if(/^(gt-|inv-|fr-|year|journal|recap|yr-|ss|qs-|jar|sr-|st-|plant|growth|share-b|water|fl-|mt|rec-|ru-)/.test(id))return 'ac-invest';return null};
+(function(){const f=render;render=function(id,params,dir){f(id,params,dir);const el=$$('.scr').pop();if(!el||el.dataset.id!==id)return;const tab=AC_TAB_FOR(id);if(!tab)return;
+  if(el.querySelector('.ac-tabs')||/^(splash|focus-end|sys-|menu|states)/.test(id))return;
+  const old=el.querySelector('.tabbar');if(old)old.remove();
+  el.insertAdjacentHTML('beforeend',acTabs(tab));el.classList.add('has-actabs')}})();
+(function(){const f=refresh;refresh=function(){f();const el=$$('.scr').pop();if(!el)return;const id=el.dataset.id;const tab=AC_TAB_FOR(id);if(!tab||el.querySelector('.ac-tabs')||/^(splash|focus-end|sys-|menu|states)/.test(id))return;const old=el.querySelector('.tabbar');if(old)old.remove();el.insertAdjacentHTML('beforeend',acTabs(tab));el.classList.add('has-actabs')}})();
+(function(){const st=document.createElement('style');st.textContent=`
+.scr.has-actabs .body,.scr.has-actabs .sg-body,.scr.has-actabs .sgx-body{bottom:calc(var(--safeBot) + 64px)}
+.scr.has-actabs .foot,.scr.has-actabs .sg-foot,.scr.has-actabs .gm-row:last-of-type{bottom:calc(var(--safeBot) + 64px)}
+.scr.has-actabs .foot{position:absolute;left:0;right:0;padding-bottom:12px}
+.scr.has-actabs .wr-bottom{padding-bottom:calc(var(--safeBot) + 76px)}.scr.has-actabs .wr-legal{padding-bottom:calc(var(--safeBot) + 70px)}
+.scr.has-actabs.dark .ac-tabs{background:#0a1d08;border-top-color:rgba(255,255,255,.08)}.scr.has-actabs.dark .ac-tabs>button{color:rgba(255,255,255,.6)}.scr.has-actabs.dark .ac-tabs>button.on{color:#fff}.scr.has-actabs.dark .ac-tabs em{color:inherit}
+.scr.has-actabs .ac-tabs .ac-hub span{box-shadow:0 0 0 3px #0a1d08}
+.scr.has-actabs .yr-clock{bottom:calc(var(--safeBot) + 74px)}`;document.head.appendChild(st)})();

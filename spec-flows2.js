@@ -15,7 +15,8 @@ def('inv-pick',()=>{spInit();if(!S.notThem)S.notThem={};const sug=SUGG.filter(([
   ${slotsOpen()?`<div class="sk-sec"><div class="h4">Or</div></div>
   ${skRow(ic('user',18,'color:#74c947'),'Choose from contacts',S.perm.contacts?'Pick one person':'We’ll ask for access first','nav',S.perm.contacts?"go('inv-contacts')":"go('inv-perm')")}
   ${skRow(ic('link',18,'color:#74c947'),'Share a link','Anyone with it can take this spot','nav',"T.ivp='link';T.day=S.day;go('inv-day')")}`:''}
-  <div style="height:20px"></div></div>`}});
+  <div style="height:20px"></div></div>
+  ${foot(btn(`${ic('oak',18)} See my grove`,"GSEL=null;home('gt-grove')",'line','style="color:#fff"'),btn('Invite later',"home('gt-grove');toast('You can invite anyone from your grove, anytime')",'ghost'))}`}});
 function invStart(id){if(PEOPLE[id].on&&!inGrove(id)&&id!=='mom'&&id!=='dad'&&id!=='priya'){go('inv-existing',{id});return}T.ivp=id;T.day=S.day;T.msg='Saved you a spot in my grove. One small investment a week and we both grow.';go('inv-day')}
 def('inv-perm',()=>({cls:'dark',html:`${topbar({close:true})}<div class="body center" style="display:flex;flex-direction:column;justify-content:center;align-items:center">
   <div class="sk-badge" style="width:72px;height:72px;border-radius:36px">${ic('user',30,'color:#74c947')}</div><div class="h2 mt24" style="color:#fff">Find someone to invite.</div>

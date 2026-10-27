@@ -2930,7 +2930,7 @@ function gvDock(id){const gr=growing();const open=gr.filter(x=>x.open&&!S.watere
   if(g.status!=='growing')return `<div class="row">${av(id,'s')}<div class="grow"><div class="h4" style="color:#fff">${p.full}</div><div class="sm" style="color:var(--sk-sub)">Invite sent · ${g.day||'Fri'} · sprouts after their first investment</div></div><button class="iconbtn" onclick="gvSel(null)" aria-label="Close">${ic('close',18)}</button></div>
     ${acts([['chat','Remind',`gsRemind('${id}')`],['cal','Change day',`T={ivp:'${id}',day:'${g.day||'Fri'}'};go('inv-day')`],['ff','Sim: invests',`gvPlant('${id}')`,'hot'],['close','Cancel',`S.grove=S.grove.filter(x=>x.id!=='${id}');GSEL=null;save();refresh();toast('Invite canceled')`]])}`;
   const W=wk(id),st=rstage(W);const can=S.waterOK[id]&&!S.mutedWater[id];const sent=S.watered[id];
-  return `<div class="row"><img src="${IMG[st[2]]}" style="height:40px" alt=""><div class="grow"><div class="h4" style="color:#fff">${p.full}</div><div class="sm" style="color:var(--sk-sub)">${st[1]} · ${g.side||0} weeks side by side</div></div><button class="iconbtn" onclick="gvSel(null)" aria-label="Close">${ic('close',18)}</button></div>
+  return `<div class="row"><img src="${IMG[st[2]]}" style="height:40px" alt=""><div class="grow"><div class="h4" style="color:#fff">${p.full}</div><div class="sm" style="color:var(--sk-sub)">${st[1]} · ${plw(g.side||0)} side by side</div></div><button class="iconbtn" onclick="gvSel(null)" aria-label="Close">${ic('close',18)}</button></div>
    ${g.open?`<div class="gv-note">${ic('drop',16,'color:#4da1ef')}<div class="grow">${sent?`Rain sent. It only counts when ${p.name} invests.`:can?`${p.name} hasn’t invested yet this week. Send rain as a gentle nudge. It only counts when ${p.name==='Mom'?'she':'they'} invest${p.name==='Mom'?'s':''}.`:`${p.name} hasn’t turned on rain, so you can cheer instead.`}</div></div>`:''}
    ${acts([g.open?(sent?['check','Sent',"toast('One rain per friend per week')"]:can?['drop','Send rain',`gvRain('${id}')`,'blue']:['drop','Rain off',"toast('They haven’t turned on rain')"]):['check','Invested',`toast('${p.name} already invested this week')`],['spark','Cheer',`gvCheer('${id}')`],['flag','Challenge',`T={chp:['${id}']};go('gt-ch-new')`],g.open?['ff','Sim: invests',`gvInvests('${id}')`]:['menu','More',`personSheet('${id}')`]])}`}
 function gvSel(id){GSEL=id;const el=cur();if(!el||el.dataset.id!=='gt-grove'){home('gt-grove');return}haptic(6);
@@ -2974,7 +2974,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 10:01 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 10:03 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -3769,7 +3769,7 @@ const LV={
 const LANDERS={
  grove:{name:'your grove',beats:[['forest','Habits are easier with company.'],['pair','Invite someone, and your trees grow side by side.'],['grove','You see each other’s weeks, never each other’s balances.'],['rain','If someone hasn’t invested yet, send a little rain as a nudge.'],['weeks','One investment counts for you and everyone you grow with.']],
   t:'Welcome to your grove',s:'Invite the people you want to grow with. You see each other’s trees and weeks. Nobody sees a balance.',where:'Lives in Streaks: the streak chip on Invest or the streak card in Profile, then Grove.',cta:'Open my grove'},
- invite:{name:'invites',beats:[['alone','Starting with money is hard, and harder when nobody around you talks about it.'],['pair','So bring someone. A little each week, side by side, is easier than a lot alone.'],['grove','You’ll see each other’s weeks, never each other’s money. There’s nothing to be embarrassed about here.'],['ivrain','When one of you has an off week, the other sends a little rain. That’s it. No lectures.'],['link','If you love someone, help them grow. Save them a spot.']],
+ invite:{name:'invites',beats:[['alone','Starting with money is hard, and harder when nobody around you talks about it.'],['pair','So bring someone. A little each week, side by side, is easier than a lot alone.'],['grove','You’ll see each other’s weeks, never each other’s money. There’s nothing to be embarrassed about here.'],['ivways','When one of you has an off week, the other sends a little rain. Or a cheer. Or a dare: eight weeks side by side, no skipping.'],['link','If you love someone, help them grow. Save them a spot.']],
   t:'Invite someone',s:'Growing money is easier with company. You see each other’s weeks, never a balance. Rewards follow the Referrals program.',where:'Lives in Profile → Invite friends, and any open spot in your grove.',cta:'Invite someone'},
  'money-type':{name:'Money Type',beats:[['forest','Not sure where to start?'],['quiz','Answer three quick questions.'],['type','We’ll match you with a first habit.'],['handoff','Then set it up in Recurring or Round-Ups®, tools you already have.']],
   t:'Find your money type',s:'Based on your habits only. It never changes your portfolio or risk.',where:'Right after sign-up, and a banner on Home.',cta:'Start'},
@@ -3793,7 +3793,7 @@ def('splash',p=>{const k=p.k in LANDERS?p.k:'grove';const L=LANDERS[k],S0=SPL[k]
    <div class="ld-next"><button onclick="ldGo(${b+1})" aria-label="Next">${ic('back',20,'transform:rotate(180deg)')}</button></div>`,mount(){haptic(4)}}});
 function ldThread(o){const lp=`<div class="ld-lp"><div class="ld-lp-img"><img src="${IMG.oak}" alt=""></div><div class="ld-lp-tx"><b>Join ${S.me}’s grove</b><span>acorns.com/j/${S.me.toLowerCase()}</span></div></div>`;
  return `${ldGlow()}<div class="lv-mid"><div class="ld-msg rise"><div class="ld-msg-hd"><span class="av-c" style="background:${o.c}">${o.who[0]}</span><div><b>${o.who}</b><em>Text message</em></div></div><div class="ld-msg-body ${o.in?'in':''}"><div class="lv-bub">${o.text}</div>${lp}<div class="ld-msg-meta">${o.in?'Just now':'Delivered'}</div></div></div></div>`}
-const LD_MOCK=new Set(['yrwin','yrrecap','yrwrap','yrpride','yrinvite','goalways','goalinvite','skipinv','goalpick','goalsplit','goalring','payday','mmflow','mmnest','days','later','link','quiz','type','handoff','coffee','mm','note','cards','ch','phone','paths','weeks']);
+const LD_MOCK=new Set(['ivways','yrwin','yrrecap','yrwrap','yrpride','yrinvite','goalways','goalinvite','skipinv','goalpick','goalsplit','goalring','payday','mmflow','mmnest','days','later','link','quiz','type','handoff','coffee','mm','note','cards','ch','phone','paths','weeks']);
 function ldGo(b){const t=stack[stack.length-1];t.params=Object.assign({},t.params,{b});refresh()}
 (function(){const st=document.createElement('style');st.textContent=`
 .scr.ldr{background:#222a20!important}
@@ -4447,6 +4447,8 @@ document.head.insertAdjacentHTML('beforeend','<style>.yc-back{background:linear-
 /* Invite story: rain on a friend's tree, then on yours */
 LV.ivrain=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" style="background:radial-gradient(closest-side,rgba(77,161,239,.25),transparent)"></div><div class="lv-drops">${Array.from({length:14},(_,i)=>`<i style="left:${18+(i*23)%64}%;animation-delay:${(i%7)*.2}s"></i>`).join('')}</div><div class="lv-row" style="gap:30px;position:relative;z-index:1"><img class="rise" src="${IMG.oak}" style="height:180px" alt=""><img class="rise d2" src="${IMG.seedling}" style="height:120px;filter:saturate(.7)" alt=""></div></div>`;
 
+/* Invite story: the ways you help, three cards */
+LV.ivways=()=>`${ldGlow()}<div class="lv-mid"><div class="yr-ms">${[[ic('drop',26,'color:#fff'),'#4da1ef','Send rain','A gentle nudge on an off week'],['♥','#e8a45c','Cheer','“Proud of us.” “See you Friday.”'],[sgGlyph('flag',26,'#fff'),'#2f8a14','Dare them','8 weeks side by side, no skipping']].map(([g,c,t,w],i)=>`<div class="yr-m rise d${i*2}"><span class="sgx-badge" style="width:60px;height:60px;background:${c};font-size:26px;color:#fff">${g}</span><div><b>${t}</b><em>${w}</em></div></div>`).join('')}</div></div>`;
 /* Invite story, beat 1: one small seedling on a wide, empty hill, with an open spot beside it */
 LV.alone=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" style="opacity:.5"></div><div class="lv-row" style="gap:44px;align-items:flex-end"><img class="rise" src="${IMG.seedling}" style="height:86px;filter:saturate(.75)" alt=""><div class="rise d3" style="margin-bottom:6px;opacity:.55">${spot('')}</div></div></div>`;
 
@@ -4665,7 +4667,7 @@ const FOCUS_SPEC={
  year:{title:'Acorns Year',hub:'ac-home',hubLabel:'Start my year',
    go:"yrGo()",allow:['ac-home'],
    side:'The story introduces it, then you’re back on Home. Use the prototype clock to move time: at six months a halfway card arrives on its own, at twelve a notification says your Acorns Year is ready. Seven cards about the year you showed up. Weeks and counts only. Never balances or returns.'},
- invite:{title:'Invite to your grove',hub:'gt-grove',hubLabel:'Open my grove',
+ invite:{title:'Invite to your grove',hub:'gt-grove',hubLabel:'Open my grove',allow:['gt-ch'],
    go:"jumpAhead();spInit();T={};go('inv-pick')",
    side:'Invite one person, pick the day you’ll both invest, and send it from your own phone. Their seed is planted when they sign up and sprouts beside your oak after their first investment.'}};
 

@@ -19,7 +19,7 @@ const FOCUS_SPEC={
  year:{title:'Acorns Year',hub:'ac-home',hubLabel:'Start my year',
    go:"yrGo()",allow:['ac-home'],
    side:'The story introduces it, then you’re back on Home. Use the prototype clock to move time: at six months a halfway card arrives on its own, at twelve a notification says your Acorns Year is ready. Seven cards about the year you showed up. Weeks and counts only. Never balances or returns.'},
- invite:{title:'Invite to your grove',hub:'gt-grove',hubLabel:'Open my grove',
+ invite:{title:'Invite to your grove',hub:'gt-grove',hubLabel:'Open my grove',allow:['gt-ch'],
    go:"jumpAhead();spInit();T={};go('inv-pick')",
    side:'Invite one person, pick the day you’ll both invest, and send it from your own phone. Their seed is planted when they sign up and sprouts beside your oak after their first investment.'}};
 

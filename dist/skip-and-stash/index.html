@@ -2975,7 +2975,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 9:33 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 9:39 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -3770,8 +3770,8 @@ const LANDERS={
   t:'Invite someone',s:'You send the invite yourself. Their tree appears after their first investment. Rewards follow the Referrals program.',where:'Lives in Profile → Invite friends, and any open spot in your grove.',cta:'Invite someone'},
  'money-type':{name:'Money Type',beats:[['forest','Not sure where to start?'],['quiz','Answer three quick questions.'],['type','We’ll match you with a first habit.'],['handoff','Then set it up in Recurring or Round-Ups®, tools you already have.']],
   t:'Find your money type',s:'Based on your habits only. It never changes your portfolio or risk.',where:'Right after sign-up, and a banner on Home.',cta:'Start'},
- 'skip-and-stash':{name:'Skip and Stash',beats:[['coffee','Skipped coffee today?'],['jar','That’s money you didn’t spend.'],['skipinv','Invest it in one tap, and this week counts toward your streak.']],
-  t:'Skip it, stash it',s:'Invest a skip right away, save skips in a jar, or do a Skip Week with friends. We never need to read your spending.',where:'Lives in a banner on Home, and reminders you set.',cta:'Pick how to skip'},
+ 'skip-and-stash':{name:'Skip and Stash',beats:[['coffee','Skipped coffee today?'],['jar','That’s $6 you didn’t spend.'],['skipinv','One tap, and it’s invested. This week counts.']],
+  t:'Skip it, stash it',s:'Invest a skip right away, save skips in a jar, or do a Skip Week with friends. We never need to read your spending.',where:'Lives in a banner on Home, and in reminders you set.',cta:'Start stashing'},
  split:{name:'Shared goals',beats:[['mm','Money Manager already splits every paycheck for you.'],['goalpick','Now add a slice for a goal you share with someone.'],['goalways','Or add to it your way: a recurring transfer, or money anytime.'],['goalinvite','Not on Acorns yet? They join from your invite.'],['goalring','You both see progress as a percent, never each other’s dollars.']],
   t:'Shared goals',s:'Save for a trip or a first apartment with someone. Add a paycheck slice, a recurring transfer, or money anytime. You both see progress, never each other’s dollars.',where:'Lives in Money Manager, from the Money Hub tab. One small card explains it.',cta:'Start a shared goal'},
  'future-club':{name:'Future Club',beats:[['note','Family can write your kid notes to read when they’re older.'],['later','Each note stays sealed until a date you pick, like their 18th birthday.'],['sapling','Every note you approve adds a leaf to their sapling.']],
@@ -4321,8 +4321,8 @@ function ssCal(st){const first=4,days=31,today=26;const cells=[];for(let i=0;i<f
  return `<div class="sgx-card"><div class="sgx-ch"><div><b>October</b><em>${nSk} skip days · ${nSt} stashed</em></div><span class="sgx-fire">${ic2('flame',14)} ${plw(S.streak)}</span></div>
   <div class="ssx-dow">${['S','M','T','W','T','F','S'].map(x=>`<span>${x}</span>`).join('')}</div><div class="ssx-cal">${cells.join('')}</div>
   <div class="sgx-leg"><span><i class="w2"></i>Stashed</span><span><i class="w1"></i>Skipped, not stashed yet</span></div></div>`}
-function ssBadges(n){return `<div class="sgx-card"><div class="sgx-ch"><div><b>Milestones</b><em>${SS_MS.filter(m=>n>=m[0]).length} of ${SS_MS.length} reached</em></div></div>
-  <div class="sgx-bd">${SS_MS.map(([v,l,i0])=>`<div class="sgx-b ${n>=v?'on':''}"><span>${sgGlyph(i0,22,n>=v?'#fff':'#9aa69c')}</span><b>${l}</b></div>`).join('')}</div></div>`}
+function ssBadges(n,nx){return `<div class="sgx-card"><div class="sgx-ch"><div><b>Milestones</b><em>${nx?`${nx[0]-n} more skip${nx[0]-n===1?'':'s'} to ${nx[1]}`:'All five reached'}</em></div></div>
+  <div class="sgx-bd">${SS_MS.map(([v,l,i0])=>`<div class="sgx-b ${n>=v?'on':''}"><span>${sgGlyph(i0,22,n>=v?'#fff':'#9aa69c')}</span><b>${l}</b></div>`).join('')}</div>${nx?`<div class="sgx-nb" style="margin-top:14px"><i style="width:${Math.round(n/nx[0]*100)}%"></i></div>`:''}</div>`}
 def('ss-hub',()=>{spInit();const st=ssStats();const prev=T.ssPrev!=null?T.ssPrev:Math.max(0,st.stashed-18);const nx=SS_MS.find(m=>st.skips<m[0]);
  const jars=S.jars&&S.jars.length?S.jars:[{id:'j1',name:'Coffee jar',est:6,coins:3}];
  const log=(S.skipLog&&S.skipLog.length?S.skipLog:[{t:'Coffee',amt:6,src:'quick',when:'Today',stash:true},{t:'Coffee jar',amt:6,src:'self',when:'Fri',stash:false},{t:'Takeout',amt:14,src:'quick',when:'Wed',stash:true}]).slice(0,4);
@@ -4331,38 +4331,59 @@ def('ss-hub',()=>{spInit();const st=ssStats();const prev=T.ssPrev!=null?T.ssPrev
   <div class="ssx-hero"><div class="ssx-sky"></div><div class="ssx-hill"></div><div class="ssx-jar">${jarViz({name:'Your skips',coins:Math.min(12,Math.round(st.skips*.7))},1)}</div>
    <div class="ssx-num"><b data-count>$${st.stashed}</b><em>invested from skips</em><span>${st.skips} skips this month</span></div></div>
   <div class="ssx-q"><div class="ssx-qh"><b>Skipped something today?</b><em>Tap it and invest what you didn’t spend</em></div>
-   <div class="ssx-qg">${SS_QUICK.map(([n,a,k])=>`<button onclick="T={qsItem:'${n==='Something else'?'Other':n}',qsAmt:${a}};S.ret='ss-hub';go('qs-1')"><span>${ssQIc(k)}</span><b>${n}</b><em>${n==='Something else'?'Pick it':'About $'+a}</em></button>`).join('')}</div></div>
-  ${nx?`<div class="sgx-next"><div class="sgx-nl"><span>${sgGlyph(nx[2],16,'#2f7a12')}</span><div class="grow"><b>Next: ${nx[1]}</b><em>${nx[0]-st.skips} more skip${nx[0]-st.skips===1?'':'s'}</em></div></div><div class="sgx-nb"><i style="width:${Math.round(st.skips/nx[0]*100)}%"></i></div></div>`:''}
-  ${ssBadges(st.skips)}
+   <div class="ssx-qg">${SS_QUICK.map(([n,a,k])=>`<button onclick="T={qsItem:'${n==='Something else'?'Other':n}',qsAmt:${a}};S.ret='ss-hub';go('qs-lt')"><span>${ssQIc(k)}</span><b>${n}</b><em>${n==='Something else'?'Pick it':'About $'+a}</em></button>`).join('')}</div></div>
   <div class="sgx-card ssx-week" onclick="go('gt-ch-detail',{id:'c-skip'})" role="button"><div class="sgx-ch"><div><b>No-delivery week</b><em>Skip Week · Day 5 of 7 · with Sam, Jess and Priya</em></div>${ic('chev',16,'opacity:.4')}</div>
    <div class="ssx-days">${[1,1,1,1,0,0,0].map((v,i)=>`<i class="${v?'on':i===4?'td':''}">${v?ic('check',12):['M','T','W','T','F','S','S'][i]}</i>`).join('')}</div>
    <div class="ssx-crew">${['me','sam','jess','priya'].map(id=>sgAv(id,26)).join('')}<span>Check in today</span></div></div>
-  ${ssCal(st)}
   <div class="sgx-card"><div class="sgx-ch"><div><b>Your jars</b><em>Drop a coin when you skip. Stash when you’re ready.</em></div></div>
-   ${jars.map(j=>`<div class="ssx-jr" onclick="go('jar',{id:'${j.id}'})" role="button"><div class="ssx-mj">${jarViz(j,0)}</div><div class="grow"><b>${j.name}</b><em>${j.coins} skip${j.coins===1?'':'s'} · about $${j.coins*j.est}</em></div><button onclick="event.stopPropagation();T={jar:'${j.id}',qsItem:'${j.name.replace(' jar','')}',qsAmt:${Math.max(5,j.coins*j.est)}};S.ret='ss-hub';go('qs-1')">Stash</button></div>`).join('')}
+   ${jars.map(j=>`<div class="ssx-jr" onclick="go('jar',{id:'${j.id}'})" role="button"><div class="ssx-mj">${jarViz(j,0)}</div><div class="grow"><b>${j.name}</b><em>${j.coins} skip${j.coins===1?'':'s'} · about $${j.coins*j.est}</em></div><button onclick="event.stopPropagation();T={jar:'${j.id}',qsItem:'${j.name.replace(' jar','')}',qsAmt:${Math.max(5,j.coins*j.est)}};S.ret='ss-hub';go('qs-lt')">Stash</button></div>`).join('')}
    <button class="ssx-new" onclick="go('jar-new')">${ic('plus',16)} New jar</button></div>
+  ${ssCal(st)}
+  ${ssBadges(st.skips,nx)}
   <div class="sgx-card"><div class="sgx-ch"><div><b>More ways to skip</b></div></div><div class="ssx-ways">${[['Skip Rules','Stash on autopilot',"go('sr-intro')"],['Sunday review','Count the week’s skips',"go('ss-review')"],['Spot my skips','Optional · off',"go('ss-detect')"],['All modes','Quick Stash, jars, Skip Week',"go('ss2-pick')"]].map(([t,d,a])=>`<button onclick="${a}"><b>${t}</b><em>${d}</em></button>`).join('')}</div></div>
   <div class="sgx-card"><div class="sgx-ch"><div><b>Recent</b><em>Only you see amounts</em></div><button class="sgx-edit" onclick="go('ss-log')">All</button></div>
    ${log.map(e=>`<div class="sgx-f"><span class="ssx-li ${e.stash?'on':''}">${e.stash?ic('check',14):ssCup(.45)}</span><span class="grow"><b>${e.stash?'Stashed':'Skipped'} · ${e.t}</b><em>${e.when}</em></span><b class="ssx-amt ${e.stash?'':'muted'}">${e.stash?'':'~'}$${e.amt}</b></div>`).join('')}</div>
   <p class="sgx-priv">${ic('lock',12)} Only you see amounts. People in a Skip Week only see the check-ins you confirm. We never read your spending unless you turn on Spot my skips.</p>
  </div>`,mount(el){const n=el.querySelector('[data-count]');if(n){const to=st.stashed,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/1000),e=1-Math.pow(1-k,3);n.textContent='$'+Math.round(prev+(to-prev)*e);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}T.ssPrev=null}}});
+def('qs-lt',()=>{if(!T.qsItem){T.qsItem='Coffee';T.qsAmt=6}const a=T.qsAmt,jar=T.jar&&S.jars.find(j=>j.id===T.jar);const name=jar?jar.name:T.qsItem;const counts=!S.invested||S.reset;
+ return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>${jar?jar.name:'Quick Stash'}</b><span style="width:44px"></span></div>
+ <div class="sg-body sgx-body">
+  <div class="qsl-stage"><div class="qsl-cup"><div class="ld-cup"><span></span></div><div><b>${name}</b><em>${jar?`${jar.coins} skips`:'Skipped today'}</em></div></div><img class="qsl-acorn" src="${IMG.acorn}" alt=""><div class="qsl-hint">Hold the button and it turns into an investment</div></div>
+  ${jar?'':`<div class="qsl-chips">${SS_QUICK.slice(0,3).concat([['Impulse buy',20,'plus'],['Other',10,'plus']]).map(([c,e])=>`<button class="${T.qsItem===c?'on':''}" onclick="T.qsItem='${c}';T.qsAmt=${e};refresh()">${c}</button>`).join('')}</div>`}
+  <div class="qsl-amt" onclick="keypad(T.qsAmt,v=>{T.qsAmt=v;refresh()},'Stash')"><span>$</span>${a}</div><div class="qsl-est">${jar?`${jar.coins} skips × about $${jar.est}`:'Your estimate'} · <u onclick="keypad(T.qsAmt,v=>{T.qsAmt=v;refresh()},'Stash')">Edit</u></div>
+  ${a<5?`<div class="qsl-min">${ic('lock',14)} The minimum stash is $5. <u onclick="T.qsAmt=5;refresh()">Make it $5</u></div>`:''}
+  <div class="sgx-card" style="padding:4px 16px">${[['From',`${S.accounts[0].name} ••${S.accounts[0].mask}`],['Into','Invest account · today'],['Streak',counts?'Counts this week':'Already counted this week']].map(([k,v])=>`<div class="sg-r"><span>${k}</span><b>${v}</b></div>`).join('')}</div>
+  <p class="sgx-priv" style="margin-top:12px">A real one-time investment. Nothing moves until you hold.</p></div>
+ <div class="sg-foot" style="text-align:center">${a<5?`<button class="btn sg-cta" disabled>Hold to stash $${a}</button>`:holdBtn('stash $'+a,'qsStash()','light')}</div>`}});
+document.head.insertAdjacentHTML('beforeend',`<style>
+.qsl-stage{position:relative;height:210px;border-radius:28px;overflow:hidden;background:radial-gradient(circle at 50% 110%,#cfe9b8,#e9f7dc 55%,#f3faec);display:flex;align-items:center;justify-content:center}
+.qsl-cup{position:absolute;display:flex;align-items:center;gap:12px;padding:12px 18px 12px 12px;border-radius:20px;background:#fff;box-shadow:0 10px 24px rgba(20,60,10,.10);transform:scale(calc(1 - var(--p,0)*.85)) translateY(calc(var(--p,0)*-20px));opacity:calc(1 - var(--p,0)*1.2)}
+.qsl-cup b{display:block;font-size:17px}.qsl-cup em{display:block;font-style:normal;font-size:13px;color:#5d655f;margin-top:1px}
+.qsl-acorn{position:absolute;height:120px;transform:scale(calc(.25 + var(--p,0)*.75)) rotate(calc(-14deg + var(--p,0)*14deg));opacity:calc(var(--p,0)*1.4);filter:drop-shadow(0 12px 18px rgba(20,60,10,.22))}
+.qsl-hint{position:absolute;left:0;right:0;bottom:14px;text-align:center;font-size:12px;font-weight:600;color:#3f5a37;opacity:calc(.9 - var(--p,0)*1.5)}
+.qsl-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.qsl-chips button{height:38px;padding:0 15px;border-radius:19px;background:#fff;font-size:14px;font-weight:600;color:#191919}.qsl-chips button.on{background:#191919;color:#fff}
+.qsl-amt{margin-top:22px;text-align:center;font-size:64px;font-weight:600;letter-spacing:-2.5px;line-height:1;color:#163d0c}.qsl-amt span{font-size:32px;vertical-align:24px;margin-right:2px;color:#6b706c;letter-spacing:0}
+.qsl-est{margin-top:8px;text-align:center;font-size:13px;color:#6b706c}.qsl-est u,.qsl-min u{text-decoration:none;color:#2f7a12;font-weight:600;cursor:pointer}
+.qsl-min{display:flex;align-items:center;gap:6px;margin-top:14px;padding:10px 14px;border-radius:14px;background:#fdf3d3;color:#6b5310;font-size:13px}
+.sgx .hold.light{height:56px;border-radius:28px;font-size:17px}.sgx .hold-alt{color:#2f7a12;opacity:1}
+</style>`);
 function qsStash(){if(S.offline){go('qs-offline');return}const a=T.qsAmt,item=T.qsItem,jar=T.jar&&S.jars.find(j=>j.id===T.jar);const c=creditWeek();S.qsUsed=true;S.stashThisWeek=(S.stashThisWeek||0)+1;
  S.skipLog.unshift({t:jar?jar.name:item,amt:a,src:T.src||(jar?'jar':'quick'),when:'Today',stash:true});if(jar){jar.coins=0;jar.last=Date.now()}if(T.combo){T.combo.forEach(id=>{const j=S.jars.find(x=>x.id===id);if(j)j.coins=0})}
  const st=ssStats();const from=st.stashed,sk0=st.skips;st.stashed+=a;st.skips+=jar?Math.max(1,Math.round(a/(jar.est||6))):1;st.days[26]='s';const ms=SS_MS.find(m=>sk0<m[0]&&st.skips>=m[0]);save();
  stack.pop();go('ss-stashed',{amt:a,item:jar?jar.name:item,from,to:st.stashed,counted:c.counted,wk:c.to,ms:ms?ms[0]:0})}
 def('ss-stashed',p=>{const m=SS_MS.find(x=>x[0]===p.ms);
  return {cls:'lt sgs sgx sgx-cel',html:`<div class="sg-top"><span style="width:44px"></span><span></span><button class="iconbtn" onclick="T.ssPrev=${p.to};back()" aria-label="Close">${ic('close',22)}</button></div>
- <div class="sgx-celb"><div class="ssx-cjar">${m?`<div class="sgx-badge pop"><span>${sgGlyph(m[2],44,'#fff')}</span></div>`:`<div class="ssx-drop">${ssCup(.9)}</div>`}</div>
+ <div class="sgx-celb"><div class="ssx-cjar">${m?`<div class="sgx-badge pop"><span>${sgGlyph(m[2],44,'#fff')}</span></div>`:`<div class="ssx-acorn"><span class="ssx-was">${ssCup(.5)}<b>${String(p.item).replace(/ jar$/i,'')}</b></span><img class="pop" src="${IMG.acorn}" alt=""></div>`}</div>
   <div class="sgx-ek">${m?'Milestone unlocked':'Skipped it. Stashed it.'}</div><h1>${m?m[1]+'!':'$'+p.amt+' invested'}</h1>
-  <p>${m?`That’s ${m[0]} skip${m[0]===1?'':'s'} turned into investments. $${p.amt} from ${p.item} just went to Invest.`:`What you didn’t spend on ${String(p.item).toLowerCase()} is now in your Invest account.`}</p>
+  <p>${m?`${m[0]} skip${m[0]===1?'':'s'} turned into investments. The $${p.amt} from ${String(p.item).toLowerCase()} just went to Invest.`:`The ${String(p.item).toLowerCase()} you didn’t buy is now in your Invest account.`}</p>
   <div class="ssx-tot"><div><em>Invested from skips</em><b data-count>$${p.to}</b></div><div class="ssx-wkc">${ic2('flame',18)}<span><b>${p.counted?`Week ${p.wk}`:'This week'}</b><em>${p.counted?'This week counts':'Already counted'}</em></span></div></div></div>
  <div class="sg-foot sgx-two"><button class="btn sg-cta ghost" onclick="ssShare('${String(p.item).replace(/'/g,'')}',${p.ms||0})">${ic('share',16)} Share</button><button class="btn sg-cta" onclick="T.ssPrev=${p.to};back()">Done</button></div>`,
- mount(el){const n=el.querySelector('[data-count]');if(n){const t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/900),e=1-Math.pow(1-k,3);n.textContent='$'+Math.round(p.from+(p.to-p.from)*e);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}setTimeout(()=>{ART.confetti($('#screen'),m?120:50);haptic(m?30:12)},250)}}});
+ mount(el){const n=el.querySelector('[data-count]');if(n){const t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/900),e=1-Math.pow(1-k,3);n.textContent='$'+Math.round(p.from+(p.to-p.from)*e);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}setTimeout(()=>{ART.confetti($('#screen'),m?80:28);haptic(m?30:12)},250)}}});
 /* Share a stash: skips and milestones only, never amounts */
 function ssShare(item,ms){const st=ssStats();const m=SS_MS.find(x=>x[0]===ms);const it=String(item||'it').replace(/ jar$/i,'').toLowerCase();
- const card=storyCard({eyebrow:m?'Milestone':'Skip and Stash',title:m?`${m[1]}, turned into investments.`:`Skipped ${it}. Invested it instead.`,sub:`${st.skips} skips this month, every one invested.`,art:`<div class="ld-cup" style="transform:scale(1.4);transform-origin:50% 100%"><span></span></div>`});
+ const card=storyCard({eyebrow:m?'Milestone':'Skip and Stash',title:m?`${m[1]}, turned into investments.`:`Skipped ${it}. Invested it instead.`,sub:`${st.skips} skips this month, every one invested.`,art:`<img src="${IMG.acorn}" alt="">`});
  share({title:m?`${m[1]} on Acorns`:'Skipped it. Stashed it.',story:card,text:m?`${m[0]} skips turned into investments. Skip something with me this week?`:`Skipped ${it} today and invested it instead. Skip something with me this week?`})}
-LFX['skip-and-stash']=['ss-hub',{},'Skipped coffee or takeout? Tap it and invest what you didn’t spend. Fill a jar to invest later, or do a Skip Week with friends. Every stash counts toward your streak.',()=>`<div class="lx lx-card"><div class="ld-cup" style="transform:scale(.75);margin:-6px"><span></span></div><div><em class="lx-k">Milestone unlocked</em><b>Ten skips</b><em>$84 invested from skips</em></div></div>`];
+LFX['skip-and-stash']=['ss-hub',{},'Skipped coffee? Tap it, and the $6 you didn’t spend is invested. Save skips in a jar, or run a Skip Week with friends. Every stash counts toward your streak.',()=>`<div class="lx lx-card"><div class="ld-cup" style="transform:scale(.75);margin:-6px"><span></span></div><div><em class="lx-k">Milestone unlocked</em><b>Ten skips</b><em>$84 invested from skips</em></div></div>`];
 document.head.insertAdjacentHTML('beforeend',`<style>
 .ssx-hero{position:relative;height:230px;border-radius:28px;overflow:hidden;background:linear-gradient(170deg,#e9f7dc,#d5efc2)}
 .ssx-sky{position:absolute;inset:0;background:radial-gradient(circle at 78% 18%,rgba(255,255,255,.9),transparent 45%)}
@@ -4384,7 +4405,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ssx-ways{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ssx-ways button{padding:12px;border-radius:16px;background:#f4f7f1;text-align:left;color:#191919}.ssx-ways b{display:block;font-size:14px}.ssx-ways em{display:block;font-style:normal;font-size:12px;color:#6b706c;margin-top:2px}
 .ssx-li{width:34px;height:34px;border-radius:17px;background:#f4f6f2;display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}.ssx-li.on{background:#3d9a1f;color:#fff}
 .ssx-amt{font-size:14px;color:#2f7a12}.ssx-amt.muted{color:#8a958c}
-.ssx-cjar{height:130px;display:flex;align-items:center;justify-content:center}.ssx-drop{width:110px;height:110px;border-radius:55px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 10px rgba(116,201,71,.18),0 16px 36px rgba(60,140,30,.25);animation:sgxPop .6s cubic-bezier(.2,1.5,.4,1) both}
+.ssx-cjar{height:150px;display:flex;align-items:center;justify-content:center}.ssx-acorn{position:relative;display:flex;align-items:center;justify-content:center}.ssx-acorn img{height:130px;filter:drop-shadow(0 14px 22px rgba(20,60,10,.22))}.ssx-was{position:absolute;z-index:2;left:-104px;top:-12px;display:flex;align-items:center;gap:2px;padding:4px 10px 4px 4px;border-radius:14px;background:#fff;box-shadow:0 6px 16px rgba(20,60,10,.12);font-size:12px;font-weight:600;color:#5d655f;transform:rotate(-8deg);animation:ssxWas .6s .3s cubic-bezier(.2,1.4,.4,1) both;text-decoration:line-through;text-decoration-color:#c7cfc3}@keyframes ssxWas{from{opacity:0;transform:rotate(-8deg) translateY(10px)}}.ssx-drop{width:110px;height:110px;border-radius:55px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 10px rgba(116,201,71,.18),0 16px 36px rgba(60,140,30,.25);animation:sgxPop .6s cubic-bezier(.2,1.5,.4,1) both}
 .ssx-tot{width:100%;margin-top:22px;display:flex;gap:10px}.ssx-tot>div{flex:1;padding:14px;border-radius:20px;background:#fff;text-align:left}.ssx-tot em{display:block;font-style:normal;font-size:12px;color:#6b706c}.ssx-tot b{display:block;font-size:26px;font-weight:700;color:#2f7a12;margin-top:2px}
 .ssx-wkc{display:flex;align-items:center;gap:10px;color:#3d9a1f}.ssx-wkc b{font-size:16px!important;color:#191919!important}.ssx-wkc em{margin-top:2px}
 </style>`);

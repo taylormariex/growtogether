@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:21 AM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 9:10 AM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5153,10 +5153,10 @@ LV.yrten=()=>`${ldGlow()}<div class="lv-mid"><div class="yt-cel rise"><div class
 
 /* ---------- Skip & Invest story, card one: three skips become three sprouts ---------- */
 LV.sswhy=()=>`${ldGlow()}<div class="skw" id="skw"><div class="tl-ground"></div>
-  ${[['cup','Made coffee at home','$6',24],['car','Walked instead','$14',50],['bag','Cooked, didn’t order','$22',76]].map(([k,t,a,x],i)=>`<div class="skw-i" style="--x:${x}%;--i:${i}"><div class="skw-chip"><span class="skw-ic">${ssQIc(k)}</span><b>${t}</b><em>${a}</em></div><img class="skw-ac" src="${stageSrc(0)}" alt=""><div class="skw-soil"></div><img class="skw-sp" src="${stageSrc(2)}" alt=""></div>`).join('')}</div>`;
+  ${[['cup','Made coffee at home','$6',22],['car','Walked instead','$14',50],['bag','Cooked, didn’t order','$22',78]].map(([k,t,a,x],i)=>`<div class="skw-i" style="--x:${x}%;--i:${i}"><div class="skw-chip"><span class="skw-ic">${ssQIc(k)}</span><b>${t}</b><em>${a}</em></div><img class="skw-ac" src="${YART}stage-acorn-pad.png" alt=""><div class="skw-soil"></div><img class="skw-sp" src="${YART}stage-young-seedling-pad.png" alt=""></div>`).join('')}</div>`;
 (function(){const f=SCR.splash;if(!f)return;SCR.splash=p=>{const r=f(p);const m=r.mount;r.mount=el=>{if(m)m(el);const w=$('#skw',el);if(!w||w._on)return;w._on=1;
-  $$('.skw-i',w).forEach(it=>{const x=parseFloat(it.style.getPropertyValue('--x'))/100;it.style.setProperty('--dx',((.5-x)*w.offsetWidth).toFixed(0)+'px')});
-  const run=()=>{if(!document.contains(w))return;w.classList.remove('go');void w.offsetWidth;w.classList.add('go');setTimeout(run,10500)};run()};return r}})();
+  const H=w.offsetHeight;$$('.skw-i',w).forEach((it,i)=>{const x=parseFloat(it.style.getPropertyValue('--x'))/100;it.style.setProperty('--dx',((.5-x)*w.offsetWidth).toFixed(0)+'px');it.style.setProperty('--dy',(-(H-(H*.04+i*60+50))).toFixed(0)+'px')});
+  const run=()=>{if(!document.contains(w))return;w.classList.remove('go','out');void w.offsetWidth;w.classList.add('go');setTimeout(()=>{if(document.contains(w))w.classList.add('out')},9600);setTimeout(run,10300)};run()};return r}})();
 
 /* ---------- Invite story, card one: an acorn is planted, then a time-lapse to the oak ---------- */
 LV.alone=()=>`${ldGlow()}<div class="tlp" id="tl"><div class="tl-ground"></div><div class="tl-rays"></div>${STAGE_SLUG.map((s,i)=>`<img class="tl-s" data-i="${i}" src="${YART}stage-${s}.png" alt="" style="height:${Math.round(STAGE_H[i]*1.3)}px">`).join('')}<div class="tl-soil"></div><div class="tl-motes">${Array.from({length:9},(_,k)=>`<i style="left:${18+(k*23)%66}%;animation-delay:-${(k*.7).toFixed(1)}s;animation-duration:${(3+(k%3)).toFixed(1)}s"></i>`).join('')}</div><div class="tl-yrs" id="tlyr"><em>Week</em><b id="tlyn">1</b></div></div>`;
@@ -5223,20 +5223,22 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ps-card{display:flex;justify-content:center;margin:16px 0 18px}.ps-in{transform:scale(.86);transform-origin:50% 0;margin-bottom:calc(-340px * .14)}.ps-in:has(.ycf){transform:scale(.6);margin-bottom:calc(-533px * .4)}
 .ps-acts{display:flex;gap:10px}.ps-acts button{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 4px 10px;border-radius:18px;background:#f4f6f1;color:#191919;font-size:12px;font-weight:600}.ps-acts button span{width:44px;height:44px;border-radius:22px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 0 rgba(0,0,0,.06)}
 /* three skips → three sprouts */
-.skw{position:absolute;left:0;right:0;bottom:22%;height:66%;pointer-events:none}
+.skw{position:absolute;left:0;right:0;bottom:22%;height:66%;pointer-events:none;transition:opacity .6s}.skw.out{opacity:0}
 .skw-i{position:absolute;left:var(--x);bottom:0;width:0;height:100%}
-.skw-chip{position:absolute;left:var(--dx);top:calc(4% + var(--i) * 60px);transform:translateX(-50%) translateY(10px);width:220px;padding:11px 14px 11px 11px;border-radius:18px;background:#fff;color:#191919;display:flex;align-items:center;gap:10px;box-shadow:0 16px 34px rgba(0,0,0,.35);opacity:0}
+.skw-chip{position:absolute;left:var(--dx);top:calc(4% + var(--i) * 60px);transform:translateX(-50%) translateY(10px);width:220px;padding:11px 14px 11px 11px;border-radius:18px;background:#fff;color:#191919;display:flex;align-items:center;gap:10px;box-shadow:0 16px 34px rgba(0,0,0,.35);opacity:0;z-index:2}
 .skw-chip b{font-size:14px;line-height:1.15;flex:1;font-weight:600}.skw-chip em{font-style:normal;font-size:14px;font-weight:700;color:#2f7a12}.skw-ic{width:34px;height:34px;border-radius:17px;background:#eef3e8;display:flex;align-items:center;justify-content:center;flex:none}.skw-ic svg{width:18px;height:18px}
-.skw-ac{position:absolute;left:0;bottom:0;height:64px;transform:translateX(-50%);opacity:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4))}
-.skw-sp{position:absolute;left:0;bottom:0;height:92px;transform:translateX(-50%) scaleY(.2);transform-origin:50% 100%;opacity:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4))}
-.skw-soil{position:absolute;left:0;bottom:-3px;width:90px;height:20px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(60,40,20,.5),transparent);opacity:0}
-.skw.go .skw-chip{animation:skwChip .7s calc(var(--i) * 2.4s) cubic-bezier(.2,1.1,.3,1) both}
-.skw.go .skw-ac{animation:skwDrop 1.2s calc(var(--i) * 2.4s + .9s) cubic-bezier(.45,0,.55,1) both}
-.skw.go .skw-soil{animation:tlSoil .9s calc(var(--i) * 2.4s + 1.85s) ease both}
-.skw.go .skw-sp{animation:skwGrow 1.2s calc(var(--i) * 2.4s + 1.95s) cubic-bezier(.2,1.3,.3,1) both}
+.skw-ac{position:absolute;left:0;bottom:0;height:60px;transform:translateX(-50%);transform-origin:50% 100%;opacity:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4))}
+.skw-sp{position:absolute;left:0;bottom:0;height:88px;transform:translateX(-50%) scaleY(.1);transform-origin:50% 92%;opacity:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4))}
+.skw-soil{position:absolute;left:0;bottom:2px;width:90px;height:20px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(60,40,20,.5),transparent);opacity:0}
+.skw.go .skw-chip{animation:skwChip .6s calc(var(--i) * 2.6s) cubic-bezier(.2,1.1,.3,1) both}
+.skw.go .skw-ac{animation:skwDrop 2.1s calc(var(--i) * 2.6s + .55s) linear both}
+.skw.go .skw-soil{animation:tlSoil .8s calc(var(--i) * 2.6s + 2.3s) ease both}
+.skw.go .skw-sp{animation:skwGrow 1s calc(var(--i) * 2.6s + 2.45s) cubic-bezier(.2,1.25,.3,1) both}
 @keyframes skwChip{0%{opacity:0;transform:translateX(-50%) translateY(14px) scale(.96)}100%{opacity:1;transform:translateX(-50%)}}
-@keyframes skwDrop{0%{opacity:0;transform:translate(calc(-50% + var(--dx)),-320px) rotate(-20deg) scale(.5)}15%{opacity:1}78%{opacity:1;transform:translate(-50%,0) rotate(0)}100%{opacity:0;transform:translate(-50%,0) scale(.7)}}
-@keyframes skwGrow{0%{opacity:0;transform:translateX(-50%) scaleY(.2)}40%{opacity:1}100%{opacity:1;transform:translateX(-50%) scale(1)}}
+@keyframes skwDrop{0%{opacity:0;clip-path:inset(0 0 16% 0);transform:translate(calc(-50% + var(--dx)),var(--dy)) scale(.55)}8%{opacity:1}40%{clip-path:inset(0 0 16% 0)}
+  42%{clip-path:inset(0);transform:translate(-50%,0) scale(1);animation-timing-function:ease-out}50%{transform:translate(-50%,-16px) scale(1);animation-timing-function:ease-in}57%{transform:translate(-50%,0) scale(1,.94)}62%{transform:translate(-50%,0) scale(1)}
+  82%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,10px) scale(.6,.4)}}
+@keyframes skwGrow{0%{opacity:0;transform:translateX(-50%) scaleY(.1)}30%{opacity:1}100%{opacity:1;transform:translateX(-50%) scale(1)}}
 .skw .tl-ground{width:340px;height:90px}
 /* polaroids: real photographs */
 .pol-ph img{width:100%;height:100%;object-fit:cover;display:block}

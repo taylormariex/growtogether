@@ -2145,7 +2145,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 8:38 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 26, 8:50 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -2566,11 +2566,11 @@ const ACI={money:'$4,812.40',inv:'$4,812.40'};
 function appShot(img,spots,note){return `<div class="as"><img class="as-img" src="art/${img}" alt="">${spots.map(([x,y,w,h,js,lab])=>`<button class="as-hot" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%" onclick="${js}" aria-label="${lab}"></button>`).join('')}
   ${note?`<div class="as-note">${ic('eye',13)} Existing screen, unchanged</div>`:''}</div>`}
 def('ac-mm',()=>({cls:'lt',html:`<div class="as as-scroll"><div class="as-seg" style="aspect-ratio:750/1262;background-image:url(art/app-money-manager.jpg);background-position:top"><button class="as-hot" style="left:2%;top:2.5%;width:14%;height:7%" onclick="back()" aria-label="Close"></button><button class="as-hot" style="left:83%;top:2.5%;width:14%;height:7%" onclick="toast('Money Manager settings (existing)')" aria-label="Settings"></button></div>
-  ${S.mmCardHide?'':`<div class="mm-card" role="region" aria-label="Grow Together">
-   <div class="mm-card-hd"><div class="mm-card-ic"><img src="${IMG.oak}" alt=""></div><div class="grow"><div class="mm-card-k">Grow Together</div><div class="mm-card-t">Your Investing slice now grows your oak</div></div><button class="iconbtn" style="color:#6b6b6b;width:36px;height:36px;flex:none" onclick="S.mmCardHide=1;save();refresh()" aria-label="Dismiss">${ic('close',16)}</button></div>
-   <p class="mm-card-p">Your split stays exactly the same. Each payday, the money that goes to Investing counts as your investment for the week, so your streak and your oak keep growing.</p>
-   <p class="mm-card-p">Friends in your grove see your oak grow. They never see amounts.</p>
-   <button class="btn pri sm mt12" style="width:100%" onclick="go('mm-oak')">See how it shows on my oak</button></div>`}
+  ${S.mmCardHide?'':`<div class="mm-card" role="region" aria-label="Shared goals">
+   <div class="mm-card-hd"><div class="mm-card-ic sg-ic">${sgIcon(26)}</div><div class="grow"><div class="mm-card-k">Shared goals</div><div class="mm-card-t">Save for something with someone</div></div><button class="iconbtn" style="color:#6b6b6b;width:36px;height:36px;flex:none" onclick="S.mmCardHide=1;save();refresh()" aria-label="Dismiss">${ic('close',16)}</button></div>
+   <p class="mm-card-p">Add a slice to your split for a goal you share, like a trip. You each fund your own part from your own paycheck.</p>
+   <p class="mm-card-p">You both see progress as a percent, never each other’s dollars.</p>
+   <button class="btn pri sm mt12" style="width:100%" onclick="${S.sg?"go('sg-home')":"T.sg=null;go('sg-new')"}">${S.sg?'See your shared goal':'Start a shared goal'}</button></div>`}
   <div class="as-seg" style="aspect-ratio:750/362;background-image:url(art/app-money-manager.jpg);background-position:bottom"></div>
   <div style="height:72px"></div></div><div class="as-note" style="z-index:4">${ic('eye',13)} Existing screen, unchanged</div>`}));
 def('mm-oak',()=>{spInit();return {cls:'dark',html:`<div class="hero-wrap mmo-hero">${ldForest({glow:.4})}${ldHill()}<div class="ld-row"><img class="rise" src="${IMG.oak}" style="height:190px" alt="Your oak"></div><div class="mmo-chips"><div class="mmo-chip rise d3"><i style="background:#74c947"></i>Investing: week counted</div><div class="mmo-chip rise d5"><i style="background:#8cc4f7"></i>Saving: nest added</div></div><div class="top" style="position:absolute;left:0;right:0;top:0;z-index:6"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back')}</button><div class="t" style="color:#fff">Your split, on your oak</div><div style="width:44px"></div></div></div>
@@ -2637,7 +2637,7 @@ const SPL={
  invite:{t:'Invite someone',e:'Grow Together · Referrals',img:'learn',what:'Invite one person at a time. Pick a day for each of you to invest. Their first investment plants a tree beside yours.',why:'Turns the existing referral into an ongoing connection, not just a link. Rewards still follow the Referrals program.',where:'Profile → Invite friends, or an empty spot in your grove.',go:"jumpAhead();spInit();T={};go('inv-pick')",cta:'Invite someone'},
  'money-type':{t:'Find your money type',e:'Post sign-up',img:'seedling',what:'Three quick questions about how money reaches you and how you spend. You get a type and the first habit that fits.',why:'New investors stall at “where do I start?”. This picks Recurring or Round-Ups for them, then hands off to the setup they already have.',where:'Right after sign-up, and a banner on Home.',go:"T={};home('mt2-intro')",cta:'Start'},
  'skip-and-stash':{t:'Skip it, stash it',e:'Everyday wins',img:'roundup',what:'Skip something (coffee, takeout, a ride) and invest what you didn’t spend. Quick Stash, a Skip Jar, or a 7-day Skip Week with friends.',why:'It turns a small choice into a real investment, and a real investment counts toward your streak. Works without reading your spending.',where:'A banner on Home, and reminders you set.',go:"T={};home('ss2-pick')",cta:'Pick how to skip'},
- split:{t:'Money Manager',e:'Existing product · new layer',img:'later',what:'Your Money Manager split stays exactly as it is. Each payday, the Investing slice counts as your investment for the week, so your streak keeps going. The Saving slice adds a nest to your oak.',why:'People set a split once and forget about it. Seeing it on their oak gives them a reason to keep it going.',where:'Money Hub tab → Money Manager. One small card explains it. Nothing else changes.',go:"home('ac-home');go('ac-mm')",cta:'Open Money Manager'},
+ split:{t:'Shared goals',e:'Money Manager',img:'later',what:'A new slice in your Money Manager split for a goal you share with someone, like a trip or a first apartment. You each fund your own part from your own paycheck.',why:'Saving toward something together keeps both people going, without either one seeing the other’s money.',where:'Money Hub tab → Money Manager. One card starts it.',go:"home('ac-home');T.sg=null;go('sg-new')",cta:'Start a shared goal'},
  'future-club':{t:'Future Club',e:'Acorns Early · Gold',img:'early',what:'Family writes notes for your kid to read when they’re older. Each note you approve adds a leaf to their sapling, and family can add a gift.',why:'Gives families a reason to join, and gives kids something to read besides a balance.',where:'Home → Kids, on your kid’s Early account.',go:"T={};home('fc-types')",cta:'Start a club'},
  year:{t:'Your Acorns Year',e:'Every December',img:'later',what:'Six cards on how you showed up: weeks invested, Round-Ups, how consistent you were, your type. Each card works on its own, and together they tell your year.',why:'Made to share. Every card carries your link, and never shows a balance or return.',where:'Home banner in December, and a monthly recap the rest of the year.',go:"T={si:0};jumpAhead();spInit();home('journal')",cta:'Watch my year'},
  challenges:{t:'Challenges',e:'Grow Together · Streaks',img:'earn',what:'Bring people in on a no-delivery week, a Round-Ups month, or 8 weeks side by side. Run several at once.',why:'One investment counts toward every challenge it fits, so doing more never means doing more work.',where:'Streaks → Challenges tab, or any tree in your grove.',go:"jumpAhead();spInit();home('gt-ch')",cta:'See challenges'},
@@ -2907,10 +2907,10 @@ const LANDERS={
   t:'Invite someone',s:'You send the invite yourself. Their tree appears after their first investment. Rewards follow the Referrals program.',where:'Lives in Profile → Invite friends, and any open spot in your grove.',cta:'Invite someone'},
  'money-type':{name:'Money Type',beats:[['forest','Not sure where to start?'],['quiz','Answer three quick questions.'],['type','We’ll match you with a first habit.'],['handoff','Then set it up in Recurring or Round-Ups®, tools you already have.']],
   t:'Find your money type',s:'Based on your habits only. It never changes your portfolio or risk.',where:'Right after sign-up, and a banner on Home.',cta:'Start'},
- 'skip-and-stash':{name:'Skip and Stash',beats:[['coffee','Skipped coffee today?'],['jar','That’s money you didn’t spend.'],['grow','Invest it in one tap, and this week counts toward your streak.']],
+ 'skip-and-stash':{name:'Skip and Stash',beats:[['coffee','Skipped coffee today?'],['jar','That’s money you didn’t spend.'],['skipinv','Invest it in one tap, and this week counts toward your streak.']],
   t:'Skip it, stash it',s:'Invest a skip right away, save skips in a jar, or do a Skip Week with friends. We never need to read your spending.',where:'Lives in a banner on Home, and reminders you set.',cta:'Pick how to skip'},
- split:{name:'Money Manager',beats:[['mm','Your Money Manager split already runs every payday.'],['mm','Nothing about it changes.'],['flour','Now the Investing slice counts toward your streak.'],['weeks','And the Saving slice adds a nest to your oak.']],
-  t:'Money Manager',s:'Your split stays exactly the same. Your oak just shows it working.',where:'Lives in Money Manager, from the Money Hub tab. One small card explains it.',cta:'Open Money Manager'},
+ split:{name:'Shared goals',beats:[['mm','Money Manager already splits every paycheck for you.'],['goalpick','Now add a slice for a goal you share with someone.'],['goalsplit','You each send a slice from your own paycheck.'],['goalring','You both see progress as a percent, never each other’s dollars.']],
+  t:'Shared goals',s:'Save for a trip or a first apartment with someone. You each fund your own part. You both see progress, never each other’s dollars.',where:'Lives in Money Manager, from the Money Hub tab. One small card explains it.',cta:'Start a shared goal'},
  'future-club':{name:'Future Club',beats:[['note','Family can write your kid notes to read when they’re older.'],['later','Each note stays sealed until a date you pick, like their 18th birthday.'],['sapling','Every note you approve adds a leaf to their sapling.']],
   t:'Future Club',s:'Notes from family, saved for your kid to read later. Family can add a gift to their Early account too.',where:'Lives on Home → Kids, on your kid’s Early account.',cta:'Start a club'},
  year:{name:'Acorns Year',beats:[['forest','Your year at Acorns, in six cards.'],['weeks','Like the 48 weeks you invested.'],['cards','Each card works on its own when you share it.'],['cards','Together, they tell the story of your year.']],
@@ -2927,7 +2927,7 @@ def('splash',p=>{const k=p.k in LANDERS?p.k:'grove';const L=LANDERS[k],S0=SPL[k]
    <div class="ld-next"><button onclick="ldGo(${b+1})" aria-label="Next">${ic('back',20,'transform:rotate(180deg)')}</button></div>`,mount(){haptic(4)}}});
 function ldThread(o){const lp=`<div class="ld-lp"><div class="ld-lp-img"><img src="${IMG.oak}" alt=""></div><div class="ld-lp-tx"><b>Join ${S.me}’s grove</b><span>acorns.com/j/${S.me.toLowerCase()}</span></div></div>`;
  return `${ldGlow()}<div class="lv-mid"><div class="ld-msg rise"><div class="ld-msg-hd"><span class="av-c" style="background:${o.c}">${o.who[0]}</span><div><b>${o.who}</b><em>Text message</em></div></div><div class="ld-msg-body ${o.in?'in':''}"><div class="lv-bub">${o.text}</div>${lp}<div class="ld-msg-meta">${o.in?'Just now':'Delivered'}</div></div></div></div>`}
-const LD_MOCK=new Set(['days','later','link','quiz','type','handoff','coffee','mm','note','cards','ch','phone','paths','weeks']);
+const LD_MOCK=new Set(['skipinv','goalpick','goalsplit','goalring','payday','mmflow','mmnest','days','later','link','quiz','type','handoff','coffee','mm','note','cards','ch','phone','paths','weeks']);
 function ldGo(b){const t=stack[stack.length-1];t.params=Object.assign({},t.params,{b});refresh()}
 (function(){const st=document.createElement('style');st.textContent=`
 .scr.ldr{background:#222a20!important}
@@ -3038,7 +3038,7 @@ Object.assign(LV,{
 
 /* Final lander screen, after the Streaks “Introducing” pattern: big word, plain explanation, a zoomed crop of where it lives */
 const LF={grove:['Introducing','Grove','streak'],invite:['Introducing','Invites','refer'],'money-type':['Introducing','Money Type','banner'],'skip-and-stash':['Introducing','Skip & Stash','banner'],
- split:['Now on your oak','Your split','mm'],'future-club':['Introducing','Future Club','kids'],year:['Introducing','Acorns Year','banner'],challenges:['Introducing','Challenges','tabs'],invited:['When a friend invites you','Invites','link']};
+ split:['New in Money Manager','Shared goals','mm'],'future-club':['Introducing','Future Club','kids'],year:['Introducing','Acorns Year','banner'],challenges:['Introducing','Challenges','tabs'],invited:['When a friend invites you','Invites','link']};
 const LF_BN={'money-type':['Find your money type','Not sure where to start? <g>Take a 1-minute quiz</g>','seedling'],'skip-and-stash':['Skip and stash','Skipped a coffee today? <g>Invest what you saved</g>','roundup'],year:['Acorns Year','Your 2026 <g>is ready to watch</g>','later']};
 function lfCrop(k,kind){const ph=(inner,cls)=>`<div class="lf-ph ${cls||''}">${inner}</div>`;
  const row=(ic0,t)=>`<div class="lf-row"><span>${ic0}</span><b>${t}</b><i></i></div>`;
@@ -3118,7 +3118,128 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .lx-big{font-size:40px;font-weight:700;color:#2f7a12;letter-spacing:-1px;line-height:1}
 .lx-note{padding:16px 18px;background:#fbfaf4;transform:rotate(-2deg)}.lx-note p{margin:0;font-size:16px;line-height:1.4;font-weight:500}.lx-note div{display:flex;align-items:center;gap:8px;margin-top:10px}.lx-note span{width:24px;height:24px;border-radius:12px;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}.lx-note b{font-size:13px}.lx-note em{font-style:normal;font-size:13px;color:#6b6b6b}
 .lx-ch{padding:14px 16px}.lx-ch>b{display:block;font-size:16px;margin-bottom:8px}.lx-pr{display:flex;align-items:center;gap:8px;margin-top:8px}.lx-pr span{width:22px;height:22px;border-radius:11px;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}.lx-pr em{font-style:normal;font-size:13px;width:34px}.lx-pr i{flex:1;height:8px;border-radius:4px;background:#eceeea;overflow:hidden}.lx-pr u{display:block;height:100%;background:#74c947;border-radius:4px}.lx-pr small{font-size:12px;color:#6b6b6b}
-.lf-crop{min-height:300px!important}
+.lf-crop{min-height:210px!important}
+</style>`);
+
+Object.assign(LV,{
+ payday:()=>`${ldGlow()}<div class="lv-mid"><div class="mf-note rise"><div class="mf-nh"><span class="mf-app"><img src="${IMG.acorn}" alt=""></span><b>Acorns</b><em>now</em></div><b class="mf-nt">Payday split done</b><div class="mf-rows">${[['Investing','5%','#2f9a1c'],['Saving','10%','#5dbb3a'],['Spending','85%','#1f7a12']].map(([n,p,c])=>`<div><i style="background:${c}"></i><span>${n}</span><em>${p}</em></div>`).join('')}</div><div class="mf-same">${ic('check',14)} Same split as always</div></div></div>`,
+ mmflow:()=>`${ldGlow()}<div class="lv-mid"><div class="mf-flow">
+   <div class="mf-leaf rise"><em>Investing</em><b>5%</b></div>
+   <div class="mf-arrow rise d2">${ic('back',18,'transform:rotate(-90deg)')}</div>
+   <div class="mf-week rise d3"><span>${ic('check',16)}</span><b>This week counts</b></div>
+   <div class="mf-arrow rise d4">${ic('back',18,'transform:rotate(-90deg)')}</div>
+   <div class="mf-chip rise d5">${ic2('flame',22)}${plw(S.streak+1)}</div></div></div>`,
+ mmnest:()=>`${ldGlow()}<div class="lv-mid"><div class="mf-flow">
+   <div class="mf-leaf sv rise"><em>Saving</em><b>10%</b></div>
+   <div class="mf-arrow rise d2">${ic('back',18,'transform:rotate(-90deg)')}</div>
+   <div class="mf-oak rise d3"><img class="t" src="${IMG.oak}" alt=""><span class="mf-nest"><img src="${IMG.moneybag}" alt=""></span><b>A nest on your oak</b><em>Friends see the nest, never the amount</em></div></div></div>`});
+document.head.insertAdjacentHTML('beforeend',`<style>
+.mf-note{width:300px;padding:14px 16px 16px;border-radius:24px;background:rgba(245,245,245,.96);color:#191919;box-shadow:0 24px 50px rgba(0,0,0,.45)}
+.mf-nh{display:flex;align-items:center;gap:8px}.mf-app{width:26px;height:26px;border-radius:7px;background:#74c947;display:flex;align-items:center;justify-content:center}.mf-app img{height:18px}.mf-nh b{font-size:13px}.mf-nh em{margin-left:auto;font-style:normal;font-size:12px;color:#8e8e93}
+.mf-nt{display:block;margin-top:10px;font-size:16px}
+.mf-rows{margin-top:10px;display:flex;flex-direction:column;gap:8px}.mf-rows div{display:flex;align-items:center;gap:10px;font-size:14px}.mf-rows i{width:12px;height:12px;border-radius:4px 12px 4px 12px}.mf-rows em{margin-left:auto;font-style:normal;font-weight:600}
+.mf-same{margin-top:12px;padding-top:10px;border-top:1px solid #e3e3e3;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#2f7a12}
+.mf-flow{display:flex;flex-direction:column;align-items:center;gap:10px}
+.mf-leaf{width:150px;height:118px;padding:16px 18px;border-radius:60px 14px 60px 14px;background:linear-gradient(135deg,#6dd040,#2f9a1c);color:#fff;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 16px 34px rgba(0,0,0,.4)}.mf-leaf.sv{background:linear-gradient(135deg,#8ad85f,#4fae2c)}
+.mf-leaf em{font-style:normal;font-size:14px;opacity:.9}.mf-leaf b{font-size:30px;font-weight:600;line-height:1.1}
+.mf-arrow{color:rgba(255,255,255,.55)}
+.mf-week{display:flex;align-items:center;gap:10px;height:52px;padding:0 20px 0 10px;border-radius:26px;background:#fff;color:#191919;font-size:16px;font-weight:600;box-shadow:0 12px 26px rgba(0,0,0,.35)}.mf-week span{width:32px;height:32px;border-radius:16px;background:#c9ecb3;color:#2f7a12;display:flex;align-items:center;justify-content:center}
+.mf-chip{display:flex;align-items:center;gap:10px;height:58px;padding:0 26px 0 20px;border-radius:29px;background:linear-gradient(90deg,#5fb83a,#2f7a12);color:#fff;font-size:22px;font-weight:600;box-shadow:0 0 0 4px rgba(255,255,255,.18),0 16px 34px rgba(0,0,0,.4)}
+.mf-oak{position:relative;width:260px;padding:16px 16px 18px;border-radius:24px;background:#fff;color:#191919;text-align:center;box-shadow:0 20px 44px rgba(0,0,0,.4)}.mf-oak .t{height:120px;display:block;margin:0 auto}
+.mf-nest{position:absolute;left:58%;top:44px;width:44px;height:44px;border-radius:22px;background:#fff;box-shadow:0 0 0 3px #74c947,0 6px 14px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;animation:pulse 1.6s ease-in-out infinite}.mf-nest img{height:28px}
+.mf-oak b{display:block;margin-top:8px;font-size:16px}.mf-oak em{display:block;font-style:normal;font-size:13px;color:#6b6b6b;margin-top:2px}
+</style>`);
+
+/* ---------- Shared goals (Money Manager): standalone idea ---------- */
+function sgIcon(sz){return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="6.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="15" cy="12" r="6.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>`}
+const SG_KINDS=[['Trip','Lisbon trip'],['Wedding','Our wedding'],['First apartment','First apartment'],['Car','New car'],['Something else','Our goal']];
+function sgInit(){if(!T.sg)T.sg={kind:'Trip',name:'Lisbon trip',who:'sam',slice:5}}
+function sgAv(id,sz){const c={me:'#191919',sam:'#2f7a12',mom:'#7a5af5',jess:'#e8a45c'}[id]||'#6b6b6b';const l=id==='me'?S.me[0]:nm(id)[0];return `<span class="sg-av" style="background:${c};width:${sz||32}px;height:${sz||32}px;font-size:${(sz||32)*.42}px">${l}</span>`}
+def('sg-new',()=>{sgInit();const g=T.sg;
+ return {cls:'lt sgs',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Shared goal</b><span style="width:44px"></span></div>
+ <div class="sg-body"><h1 class="sg-h">What are you saving for together?</h1>
+  <div class="sg-chips">${SG_KINDS.map(([k,n])=>`<button class="${g.kind===k?'on':''}" onclick="T.sg.kind='${k}';T.sg.name='${n}';refresh()">${k}</button>`).join('')}</div>
+  <label class="sg-lbl">Name</label><input class="sg-inp" value="${g.name}" oninput="T.sg.name=this.value" aria-label="Goal name">
+  <label class="sg-lbl">Who’s in with you?</label>
+  <div class="sg-list">${[['sam','Sam Rivera','On Acorns'],['mom','Mom','On Acorns']].map(([id,n,sub])=>`<button class="sg-who ${g.who===id?'on':''}" onclick="T.sg.who='${id}';refresh()">${sgAv(id)}<span class="grow"><b>${n}</b><em>${sub}</em></span><i>${g.who===id?ic('check',14):''}</i></button>`).join('')}
+   <button class="sg-who" onclick="go('splash',{k:'invite'})"><span class="sg-av add">${ic('plus',16)}</span><span class="grow"><b>Invite someone</b><em>They can join when they open Acorns</em></span>${ic('chev',16,'opacity:.4')}</button></div>
+  <label class="sg-lbl">Your slice of each paycheck</label>
+  <div class="sg-seg">${[2,5,10].map(v=>`<button class="${g.slice===v?'on':''}" onclick="T.sg.slice=${v};refresh()">${v}%</button>`).join('')}</div>
+  <p class="sg-note">Comes out of your Spending slice. Your other slices stay the same. You can change it anytime.</p></div>
+ <div class="sg-foot"><button class="btn sg-cta" onclick="go('sg-review')">Continue</button></div>`}});
+def('sg-review',()=>{sgInit();const g=T.sg;const who=nm(g.who);
+ const row=(k,v)=>`<div class="sg-r"><span>${k}</span><b>${v}</b></div>`;
+ return {cls:'lt sgs',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Review</b><span style="width:44px"></span></div>
+ <div class="sg-body"><h1 class="sg-h">${g.name||'Your goal'}, with ${who}</h1>
+  <div class="sg-box">${row('Your slice',`${g.slice}% of each paycheck`)}${row('From','Your Money Manager split')}${row('Goes to','Your own Acorns account, set aside for this goal')}${row(`${who} sees`,'Progress together, as a percent')}${row(`${who} never sees`,'Your dollars or your balance')}</div>
+  <p class="sg-note">${who} picks their own slice when they say yes. Each of you can leave the goal anytime and keep what you saved.</p>
+  <p class="sg-note" style="margin-top:6px">Placeholder disclosure for the prototype.</p></div>
+ <div class="sg-foot"><button class="btn sg-cta" onclick="S.sg=Object.assign({},T.sg,{pct:0,joined:false});save();replace('sg-home');toast('Invite sent to ${who}')">Start goal and invite ${who}</button></div>`}});
+def('sg-home',()=>{const g=S.sg||{name:'Lisbon trip',who:'sam',slice:5,pct:62,joined:true};const who=nm(g.who);const p=g.pct||0;
+ return {cls:'lt sgs',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Shared goal</b><span style="width:44px"></span></div>
+ <div class="sg-body"><div class="sg-hero"><div class="sg-ring">${sgRing(p,180)}<div class="sg-rc"><b>${p}%</b><em>together</em></div></div><h1 class="sg-h c">${g.name}</h1>
+  <div class="sg-pair">${sgAv('me',36)}${sgAv(g.who,36)}</div></div>
+  <div class="sg-box">
+   <div class="sg-m">${sgAv('me',30)}<span class="grow"><b>You</b><em>${g.slice}% of each paycheck</em></span><i class="ok">On track</i></div>
+   <div class="sg-m">${sgAv(g.who,30)}<span class="grow"><b>${who}</b><em>${g.joined?'Their own slice, each payday':'Invite sent'}</em></span><i class="${g.joined?'ok':''}">${g.joined?'On track':'Waiting'}</i></div></div>
+  <p class="sg-note">Percent of the goal you’ve saved together. Neither of you sees the other’s dollars.</p>
+  <div class="sg-acts">${g.joined?`<button onclick="toast('Cheer sent to ${who}')">Cheer ${who}</button>`:`<button onclick="S.sg.joined=true;save();refresh();toast('${who} joined your goal')">Prototype: ${who} joins</button>`}<button onclick="S.sg.pct=Math.min(100,(S.sg.pct||0)+18);save();refresh();toast('Payday: both slices landed')">Prototype: payday</button></div></div>
+ <div class="sg-foot"><button class="btn sg-cta ghost" onclick="T.sg=Object.assign({},S.sg);go('sg-new')">Edit my slice</button></div>`}});
+function sgRing(p,sz){const r=sz/2-10,c=2*Math.PI*r;return `<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" aria-hidden="true"><circle cx="${sz/2}" cy="${sz/2}" r="${r}" fill="none" stroke="#e6eee0" stroke-width="14"/><circle cx="${sz/2}" cy="${sz/2}" r="${r}" fill="none" stroke="#74c947" stroke-width="14" stroke-linecap="round" stroke-dasharray="${c*p/100} ${c}" transform="rotate(-90 ${sz/2} ${sz/2})"/></svg>`}
+Object.assign(LV,{
+ goalpick:()=>`${ldGlow()}<div class="lv-mid"><div class="sg-lcard rise"><span class="sg-lic">${sgIcon(26)}</span><div class="grow"><em>New slice</em><b>Lisbon trip</b><span class="sg-pair sm">${sgAv('me',24)}${sgAv('sam',24)}<small>with Sam</small></span></div></div>
+   <div class="sg-lrows rise d3">${[['Investing','5%','#2f9a1c'],['Saving','10%','#5dbb3a'],['Lisbon trip','5%','#a6e27e'],['Spending','80%','#1f7a12']].map(([n,v,c],i)=>`<div class="${i===2?'hi':''}"><i style="background:${c}"></i><span>${n}</span><em>${v}</em></div>`).join('')}</div></div>`,
+ goalsplit:()=>`${ldGlow()}<div class="lv-mid"><div class="sg-two">${[['me','Your paycheck'],['sam','Sam’s paycheck']].map(([id,l],i)=>`<div class="sg-pc rise d${i*2}">${sgAv(id,34)}<b>${l}</b><span class="sg-sl">5% slice</span></div>`).join('')}</div>
+   <div class="sg-arrows rise d3">${ic('back',18,'transform:rotate(-90deg)')}${ic('back',18,'transform:rotate(-90deg)')}</div>
+   <div class="sg-goalpill rise d4">${sgIcon(20)} Lisbon trip</div></div>`,
+ goalring:()=>`${ldGlow()}<div class="lv-mid"><div class="sg-lring rise"><div class="sg-ring">${sgRing(62,170)}<div class="sg-rc"><b>62%</b><em>together</em></div></div><b class="sg-lt">Lisbon trip</b><div class="sg-toast">${sgAv('sam',22)} Sam’s slice landed this payday</div></div></div>`,
+ skipinv:()=>`${ldGlow()}<div class="lv-mid"><div class="mf-flow"><div class="ld-coffee rise"><div class="ld-cup"><span></span></div><div><b>Coffee</b><em>$6 · invested</em></div></div>
+   <div class="mf-arrow rise d2">${ic('back',18,'transform:rotate(-90deg)')}</div><div class="mf-week rise d3"><span>${ic('check',16)}</span><b>This week counts</b></div>
+   <div class="mf-arrow rise d4">${ic('back',18,'transform:rotate(-90deg)')}</div><div class="mf-chip rise d5">${ic2('flame',22)}${plw(S.streak+1)}</div></div></div>`});
+LFX.split=['sg-home',{},'A Money Manager slice for a goal you share, like a trip. You each fund your own part. You both see progress, never each other’s dollars.',()=>`<div class="lx lx-card"><span class="lx-img" style="background:#eef7e6;align-items:center;color:#2f7a12">${sgIcon(26)}</span><div><b>Lisbon trip · 62%</b><em>Saving together with Sam</em></div></div>`];
+/* Works with: each idea stands alone, and names how it plays with the others */
+const LF_WITH={
+ 'money-type':[['skip-and-stash','Skip and Stash','Spenders get skip ideas that fit them'],['year','Acorns Year','Your type becomes one of your cards'],['invite','Invites','Share your type and compare']],
+ 'skip-and-stash':[['invite','Invites','Do a Skip Week with people you invite'],['year','Acorns Year','Your skips become a card'],['money-type','Money Type','Suggests what to skip']],
+ 'future-club':[['invite','Invites','Bring family in to write notes'],['year','Acorns Year','Notes show up in your year'],['split','Shared goals','Save for your kid with a partner']],
+ year:[['money-type','Money Type','Adds your type card'],['skip-and-stash','Skip and Stash','Adds your skips card'],['split','Shared goals','Adds a card when you reach one']],
+ invite:[['split','Shared goals','Save for something with them'],['skip-and-stash','Skip and Stash','Do a Skip Week together'],['year','Acorns Year','A card for your weeks side by side']],
+ split:[['invite','Invites','Invite someone new to share a goal'],['future-club','Future Club','A goal for your kid'],['year','Acorns Year','A card when you reach it']],
+ grove:[],challenges:[],invited:[]};
+(function(){const f=ldFinal;ldFinal=function(k,L,S0){const r=f(k,L,S0);const w=LF_WITH[k]||[];if(!w.length)return r;
+ const html=`<div class="lf-with"><div class="lf-wk">Works on its own. Even better with</div><div class="lf-wl">${w.map(([kk,t,d])=>`<button onclick="go('splash',{k:'${kk}'})"><b>${t}</b><em>${d}</em></button>`).join('')}</div></div>`;
+ r.html=r.html.replace('<p class="lf-where">',html+'<p class="lf-where">');return r}})();
+document.head.insertAdjacentHTML('beforeend',`<style>
+.scr.sgs{background:#fff!important;color:#191919}
+.sg-top{display:flex;align-items:center;justify-content:space-between;padding:calc(var(--safeTop) + 4px) 8px 0;height:calc(var(--safeTop) + 52px)}.sg-top b{font-size:16px}.sg-top .iconbtn{color:#191919}
+.sg-body{position:absolute;left:0;right:0;top:calc(var(--safeTop) + 56px);bottom:calc(var(--safeBot) + 90px);overflow-y:auto;padding:6px 20px 20px}
+.sg-h{margin:0;font-size:26px;line-height:1.2;font-weight:600}.sg-h.c{text-align:center;margin-top:12px;font-size:24px}
+.sg-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.sg-chips button{height:38px;padding:0 16px;border-radius:19px;background:#f0f2ee;font-size:14px;font-weight:600;color:#191919}.sg-chips button.on{background:#74c947;color:#0a1d08}
+.sg-lbl{display:block;margin-top:22px;font-size:14px;font-weight:600;color:#5d655f}
+.sg-inp{width:100%;margin-top:8px;height:50px;padding:0 16px;border-radius:14px;border:1px solid #e1e5de;background:#f7f8f6;font:inherit;font-size:16px;color:#191919}
+.sg-list{margin-top:8px;border-radius:16px;background:#f7f8f6;overflow:hidden}.sg-who{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;text-align:left;border-bottom:1px solid #eceeea;color:#191919}.sg-who:last-child{border-bottom:0}
+.sg-who b{display:block;font-size:15px}.sg-who em{display:block;font-style:normal;font-size:13px;color:#6b6b6b;margin-top:1px}.sg-who i{width:24px;height:24px;border-radius:12px;border:1.5px solid #cfd6ca;display:flex;align-items:center;justify-content:center;color:#fff}.sg-who.on i{background:#3d9a1f;border-color:#3d9a1f}
+.sg-av{border-radius:50%;color:#fff;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex:none;box-shadow:0 0 0 2px #fff}.sg-av.add{width:32px;height:32px;background:#e8f5df;color:#2f7a12}
+.sg-seg{display:flex;gap:4px;margin-top:8px;padding:4px;border-radius:16px;background:#f0f2ee}.sg-seg button{flex:1;height:44px;border-radius:12px;font-size:16px;font-weight:600;color:#191919}.sg-seg button.on{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.sg-note{margin:12px 0 0;font-size:13px;line-height:1.45;color:#6b6b6b}
+.sg-box{margin-top:18px;padding:4px 16px;border-radius:18px;background:#f7f8f6}.sg-r{display:flex;justify-content:space-between;gap:14px;padding:13px 0;border-bottom:1px solid #eceeea;font-size:14px}.sg-r:last-child{border-bottom:0}.sg-r span{color:#6b6b6b;flex:none}.sg-r b{text-align:right;font-weight:600}
+.sg-hero{display:flex;flex-direction:column;align-items:center;padding-top:6px}.sg-ring{position:relative;display:inline-flex}.sg-rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.sg-rc b{font-size:40px;font-weight:700;letter-spacing:-1px;line-height:1}.sg-rc em{font-style:normal;font-size:13px;color:#6b6b6b;margin-top:4px}
+.sg-pair{display:flex;justify-content:center;margin-top:10px}.sg-pair .sg-av+.sg-av{margin-left:-8px}.sg-pair.sm{justify-content:flex-start;align-items:center;margin-top:6px}.sg-pair small{margin-left:8px;font-size:13px;color:#6b6b6b}
+.sg-m{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #eceeea}.sg-m:last-child{border-bottom:0}.sg-m b{display:block;font-size:15px}.sg-m em{display:block;font-style:normal;font-size:13px;color:#6b6b6b}.sg-m i{font-style:normal;font-size:12px;font-weight:600;height:26px;padding:0 10px;border-radius:13px;background:#f0f2ee;color:#6b6b6b;display:flex;align-items:center}.sg-m i.ok{background:#e3f4d8;color:#2f7a12}
+.sg-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.sg-acts button{height:38px;padding:0 14px;border-radius:19px;background:#fdf3d3;color:#6b5310;font-size:13px;font-weight:600}.sg-acts button:first-child{background:#e3f4d8;color:#2f7a12}
+.sg-foot{position:absolute;left:20px;right:20px;bottom:calc(var(--safeBot) + 18px)}.sg-cta{width:100%;height:56px;border-radius:28px;background:#74c947;color:#0a1d08;font-size:17px;font-weight:600}.sg-cta.ghost{background:#fff;box-shadow:inset 0 0 0 1.5px #d3d9cf}
+.mm-card-ic.sg-ic{align-items:center;color:#2f7a12}
+.sg-lcard{display:flex;align-items:center;gap:14px;width:290px;padding:16px;border-radius:22px;background:#fff;color:#191919;box-shadow:0 20px 44px rgba(0,0,0,.4)}.sg-lcard em{display:block;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2f7a12}.sg-lcard b{display:block;font-size:18px;margin-top:2px}
+.sg-lic{width:52px;height:52px;border-radius:16px;background:#eef7e6;color:#2f7a12;display:flex;align-items:center;justify-content:center;flex:none}
+.sg-lrows{margin-top:14px;width:290px;padding:12px 16px;border-radius:20px;background:rgba(255,255,255,.95);color:#191919;display:flex;flex-direction:column;gap:2px}.sg-lrows div{display:flex;align-items:center;gap:10px;font-size:14px;padding:6px 8px;border-radius:10px}.sg-lrows div.hi{background:#eaf7e0;font-weight:600}.sg-lrows i{width:12px;height:12px;border-radius:4px 12px 4px 12px}.sg-lrows em{margin-left:auto;font-style:normal;font-weight:600}
+.sg-two{display:flex;gap:12px}.sg-pc{width:140px;padding:14px;border-radius:20px;background:#fff;color:#191919;display:flex;flex-direction:column;align-items:center;gap:8px;box-shadow:0 16px 34px rgba(0,0,0,.4)}.sg-pc b{font-size:14px}.sg-sl{height:28px;padding:0 12px;border-radius:14px;background:#e3f4d8;color:#2f7a12;font-size:13px;font-weight:600;display:flex;align-items:center}
+.sg-arrows{display:flex;gap:100px;margin:10px 0;color:rgba(255,255,255,.55)}
+.sg-goalpill{display:flex;align-items:center;gap:8px;height:54px;padding:0 22px;border-radius:27px;background:linear-gradient(90deg,#5fb83a,#2f7a12);color:#fff;font-size:18px;font-weight:600;box-shadow:0 16px 34px rgba(0,0,0,.4)}
+.sg-lring{width:280px;padding:20px 16px 18px;border-radius:26px;background:#fff;color:#191919;display:flex;flex-direction:column;align-items:center;box-shadow:0 20px 44px rgba(0,0,0,.4)}.sg-lt{margin-top:10px;font-size:18px}
+.sg-toast{margin-top:12px;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:14px;background:#f0f6ec;font-size:13px;color:#2f4a26}
+.lf-with{width:calc(100% + 16px);margin-top:12px}.lf-wk{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5d655f;text-align:center}
+.lf-wl{display:flex;gap:8px;margin-top:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.lf-wl::-webkit-scrollbar{display:none}
+.lf-wl button{flex:none;width:150px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.85);border:1px solid #dbe6d3;text-align:left}.lf-wl b{display:block;font-size:13px;color:#191919}.lf-wl em{display:block;font-style:normal;font-size:12px;line-height:1.3;color:#6b706c;margin-top:2px}
 </style>`);
 
 /* =====================================================================
@@ -3269,7 +3390,7 @@ RV_GO.splice(1,0,['Your first week','The existing Streaks intro after funding',"
 .ach-scroll>.nw-legend{position:sticky;top:0;display:flex;align-items:center;gap:8px;margin:0;left:auto;right:auto;padding:calc(var(--safeTop) + 6px) 14px 8px;background:#191919;color:#fff;font-size:12px;line-height:1.35}
 .nw-legend span{flex:1}.nw-legend b{color:#ffd24a}.nw-legend button{width:32px;height:32px;color:#fff;display:flex;align-items:center;justify-content:center}`;document.head.appendChild(st)})();
 /* Guide → Explore lists only the new ideas */
-(function(){const keep=[['Money Type','Money Type','Three habit questions set up Recurring or Round-Ups'],['Skip and Stash','Skip and Stash','Skip a spend, invest it right away'],['Future Club','Future Club','Family adds notes; gifts go to kids through Giftlinks'],['Acorns Year','Acorns Year and share cards','Shows weeks and oak extras, never amounts'],['Invite someone','Invite to your grove','One person, one weekly day. Their first investment plants a tree'],['Money Manager, growing','Money Manager split','Your existing split, now counted on your oak']];
+(function(){const keep=[['Money Type','Money Type','Three habit questions set up Recurring or Round-Ups'],['Skip and Stash','Skip and Stash','Skip a spend, invest it right away'],['Future Club','Future Club','Family adds notes; gifts go to kids through Giftlinks'],['Acorns Year','Acorns Year and share cards','Shows weeks and oak extras, never amounts'],['Invite someone','Invite to your grove','One person, one weekly day. Their first investment plants a tree'],['Money Manager, growing','Shared goals','A Money Manager slice for a goal you share']];
   const m={};RV_GO.forEach(x=>m[x[0]]=x);RV_GO.length=0;keep.forEach(([k,t,d])=>m[k]&&RV_GO.push([t,d,m[k][2]]))})();
 (function(){const f=rvHTML;rvHTML=function(first){return f(first).replace(/<div class="rv-sec">This week, Jordan has…<\/div>[\s\S]*?(?=<div class="rv-foot">)/,'').replace('>Explore<','>The ideas<').replace('Jump anywhere, or make something happen.','Pick an idea to see how it works.')}})();
 

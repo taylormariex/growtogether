@@ -1,0 +1,96 @@
+/* =====================================================================
+   Skip Rules (spec 4.2 · Mode 4): “When I check in ‘Skipped it’ on Coffee, stash $6 automatically.”
+   Unlocks after 3 confirmed stashes of a habit. Always user-authorized, one per day,
+   every run sends a notification with a 1-hour Undo, pause or delete anytime.
+   ===================================================================== */
+function srInit(){spInit();if(!S.rules)S.rules=[];if(!S.stashCount)S.stashCount={Coffee:3,Takeout:1,Rideshare:0};return S}
+function srIcon(){return `<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 13.7-5.6M20 12a8 8 0 0 1-13.7 5.6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M17 3v4h-4M7 21v-4h4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
+(function(){const f=SCR['ss2-pick'];SCR['ss2-pick']=p=>{const r=f(p);srInit();const on=S.rules.filter(x=>!x.paused).length;
+  r.html=r.html.replace(/<div class="qcard dis">[\s\S]*?Coming soon<\/span><\/div>/,`<div class="qcard" onclick="go(S.rules.length?'sr-list':'sr-intro')"><div class="qi">${srIcon()}</div><div class="grow"><div class="ql">Skip Rules</div><div class="qs">${on?`${on} rule${on>1?'s':''} on · stashes when you check in`:'Stash automatically when you check in.'}</div></div>${ic('chev',16,'opacity:.4')}</div>`);return r}})();
+def('sr-intro',()=>{srInit();const H=[['Coffee',6],['Takeout',14],['Rideshare',14]];return {cls:'acl',html:`${topbar({title:'Skip Rules'})}<div class="body">
+  <div class="sr-hero"><div class="sr-flow"><span class="sr-pill">Skipped it</span>${ic('chev',18,'color:#2f7a12')}<span class="sr-pill g">Stash $6</span></div><img src="${IMG.acorn}" alt="" style="height:64px"></div>
+  <div class="h2 mt16">Stash on autopilot.</div><p class="p mt8">Pick a habit you’ve stashed before. Next time you tap “Skipped it,” the stash happens for you. You get a notification every time, with an hour to undo.</p>
+  <div class="sk-sec"><div class="h4">Your habits</div><span class="sm">Unlocks after 3 stashes</span></div>
+  ${H.map(([h,e])=>{const n=Math.min(3,S.stashCount[h]||0);const ok=n>=3;const has=S.rules.find(x=>x.habit===h);return `<div class="qcard ${ok?'':'dis'}" ${ok?`onclick="T={sr:{habit:'${h}',amt:${e},cap:'day',src:'chk'}};go('sr-new')"`:''}><div class="qi"><img src="${IMG.roundup}" alt=""></div><div class="grow"><div class="ql">${h}</div><div class="qs">${has?'Rule on':ok?'Ready for a rule':`${n} of 3 stashes`}</div><div class="sr-prog">${[0,1,2].map(i=>`<i class="${i<n?'on':''}"></i>`).join('')}</div></div>${ok?ic('chev',16,'opacity:.4'):''}</div>`}).join('')}
+  <p class="sm mt8">You authorize every rule. Nothing moves unless you check in, and never more than once a day.</p></div>`}});
+def('sr-new',()=>{srInit();if(!T.sr)T.sr={habit:'Coffee',amt:6,cap:'day',src:'chk'};const r=T.sr;const a=S.accounts[0]||{name:'Everyday Checking',mask:'4821'};
+  return {cls:'acl',html:`${topbar({title:'New rule'})}<div class="body">
+  <div class="sr-sentence">When I tap <b>Skipped it</b> on <button class="sr-tok" onclick="srPickHabit()">${r.habit} ${ic('chev',12,'transform:rotate(90deg)')}</button>, stash <button class="sr-tok g" onclick="keypad(T.sr.amt,v=>{T.sr.amt=v;refresh()},'Each stash')">${money(r.amt)}</button> automatically.</div>
+  <div class="chips mt16">${[3,6,10,15].map(v=>`<button class="chip ${r.amt===v?'on':''}" onclick="T.sr.amt=${v};refresh()">$${v}</button>`).join('')}</div>
+  ${r.amt<5?`<div class="lockrow mt12">${ic('lock',16)}Each stash needs to be at least $5.</div>`:''}
+  <div class="sk-sec"><div class="h4">How often</div></div><div class="seg">${[['day','Once a day max'],['week','Once a week max']].map(([k,l])=>`<button class="${r.cap===k?'on':''}" onclick="T.sr.cap='${k}';refresh()">${l}</button>`).join('')}</div>
+  <div class="vis mt16"><div><span>Moves</span><b>Right after you check in</b></div><div><span>From</span><b>${a.name} ••${a.mask}</b></div><div><span>Into</span><b>Invest account</b></div><div><span>Undo</span><b>Within 1 hour</b></div><div><span>Streak</span><b>Counts that week</b></div><div><span>Stop it</span><b>Pause or delete anytime</b></div></div>
+  <p class="sm mt12">Investing involves risk. Each stash is a one-time investment you’ve authorized in advance. <span class="link">Disclosures</span></p></div>
+  <div class="foot">${r.amt<5?btn('Turn on rule','','pri','disabled'):holdBtn('turn on rule','srCreate()','light')}</div>`}});
+function srPickHabit(){const ok=Object.keys(S.stashCount).filter(h=>S.stashCount[h]>=3);sheet(`<div class="h3">Which habit?</div><p class="sm mt8">Habits unlock after 3 stashes.</p><div class="mt12">${Object.keys(S.stashCount).map(h=>`<div class="li" ${S.stashCount[h]>=3?`onclick="T.sr.habit='${h}';closeOv();setTimeout(refresh,200)"`:'style="opacity:.45"'}><div class="grow ttl">${h}</div><div class="sub">${S.stashCount[h]>=3?'Ready':`${S.stashCount[h]} of 3`}</div></div>`).join('')}</div>`)}
+function srCreate(){const r=T.sr;S.rules=S.rules.filter(x=>x.habit!==r.habit);S.rules.push({id:'r'+Date.now(),habit:r.habit,amt:r.amt,cap:r.cap,paused:false,runs:[]});save();haptic(25);stack=stack.filter(s=>s.id!=='sr-new'&&s.id!=='sr-intro');go('sr-on',{h:r.habit})}
+def('sr-on',p=>{srInit();const r=S.rules.find(x=>x.habit===p.h)||S.rules[0]||{id:'r0',habit:'Coffee',amt:6,cap:'day',runs:[]};return {cls:'acl',html:`${topbar({close:"back()",title:''})}<div class="body center" style="display:flex;flex-direction:column;justify-content:center">
+  <div class="sr-badge pop">${srIcon()}</div><div class="eyebrow mt24">Rule on</div><div class="h1 mt8">${r.habit} stashes itself now.</div>
+  <p class="p mt8">Next time you tap “Skipped it” on ${r.habit.toLowerCase()}, ${money(r.amt)} goes to Invest and you get a notification with an hour to undo.</p>
+  <div class="card mt24" style="text-align:left;background:#f6f8f4"><div class="row"><div class="grow"><b>${r.habit} · ${money(r.amt)}</b><div class="sm">${r.cap==='day'?'Once a day max':'Once a week max'} · from checking</div></div><span class="sk-chip">On</span></div></div>
+  <p class="mt16"><span class="sim" onclick="srRun('${r.id}')">${ic('ff',12)} Prototype: check in “Skipped it” now</span></p></div>
+  ${foot(btn('Done',"stack.length>1?back():home('ac-home')",'pri'),btn('See my rules',"replace('sr-list')",'ghost'))}`,mount(el){ART.confetti($('#screen'),60)}}});
+function srRun(id){const r=S.rules.find(x=>x.id===id);if(!r)return;if(r.paused){toast('This rule is paused');return}const today=new Date().toDateString();if(r.cap==='day'&&r.runs.some(x=>x.d===today&&!x.undone)){go('sr-note',{id,cap:1});return}
+  const c=creditWeek();r.runs.unshift({d:today,t:Date.now(),amt:r.amt,undone:false});S.skipLog.unshift({t:r.habit,amt:r.amt,src:'rule',when:'Today',stash:true});save();go('sr-note',{id,counted:c.counted})}
+def('sr-note',p=>{srInit();const r=S.rules.find(x=>x.id===p.id)||{id:'r0',habit:'Coffee',amt:6,runs:[]};const run=r.runs[0];const undone=run&&run.undone;
+  return {cls:'dark',html:`<div class="lockscr"><div class="clock"><div class="d">Tuesday, October 27</div><div class="tm">8:41</div></div>
+  <div class="lnote rise"><div class="hd"><div class="ai"><img src="${IMG.acorn}" alt=""></div><div class="grow"><div class="row between"><b style="font-size:14px">Acorns</b><span style="font-size:12px;color:#888">now</span></div>
+   <div style="font-weight:600;font-size:15px;margin-top:2px">${p.cap?'Already stashed today':undone?'Undone. Nothing moved.':`Stashed ${money(r.amt)} for skipping ${r.habit.toLowerCase()}`}</div>
+   <div style="font-size:14px;color:#444;margin-top:2px">${p.cap?`Your ${r.habit.toLowerCase()} rule runs once a day. Today’s skip is logged.`:undone?'Your check-in is still logged.':`From your Skip Rule. ${p.counted?'This week counts.':'Your week was already counted.'} You can undo for 1 hour.`}</div></div></div>
+   ${!p.cap&&!undone?`<div class="acts"><button onclick="srUndo('${r.id}')">Undo</button><button onclick="back()">Okay</button></div>`:''}</div>
+  <div style="position:absolute;left:24px;right:24px;bottom:calc(var(--safeBot) + 20px)" class="row"><button class="btn line" style="flex:1;color:#fff" onclick="replace('sr-list')">Manage rules</button><button class="btn wh" style="flex:1" onclick="back()">Back to app</button></div></div>`}});
+function srUndo(id){const r=S.rules.find(x=>x.id===id);if(r&&r.runs[0]){r.runs[0].undone=true;const l=S.skipLog.find(x=>x.src==='rule');if(l){l.stash=false;l.t+=' (undone)'}save();haptic(10);toast('Undone. Nothing moved.');refresh()}}
+def('sr-list',()=>{srInit();return {cls:'acl',html:`${topbar({title:'Skip Rules'})}<div class="body">
+  ${S.rules.length?S.rules.map(r=>`<div class="card mt12" style="background:#f6f8f4;border:1px solid #e4e9e1"><div class="row"><div class="qi" style="width:44px;height:44px;border-radius:14px;background:#e7f3df;display:flex;align-items:center;justify-content:center;color:#2f7a12">${srIcon()}</div><div class="grow"><b style="font-size:16px">${r.habit} · ${money(r.amt)}</b><div class="sm">${r.paused?'Paused':r.cap==='day'?'On · once a day max':'On · once a week max'}</div></div><div class="tog ${r.paused?'':'on'}" role="switch" aria-checked="${!r.paused}" aria-label="Rule on" onclick="S.rules.find(x=>x.id==='${r.id}').paused=${!r.paused};save();refresh();toast('${r.paused?'Rule on':'Rule paused'}')"></div></div>
+   ${r.runs.length?`<div class="sm mt12">${r.runs.slice(0,3).map(x=>`${x.undone?'Undone':'Stashed '+money(x.amt)} · ${new Date(x.t).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}`).join('<br>')}</div>`:'<div class="sm mt12">Hasn’t run yet.</div>'}
+   <div class="row mt12" style="gap:8px"><button class="btn line sm" style="flex:1" onclick="srRun('${r.id}')">Test: check in</button><button class="btn line sm" style="flex:1;color:#b3261e!important" onclick="S.rules=S.rules.filter(x=>x.id!=='${r.id}');save();refresh();toast('Rule deleted')">Delete</button></div></div>`).join(''):`<div class="center" style="padding:40px 0"><div class="sr-badge" style="margin:0 auto">${srIcon()}</div><div class="h3 mt16">No rules yet</div><p class="p mt8">Set one up for a habit you’ve stashed 3 times.</p></div>`}
+  <div class="mt16">${btn(`${ic('plus',18)} New rule`,"T={};go('sr-intro')",'line')}</div>
+  <p class="sm mt16">Rules only run when you check in. Every run sends a notification you can undo for an hour.</p></div>`}});
+(function(){const st=document.createElement('style');st.textContent=`
+.sr-hero{height:170px;margin:0 calc(-1*var(--pad));background:linear-gradient(180deg,#edf8e6,#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.sr-flow{display:flex;align-items:center;gap:10px}.sr-pill{height:44px;padding:0 18px;border-radius:22px;background:#fff;box-shadow:0 6px 16px rgba(40,90,20,.12);font-weight:600;font-size:15px;display:flex;align-items:center;color:#191919}.sr-pill.g{background:#74c947;color:#0a1d08}
+.sr-prog{display:flex;gap:4px;margin-top:8px}.sr-prog i{width:22px;height:5px;border-radius:3px;background:#dfe6da;display:block}.sr-prog i.on{background:#74c947}
+.sr-sentence{font-size:24px;font-weight:600;line-height:1.5;color:#191919;letter-spacing:-.2px}.sr-sentence b{color:#2f7a12}
+.sr-tok{display:inline-flex;align-items:center;gap:4px;height:38px;padding:0 12px;border-radius:12px;background:#f1f3ef;font:inherit;font-size:20px;color:#191919;vertical-align:baseline}.sr-tok.g{background:#e5f5d8;color:#2f7a12}
+.sr-badge{width:84px;height:84px;border-radius:42px;background:#74c947;color:#0a1d08;display:flex;align-items:center;justify-content:center;margin:0 auto}.sr-badge svg{width:40px;height:40px}`;document.head.appendChild(st)})();
+
+/* =====================================================================
+   Spot my skips: show what we'd read. Categories come from your own linked-card transactions,
+   matched by merchant type. You can see every match, fix a wrong one, and choose what to watch.
+   (Placeholder merchants. Only you ever see this.)
+   ===================================================================== */
+const TXC={Coffee:{how:'Coffee shops and cafés on your linked card',tx:[['Oct 24','Corner Café',5.75],['Oct 23','Daily Grind',6.25],['Oct 22','Corner Café',5.75],['Oct 20','Bean There',4.50],['Oct 17','Corner Café',5.75]],sum:'14 times in 8 weeks · usually about $6'},
+ 'Takeout and delivery':{how:'Restaurants and delivery apps',tx:[['Oct 25','QuickBite Delivery',23.40],['Oct 19','Noodle House',18.10],['Oct 12','QuickBite Delivery',26.75]],sum:'7 times in 8 weeks · usually about $22'},
+ Rideshare:{how:'Ride and taxi apps',tx:[['Oct 21','RideNow',14.20],['Oct 9','RideNow',11.85]],sum:'5 times in 8 weeks · usually about $13'},
+ Shopping:{how:'Online and in-store retail',tx:[['Oct 18','Mainline Goods',42.00],['Oct 3','Parcel & Co.',19.99]],sum:'6 times in 8 weeks · usually about $30'},
+ Subscriptions:{how:'Charges that repeat on the same day each month',tx:[['Oct 14','StreamBox',15.99,'Monthly · next ~Nov 14'],['Oct 2','FitClub',29.00,'Monthly · next ~Nov 2'],['Sep 28','CloudLocker',2.99,'Monthly · next ~Oct 28']],sum:'3 repeating charges',sub:1}};
+const TXCATS=Object.keys(TXC);
+function txFix(i,c,cat){sheet(`<div class="h3">What is this?</div><p class="sm mt8">We’ll learn from this for next time. Only you see it.</p><div class="mt12">${TXCATS.concat(['Not a habit']).map(k=>`<div class="li" onclick="closeOv();toast('${k==='Not a habit'?'Removed from habits':'Moved to '+k}');S.txFix=S.txFix||{};S.txFix['${c}-${i}']='${k}';save();setTimeout(refresh,200)"><div class="grow ttl">${k}</div>${k===cat?ic('check',18,'color:#2f7a12'):''}</div>`).join('')}</div>`)}
+def('ss-detect',()=>{if(!T.dc)T.dc=S.detect.cats.slice();return {cls:'acl',html:`${topbar({close:true})}<div class="body"><div class="eyebrow">Optional · off by default</div><div class="h1 mt8">Spot your skips so stashing takes one tap.</div>
+  <p class="p mt8">We look at transactions on your linked cards and group them by merchant type. When a usual purchase doesn’t happen, we ask if you skipped it. You choose what we watch.</p>
+  <div class="sk-sec"><div class="h4">Pick what to watch</div><span class="sm">from the last 8 weeks</span></div>
+  ${TXCATS.map(c=>{const on=T.dc.indexOf(c)>-1;const d=TXC[c];return `<div class="dt-cat ${on?'on':''}"><button class="dt-hd" onclick="const a=T.dc;const i=a.indexOf('${c}');i>-1?a.splice(i,1):a.push('${c}');haptic(5);refresh()" role="checkbox" aria-checked="${on}"><span class="cbox ${on?'on':''}">${on?ic('check',14):''}</span><span class="grow"><b>${c}</b><em>${d.sum}</em></span></button>
+    <div class="dt-prev">${d.tx.slice(0,2).map(([dt,m,a])=>`<span>${m}<i>${money(a)}</i></span>`).join('')}<button onclick="go('ss-cat',{c:'${c}'})">See all ${d.tx.length} ${ic('chev',12)}</button></div></div>`}).join('')}
+  <div class="sk-sec"><div class="h4">What never happens</div></div>
+  <div class="sk-list">${['We never move money without your tap.','Friends never see what we spot. Only check-ins you confirm.','Turn it off anytime. Your history stays.'].map(t=>`<div class="li"><span class="sk-ck" style="width:20px;height:20px">${ic('check',12)}</span><div class="grow" style="font-size:14px">${t}</div></div>`).join('')}</div>
+  <p class="sm mt12">Requires your consent to analyze transactions. At most 2 suggestions a week.</p></div>
+  ${foot(btn(T.dc.length?`Watch ${T.dc.length} categor${T.dc.length>1?'ies':'y'}`:'Pick at least one',"S.detect={on:true,cats:T.dc.slice(),asked:true};save();back();toast('On. We’ll suggest, you confirm.')",'pri',T.dc.length?'':'disabled'),btn('Not now',"S.detect.asked=true;save();back()",'ghost'))}`}});
+def('ss-cat',p=>{const c=p.c||'Coffee';const d=TXC[c];if(!T.dc)T.dc=S.detect.cats.slice();const on=T.dc.indexOf(c)>-1;const fx=S.txFix||{};
+  return {cls:'acl',html:`${topbar({title:c})}<div class="body"><div class="dt-sum"><div><b>${d.sum}</b><span>${d.how}</span></div></div>
+  <div class="card mt12" style="background:#f6f8f4;border:1px solid #e4e9e1;padding:4px 16px"><div class="li" style="cursor:default;border:0"><div class="grow"><div class="ttl">Watch ${c.toLowerCase()}</div><div class="sub">${d.sub?'We’ll ask when an expected charge doesn’t show up, like after you cancel one.':'We’ll ask if you skipped it when a usual day passes with no charge.'}</div></div><div class="tog ${on?'on':''}" role="switch" aria-checked="${on}" onclick="const a=T.dc;const i=a.indexOf('${c}');i>-1?a.splice(i,1):a.push('${c}');refresh()"></div></div></div>
+  <div class="sk-sec"><div class="h4">${d.sub?'Repeating charges':'Recent transactions'}</div><span class="sm">Wrong? Tap to fix</span></div>
+  <div class="dt-list">${d.tx.map(([dt,m,a,note],i)=>{const moved=fx[c+'-'+i];return `<button class="dt-tx ${moved?'moved':''}" onclick="txFix(${i},'${c}','${c}')"><span class="dt-av">${m[0]}</span><span class="grow"><b>${m}</b><em>${dt}${note?' · '+note:''}</em></span><span class="dt-amt">${money(a)}</span><span class="dt-tag">${moved||c}</span></button>`}).join('')}</div>
+  <p class="sm mt16">From your linked card ••4821. Only you see these. We never share transactions with your grove.</p></div>
+  ${foot(btn('Done','back()','pri'))}`}});
+(function(){const st=document.createElement('style');st.textContent=`
+.dt-cat{border-radius:18px;background:#f6f8f4;border:1px solid #e4e9e1;margin-bottom:10px;overflow:hidden}.dt-cat.on{border-color:#74c947;background:#f1f9ec}
+.dt-hd{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:14px 16px 8px}.dt-hd b{display:block;font-size:16px;color:#191919}.dt-hd em{display:block;font-style:normal;font-size:13px;color:#5d655f;margin-top:2px}
+.dt-prev{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:0 16px 14px 54px}.dt-prev span{height:28px;padding:0 10px;border-radius:14px;background:#fff;border:1px solid #e4e9e1;font-size:12px;font-weight:600;color:#3c4a40;display:inline-flex;align-items:center;gap:6px}.dt-prev span i{font-style:normal;color:#8a938c;font-weight:500}
+.dt-prev button{height:28px;font-size:12px;font-weight:700;color:#2f7a12;display:inline-flex;align-items:center;gap:2px;margin-left:auto}
+.dt-sum{padding:14px 16px;border-radius:18px;background:#edf8e6}.dt-sum b{display:block;font-size:16px;color:#191919}.dt-sum span{display:block;font-size:13px;color:#5d655f;margin-top:2px}
+.dt-list{border-radius:18px;border:1px solid #e4e9e1;overflow:hidden}
+.dt-tx{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-bottom:1px solid #eef0ec;background:#fff;min-height:60px}.dt-tx:last-child{border-bottom:0}
+.dt-av{width:36px;height:36px;border-radius:18px;background:#f1f3ef;color:#3c4a40;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dt-tx b{display:block;font-size:15px;color:#191919}.dt-tx em{display:block;font-style:normal;font-size:12px;color:#5d655f;margin-top:1px}
+.dt-amt{font-weight:600;font-size:15px;color:#191919}.dt-tag{font-size:11px;font-weight:700;color:#2f7a12;background:#e7f3df;border-radius:10px;padding:3px 8px;white-space:nowrap}
+.dt-tx.moved .dt-tag{background:#fff4e0;color:#6b4c00}`;document.head.appendChild(st)})();

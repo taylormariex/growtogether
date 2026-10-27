@@ -4,8 +4,12 @@
    Types collect into a profile and show up on your Acorns Year.
    ===================================================================== */
 const QZ=[
- {id:'type',name:'Money Type',q:'How money moves through your week',img:'seedling',done:()=>!!(S.mt2&&S.mt2.type),start:"T.mq={};S.mt2={};save();go('mt2-q',{i:0})",
-  result:()=>{const t=S.mt2&&S.mt2.type;return t?MT2[t].n:null}},
+ {id:'type',name:'Money Type',q:'How money moves through your week',img:'seedling',
+  get qs(){return MTQ2},
+  types:{steady:{n:'Steady Grower',line:'You like money on a rhythm. A weekly investment on payday fits you.',learn:'Why your first habit matters more than the amount',try:['Recurring','A small weekly investment, on payday',"T.mp={mode:'rec'};go('mt2-plan')"]},
+         spare:{n:'Spare-Change Saver',line:'Lots of small swipes. Round-Ups turn them into acorns without a second thought.',learn:'How spare change compounds',try:['Round-Ups®','Spare change, invested',"T.mp={mode:'ru'};go('mt2-plan')"]},
+         moment:{n:'In-the-Moment Investor',line:'You invest when it feels right. A small weekly base keeps you growing in between.',learn:'Why a base habit beats a burst',try:['Recurring + Round-Ups®','$5 a week, plus spare change',"T.mp={mode:'both'};go('mt2-plan')"]}},
+  score:a=>{const r=mtScore(a);S.mt2={a:Object.assign({},a),type:r};return r}},
  {id:'saver',name:'Saver Style',q:'What you save for and how it feels',img:'moneybag',
   qs:[{k:'why',q:'When you put money aside, it’s usually for…',o:[['cushion','A cushion','So surprises don’t hurt'],['thing','A specific thing','A trip, a car, a move'],['someday','Someday','I’m not sure what yet']]},
       {k:'feel',q:'Watching the number go up feels…',o:[['calm','Calming','Like locking a door'],['fun','Fun','I check it more than I should'],['meh','Fine','I don’t think about it much']]},
@@ -31,37 +35,41 @@ const QZ=[
          solo:{n:'Quiet Grower',line:'You keep money private, and that’s fine. Your streak is the friend that notices.',learn:'Streaks without shame: how to restart',try:['Your oak','Watch your streak grow',"home('gt-home')"]}},
   score:a=>a.tell==='hard'||a.win==='private'?'solo':a.nudge==='person'&&a.tell==='easy'?'cheer':'partner'}];
 function qzState(){if(!S.quiz)S.quiz={};return S.quiz}
-function qzDone(z){return z.id==='type'?!!(S.mt2&&S.mt2.type):!!qzState()[z.id]}
-function qzType(z){if(z.id==='type')return S.mt2&&S.mt2.type?MT2[S.mt2.type]:null;const r=qzState()[z.id];return r?z.types[r.type]:null}
+function qzDone(z){return !!qzState()[z.id]||(z.id==='type'&&!!(S.mt2&&S.mt2.type))}
+function qzType(z){const r=qzState()[z.id];if(r)return z.types[r.type];if(z.id==='type'&&S.mt2&&S.mt2.type)return z.types[S.mt2.type];return null}
 
 /* the hub */
-def('qz-hub',()=>{const done=QZ.filter(qzDone).length;
+def('qz-hub',()=>{const done=QZ.filter(qzDone).length;const just=T.qzJust;T.qzJust=null;
  return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Know yourself</b><span style="width:44px"></span></div>
  <div class="sg-body sgx-body">
   <div class="qz-hero"><div class="qz-ring">${sgRing(Math.round(done/QZ.length*100),84)}<b>${done}</b></div><div class="grow"><b>${done===0?'Short quizzes, a minute each.':`${done} done. No rush on the rest.`}</b><em>${done===0?'Take one whenever you feel like it. Each one tells you something about how you handle money, and one thing worth trying.':'Your types show up on your Acorns Year in December. New quizzes arrive now and then.'}</em></div></div>
-  ${QZ.map(z=>{const t=qzType(z);return `<button class="qz-card ${t?'done':''}" onclick="${t?`go('qz-reveal',{id:'${z.id}'})`:z.start||`T.qa={};go('qz-q',{id:'${z.id}',i:0})`}"><span class="qz-ic"><img src="${IMG[z.img]}" alt=""></span><div class="grow"><em>${z.name}</em><b>${t?t.n:z.q}</b>${t?`<span class="qz-sub">Tap to see what to try</span>`:`<span class="qz-sub">3 questions · about a minute</span>`}</div>${t?`<span class="qz-chk">${ic('check',14)}</span>`:ic('chev',16,'opacity:.4')}</button>`}).join('')}
+  ${QZ.map(z=>{const t=qzType(z);return `<button class="qz-card ${t?'done':''} ${just===z.id?'just':''}" onclick="${t?`go('qz-reveal',{id:'${z.id}'})`:`T.qa={};go('qz-q',{id:'${z.id}',i:0})`}"><span class="qz-ic"><img src="${IMG[z.img]}" alt=""></span><div class="grow"><em>${z.name}</em><b>${t?t.n:z.q}</b>${t?`<span class="qz-sub">${t.try[0]} · tap to see what to try</span>`:`<span class="qz-sub">3 questions · about a minute</span>`}</div>${t?`<span class="qz-chk">${ic('check',14)}</span>`:`<span class="qz-go">Take it</span>`}</button>`}).join('')}
   <div class="qz-soon">${[['later','Future You','What “later” means to you'],['earn','Windfalls','Bonuses, refunds, gifts']].map(([im,t,d])=>`<div class="qz-sc"><span class="qz-ic" style="opacity:.6"><img src="${IMG[im]}" alt=""></span><div class="grow"><em>Coming soon</em><b>${t}</b><span class="qz-sub">${d}</span></div></div>`).join('')}</div>
   <p class="sgx-priv">${ic('lock',12)} About habits only. Nothing here changes your portfolio or risk.</p>
- </div>`}});
+ </div>`,mount(el){if(just){const c=el.querySelector('.qz-card.just');if(c){c.scrollIntoView({block:'center'});setTimeout(()=>{ART.sparkles&&ART.sparkles($('#screen'),c.getBoundingClientRect().left+40,c.getBoundingClientRect().top+30,10)},300)}}}}});
 /* a generic three-question runner for the newer quizzes */
-def('qz-q',p=>{const z=QZ.find(x=>x.id===p.id);const i=p.i||0;const q=z.qs[i];if(!T.qa)T.qa={};const v=T.qa[q.k];
- return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="${i?`go('qz-q',{id:'${z.id}',i:${i-1}})`:'back()'}" aria-label="Back">${ic('back',24)}</button><b>${z.name}</b><span style="width:44px"></span></div>
- <div class="sg-body sgx-body"><div class="qz-dots">${z.qs.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join('')}</div>
-  <h1 class="sg-h" style="margin-top:14px">${q.q}</h1>
-  <div class="qz-opts">${q.o.map(([k,l,s])=>`<button class="qz-opt ${v===k?'on':''}" onclick="qzAns('${z.id}',${i},'${q.k}','${k}',this)"><b>${l}</b><em>${s}</em><i>${v===k?ic('check',14):''}</i></button>`).join('')}</div></div>`}});
-function qzAns(id,i,k,v,el){T.qa[k]=v;haptic(8);$$('.qz-opt',cur()).forEach(o=>{o.classList.remove('on');o.querySelector('i').innerHTML=''});el.classList.add('on');el.querySelector('i').innerHTML=ic('check',14);
- const z=QZ.find(x=>x.id===id);setTimeout(()=>{if(i<z.qs.length-1)go('qz-q',{id,i:i+1});else{qzState()[id]={type:z.score(T.qa),a:Object.assign({},T.qa)};save();replace('qz-reveal',{id,fresh:1})}},380)}
+def('qz-q',p=>{const z=QZ.find(x=>x.id===p.id);const i=p.i||0;const q=z.qs[i];if(!T.qa)T.qa={};const v=T.qa[q.k];const last=i===z.qs.length-1;
+ return {cls:'lt sgs sgx',html:`<div class="sg-top"><button class="iconbtn" onclick="qzExit('${z.id}')" aria-label="Close">${ic('close',22)}</button><b>${z.name}</b><span style="width:44px"></span></div>
+ <div class="sg-body sgx-body"><div class="qz-dots">${z.qs.map((_,k)=>`<i class="${k<i?'done':k===i?'on':''}"></i>`).join('')}</div><div class="qz-count">Question ${i+1} of ${z.qs.length}</div>
+  <h1 class="sg-h" style="margin-top:6px">${q.q}</h1>
+  <div class="qz-opts">${q.o.map(([k,l,s])=>`<button class="qz-opt ${v===k?'on':''}" onclick="qzPick('${q.k}','${k}',this)"><b>${l}</b><em>${s}</em><i>${v===k?ic('check',14):''}</i></button>`).join('')}</div></div>
+ <div class="sg-foot qz-foot"><button class="btn sg-cta ghost" ${i?'':'disabled'} onclick="go('qz-q',{id:'${z.id}',i:${i-1}},'back')">${ic('back',16)} Back</button><button class="btn sg-cta" id="qzNext" ${v?'':'disabled'} onclick="qzNext('${z.id}',${i})">${last?'See my type':'Continue'}</button></div>`}});
+function qzPick(k,v,el){T.qa[k]=v;haptic(8);$$('.qz-opt',cur()).forEach(o=>{o.classList.remove('on');o.querySelector('i').innerHTML=''});el.classList.add('on');el.querySelector('i').innerHTML=ic('check',14);const n=$('#qzNext',cur());if(n)n.disabled=false}
+function qzNext(id,i){const z=QZ.find(x=>x.id===id);if(i<z.qs.length-1){go('qz-q',{id,i:i+1});return}qzState()[id]={type:z.score(T.qa),a:Object.assign({},T.qa)};save();replace('qz-reveal',{id,fresh:1})}
+function qzExit(id){const z=QZ.find(x=>x.id===id);const n=Object.keys(T.qa||{}).length;if(n){S.resume={t:`Finish ${z.name}`,s:`${n} of ${z.qs.length} answered.`,act:`go('qz-q',{id:'${id}',i:${n}})`};save()}back2('qz-hub')}
 /* reveal: type, one thing to learn, one thing to try */
-def('qz-reveal',p=>{const z=QZ.find(x=>x.id===p.id);const t=qzType(z);if(!t)return SCR['qz-hub']();const isMT=z.id==='type';const learn=isMT?'Why your first habit matters more than the amount':t.learn;const tr=isMT?['Set up your habit',MT2[S.mt2.type].plan==='ru'?'Round-Ups® on your card':'A small weekly investment',"T.mp={mode:'"+MT2[S.mt2.type].plan+"'};go('mt2-plan')"]:t.try;
+def('qz-reveal',p=>{const z=QZ.find(x=>x.id===p.id);const t=qzType(z);if(!t)return SCR['qz-hub']();const learn=t.learn;const tr=t.try;
  const next=QZ.find(x=>!qzDone(x));
- return {cls:'lt sgs sgx sgx-cel',html:`<div class="sg-top"><button class="iconbtn" onclick="back2('qz-hub')" aria-label="All quizzes">${ic('back',24)}</button><b>${z.name}</b><button class="iconbtn" onclick="qzShare('${z.id}')" aria-label="Share">${ic('share',20)}</button></div>
+ return {cls:'lt sgs sgx sgx-cel',html:`<div class="sg-top"><button class="iconbtn" onclick="back2('qz-hub')" aria-label="All quizzes">${ic('back',24)}</button><b>${z.name}</b><span style="width:44px"></span></div>
  <div class="sg-body sgx-body">
   <div class="qz-rev"><span class="qz-big ${p.fresh?'pop':''}"><img src="${IMG[z.img]}" alt=""></span><div class="sgx-ek">Your ${z.name.toLowerCase()}</div><h1>${t.n}</h1><p>${t.line}</p></div>
   <div class="sgx-card"><div class="sgx-ch"><div><b>One thing to learn</b><em>2-minute read in Learning</em></div></div><button class="qz-row" onclick="toast('Opens in Learning (existing)')"><span class="qz-ric">${ic('spark',16)}</span><b>${learn}</b>${ic('chev',14,'opacity:.4')}</button></div>
   <div class="sgx-card"><div class="sgx-ch"><div><b>One thing to try</b><em>Built for a ${t.n.toLowerCase()}</em></div></div><button class="qz-row" onclick="${tr[2].replace(/"/g,'&quot;')}"><span class="qz-ric">${ic('plus',16)}</span><div class="grow"><b>${tr[0]}</b><em>${tr[1]}</em></div>${ic('chev',14,'opacity:.4')}</button></div>
-  ${next?`<button class="qz-next" onclick="${next.start||`T.qa={};go('qz-q',{id:'${next.id}',i:0})`}"><div class="grow"><em>When you feel like another</em><b>${next.name}</b></div>${ic('chev',16)}</button>`:`<div class="qz-done">${ic('check',16)} That’s all of them for now. New ones arrive now and then.</div>`}
+  ${(()=>{const rest=QZ.filter(x=>!qzDone(x));return rest.length?`<div class="sgl-sec" style="margin-top:18px">When you feel like another</div><div class="qz-nextrow">${rest.map(x=>`<button class="qz-nx" onclick="T.qa={};go('qz-q',{id:'${x.id}',i:0})"><span class="qz-ic"><img src="${IMG[x.img]}" alt=""></span><b>${x.name}</b><em>1 min</em></button>`).join('')}</div>`:`<div class="qz-done">${ic('check',16)} That’s all of them for now. New ones arrive now and then.</div>`})()}
   <p class="sgx-priv" style="margin-top:12px">${ic('lock',12)} About habits only. Retake anytime from Know yourself.</p>
- </div>`,mount(el){if(p.fresh)setTimeout(()=>{ART.confetti($('#screen'),36);haptic(16)},300)}}});
+ </div>
+ <div class="sg-foot qz-foot"><button class="btn sg-cta ghost" onclick="qzShare('${z.id}')">${ic('share',16)} Share</button><button class="btn sg-cta" onclick="back2('qz-hub')">Back to quizzes</button></div>`,
+ mount(el){if(p.fresh){setTimeout(()=>{ART.confetti($('#screen'),48);haptic(20)},300);T.qzJust=z.id}}}});
 function qzShare(id){const z=QZ.find(x=>x.id===id);const t=qzType(z);if(!t)return;share({title:`I’m a ${t.n}`,story:storyCard({eyebrow:z.name,title:`I’m a ${t.n}.`,sub:t.line,art:`<img src="${IMG[z.img]}" alt="">`}),text:`Turns out I’m a ${t.n}. What are you?`})}
 /* Money Type's reveal points at the rest */
 (function(){const f=SCR['mt2-reveal'];if(!f)return;SCR['mt2-reveal']=p=>{const r=f(p);r.html=r.html.replace(`<p class="sm mt12" style="color:var(--sk-sub)">About habits only. It doesn’t change your portfolio or risk.</p>`,
@@ -81,5 +89,10 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .qz-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;color:#191919}.qz-row>b{flex:1;font-size:15px;line-height:1.3}.qz-row .grow b{display:block;font-size:15px}.qz-row .grow em{display:block;font-style:normal;font-size:12px;color:#6b706c;margin-top:2px}.qz-ric{width:36px;height:36px;border-radius:18px;background:#e8f5df;color:#2f7a12;display:flex;align-items:center;justify-content:center;flex:none}
 .qz-next,.qz-more{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:14px 16px;border-radius:20px;background:#191919;color:#fff;text-align:left}.qz-next em,.qz-more em{display:block;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#bceaa3}.qz-next b,.qz-more b{display:block;font-size:15px;margin-top:2px}.qz-more{background:rgba(255,255,255,.08);margin-top:16px}
 .qz-soon{margin-top:16px}.qz-sc{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:22px;border:1.5px dashed #dbe3d6;margin-top:8px;color:#191919}.qz-sc em{display:block;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9aa69c}.qz-sc b{display:block;font-size:15px;margin-top:2px;color:#6b706c}
+.qz-count{margin-top:12px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5d655f}.qz-dots i.done{background:#9bd77a}
+.qz-foot{display:flex;gap:10px}.scr:has(>.qz-foot) .sg-body{bottom:calc(var(--safeBot) + 156px)!important}.qz-foot .sg-cta{flex:1;display:flex;align-items:center;justify-content:center;gap:6px}.qz-foot .sg-cta.ghost{flex:.7}.qz-foot .sg-cta[disabled]{opacity:.4}
+.qz-go{height:30px;padding:0 12px;border-radius:15px;background:#74c947;color:#0a1d08;font-size:12px;font-weight:700;display:flex;align-items:center;flex:none}
+.qz-nextrow{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px 4px}.qz-nextrow::-webkit-scrollbar{display:none}.qz-nx{flex:none;width:120px;padding:12px;border-radius:18px;background:#fff;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;color:#191919}.qz-nx .qz-ic{width:40px;height:40px;border-radius:12px;margin-bottom:4px}.qz-nx .qz-ic img{height:30px}.qz-nx b{font-size:13px;line-height:1.2}.qz-nx em{font-style:normal;font-size:11px;color:#6b706c}
+.qz-card.just{animation:qzJust .9s cubic-bezier(.2,1.4,.4,1) both;box-shadow:0 0 0 2px #74c947,0 14px 34px rgba(60,140,30,.2)}@keyframes qzJust{0%{transform:scale(.96)}60%{transform:scale(1.02)}100%{transform:scale(1)}}
 .qz-done{display:flex;align-items:center;gap:8px;margin-top:12px;padding:12px 14px;border-radius:16px;background:#e3f4d8;color:#2f5c1a;font-size:13px;font-weight:600}
 </style>`);

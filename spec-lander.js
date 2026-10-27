@@ -710,3 +710,15 @@ LV.ivrain=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" sty
 LV.ivways=()=>`${ldGlow()}<div class="lv-mid"><div class="yr-ms">${[[ic('drop',26,'color:#fff'),'#4da1ef','Send rain','A gentle nudge on an off week'],['♥','#e8a45c','Cheer','“Proud of us.” “See you Friday.”'],[sgGlyph('flag',26,'#fff'),'#2f8a14','Dare them','8 weeks side by side, no skipping']].map(([g,c,t,w],i)=>`<div class="yr-m rise d${i*2}"><span class="sgx-badge" style="width:60px;height:60px;background:${c};font-size:26px;color:#fff">${g}</span><div><b>${t}</b><em>${w}</em></div></div>`).join('')}</div></div>`;
 /* Invite story, beat 1: one small seedling on a wide, empty hill, with an open spot beside it */
 LV.alone=()=>`<div class="lv-forest">${hills({dark:1})}<div class="lv-glow" style="opacity:.5"></div><div class="lv-row" style="gap:44px;align-items:flex-end"><img class="rise" src="${IMG.seedling}" style="height:86px;filter:saturate(.75)" alt=""><div class="rise d3" style="margin-bottom:6px;opacity:.55">${spot('')}</div></div></div>`;
+
+/* Story card craft: art dissolves into the copy, a soft spotlight behind the subject, a quiet kicker above the line */
+document.head.insertAdjacentHTML('beforeend',`<style>
+.ld-art::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:34%;background:linear-gradient(180deg,rgba(34,42,32,0),#222a20 92%);pointer-events:none;z-index:4}
+.ld-art::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 55% at 50% 58%,rgba(116,201,71,.16),transparent 70%);pointer-events:none;z-index:1}
+.lv-forest{overflow:hidden}.lv-forest svg{transform:scale(1.08);transform-origin:50% 100%}
+.ld-line{font-size:26px;line-height:1.26;letter-spacing:-.4px;padding:14px 30px 0;max-width:360px;margin:0 auto;text-wrap:balance}
+.ld-kick{display:block;margin-bottom:12px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8fbf74;line-height:1}
+.ld-line.ld-line{font-size:27px;line-height:1.24;letter-spacing:-.4px;padding:0 30px}
+</style>`);
+(function(){const f=SCR.splash;SCR.splash=p=>{const r=f(p);const L=LANDERS[p.k in LANDERS?p.k:'grove'];const n=L.beats.length;const b=Math.min(p.b||0,n);
+  if(b<n){const name=(LF[p.k]||LF.grove)[1];r.html=r.html.replace('<div class="ld-line">',`<div class="ld-line"><span class="ld-kick">${name} · ${b+1} of ${n}</span>`)}return r}})();

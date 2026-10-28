@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:11 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:12 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -6153,7 +6153,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 
 /* ---------- the front screen: one list, grouped the way the prototype is built ---------- */
-(function(){const S0=[['Witnessed Habit',[['You','Your goal, your achievements, your oak',"T={};HPIV='you';home('gt-home')"],['People','Your grove, shared goals, family, learn together, drop an acorn',"T={};HPIV='people';home('gt-home')"],['Everyone','The Friday Count, Bloom, the Forest, Canopy',"T={};HPIV='everyone';home('gt-home')"]]],
+(function(){const S0=[['Witnessed Habit',[['You','Streaks, your goal, your achievements, your oak',"T={};HPIV='you';home('gt-home')"],['People','Your grove, shared goals, family, learn together, drop an acorn',"T={};HPIV='people';home('gt-home')"],['Everyone','The Friday Count, Bloom, the Forest, Canopy',"T={};HPIV='everyone';home('gt-home')"]]],
  ['Grow Together',[['Skip and Invest','Skip a spend, invest it right away',"go('splash',{k:'skip-and-stash'})"],['Shared goals','Save for a goal with someone, your way',"go('splash',{k:'split'})"],['Acorns Year','Weeks and cards, never amounts',"go('splash',{k:'year'})"],['Invite to your grove','Their first investment plants a tree',"go('splash',{k:'invite'})"],['Know yourself','Short quizzes, a minute each',"go('splash',{k:'money-type'})"]]]];
  window.__RVG=S0;RV_GO.length=0;S0.forEach(([g,items])=>items.forEach(x=>RV_GO.push(x)));
  const f=rvHTML;rvHTML=function(first){let h=f(first);

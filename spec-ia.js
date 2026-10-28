@@ -129,7 +129,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 
 /* ---------- the front screen: one list, grouped the way the prototype is built ---------- */
-(function(){const S0=[['Witnessed Habit',[['You','Your goal, your achievements, your oak',"T={};HPIV='you';home('gt-home')"],['People','Your grove, shared goals, family, learn together, drop an acorn',"T={};HPIV='people';home('gt-home')"],['Everyone','The Friday Count, Bloom, the Forest, Canopy',"T={};HPIV='everyone';home('gt-home')"]]],
+(function(){const S0=[['Witnessed Habit',[['You','Streaks, your goal, your achievements, your oak',"T={};HPIV='you';home('gt-home')"],['People','Your grove, shared goals, family, learn together, drop an acorn',"T={};HPIV='people';home('gt-home')"],['Everyone','The Friday Count, Bloom, the Forest, Canopy',"T={};HPIV='everyone';home('gt-home')"]]],
  ['Grow Together',[['Skip and Invest','Skip a spend, invest it right away',"go('splash',{k:'skip-and-stash'})"],['Shared goals','Save for a goal with someone, your way',"go('splash',{k:'split'})"],['Acorns Year','Weeks and cards, never amounts',"go('splash',{k:'year'})"],['Invite to your grove','Their first investment plants a tree',"go('splash',{k:'invite'})"],['Know yourself','Short quizzes, a minute each',"go('splash',{k:'money-type'})"]]]];
  window.__RVG=S0;RV_GO.length=0;S0.forEach(([g,items])=>items.forEach(x=>RV_GO.push(x)));
  const f=rvHTML;rvHTML=function(first){let h=f(first);

@@ -41,10 +41,9 @@ function hpYou(){const r=rtSt();const i=stageIdx(S.streak);const nx=nextGoal(S.s
   <div class="hp-list mt16">
    ${hpRow(sealImg(i,40),'Your achievements',`${RSTAGES[i][1]} card to share${r.acorns.have?' · an acorn to plant':' · Year Ring in January'}`,"go('rt-home',{only:'rings'})")}
    ${hpRow(`<img src="${IMG.seedling}" style="height:30px" alt="">`,'Your oak',ff?`${ff} of 9 extras growing`:'Extras that grow your oak',"home('gt-oak')")}
+   ${hpRow(`<img src="${IMG.roundup}" style="height:30px" alt="">`,'Skip and Invest','Skip a spend, invest it right away',"go('ss2-pick')")}
    ${hpRow(`<img src="${IMG.oak}" style="height:30px" alt="">`,'Journal','What you noticed this week',"go('journal')")}
   </div>
-  <div class="hp-sec">Ways to grow</div>
-  <div class="row hp-scroll">${[['Skip and Invest','roundup',"go('ss2-pick')"],['Money Manager','later',"go('ac-mm')"]].map(([t,im,a])=>`<div class="fl-tok" style="width:78px" onclick="${a}"><div class="im" style="width:78px"><img src="${IMG[im]}" alt=""></div><div class="nm">${t}</div></div>`).join('')}</div>
   <div class="hp-sec row between"><span>Timeline</span><span class="seg"><button class="${TLV==='hi'?'on':''}" onclick="TLV='hi';refresh()">Highlights</button><button class="${TLV==='la'?'on':''}" onclick="TLV='la';refresh()">Latest</button></span></div>
   <div class="hp-tl">${tlItems().map(tlCard).join('')}</div>`}
 function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in');const gr=growing(),inv=S.grove.filter(x=>x.status==='invited');const open=gr.filter(x=>x.open);const ft=ftSt();const ch=(typeof chRunning==='function'?chRunning():3);

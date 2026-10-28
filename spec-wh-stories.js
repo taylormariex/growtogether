@@ -5,19 +5,19 @@
    ===================================================================== */
 const WH_STORIES={
  /* ---- bets ---- */
- roots:{name:'Roots',t:'Roots',cta:'See this Friday’s count',s:'One person who sees you show up.',where:'Every Friday, right on Home.',go:"T={};go('rt-home')",beats:[
+ roots:{name:'Roots',t:'Roots',cta:'Open Home',s:'One person who sees you show up.',where:'Your oak, your witnesses, your cards, right on Home.',go:"T={};go('rt-home')",beats:[
   ['fcnum','Every Friday, Home opens on one number: how many of us kept a promise this week. If you did, it says so.'],
   ['witask','You’ve been showing up for your goal, and nobody knows. So we ask: who would notice if you stopped?'],
   ['blbar','Once a month the whole room takes on one target. Every skip is a tap toward your goal. Nobody is ranked.'],
   ['rgcard','Cross a milestone and we make you the card. Goal, club, one line of math. Never the balance.'],
   ['acdrop','Milestones hand you an acorn: $5 you can only plant in someone’s first goal. You’re their witness from Friday one.']]},
- family:{name:'Family Tree',t:'Family Tree',cta:'Open my family tree',s:'The people Acorns already holds both sides of.',where:'Gift links, Early accounts, and “Share this goal.”',go:"T={};go('ft-home')",beats:[
+ family:{name:'Family Tree',t:'Family Tree',cta:'Open Home',s:'The people Acorns already holds both sides of.',where:'Your grove: shared goals and family, in the dock.',go:"T={};go('ft-home')",beats:[
   ['sdgift','Grandpa taps the gift link and $25 goes to Ava’s bike fund. This year, one more line: want to see how Ava’s doing?'],
   ['sdmonth','Once a month his phone says Ava added to her bike fund. He taps the sticker. He never downloads anything.'],
   ['sdcap','When she’s close, he leaves her a message for the day she gets there. Locked until she does. Then you hand her the phone.'],
   ['stgoal','One goal, two accounts, nothing pooled. Share it, they say yes, and it adds up what each of you put in.'],
   ['ststk','When they add without saying anything, your phone tells you first. Send the sticker. That’s the money talk.']]},
- forest:{name:'The Forest',t:'The Forest',cta:'Find my grove',s:'For when nobody comes to mind.',where:'When you can’t name a witness, and on red days.',go:"T={};go('fo-grove')",beats:[
+ forest:{name:'The Forest',t:'The Forest',cta:'Open Home',s:'For when nobody comes to mind.',where:'The Forest square on Home. Red on red days.',go:"T={};go('fo-grove')",beats:[
   ['grnobody','Who would notice if you stopped? If the honest answer is nobody, you’re not alone in that either.'],
   ['grspread','So we put you with a few thousand people your age with your goal, on handles nobody can trace. A spread, never a rank.'],
   ['grask','Ask the question you’ve been embarrassed about since the download. If someone already answered it, you’ll see that first.'],

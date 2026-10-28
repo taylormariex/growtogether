@@ -37,8 +37,8 @@ def('rt-home',()=>{spInit();const r=rtSt();const g=r.goal;const s=r.season;const
  <div class="sg-body sgx-body">
   ${rtFridayCount()}
   <div class="rt-goal"><div class="rt-gi">${stageImg(g.weeks,54)}</div><div class="grow"><em>Your goal</em><b>${g.name}</b><span>$${g.amt} a week · ${g.weeks} weeks ${g.paused?'<i class="so-chip">frozen</i>':'in a row'}</span></div><button class="sgx-edit" onclick="toast('Only you see the balance')">${ic('lock',12)}</button></div>
-  ${rtWitnessCard()}
-  <div class="so-sec"><b>This month’s Bloom</b><button onclick="go('rt-season')">How we’re doing</button></div>
+  <div data-sec="wit"></div>${rtWitnessCard()}
+  <div class="so-sec" data-sec="bloom"><b>This month’s Bloom</b><button onclick="go('rt-season')">How we’re doing</button></div>
   <div class="so-card rt-season"><div class="sgx-ch"><div><b>No-Spend November</b><em>${s.people.toLocaleString()} of us, going for ${s.target.toLocaleString()} skipped purchases</em></div><span class="so-chip">${s.done?'Finished':'Day 12'}</span></div>
    <div class="rt-bar"><i style="width:${pc}%"></i><b style="left:${pc}%">${pc}%</b></div><div class="mc-pl"><span>${s.bar.toLocaleString()} skipped</span><span>${s.target.toLocaleString()}</span></div>
    <div class="rt-comm"><div class="rt-cs"><b>${s.hour.toLocaleString()}</b><em>in the last hour</em></div><div class="rt-cs"><b>${Math.round(s.people*.71).toLocaleString()}</b><em>still in</em></div><div class="rt-cs"><b>${s.done?s.people.toLocaleString():'—'}</b><em>finishers</em></div></div>
@@ -49,12 +49,12 @@ def('rt-home',()=>{spInit();const r=rtSt();const g=r.goal;const s=r.season;const
     ${r.witnesses.filter(w=>w.state==='in').length?`<div class="rt-dares">${r.witnesses.filter(w=>w.state==='in').map(w=>`<button class="so-join ${s.dared[w.id]?'on':''}" onclick="rtDare('${w.id}')">${s.dared[w.id]?ic('check',12)+' '+w.name+'’s in':'Dare '+w.name}</button>`).join('')}<small>A dare only counts if you both finish.</small></div>`:''}
     <div class="sgx-two" style="margin-top:12px"><button class="btn sg-cta" style="height:46px" onclick="rtSkip()">${ic('plus',16)} Skip and Invest</button><button class="btn sg-cta ghost" style="height:46px" onclick="rtFinishSeason()">${ic('ff',16)} Demo: Nov 30</button></div>`
    :`<p class="rt-p">The whole room chases one target. Every skipped purchase is one Skip and Invest tap: the money moves to your goal and the bar moves a little. Your own count shows only to you and your witnesses. Hit it together and every finisher gets $5 into their goal. Miss it and nobody loses anything; the badge still goes to everyone who finished their part.</p><button class="btn sg-cta" style="height:46px" onclick="rtJoin()">Join the Bloom</button>`}</div>
-  <div class="so-sec"><b>Rings</b><button onclick="go('rt-guest',{who:'jess'})">See one as a guest</button></div>
+  <div class="so-sec" data-sec="rings"><b>Rings</b><button onclick="go('rt-guest',{who:'jess'})">See one as a guest</button></div>
   <div class="so-card"><div class="sgx-ch"><div><b>At a milestone, the app makes the card.</b><em>Goal, club, start date, cadence, one line of math. No balance unless you turn it on.</em></div></div>
    ${rtRingCard({name:'Move out',club:'$1k club',start:'Started August',cad:'$15 a day',math:'$15 a day is $5,475 a year, before it grows.',by:'jess'})}
    <div class="rt-ringfoot"><span>${ic('eye',14)} Only Jess sees: <b>${2+r.rings.started} people started from this</b></span><button class="sgx-edit" onclick="rtShareRing()">Share</button></div></div>
   <button class="so-card rt-yr" onclick="go('rt-year')"><div class="sgx-ch" style="margin:0"><div><em class="so-lvk" style="color:#bceaa3">Every January</em><b>The Year Ring</b><span>47 of 52 Fridays. One break, one comeback. No-Spend November, finished. 3 acorns planted. Witnessed by ${r.witnesses.length?r.witnesses.map(w=>w.name).join(' and '):'Sarah'}.</span></div>${svgSeal({top:'2026',bottom:'47 of 52',glyph:'trophy',size:64})}</div></button>
-  <div class="so-sec"><b>Drop an Acorn</b><button onclick="toast('Four a year, from the referral budget. Unclaimed after 30 days, it comes back.')">How it works</button></div>
+  <div class="so-sec" data-sec="acorn"><b>Drop an Acorn</b><button onclick="toast('Four a year, from the referral budget. Unclaimed after 30 days, it comes back.')">How it works</button></div>
   <div class="so-card rt-ac"><div class="sgx-ch" style="margin:0"><div><b>${r.acorns.have?'You’ve got an acorn. Who gets it?':'No acorn right now'}</b><em>${r.acorns.have?`$5 of Acorns’ money that only works inside someone’s first goal. You can’t keep it. You can only plant it.`:'The next milestone hands you one.'}</em></div><span class="rt-acorn ${r.acorns.have?'':'dim'}">${stageImg(0,44)}</span></div>
    ${r.acorns.sent.map(a=>`<div class="so-row">${soAv(a.id,32)}<div class="grow"><b>${a.name}</b><em>${a.goal?`Claimed · “${a.goal}” · you’re their witness from Friday`:'Waiting · 30 days, then it comes back'}</em></div>${a.goal?`<span class="so-chip">${ic('check',12)} Planted</span>`:`<span class="rt-wait"><i></i><i></i><i></i></span>`}</div>`).join('')}
    ${r.acorns.have?`<button class="btn sg-cta" style="height:46px;margin-top:12px" onclick="go('rt-acorn')">Plant it in someone’s first goal</button>`:''}
@@ -138,3 +138,4 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .rt-acorn{width:56px;height:56px;border-radius:18px;background:#eef3e8;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;flex:none}.rt-acorn.dim{opacity:.4}
 .rt-acbig{display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 0 6px}
 </style>`);
+

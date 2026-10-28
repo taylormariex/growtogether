@@ -12,6 +12,8 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 - `docs/shared-goals/` — Shared goals
 - `docs/acorns-year/` — Acorns Year and share cards
 - `docs/invite/` — Invite to your grove
+- `docs/roots/`, `docs/family-tree/`, `docs/forest/` — the three Witnessed Habit bets
+- `docs/witness/`, `docs/bloom/`, `docs/rings/`, `docs/drop-an-acorn/`, `docs/friday-count/`, `docs/seedling/`, `docs/same-tree/`, `docs/the-grove/`, `docs/canopy/` — each concept on its own
 - `docs/know-yourself/` — Know yourself (Money Type and three more quizzes)
 
 `focus.js` adds the standalone guard rails; it does nothing in the full build. `dist/` mirrors `docs/` for the zip upload.

@@ -62,6 +62,7 @@ function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in'
  return `${r.acorns.have?`<div class="hp-acorn"><div class="hp-acb"><img src="${stageSrc(0)}" alt=""></div><div class="grow"><em>You’ve earned an acorn</em><b>$5 to plant in someone’s first goal</b><span>Acorns’ money, not yours. Give it, or in 30 days it goes back.</span><div class="hp-aca"><button onclick="go('rt-acorn')">Plant it</button><small>${r.acorns.sent.length?`${r.acorns.sent.filter(a=>a.goal).length} of ${r.acorns.sent.length} became goals`:'4 a year'}</small></div></div></div>`:''}
  <div class="hp-list ${r.acorns.have?'mt16':''}">
    ${hpRow(`<img src="${stageSrc(6)}" alt="">`,'Your grove',open.length?`<i class="hp-blue">${nm(open[0].id)} hasn’t invested yet</i>`:gr.length||inv.length?`${gr.length+inv.length} growing with you · ${ch} challenges`:'Invite someone to grow with you',"GSEL=null;home('gt-grove')")}
+   ${hpRow(`<span class="hp-ref">$500</span>`,'Invite someone','Plants a tree · pays the referral bonus',"T={};go('inv-pick')")}
    ${hpRow(`<span class="hp-avs">${sgAv('priya',24)}${sgAv('sam',24)}</span>`,'Shared goals',`${sgAll().length} goals · with Priya and Sam`,"go('sg-list')")}
    ${hpRow(`<img src="${stageSrc(2)}" alt="">`,'Family',`${ft.kid.name}’s ${ft.kid.goal.toLowerCase()} · ${Object.keys(ft.rel).length||2} relatives watching`,"go('ft-home',{only:'seed'})")}
    ${hpRow(`<img src="${IMG.earn}" alt="">`,'Challenges',`${ch} running${(S.invites||[]).length?` · ${S.invites.length} invite${S.invites.length===1?'':'s'} waiting`:''}`,"HPIV='people';go('gt-ch')")}
@@ -100,7 +101,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .hp-sec{font-size:17px;font-weight:700;margin:22px 0 10px;color:#fff}.hp-sec .seg{display:inline-flex;gap:2px;background:rgba(255,255,255,.08);border-radius:16px;padding:2px}.hp-sec .seg button{font-size:12px;font-weight:600;padding:5px 10px;border-radius:14px;color:rgba(255,255,255,.6);background:none}.hp-sec .seg button.on{background:#fff;color:#191919}
 .hp-scroll{gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;align-items:flex-start}
 .hp .ia-avs .sg-av{box-shadow:0 0 0 2px #0f1f0d}
-.hp-fc{margin-bottom:12px}
+.hp-fc{margin-bottom:12px}.hp-ref{font-size:13px;font-weight:700;color:#0a1d08;background:#bceaa3;padding:5px 8px;border-radius:12px}
 .hp-acorn{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:20px;background:linear-gradient(135deg,rgba(116,201,71,.2),rgba(116,201,71,.06));border:1px solid rgba(116,201,71,.4);color:#fff}
 .hp-acb{width:56px;height:56px;border-radius:16px;background:rgba(10,29,8,.5);display:flex;align-items:center;justify-content:center;flex:none}.hp-acb img{height:36px;width:auto}
 .hp-acorn em{display:block;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#bceaa3}.hp-acorn b{display:block;font-size:17px;line-height:1.25;margin-top:4px}.hp-acorn span{display:block;font-size:13px;line-height:1.4;color:rgba(255,255,255,.7);margin-top:4px}

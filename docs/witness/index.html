@@ -3007,7 +3007,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:47 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:56 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5521,17 +5521,17 @@ def('rt-home',()=>{spInit();const r=rtSt();const g=r.goal;const s=r.season;const
   <div class="rt-goal"><div class="rt-gi">${stageImg(g.weeks,54)}</div><div class="grow"><em>Your goal</em><b>${g.name}</b><span>$${g.amt} a week · ${g.weeks} weeks ${g.paused?'<i class="so-chip">frozen</i>':'in a row'}</span></div><button class="sgx-edit" onclick="toast('Only you see the balance')">${ic('lock',12)}</button></div>
   <div data-sec="wit"></div>${rtWitnessCard()}
   <div class="so-sec" data-sec="bloom"><b>This month’s Bloom</b></div>
-  <div class="so-card rt-season"><div class="rt-bh"><div><em class="so-lvk">Day 12 of 30</em><b>No-Spend November</b></div><button class="sgx-edit" onclick="go('rt-season')">${s.done?'How we did':'The room'}</button></div>
-   <p class="rt-bsub">${s.people.toLocaleString()} of us, going for ${s.target.toLocaleString()} skipped purchases.</p>
-   <div class="rt-bar"><i style="width:${pc}%"></i></div><div class="rt-bl"><b>${s.bar.toLocaleString()}</b><span>${pc}% of ${s.target.toLocaleString()}</span></div>
-   ${s.done?`<div class="rt-fin">${svgSeal({top:'Finished',bottom:'November',glyph:'star',size:64})}<div><b>$5 landed in ${g.name}</b><em>Your card says “finished${Object.keys(s.dared).length?' with '+Object.keys(s.dared).map(id=>(r.witnesses.find(w=>w.id===id)||{name:id}).name).join(' and '):''}.” Nobody saw how many days anyone slipped.</em></div></div><button class="btn sg-cta" style="height:46px;margin-top:14px" onclick="rtShareSeason()">${ic('share',16)} Share the card</button>`
-   :s.joined?`<div class="rt-mine"><div><b>${s.mine}</b><em>skips, each one invested in ${g.name} · only you and your witnesses see this</em></div></div>
+  <div class="rt-hero ${s.done?'done':''}"><img class="rt-hart" src="${stageSrc(4)}" alt=""><em class="rt-hk">Day 12 of 30 · ${s.people.toLocaleString()} of us</em><b class="rt-ht">No-Spend November</b>
+   <div class="rt-hn">${s.bar.toLocaleString()}<small>of ${s.target.toLocaleString()} skipped purchases</small></div><div class="rt-hbar"><i style="width:${pc}%"></i></div>
+   ${s.done?`<div class="rt-fin">${svgSeal({top:'Finished',bottom:'November',glyph:'star',size:64})}<div><b>$5 landed in ${g.name}</b><em>Your card says “finished${Object.keys(s.dared).length?' with '+Object.keys(s.dared).map(id=>(r.witnesses.find(w=>w.id===id)||{name:id}).name).join(' and '):''}.” Nobody saw how many days anyone slipped.</em></div></div><button class="btn rt-hcta" onclick="rtShareSeason()">${ic('share',16)} Share the card</button>`
+   :s.joined?`<div class="rt-mine"><b>${s.mine}</b><em>your skips, each one invested in ${g.name}. Only you and your witnesses see this.</em></div>
     ${r.witnesses.filter(w=>w.state==='in').length?`<div class="rt-dares">${r.witnesses.filter(w=>w.state==='in').map(w=>`<button class="so-join ${s.dared[w.id]?'on':''}" onclick="rtDare('${w.id}')">${s.dared[w.id]?ic('check',12)+' '+w.name+'’s in':'Dare '+w.name}</button>`).join('')}<small>A dare only counts if you both finish.</small></div>`:''}
-    <button class="btn sg-cta" style="height:46px;margin-top:14px" onclick="rtSkip()">${ic('plus',16)} Skip and Invest</button>`
-   :`<p class="rt-p" style="margin-top:14px">Every skipped purchase is one Skip and Invest tap: the money moves to your goal and the bar moves. Your own count shows only to you and your witnesses. Hit it together and every finisher gets $5. Miss it and nobody loses anything.</p><button class="btn sg-cta" style="height:46px" onclick="rtJoin()">Join the Bloom</button>`}</div>
-  <div class="so-card"><div class="sgx-ch"><div><b>The room</b><em>Never where you are in it</em></div></div><div class="rt-comm" style="margin-top:0"><div class="rt-cs"><b>${s.hour.toLocaleString()}</b><em>in the last hour</em></div><div class="rt-cs"><b>${Math.round(s.people*.71).toLocaleString()}</b><em>still in</em></div><div class="rt-cs"><b>${s.done?s.people.toLocaleString():'—'}</b><em>finishers</em></div></div>
-   <div class="rt-spread"><em>Skips so far</em><div class="rt-hist">${[4,9,16,24,21,13,8,5].map((v,i)=>`<i style="height:${v*3.6}px" class="${i>=2&&i<=4?'hi':''}"></i>`).join('')}</div><div class="rt-hl"><span>0</span><span>Most of us are here</span><span>40+</span></div><small>28% missed a day and are still in.</small></div></div>
-  <div class="so-card"><div class="sgx-ch"><div><b>Right now</b><em>Nobody’s name, ever</em></div></div><div class="rt-tick" id="rtTick">${['Someone in Tempe skipped takeout','Someone in Mesa skipped a rideshare','Someone in Phoenix made coffee at home'].map((t,i)=>`<div class="${i?'':'new'}"><i></i>${t} · just now</div>`).join('')}</div></div>
+    <button class="btn rt-hcta" onclick="rtSkip()">${ic('plus',16)} Skip and Invest</button>`
+   :`<p class="rt-hp">One Skip and Invest tap is one skip. Finish together and every finisher gets $5. Miss it and nobody loses anything.</p><button class="btn rt-hcta" onclick="rtJoin()">Join the Bloom</button>`}</div>
+  <div class="so-card rt-room"><div class="rt-rh"><b>The room</b><button class="sgx-edit" onclick="go('rt-season')">${s.done?'How we did':'How we’re doing'}</button></div>
+   <div class="rt-rs"><span><b>${s.hour.toLocaleString()}</b> skips in the last hour</span><span><b>${Math.round(s.people*.71).toLocaleString()}</b> still in</span></div>
+   <div class="rt-spread"><em>Skips so far · never where you are</em><div class="rt-hist">${[4,9,16,24,21,13,8,5].map((v,i)=>`<i style="height:${v*3.6}px" class="${i>=2&&i<=4?'hi':''}"></i>`).join('')}</div><div class="rt-hl"><span>0</span><span>Most of us are here</span><span>40+</span></div><small>28% missed a day and are still in.</small></div></div>
+  <div class="rt-live"><em><i></i>Right now · nobody’s name, ever</em><div class="rt-tick" id="rtTick">${['Someone in Tempe skipped takeout','Someone in Mesa skipped a rideshare','Someone in Phoenix made coffee at home'].map((t,i)=>`<div class="${i?'':'new'}"><i></i>${t} · just now</div>`).join('')}</div></div>
   <div class="so-sec" data-sec="rings"><b>Rings</b><button onclick="go('rt-guest',{who:'jess'})">See one as a guest</button></div>
   <div class="so-card"><div class="sgx-ch"><div><b>At a milestone, the app makes the card.</b><em>Goal, club, start date, cadence, one line of math. No balance unless you turn it on.</em></div></div>
    ${rtRingCard({name:'Move out',club:'$1k club',start:'Started August',cad:'$15 a day',math:'$15 a day is $5,475 a year, before it grows.',by:'jess'})}
@@ -5621,6 +5621,19 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .rt-acorn{width:56px;height:56px;border-radius:18px;background:#eef3e8;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;flex:none}.rt-acorn.dim{opacity:.4}
 .rt-acbig{display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 0 6px}
 
+.rt-hero{position:relative;overflow:hidden;border-radius:22px;padding:20px 20px 20px;background:linear-gradient(165deg,#17411a 0%,#0b2110 60%,#081a0c 100%);color:#fff;margin-bottom:12px}
+.rt-hart{position:absolute;right:-6px;top:-8px;height:112px;width:auto;opacity:.9;filter:drop-shadow(0 10px 14px rgba(0,0,0,.35))}
+.rt-hk{display:block;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#bceaa3}.rt-ht{display:block;font-size:24px;letter-spacing:-.4px;margin-top:4px;padding-right:96px;line-height:1.1}
+.rt-hn{font-size:38px;font-weight:700;letter-spacing:-1.2px;line-height:1;margin-top:18px}.rt-hn small{display:block;font-size:13px;font-weight:500;letter-spacing:0;color:rgba(255,255,255,.7);margin-top:4px}
+.rt-hbar{height:8px;border-radius:4px;background:rgba(255,255,255,.14);margin-top:12px;overflow:hidden}.rt-hbar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#8fd867,#bceaa3)}
+.rt-hp{font-size:14px;line-height:1.45;color:rgba(255,255,255,.82);margin:16px 0 0}
+.rt-hcta{height:46px;margin-top:16px;background:#8fd867;color:#0a1d08;font-weight:700;border-radius:23px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px}
+.rt-hero .rt-mine{margin-top:16px;padding:0;background:none;display:block}.rt-hero .rt-mine b{display:block}.rt-hero .rt-mine em{display:block;margin-top:4px;font-size:13px;line-height:1.4;max-width:none;width:100%}.rt-hero .rt-mine>div{display:block}.rt-hero .rt-mine b{font-size:30px;color:#fff;letter-spacing:-.8px}.rt-hero .rt-mine em{color:rgba(255,255,255,.75)}
+.rt-hero .rt-fin{margin-top:16px}.rt-hero .rt-fin b{color:#fff}.rt-hero .rt-fin em{color:rgba(255,255,255,.75)}.rt-hero .rt-dares{margin-top:12px}.rt-hero .rt-dares small{color:rgba(255,255,255,.6)}
+.rt-rh{display:flex;justify-content:space-between;align-items:center}.rt-rh b{font-size:17px}
+.rt-rs{display:flex;gap:18px;margin-top:10px;font-size:13px;color:#6b706c}.rt-rs b{color:#191919;font-size:15px}
+.rt-room .rt-spread{margin-top:14px}
+.rt-live{padding:16px 6px 4px}.rt-live>em{display:flex;align-items:center;gap:7px;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b706c}.rt-live>em i{width:7px;height:7px;border-radius:50%;background:#5c9a3a;box-shadow:0 0 0 3px rgba(92,154,58,.2)}.rt-live .rt-tick{margin-top:6px}
 .rt-bh{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.rt-bh b{display:block;font-size:20px;letter-spacing:-.3px;margin-top:2px}.rt-bh .so-chip{flex:none;white-space:nowrap}
 .rt-bsub{margin:8px 0 18px;font-size:14px;line-height:1.45;color:#5d655f}
 .rt-bl{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px}.rt-bl b{font-size:15px}.rt-bl span{font-size:12px;color:#6b706c}

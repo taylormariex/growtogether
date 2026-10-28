@@ -28,9 +28,20 @@ function iaBento(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in')
   ${iaTile('',`Your cards`,sealImg(i,60),r.acorns.have?`<span class="ia-green">An acorn to plant</span>`:'Milestones and the Year Ring',"go('rt-home',{only:'rings'})")}
   ${iaTile(fo.red?'red':'',`The Forest`,`<span class="ia-forest">${[7,5,6,7,5,6,7,5,6].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[30,24,27,32,22,26,30,23,27][k]}px;margin-left:${k?-10:0}px;z-index:${k%2?2:1}" alt="">`).join('')}</span>`,fo.red?'Red day · Canopy is open':'3,100 people with your goal',"go('fo-grove')")}
  </div>`}
-(function(){const f=SCR['gt-oak'];if(!f)return;SCR['gt-oak']=p=>{const r=f(p);const ff=(S.flourishes||[]).length;
- r.html=r.html.replace(/<div class="body" style="padding-top:8px"><div class="center">[\s\S]*?<div class="oflg">/,`<div class="body" style="padding-top:8px"><div class="row between" style="align-items:baseline"><div class="h2" style="color:#fff">Your oak</div><span class="sm" style="color:var(--sk-sub)">${ff} of 9 extras</span></div><p class="sm" style="color:var(--sk-sub);margin:6px 0 16px;line-height:1.45">Your streak sets the height. Other habits add extras, like roots for Recurring or a nest for an Emergency Fund. Your grove sees the extras, never amounts.</p><div class="oflg">`);
+(function(){const f=SCR['gt-oak'];if(!f)return;SCR['gt-oak']=p=>{const r=f(p);const keys=Object.keys(ORB_SLOTS);const on=keys.filter(k=>(S.flourishes||[]).indexOf(k)>-1);const off=keys.filter(k=>on.indexOf(k)<0);
+ const row=(k,has)=>{const x=FL[k];const im=FLIMG[k]?`<img src="${IMG[FLIMG[k]]}" alt="">`:'';return `<button class="ox-row ${has?'on':''}" onclick="flourishSheet('${k}')"><span class="ox-ic">${im}</span><span class="grow"><b>${x.name}<small>· ${x.habit}</small></b><em>${x.line}</em></span>${has?`<span class="ox-ok">${ic('check',12)} Growing</span>`:ic('chev',16,'opacity:.35')}</button>`};
+ r.html=r.html.replace(/<div class="body" style="padding-top:8px">[\s\S]*?<div class="oflg">[\s\S]*?<\/div><div style="height:90px"><\/div><\/div>/,`<div class="body" style="padding-top:8px"><div class="row between" style="align-items:baseline"><div class="h2">Your oak</div><span class="sm" style="color:var(--sk-sub)">${on.length} of ${keys.length} growing</span></div><p class="sm" style="color:var(--sk-sub);margin:6px 0 14px;line-height:1.45">Your streak sets the height. Other habits grow things on it. Your grove sees what’s growing, never amounts.</p>
+  ${on.length?`<div class="ox-sec">Growing</div><div class="ox-list">${on.map(k=>row(k,true)).join('')}</div>`:''}
+  <div class="ox-sec">Not yet</div><div class="ox-list">${off.map(k=>row(k,false)).join('')}</div><div style="height:90px"></div></div>`);
  return r}})();
+document.head.insertAdjacentHTML('beforeend',`<style>
+.ox-sec{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b706c;margin:16px 4px 8px}
+.ox-list{background:#fff;border:1px solid #e3e8df;border-radius:20px;padding:4px 8px}
+.ox-row{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:13px 6px 13px 8px;color:#191919}.ox-row+.ox-row{border-top:1px solid #f0f2ee}
+.ox-ic{width:46px;height:46px;border-radius:14px;background:#f3f6f0;display:flex;align-items:center;justify-content:center;flex:none}.ox-ic img{height:30px;width:auto;filter:grayscale(1);opacity:.55}.ox-row.on .ox-ic{background:#edf8e6}.ox-row.on .ox-ic img{filter:none;opacity:1}
+.ox-row b{display:block;font-size:16px;letter-spacing:-.2px}.ox-row b small{font-size:13px;font-weight:500;color:#6b706c;margin-left:4px}.ox-row em{display:block;font-style:normal;font-size:13px;color:#6b706c;line-height:1.35;margin-top:3px}
+.ox-ok{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:#2f7a12;background:#e3f4d8;padding:5px 10px;border-radius:13px;flex:none}
+</style>`);
 /* Home: four pivots, You · People · Everyone. One hero and a few rows each. No bento, no row of squares. */
 window.HPIV=window.HPIV||'you';
 function hpRow(vis,t,sub,js,cls){return `<button class="hp-row ${cls||''}" onclick="${js}"><span class="hp-ic">${vis}</span><span class="grow"><b>${t}</b><em>${sub}</em></span>${ic('chev',16,'opacity:.35')}</button>`}
@@ -39,9 +50,8 @@ function hpYou(){const r=rtSt();const i=stageIdx(S.streak);const nx=nextGoal(S.s
   <div class="mt12" id="nbgW">${nbgBlock()}</div>
   <div class="hp-list mt16">
    ${(()=>{const g=r.goal;const ws=r.witnesses.filter(w=>w.state==='in');return hpRow(`<img src="${stageSrc(stageIdx(g.weeks))}" alt="">`,'Your goal',`${g.name} · $${g.amt} a week · ${ws.length?`${ws.map(w=>w.name).join(' and ')} witness${ws.length===1?'es':''}`:'no witness yet'}`,"go('rt-home',{only:'you'})")})()}
-   ${hpRow(sealImg(i,40),'Your achievements',`${RSTAGES[i][1]} · your card to share`,"go('rt-home',{only:'rings'})")}
-   ${hpRow(`<img src="${IMG.seedling}" alt="">`,'Your oak',ff?`${ff} of 9 extras growing`:'Extras that grow your oak',"home('gt-oak')")}
-   ${hpRow(`<img src="${IMG.oak}" alt="">`,'Your year','Monthly recaps, the film, the Year Ring',"go('journal')")}
+   ${hpRow(sealImg(i,40),'Your achievements',`${RSTAGES[i][1]} card · the Year Ring · recaps`,"go('journal')")}
+   ${hpRow(`<img src="${IMG.seedling}" alt="">`,'Your oak',ff?`${ff} of 7 growing`:'What grows on it',"home('gt-oak')")}
    ${hpRow(`<img src="${IMG.roundup}" alt="">`,'Skip and Invest','Skip a spend, invest it right away',"go('ss2-pick')")}
    ${hpRow(`<img src="${IMG.learn}" alt="">`,'Know yourself','Short quizzes, a minute each',"go('qz-hub')")}
   </div>
@@ -57,8 +67,8 @@ function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in'
   </div>`}
 function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=Math.min(100,Math.round(s.bar/s.target*100));
  return `<div class="hp-fc">${rtFridayCount({q:true})}</div>
-  <div class="hp-list">
-   ${hpRow(`<img src="${stageSrc(4)}" alt="">`,'This month’s Bloom',s.done?'No-Spend November · finished':s.joined?`No-Spend November · you’re in · ${pc}%`:`No-Spend November · ${pc}% there`,"go('rt-home',{only:'bloom'})")}
+  <button class="hp-hero bloom" onclick="go('rt-home',{only:'bloom'})"><div class="hp-ht wide"><em>This month’s Bloom · day 12 of 30</em><b>No-Spend November</b><span>${s.done?'Finished. $5 landed.':s.joined?'You’re in · '+s.people.toLocaleString()+' of us':s.people.toLocaleString()+' of us, going for '+s.target.toLocaleString()}</span><div class="hp-hbar"><i style="width:${pc}%"></i></div></div><img class="hp-bart" src="${stageSrc(4)}" alt=""></button>
+  <div class="hp-list mt16">
    ${hpRow(`<img src="${stageSrc(7)}" alt="">`,'Your room',fo.shared?'3,100 with your goal · no names':'3,100 with your goal · see the spread',"go('fo-grove')")}
    ${hpRow(`<span class="hp-avs">${soAv('kim',22)}${soAv('dee',22)}</span>`,'Canopy',fo.red?'Red day · the whole bench is on':'Tasha and Dee are on · ask, don’t sell',"go('fo-canopy')",fo.red?'red':'')}
   </div>`}

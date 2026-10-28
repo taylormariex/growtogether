@@ -78,7 +78,8 @@ def('recap',p=>{const j=RC.find(x=>x.m===(p.m===undefined?9:p.m))||RC[0];const M
   return wrapped({count:4,label:`${M} recap`,card:(k,o)=>rCard(k,j,o),cardFn:'rCardAt',arg:`,${j.m}`,shareTitle:`My ${M} on Acorns`,endTitle:`Your ${M}, in four cards.`})});
 function rCardAt(k,o,m){const j=RC.find(x=>x.m===m)||RC[0];return rCard(k,j,o)}
 /* journal uses the same months */
-def('journal',()=>({cls:'dark',html:`${topbar({title:'Your year'})}<div class="body"><p class="p" style="margin-top:0">One recap a month. December adds them up into your Acorns Year; January hands you the Year Ring.</p>
+def('journal',()=>({cls:'dark',html:`${topbar({title:'Your achievements'})}<div class="body"><div class="ach-hero">${(()=>{const i=stageIdx(S.streak);const g=(typeof rtSt==='function')?rtSt().goal:{name:'Car fund',amt:10};return `<div class="ach-card">${dkCard({seal:sealImg(i,124),title:RSTAGES[i][1],sub:`${g.name} · $${g.amt} a week · ${plw(S.streak)}`})}</div><div class="ach-cap"><b>Your card right now</b><em>The app makes one at every milestone: goal, cadence, one line of math. Never the balance.</em><button class="btn ach-share" onclick="rtShareMine()">${ic('share',16)} Share the card</button></div>`})()}</div>
+  <div class="sk-sec" style="margin-top:22px"><div class="h4">Looking back</div></div>
   <div class="jy" onclick="T.si=0;T.wsel=0;go('year')">${ycFrame(yCard(0,{}),110)}<div class="grow"><div class="eyebrow">December</div><div style="font-weight:600;font-size:18px;color:#fff;margin-top:4px">Your Acorns Year</div><div class="sm" style="color:var(--sk-sub);margin-top:2px">Ready to watch</div><div class="mt12">${btn('Watch',"event.stopPropagation();T.si=0;T.wsel=0;go('year')",'wh','style="height:40px;width:auto;padding:0 18px;font-size:14px"')}</div></div></div>
   <button class="jy jy-ring" onclick="go('rt-year')">${svgSeal({top:'2026',bottom:'47 of 52',glyph:'trophy',size:84})}<div class="grow"><div class="eyebrow">January</div><div style="font-weight:600;font-size:18px;color:#fff;margin-top:4px">The Year Ring</div><div class="sm" style="color:var(--sk-sub);margin-top:2px">One card for the year. Weeks and milestones, never amounts.</div></div></button>
   <div class="sk-sec"><div class="h4">Monthly recaps</div></div>
@@ -126,6 +127,7 @@ def('journal',()=>({cls:'dark',html:`${topbar({title:'Your year'})}<div class="b
 .wr-acts{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:auto;padding:12px 24px 0}.wr-acts .btn{width:auto;padding:0 30px}
 .wr-link{display:flex;align-items:center;gap:6px;height:40px;font-weight:600;font-size:14px;color:#fff}
 .wr-legal{font-size:11px;color:rgba(255,255,255,.45);text-align:center;padding:4px 24px calc(var(--safeBot) + 10px);margin:0}
+.ach-hero{display:flex;flex-direction:column;align-items:center}.ach-card{width:230px}.ach-card .dkc{transform:none}.ach-cap{text-align:center;margin-top:14px;max-width:320px}.ach-cap b{display:block;font-size:17px}.ach-cap em{display:block;font-style:normal;font-size:13px;line-height:1.45;color:var(--sk-sub);margin-top:4px}.ach-share{height:42px;margin:14px auto 0;width:auto;padding:0 20px;display:inline-flex;align-items:center;gap:6px;background:#74c947;color:#0a1d08;border-radius:21px;font-weight:700}
 .jy{display:flex;gap:16px;align-items:center;padding:14px;border-radius:20px;background:var(--sk-card);border:1px solid var(--sk-line);margin-top:16px;cursor:pointer}.jy .yc{box-shadow:0 8px 20px rgba(0,0,0,.35)}`;document.head.appendChild(st)})();
 
 /* Split a paycheck: the "why" before any numbers */
@@ -135,3 +137,5 @@ def('mm2-intro',()=>({cls:'dark',html:`${topbar({close:true,title:''})}<div clas
   <p class="sm mt12" style="color:var(--sk-sub)">Your grove sees the oak extras, never the amounts. You can change or pause the split anytime.</p></div>
   ${foot(btn('Set up my split',"go('mm2-pay')",'wh'),btn('Not now','back()','ghost'))}`}));
 (function(){const f=SCR['mm2-pay'];SCR['mm2-pay']=p=>{const r=f(p);r.html=r.html.replace('<div class="h2" style="color:#fff">One paycheck, three habits.</div><p class="p mt8">Tell us about your pay. Only you see these numbers.</p>','<div class="eyebrow">Step 1 of 3 · Your paycheck</div><div class="h2 mt8" style="color:#fff">How much, and how often?</div><p class="p mt8">We use this to work out each slice. Only you see these numbers.</p>');return r}})();
+
+function rtShareMine(){const i=stageIdx(S.streak);const g=rtSt().goal;progressShare({head:'Share the card, not the balance',sub:RSTAGES[i][1],title:RSTAGES[i][1],text:'$'+g.amt+' a week is $'+(g.amt*52).toLocaleString()+' a year, before it grows.',card:dkCard({seal:sealImg(i,140),title:g.name,sub:RSTAGES[i][1]+' · $'+g.amt+' a week'})})}

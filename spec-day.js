@@ -1,6 +1,8 @@
 /* Day: every layer below Home is light. Home and Streaks stay dark; the Acorns Year film stays dark because it is a film. */
 const DAY_KEEP=new Set(['gt-home','streaks','year','yr-mid','menu','splash','focus-end','sys-load','states','gt-why2','rt-preview','sswhy','alone','rt-year','rt-claim']);
 (function(){const f=render;render=function(id,params,dir){const fn=SCR[id];if(fn&&!DAY_KEEP.has(id)&&!fn.__day){const g=fn;const w=p=>{window.__LIGHT=true;let r;try{r=g(p)}finally{window.__LIGHT=false}if(r&&/\bdark\b/.test(r.cls||'')){r.cls=r.cls.replace(/\bdark\b/,'dark day');r.light=false}return r};w.__day=true;SCR[id]=w}return f(id,params,dir)}})();
+/* share cards stay night, whatever screen they sit on */
+(function(){const f=dkCard;dkCard=function(o){const L=window.__LIGHT;window.__LIGHT=false;try{return f(o)}finally{window.__LIGHT=L}}})();
 /* status bar: dark text on day screens */
 (function(){const f=render;render=function(id,params,dir){f(id,params,dir);const el=[...document.querySelectorAll('.scr')].pop();if(el&&el.classList.contains('day')){const sb=document.getElementById('sbar');if(sb)sb.classList.remove('light')}}})();
 document.head.insertAdjacentHTML('beforeend',`<style>
@@ -46,7 +48,13 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 /* list rows (notifications and the like) */
 .scr.day .li .ttl,.scr.day .li b{color:#191919}.scr.day .li .sub,.scr.day .li .sm{color:#6b706c}.scr.day .li{border-color:#e3e8df}
 .scr.day .shimmer{background:#e9ede5}
+.scr.day .dkc,.scr.day .dkc *{color:#fff}.scr.day .dkc .dkc-txt em{color:rgba(255,255,255,.72)}.scr.day .dkc-dt,.scr.day .dkc-lk{color:rgba(255,255,255,.8)}
 .scr.day .sk-row .t{color:#191919}.scr.day .sk-row .s{color:#5d655f}.scr.day .sk-row .ic{background:#edf8e6}
 .scr.day .card{background:#fff;border:1px solid #e3e8df}.scr.day .card .h4{color:#191919}.scr.day .badge{background:#e3f4d8;color:#2f7a12}
 .scr.day .ttl{color:#2f7a12}
+.scr.day .amt{color:#191919}.scr.day .big{color:#2f7a12}
+.scr.day .chip{background:#fff;color:#191919;border:1px solid #dfe5da}.scr.day .chip.on{background:#74c947;color:#0a1d08;border-color:#74c947}
+.scr.day .inp,.scr.day textarea,.scr.day input{background:#fff;color:#191919;border-color:#dfe5da}
+.scr.day .kv,.scr.day .kv b{color:#191919}.scr.day .kv span{color:#6b706c}
+.scr.day .sheet{background:#fff;color:#191919}
 </style>`);

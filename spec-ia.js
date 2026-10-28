@@ -73,3 +73,13 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 document.head.insertAdjacentHTML('beforeend','<style>.gvs .sk-pill{z-index:60;top:calc(var(--safeTop) + 58px)}.gvs .gv-hud{z-index:61}</style>');
 
 document.head.insertAdjacentHTML('beforeend',`<style>.ia-t{min-height:150px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:14px}.ia-t .bh{font-size:15px}.ia-t .bs{margin-top:auto;font-size:12px;line-height:1.35;color:rgba(255,255,255,.65)}.ia-t .big{font-size:30px;letter-spacing:-.8px;color:#bceaa3;margin-top:auto}.ia-t .avr{margin-top:12px}.ia-tart{display:flex;align-items:flex-end;height:70px;margin-top:4px}.ia-tq{font-size:15px;font-weight:600;line-height:1.2;margin-top:10px;color:#fff}.ia-tbar{width:100%;height:10px;border-radius:5px;background:rgba(255,255,255,.12);margin-top:auto;overflow:hidden}.ia-tbar i{display:block;height:100%;background:linear-gradient(90deg,#9bd77a,#3d9a1f)}.ia-t.red{background:linear-gradient(160deg,#2a0f0f,#0a1d08)}.bento .ia-t:nth-child(2n){margin-top:0}</style>`);
+
+/* ---------- Home follows the Acorns app: light. Oak and Grove stay the dark scene screens. ---------- */
+(function(){const f=SCR['gt-home'];SCR['gt-home']=p=>{window.__LIGHT=true;let r;try{r=f(p)}finally{window.__LIGHT=false}r.cls=(r.cls||'').replace(/\bdark\b/,'').trim()+' acl iahome';return r}})();
+document.head.insertAdjacentHTML('beforeend',`<style>
+.scr.iahome{background:#f5f7f2!important}.scr.iahome .hm-hello,.scr.iahome .hm-hello b{color:#191919}.scr.iahome .hm-hello em{color:#2f7a12}.scr.iahome .hm-av{background:#191919;color:#fff}
+.scr.iahome .bento .ia-t{background:#fff;border:1px solid #e4e9e1;color:#191919;box-shadow:0 1px 0 rgba(0,0,0,.03)}.scr.iahome .ia-t .bh{color:#191919}.scr.iahome .ia-t .bs{color:#6b706c}.scr.iahome .ia-t .big{color:#2f7a12}.scr.iahome .ia-tq{color:#191919}.scr.iahome .ia-tbar{background:#eef1ec}.scr.iahome .ia-t.red{background:#fdecea;border-color:#f5c6c2}.scr.iahome .ia-t.red .bs{color:#c62828}
+.scr.iahome .ia-t .fo-anon i{box-shadow:0 0 0 2px #fff}.scr.iahome .ia-t .so-av{box-shadow:0 0 0 2px #fff}.scr.iahome .ringAv svg circle:first-child{stroke:rgba(0,0,0,.1)}
+.scr.iahome .wh-clock{border-color:#e0d3a0}
+.scr.iahome .nbg-more,.scr.iahome [onclick*="nbgMore"]{color:#5d655f}
+</style>`);

@@ -22,7 +22,7 @@ Family Tree no longer has inner tabs; its three parts are three rows under Peopl
 
 ## Links
 
-The front guide (`index.html`) lists the pieces under You / People / Everyone, the same grouping as Home.
+The front guide (`index.html`) lists the pieces under You / People / Everyone, the same grouping as Home, then the Grow Together five as before.
 
 Witnessed Habit, one link per place it lives: `witness/` (Witness and the Friday Count), `bloom/`, `rings/` (Rings and Drop an Acorn), `seedling/` (lands on Family), `same-tree/` (lands on Shared goals), `the-grove/` (the Grove, with Canopy inside). `friday-count/`, `drop-an-acorn/` and `canopy/` still build for the doc and land on their parent page. Each opens on its story; Home is one tap back.
 

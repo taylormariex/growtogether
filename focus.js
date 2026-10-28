@@ -42,7 +42,8 @@ const FOCUS_SPEC={
 const FOCUS_HUBS=new Set(['menu','states','sam-hub']); /* the Acorns tabs and the surfaces behind them stay reachable in every build */
 
 function focusBoot(){if(window.__iaFocus)window.__iaFocus();const k=window.FOCUS;
- if(k==='apphome'){jumpAhead();spInit();T={};const side=document.getElementById('side');if(side){const sw=side.querySelector('.demo-sw');if(sw)sw.remove();side.innerHTML=`<h1>Home</h1><div>The Acorns app, four weeks in, with the whole prototype reachable: the streak chip opens Streaks, the oak opens the Grow Together layer.</div>`}home('ac-home');return}const F=FOCUS_SPEC[k];if(!F)return;
+ const DIRECT={apphome:['ac-home','Home','The Acorns app, four weeks in, with the whole prototype reachable: the streak chip opens Streaks, the oak opens the Grow Together layer.'],'d-streaks':['streaks','Streaks','The Streaks team’s page, as designed.'],'d-challenges':['gt-ch','Challenges','Run as many as you like; Learn together is one of them.'],'d-learn':['fo-learn','Learn together','One two-minute lesson, read with someone who has your goal.'],'d-oak':['gt-oak','Your oak','What grows on it, and the habits that grow it.']};
+ if(DIRECT[k]){const [scr,title,side]=DIRECT[k];jumpAhead();spInit();T={};const sd=document.getElementById('side');if(sd){const sw=sd.querySelector('.demo-sw');if(sw)sw.remove();sd.innerHTML=`<h1>${title}</h1><div>${side}</div>`}if(scr==='ac-home')home(scr);else{HPIV=k==='d-oak'?'you':'people';home('gt-home');go(scr)}return}const F=FOCUS_SPEC[k];if(!F)return;
  /* lander CTA goes straight into the experience */
  if(typeof SPL!=='undefined'&&SPL[k])SPL[k].go=F.go;
  /* side panel: what this page is */

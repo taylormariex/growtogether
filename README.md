@@ -23,15 +23,15 @@ Family Tree no longer has inner tabs; its three parts are three rows under Peopl
 
 ## Links
 
-The front guide (`index.html`) has three entries, You / People / Everyone, each opening Home on that tab, then the Grow Together five.
+Every experience has its own link that opens onto that one flow. They aren't listed on the main page; the front guide stays You / People / Everyone plus the Grow Together five.
 
-Witnessed Habit, one link per place it lives: `witness/` (Witness and the Friday Count), `bloom/`, `rings/` (Rings and Drop an Acorn), `seedling/` (lands on Family), `same-tree/` (lands on Shared goals), `the-grove/` (the Grove, with Canopy inside). `friday-count/`, `drop-an-acorn/` and `canopy/` still build for the doc and land on their parent page. Each opens on its story; Home is one tap back.
+You: `streaks/` · `your-goal/` (what you invest toward, and adding a witness) · `achievements/` (your card, the Year Ring, the film, recaps) · `your-oak/` · `skip-and-invest/` · `know-yourself/` · `acorns-year/`
 
-Grow Together, the five pieces the system places: `skip-and-invest/`, `shared-goals/`, `acorns-year/`, `invite/`, `know-yourself/`.
+People: `invite/` (your grove) · `shared-goals/` · `seedling/` (Family) · `challenges/` · `learn-together/` · `drop-an-acorn/`
 
-`home/` opens the Acorns app Home with no story in front of it; the green streak chip there opens Streaks, the oak opens the Grow Together layer.
+Everyone: `friday-count/` · `bloom/` · `forest/` (find your room; five steps, then the room) · `canopy/`
 
-Streaks (`streaks`) is the Streaks team's page as they designed it, reached from the Home tile. Nothing of ours is injected there; our layer sits in front of it.
+Older slugs still build and land on the same places: `witness/` = `your-goal/`, `rings/` = `achievements/`, `the-grove/` = `forest/`, `same-tree/` → `shared-goals/`. `home/` opens the Acorns app Home with no story in front of it.
 
 ## Files
 

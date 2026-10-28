@@ -15,7 +15,7 @@ CSS = ['styles.css', 'theme.css', 'spec.css']
 JS = ['art.js', 'assets1.js', 'assets2.js', 'assets3.js', 'assets4.js', 'theme-art.js',
       'core.js', 'flows.js', 'gt.js', 'ideas.js', 'theme.js',
       'spec-core.js', 'spec-flows1.js', 'spec-flows2.js', 'spec-grove.js', 'spec-year.js',
-      'spec-app.js', 'spec-lander.js', 'spec-rules.js', 'spec-nav.js', 'spec-clock.js', 'spec-quiz.js', 'spec-polish.js', 'spec-social.js', 'spec-clubs.js', 'spec-feed.js', 'spec-monthly.js', 'spec-live.js', 'spec-server.js', 'spec-social-stories.js', 'focus.js']
+      'spec-app.js', 'spec-lander.js', 'spec-rules.js', 'spec-nav.js', 'spec-clock.js', 'spec-quiz.js', 'spec-polish.js', 'spec-social.js', 'spec-roots.js', 'spec-family.js', 'spec-forest.js', 'spec-wh-stories.js', 'focus.js']
 
 # slug → (lander key, page title)
 FOCUS = {
@@ -24,11 +24,9 @@ FOCUS = {
     'acorns-year':    ('year',           'Acorns Year'),
     'invite':         ('invite',         'Invite to your grove'),
     'know-yourself':  ('money-type',     'Know yourself'),
-    'clubs':          ('clubs',          'Clubs'),
-    'friends':        ('feed',           'Friends'),
-    'monthly-challenges': ('monthly',    'Challenges'),
-    'live-rooms':     ('live',           'Live rooms'),
-    'server':         ('server',         'The Server'),
+    'roots':          ('roots',          'Roots'),
+    'family-tree':    ('family',         'Family Tree'),
+    'forest':         ('forest',         'The Forest'),
 }
 
 def read(name):

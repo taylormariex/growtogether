@@ -12,11 +12,6 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 - `docs/shared-goals/` — Shared goals
 - `docs/acorns-year/` — Acorns Year and share cards
 - `docs/invite/` — Invite to your grove
-- `docs/clubs/` — Clubs
-- `docs/friends/` — Friends (a real feed)
-- `docs/monthly-challenges/` — Challenges (monthly, Whoop-style)
-- `docs/live-rooms/` — Live rooms
-- `docs/server/` — The Server
 - `docs/know-yourself/` — Know yourself (Money Type and three more quizzes)
 
 `focus.js` adds the standalone guard rails; it does nothing in the full build. `dist/` mirrors `docs/` for the zip upload.

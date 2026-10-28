@@ -41,7 +41,8 @@ const FOCUS_SPEC={
 /* screens that belong to the rest of the app: reaching one ends the experience */
 const FOCUS_HUBS=new Set(['menu','states','sam-hub']); /* the Acorns tabs and the surfaces behind them stay reachable in every build */
 
-function focusBoot(){if(window.__iaFocus)window.__iaFocus();const k=window.FOCUS;const F=FOCUS_SPEC[k];if(!F)return;
+function focusBoot(){if(window.__iaFocus)window.__iaFocus();const k=window.FOCUS;
+ if(k==='apphome'){jumpAhead();spInit();T={};const side=document.getElementById('side');if(side){const sw=side.querySelector('.demo-sw');if(sw)sw.remove();side.innerHTML=`<h1>Home</h1><div>The Acorns app, four weeks in, with the whole prototype reachable: the streak chip opens Streaks, the oak opens the Grow Together layer.</div>`}home('ac-home');return}const F=FOCUS_SPEC[k];if(!F)return;
  /* lander CTA goes straight into the experience */
  if(typeof SPL!=='undefined'&&SPL[k])SPL[k].go=F.go;
  /* side panel: what this page is */

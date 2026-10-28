@@ -19,6 +19,7 @@ JS = ['art.js', 'assets1.js', 'assets2.js', 'assets3.js', 'assets4.js', 'theme-a
 
 # slug → (lander key, page title)
 FOCUS = {
+    'home':           ('apphome',        'Home'),
     'skip-and-invest': ('skip-and-stash', 'Skip and Invest'),
     'shared-goals':   ('split',          'Shared goals'),
     'acorns-year':    ('year',           'Acorns Year'),

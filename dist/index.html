@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:45 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:47 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -6052,6 +6052,7 @@ function iaBento(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in')
  r.html=r.html.replace(/<div class="sk-sec"><div class="h4">Ways to grow<\/div><\/div>\s*<div class="row"[^>]*>/,m=>m+ours);
  r.html=r.html.replace(/<div class="bnt" onclick="home\('gt-oak'\)"><div class="bh">Your oak<\/div>/,'<div class="bnt" onclick="go(\'streaks\')"><div class="bh">Your streak</div>');
  r.html+=whClock([['It’s Friday','rtFriday()']]);return r}})();
+(function(){const f=SCR['ac-home'];if(!f)return;SCR['ac-home']=p=>{const r=f(p);r.html=r.html.replace(/<button onclick="event.stopPropagation\(\);home\('gt-home'\)" class="g"/,'<button onclick="event.stopPropagation();go(\'streaks\')" class="g"');return r}})();
 document.head.insertAdjacentHTML('beforeend',`<style>
 .ia-tok .im{display:flex;align-items:center;justify-content:center;overflow:hidden}.ia-tok .im img{width:auto;max-width:none}
 .ia-tok.red .im{box-shadow:inset 0 0 0 1.5px rgba(229,57,53,.6)}
@@ -6120,6 +6121,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 
 /* ---------- the Streaks entry on Profile opens the whole dashboard now, so it says what's inside ---------- */
 (function(){const f=SCR['profile'];if(!f)return;SCR['profile']=p=>{const r=f(p);try{const ws=rtSt().witnesses.filter(w=>w.state==='in');const gr=growing();const open=gr.filter(x=>x.open);const i=stageIdx(S.streak);
+ r.html=r.html.replace(/<button class="pf-pill2" onclick="[^"]*"/,'<button class="pf-pill2" onclick="go(\'streaks\')"');
  r.html=r.html.replace(/<button class="pf-stk"[\s\S]*?<\/button>/,`<button class="pf-stk ia-pf" onclick="home('gt-home')" aria-label="Your oak and your people. Open Streaks."><span class="pf-stk-ic">${stageImg(S.streak,40)}</span><span class="grow"><b>${RSTAGES[i][1]} · ${S.streak} week${S.streak===1?'':'s'}</b><span class="pf-bar"><i style="width:${Math.max(4,Math.round(S.streak/(nextGoal(S.streak)[0]||1)*100))}%"></i></span><em>${[gr.length?`${gr.length} in your grove${open.length?' · '+nm(open[0].id)+' hasn’t invested yet':''}`:'Your grove is empty',ws.length?`${ws.length} witness${ws.length===1?'':'es'}`:'No witness yet',rtSt().season.joined?'In this month’s Bloom':'A Bloom this month'].join(' · ')}</em></span><span class="ia-pfavs">${gr.slice(0,3).map(g=>sgAv(g.id,22)).join('')}</span>${ic('chev',16,'opacity:.5')}</button>`)}catch(e){}
  return r}})();
 document.head.insertAdjacentHTML('beforeend',`<style>.ia-pf .pf-stk-ic{display:flex;align-items:flex-end;justify-content:center;overflow:hidden}.ia-pf em{white-space:normal;line-height:1.35}.ia-pfavs{display:inline-flex;margin-right:4px}.ia-pfavs .sg-av{margin-left:-6px;box-shadow:0 0 0 2px #fff;width:22px!important;height:22px!important;font-size:10px!important}.ia-pfavs .sg-av:first-child{margin-left:0}</style>`);
@@ -6168,7 +6170,8 @@ const FOCUS_SPEC={
 /* screens that belong to the rest of the app: reaching one ends the experience */
 const FOCUS_HUBS=new Set(['menu','states','sam-hub']); /* the Acorns tabs and the surfaces behind them stay reachable in every build */
 
-function focusBoot(){if(window.__iaFocus)window.__iaFocus();const k=window.FOCUS;const F=FOCUS_SPEC[k];if(!F)return;
+function focusBoot(){if(window.__iaFocus)window.__iaFocus();const k=window.FOCUS;
+ if(k==='apphome'){jumpAhead();spInit();T={};const side=document.getElementById('side');if(side){const sw=side.querySelector('.demo-sw');if(sw)sw.remove();side.innerHTML=`<h1>Home</h1><div>The Acorns app, four weeks in, with the whole prototype reachable: the streak chip opens Streaks, the oak opens the Grow Together layer.</div>`}home('ac-home');return}const F=FOCUS_SPEC[k];if(!F)return;
  /* lander CTA goes straight into the experience */
  if(typeof SPL!=='undefined'&&SPL[k])SPL[k].go=F.go;
  /* side panel: what this page is */

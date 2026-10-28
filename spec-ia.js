@@ -50,7 +50,7 @@ function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in'
  return `<div class="hp-list">
    ${hpRow(`<img src="${stageSrc(6)}" alt="">`,'Your grove',open.length?`<i class="hp-blue">${nm(open[0].id)} hasn’t invested yet</i>`:gr.length||inv.length?`${gr.length+inv.length} growing with you · ${ch} challenges`:'Invite someone to grow with you',"GSEL=null;home('gt-grove')")}
    ${hpRow(ws.length?`<span class="hp-avs">${ws.slice(0,2).map(w=>sgAv(w.id,24)).join('')}</span>`:`<span class="hp-seat"></span>`,'Witnesses',ws.length?`${ws.map(w=>w.name).join(' and ')} see your Fridays`:'Pick who’d notice if you stopped',"go('rt-home',{only:'you'})")}
-   ${hpRow(`<span class="hp-avs">${sh.members.slice(0,2).map(m=>sgAv(m.id,24)).join('')}</span>`,'Shared goals',`${sh.name} · $${tot.toLocaleString()} of $${sh.target.toLocaleString()}`,"go('ft-home',{only:'same'})")}
+   ${hpRow(`<span class="hp-avs">${sgAv('priya',24)}${sgAv('sam',24)}</span>`,'Shared goals',`${sgAll().length} goals · with Priya and Sam`,"go('sg-list')")}
    ${hpRow(`<img src="${stageSrc(2)}" alt="">`,'Family',`${ft.kid.name}’s ${ft.kid.goal.toLowerCase()} · ${Object.keys(ft.rel).length||2} relatives watching`,"go('ft-home',{only:'seed'})")}
    ${hpRow(`<img src="${IMG.learn}" alt="">`,'Learn together','A two-minute lesson, read with someone',"go('fo-learn')")}
    ${r.acorns.have?hpRow(`<img src="${stageSrc(0)}" alt="">`,'Drop an acorn','$5 to give someone starting out',"go('rt-acorn')"):''}

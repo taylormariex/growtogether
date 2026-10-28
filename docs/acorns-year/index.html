@@ -3007,7 +3007,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 7:43 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 7:46 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -4585,7 +4585,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 
 
 /* ================= Shared goals: more than one, with more than one person ================= */
-function sgAll(){if(!S.sgs){S.sgs=[];const d=sgDemo();d.id='g-lisbon';S.sgs.push(d);S.sgs.push({id:'g-apt',name:'First apartment',kind:'First apartment',who:'priya',whos:['priya'],slice:5,ways:{rec:true,any:true},recAmt:50,recFreq:'Monthly',pct:18,joined:true,by:'August 2027',weeks:[1,2,2,1,2,2],log:[{w:'priya',t:'Priya added money',d:'Mon'},{w:'ms',t:'You hit First step together',d:'Last week'}]});if(S.sg&&!S.sg.id){S.sg.id='g-'+Date.now();S.sgs.push(S.sg)}save()}return S.sgs}
+function sgAll(){if(!S.sgs){S.sgs=[];const d=sgDemo();d.id='g-lisbon';S.sgs.push(d);S.sgs.push({id:'g-apt',name:'First apartment',kind:'First apartment',who:'priya',whos:['priya'],slice:5,ways:{rec:true,any:true},recAmt:50,recFreq:'Monthly',pct:18,joined:true,by:'August 2027',weeks:[1,2,2,1,2,2],log:[{w:'priya',t:'Priya added money',d:'Mon'},{w:'ms',t:'You hit First step together',d:'Last week'}]});S.sgs.push({id:'g-wed',name:'Wedding',kind:'Wedding',who:'priya',whos:['priya'],slice:0,ways:{any:true},pct:31,joined:true,by:'May 2027',weeks:[2,2,1,2,2,2,2,1],log:[{w:'priya',t:'Priya added $800 · bonus day',d:'Tue'},{w:'me',t:'You added $100',d:'Last week'}]});if(S.sg&&!S.sg.id){S.sg.id='g-'+Date.now();S.sgs.push(S.sg)}save()}return S.sgs}
 function sgCreate(){const g=Object.assign({},T.sg,{id:'g-'+Date.now(),pct:0,joined:false,log:[],weeks:[],by:T.sg.kind==='Wedding'?'October 2027':T.sg.kind==='Car'?'March 2027':T.sg.kind==='First apartment'?'August 2027':'Next year'});delete g.edit;sgAll().push(g);S.sg=g;save()}
 function sgOpen(id){const g=sgAll().find(x=>x.id===id);if(!g)return;S.sg=g;T.sgPrev=null;save();go('sg-home')}
 def('sg-list',()=>{const gs=sgAll();if(S.sg&&!gs.includes(S.sg)){const f=gs.find(x=>x.id===S.sg.id);if(f)S.sg=f}
@@ -6080,7 +6080,7 @@ function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in'
  return `<div class="hp-list">
    ${hpRow(`<img src="${stageSrc(6)}" alt="">`,'Your grove',open.length?`<i class="hp-blue">${nm(open[0].id)} hasn’t invested yet</i>`:gr.length||inv.length?`${gr.length+inv.length} growing with you · ${ch} challenges`:'Invite someone to grow with you',"GSEL=null;home('gt-grove')")}
    ${hpRow(ws.length?`<span class="hp-avs">${ws.slice(0,2).map(w=>sgAv(w.id,24)).join('')}</span>`:`<span class="hp-seat"></span>`,'Witnesses',ws.length?`${ws.map(w=>w.name).join(' and ')} see your Fridays`:'Pick who’d notice if you stopped',"go('rt-home',{only:'you'})")}
-   ${hpRow(`<span class="hp-avs">${sh.members.slice(0,2).map(m=>sgAv(m.id,24)).join('')}</span>`,'Shared goals',`${sh.name} · $${tot.toLocaleString()} of $${sh.target.toLocaleString()}`,"go('ft-home',{only:'same'})")}
+   ${hpRow(`<span class="hp-avs">${sgAv('priya',24)}${sgAv('sam',24)}</span>`,'Shared goals',`${sgAll().length} goals · with Priya and Sam`,"go('sg-list')")}
    ${hpRow(`<img src="${stageSrc(2)}" alt="">`,'Family',`${ft.kid.name}’s ${ft.kid.goal.toLowerCase()} · ${Object.keys(ft.rel).length||2} relatives watching`,"go('ft-home',{only:'seed'})")}
    ${hpRow(`<img src="${IMG.learn}" alt="">`,'Learn together','A two-minute lesson, read with someone',"go('fo-learn')")}
    ${r.acorns.have?hpRow(`<img src="${stageSrc(0)}" alt="">`,'Drop an acorn','$5 to give someone starting out',"go('rt-acorn')"):''}

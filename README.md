@@ -13,7 +13,7 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 Sorted by what the customer is doing, not by who wrote the concept. Home (`gt-home`) keeps its dark header (greeting, week chip) with three tabs; every deeper page has a back button and no tabs.
 
 - **You** (my habit): streak hero → Streaks (the Streaks team's page) · the week's card · Your achievements (the milestone cards to share) · Your oak (the nine extras) · Your year (monthly recaps, the Acorns Year film in December, the Year Ring in January) · Skip and Invest · Know yourself · the timeline.
-- **People** (people who know me): Your grove (the hillside, with its challenges inside) · Witnesses · Shared goals (Same Tree is shared goals: one goal, separate accounts, up to five) · Family (Seedling: the kid's account and the relatives who watch) · Learn together (one lesson, read with someone who has your goal) · Drop an acorn, when you have one to give.
+- **People** (people who know me): Your grove (the hillside, with its challenges inside) · Witnesses · Shared goals (the Grow Together list; Same Tree's Wedding is one of the goals in it, and "Someone new" or + starts another) · Family (Seedling: the kid's account and the relatives who watch) · Learn together (one lesson, read with someone who has your goal) · Drop an acorn, when you have one to give.
 - **Everyone** (the crowd): the Friday Count with Today's question (you see the answer by answering) · this month's Bloom as the hero · The Forest (your anonymous room, share a percent to see the spread, nurse trees on duty → Canopy).
 - On a red day a Canopy banner sits above every tab.
 - Everything below Home is light (`spec-day.js` flips the dark system to day; the Grove gets a daytime sky). Home and Streaks stay dark; the Acorns Year film and the Year Ring card stay dark because they are a film and a card.
@@ -22,7 +22,7 @@ Family Tree no longer has inner tabs; its three parts are three rows under Peopl
 
 ## Links
 
-Witnessed Habit, one link per place it lives: `witness/` (Witness and the Friday Count), `bloom/`, `rings/` (Rings and Drop an Acorn), `seedling/` and `same-tree/` (both land on Family), `the-grove/` (the Grove, with Canopy inside). `friday-count/`, `drop-an-acorn/` and `canopy/` still build for the doc and land on their parent page. Each opens on its story; Home is one tap back.
+Witnessed Habit, one link per place it lives: `witness/` (Witness and the Friday Count), `bloom/`, `rings/` (Rings and Drop an Acorn), `seedling/` (lands on Family), `same-tree/` (lands on Shared goals), `the-grove/` (the Grove, with Canopy inside). `friday-count/`, `drop-an-acorn/` and `canopy/` still build for the doc and land on their parent page. Each opens on its story; Home is one tap back.
 
 Grow Together, the five pieces the system places: `skip-and-invest/`, `shared-goals/`, `acorns-year/`, `invite/`, `know-yourself/`.
 

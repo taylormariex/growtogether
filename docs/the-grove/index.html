@@ -3007,7 +3007,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 7:32 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 7:33 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -6077,8 +6077,8 @@ function hpYou(){const r=rtSt();const i=stageIdx(S.streak);const nx=nextGoal(S.s
   <div class="hp-sec row between"><span>Timeline</span><span class="seg"><button class="${TLV==='hi'?'on':''}" onclick="TLV='hi';refresh()">Highlights</button><button class="${TLV==='la'?'on':''}" onclick="TLV='la';refresh()">Latest</button></span></div>
   <div class="hp-tl">${tlItems().map(tlCard).join('')}</div>`}
 function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in');const gr=growing(),inv=S.grove.filter(x=>x.status==='invited');const open=gr.filter(x=>x.open);const ft=ftSt();const sh=ft.shared;const tot=sh.members.reduce((a,m)=>a+m.part,0);const ch=(typeof chRunning==='function'?chRunning():3);
- return `<button class="hp-hero grove" onclick="GSEL=null;home('gt-grove')"><div class="hp-trees">${(gr.length?gr:[{id:'sam'},{id:'mom'},{id:'dee'}]).slice(0,4).map((g,k)=>`<img src="${stageSrc([5,6,4,5][k])}" style="height:${[46,60,40,50][k]}px" alt="">`).join('')}</div><div class="hp-ht"><em>Your grove</em><b>${gr.length||inv.length?`${gr.length+inv.length} growing with you`:'Nobody yet'}</b><span>${open.length?`<i class="hp-blue">${nm(open[0].id)} hasn’t invested yet</i>`:gr.length?'Everyone invested this week':'Invite someone to grow with you'}${ch?` · ${ch} challenges running`:''}</span></div></button>
-  <div class="hp-list mt16">
+ return `<div class="hp-list">
+   ${hpRow(`<span class="ia-tf">${(gr.length?gr:[{id:'sam'},{id:'mom'}]).slice(0,2).map((g,k)=>`<img src="${stageSrc([5,6][k])}" style="height:${[26,32][k]}px;margin-left:${k?-6:0}px" alt="">`).join('')}</span>`,'Your grove',`${gr.length||inv.length?`${gr.length+inv.length} growing with you`:'Invite someone to grow with you'}${open.length?` · <i class="hp-blue">${nm(open[0].id)} hasn’t invested yet</i>`:''}${ch?` · ${ch} challenges`:''}`,"GSEL=null;home('gt-grove')")}
    ${hpRow(ws.length?`<span class="ia-avs">${ws.slice(0,2).map(w=>sgAv(w.id,30)).join('')}</span>`:`<span class="ia-empty">${ic('user',18)}</span>`,'Witnesses',ws.length?`${ws.map(w=>w.name).join(' and ')} see your Fridays`:'Who would notice if you stopped?',"go('rt-home',{only:'you'})")}
    ${hpRow(`<span class="ia-avs">${sh.members.slice(0,3).map(m=>sgAv(m.id,30)).join('')}</span>`,'Shared goals',`${sh.name} · $${tot.toLocaleString()} of $${sh.target.toLocaleString()} · ${sh.members.length} accounts, nothing pooled`,"go('ft-home',{only:'same'})")}
    ${hpRow(`<span class="ia-tf"><img src="${stageSrc(6)}" style="height:30px" alt=""><img src="${stageSrc(2)}" style="height:20px;margin-left:-5px" alt=""></span>`,'Family',`${ft.kid.name}’s ${ft.kid.goal.toLowerCase()} · ${Object.keys(ft.rel).length||2} relatives watching`,"go('ft-home',{only:'seed'})")}
@@ -6111,7 +6111,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .hp-hero.bloom{background:linear-gradient(165deg,#17411a 0%,#0b2110 60%,#081a0c 100%);padding-right:96px}.hp-bart{position:absolute;right:-4px;top:-4px;height:100px;width:auto;opacity:.95}
 .hp-list{background:#0f1f0d;border:1px solid rgba(116,201,71,.14);border-radius:20px;padding:4px 6px}.hp-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 10px;color:#fff}.hp-row+.hp-row{border-top:1px solid rgba(255,255,255,.07)}
 .hp-ic{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}.hp-row.red .hp-ic{background:rgba(229,57,53,.22)}
-.hp-row b{display:block;font-size:15px;color:#fff}.hp-row em{display:block;font-style:normal;font-size:12.5px;color:rgba(255,255,255,.6);margin-top:2px;line-height:1.35}
+.hp-row b{display:block;font-size:15px;color:#fff}.hp-row em{display:block;font-style:normal;font-size:12.5px;color:rgba(255,255,255,.6);margin-top:2px;line-height:1.35}.hp-row em .hp-blue{font-style:normal;color:#8cc4f7}
 .hp-n{font-size:18px;font-weight:700;color:#bceaa3}
 .hp-sec{font-size:17px;font-weight:700;margin:22px 0 10px;color:#fff}.hp-sec .seg{display:inline-flex;gap:2px;background:rgba(255,255,255,.08);border-radius:16px;padding:2px}.hp-sec .seg button{font-size:12px;font-weight:600;padding:5px 10px;border-radius:14px;color:rgba(255,255,255,.6);background:none}.hp-sec .seg button.on{background:#fff;color:#191919}
 .hp-scroll{gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;align-items:flex-start}

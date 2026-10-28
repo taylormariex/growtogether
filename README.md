@@ -13,7 +13,7 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 Sorted by what the customer is doing, not by who wrote the concept. Home (`gt-home`) keeps its dark header (greeting, week chip) with three tabs; every deeper page has a back button and no tabs.
 
 - **You** (my habit): streak hero → Streaks (the Streaks team's page) · the week's card · Your achievements (the milestone cards to share) · Your oak (the nine extras) · Your year (monthly recaps, the Acorns Year film in December, the Year Ring in January) · Skip and Invest · Know yourself · the timeline.
-- **People** (people who know me): grove hero → the hillside, with its challenges inside · Witnesses · Shared goals (Same Tree is shared goals: one goal, separate accounts, up to five) · Family (Seedling: the kid's account and the relatives who watch) · Learn together (one lesson, read with someone who has your goal) · Drop an acorn, when you have one to give.
+- **People** (people who know me): Your grove (the hillside, with its challenges inside) · Witnesses · Shared goals (Same Tree is shared goals: one goal, separate accounts, up to five) · Family (Seedling: the kid's account and the relatives who watch) · Learn together (one lesson, read with someone who has your goal) · Drop an acorn, when you have one to give.
 - **Everyone** (the crowd): the Friday Count with Today's question (you see the answer by answering) · this month's Bloom as the hero · The Forest (your anonymous room, share a percent to see the spread, nurse trees on duty → Canopy).
 - On a red day a Canopy banner sits above every tab.
 

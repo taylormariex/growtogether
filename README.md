@@ -10,7 +10,7 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 
 ## The IA
 
-Home (`gt-home`) is light, in the app's style, with three pivots under the greeting, the same pattern as the app Home's You | Kids. Each pivot is one hero and a few rows; deeper pages have a back button and no tabs.
+Home (`gt-home`) keeps its dark header (avatar, the greeting with the streak, the week chip) with three tabs under it, the same pattern as the app Home's You | Kids. Each pivot is one hero and a few rows; deeper pages have a back button and no tabs.
 
 - **You**: streak hero (opens Streaks), the week's grow-your-week card, Your cards, Oak extras, Journal, the "Ways to grow" scroller, the timeline.
 - **People**: your grove as the hero (opens the Grove), then Witnesses, Family, Grove challenges.

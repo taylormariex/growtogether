@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 7:07 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 7:09 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -6060,7 +6060,7 @@ function iaBento(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in')
 window.HPIV=window.HPIV||'you';
 function hpRow(vis,t,sub,js,cls){return `<button class="hp-row ${cls||''}" onclick="${js}"><span class="hp-ic">${vis}</span><span class="grow"><b>${t}</b><em>${sub}</em></span>${ic('chev',16,'opacity:.35')}</button>`}
 function hpYou(){const r=rtSt();const i=stageIdx(S.streak);const nx=nextGoal(S.streak);const ff=(S.flourishes||[]).length;
- return `<button class="hp-hero" onclick="go('streaks')"><div class="hp-hsc"><img src="${stageSrc(i)}" alt=""></div><div class="hp-ht"><em>${RSTAGES[i][1]}</em><b>${S.streak} week streak</b><span>${nx[1]?`${nx[0]-S.streak} more until ${nx[1]}`:'Ancient Oak'}</span><div class="hp-hbar"><i style="width:${Math.min(100,Math.round(S.streak/(nx[0]||S.streak)*100))}%"></i></div></div></button>
+ return `<button class="hp-hero" onclick="go('streaks')"><div class="hp-hsc"><img src="${stageSrc(i)}" alt=""></div><div class="hp-ht"><em>${RSTAGES[i][1]}</em><b>${S.streak} week streak</b><span>${Math.max(0,i)} of 7 achievements · best ${Math.max(S.streak,S.best||24)} weeks</span><div class="hp-hbar"><i style="width:${Math.min(100,Math.round(S.streak/(nx[0]||S.streak)*100))}%"></i></div></div></button>
   <div class="mt12" id="nbgW">${nbgBlock()}</div>
   <div class="hp-list mt16">
    ${hpRow(sealImg(i,40),'Your cards',r.acorns.have?'An acorn to plant':'Milestones and the Year Ring',"go('rt-home',{only:'rings'})")}
@@ -6086,33 +6086,29 @@ function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=M
   </div>`}
 (function(){SCR['gt-home']=p=>{spInit();NBG_LOADED=true;const P=window.HPIV;
  const piv=[['you','You'],['people','People'],['everyone','Everyone']].map(([k,t])=>`<button class="${P===k?'on':''}" role="tab" aria-selected="${P===k}" onclick="HPIV='${k}';refresh()">${t}</button>`).join('');
- return {cls:'lt hp',html:`<div class="hp-top"><div class="hp-av">${S.me[0]}</div><div class="hp-hello">Hello, ${S.me}</div><div class="hp-tr"><button class="iconbtn" onclick="go('gt-notes')" aria-label="Notifications">${ic('bell',22)}</button><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
-   <div class="hp-piv" role="tablist">${piv}</div></div>
-  <div class="body hp-body">${P==='people'?hpPeople():P==='everyone'?hpEveryone():hpYou()}<div style="height:110px"></div></div>${whClock([['It’s Friday','rtFriday()']])}`,
+ return {cls:'dark hp',html:`<div class="top"><button class="iconbtn" onclick="home('menu')" aria-label="Close">${ic('close')}</button><div style="flex:1"></div><button class="iconbtn" onclick="go('gt-notes')" aria-label="Notifications">${ic('bell',22)}</button><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
+  <div class="body hp-body" style="padding-top:4px">
+   <div class="hm-av">${S.me[0]}</div>
+   <div class="hm-hello mt16">${hmHello()}</div>
+   <div class="mt16">${streakChip()}</div>
+   <div class="hp-piv mt24" role="tablist">${piv}</div>
+   ${P==='people'?hpPeople():P==='everyone'?hpEveryone():hpYou()}<div style="height:110px"></div></div>${whClock([['It’s Friday','rtFriday()']])}`,
   mount(el){const iv=S.grove.find(x=>x.status==='invited'&&PEOPLE[x.id].on);if(iv&&!S.ffDone&&!iv.seen){iv.seen=1;setTimeout(()=>{if(cur().dataset.id!=='gt-home')return;S.friendJoined=iv.id;save();banner(`${nm(iv.id)} signed up`,'Their tree sprouts after their first investment.',()=>groveSheet('half'));refresh()},2600)}}}}})();
 document.head.insertAdjacentHTML('beforeend',`<style>
-.scr.hp{background:#f4f6f1;color:#191919}
-.hp-top{position:relative;padding:calc(var(--safeTop) + 10px) 20px 0;background:linear-gradient(170deg,#6fbe3a 0%,#4f9c2b 70%,#3d8a22 100%);color:#fff;border-radius:0 0 26px 26px}
-.hp-av{width:40px;height:40px;border-radius:50%;background:#fff;color:#2f7a12;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:16px}
-.hp-hello{margin-top:12px;font-size:24px;font-weight:700;letter-spacing:-.4px;line-height:1.2;color:#fff}
-.hp-tr{position:absolute;right:10px;top:calc(var(--safeTop) + 6px);display:flex}.hp-tr .iconbtn{color:#fff}
-.hp-piv{display:flex;gap:22px;margin-top:18px;padding-bottom:0}.hp-piv button{position:relative;font-size:15px;font-weight:600;color:rgba(255,255,255,.78);height:40px;background:none;padding:0}.hp-piv button.on{color:#fff}.hp-piv button.on::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;border-radius:2px 2px 0 0;background:#fff}
-.hp-body{padding:16px 20px 0}
-.hp-hero{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:16px;border-radius:22px;background:linear-gradient(160deg,#17411a,#0b2110);color:#fff;overflow:hidden;position:relative}
+.hp-piv{display:flex;gap:24px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:16px}.hp-piv button{position:relative;font-size:15px;font-weight:600;color:rgba(255,255,255,.55);height:40px;background:none;padding:0}.hp-piv button.on{color:#fff}.hp-piv button.on::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:2px 2px 0 0;background:#74c947}
+.hp-hero{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:16px;border-radius:22px;background:linear-gradient(160deg,#17411a,#0b2110);border:1px solid rgba(116,201,71,.18);color:#fff;overflow:hidden;position:relative}
 .hp-hsc{width:92px;height:92px;border-radius:50%;background:radial-gradient(circle at 50% 70%,#3b7a2a,#143a12 70%);display:flex;align-items:flex-end;justify-content:center;flex:none;overflow:hidden}.hp-hsc img{height:72px;width:auto;margin-bottom:8px}
 .hp-ht{flex:1;min-width:0}.hp-ht em{display:block;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#bceaa3}.hp-ht b{display:block;font-size:22px;letter-spacing:-.4px;line-height:1.1;margin-top:4px}.hp-ht span{display:block;font-size:13px;color:rgba(255,255,255,.75);margin-top:4px}.hp-ht .hp-blue{font-style:normal;color:#8cc4f7}
 .hp-hbar{height:6px;border-radius:3px;background:rgba(255,255,255,.14);margin-top:12px;overflow:hidden;width:100%}.hp-hbar i{display:block;height:100%;border-radius:3px;background:#8fd867}
 .hp-hero.grove{background:linear-gradient(160deg,#1c4a1b,#0b2110)}.hp-trees{display:flex;align-items:flex-end;gap:2px;flex:none;width:112px;justify-content:center;height:72px}
 .hp-hero.bloom{background:linear-gradient(165deg,#17411a 0%,#0b2110 60%,#081a0c 100%);padding-right:96px}.hp-bart{position:absolute;right:-4px;top:-4px;height:100px;width:auto;opacity:.95}
-.hp-list{background:#fff;border-radius:20px;padding:4px 6px}.hp-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 10px;color:#191919}.hp-row+.hp-row{border-top:1px solid #f0f2ee}
-.hp-ic{width:48px;height:48px;border-radius:14px;background:#f3f6f0;display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}.hp-row.red .hp-ic{background:#fde8e6}
-.hp-row b{display:block;font-size:15px}.hp-row em{display:block;font-style:normal;font-size:12.5px;color:#6b706c;margin-top:2px;line-height:1.35}
-.hp-n{font-size:18px;font-weight:700;color:#2f7a12}
-.hp-sec{font-size:17px;font-weight:700;margin:22px 0 10px}.hp-sec .seg{display:inline-flex;gap:2px;background:#e8ece4;border-radius:16px;padding:2px}.hp-sec .seg button{font-size:12px;font-weight:600;padding:5px 10px;border-radius:14px;color:#6b706c;background:none}.hp-sec .seg button.on{background:#fff;color:#191919}
-.hp-scroll{gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;align-items:flex-start}.hp .fl-tok .nm{color:#191919}
-.hp-tl .tl{background:#fff;color:#191919}.hp .ia-avs .sg-av{box-shadow:0 0 0 2px #f3f6f0}
-.hp .nbg{background:#fff;border-color:#dfe6d8;color:#191919}.hp .nbg .k{color:#2f7a12}.hp .nbg .s{color:#5d655f}.hp .nbg .sbtn{color:#3c4a40}.hp .nbg .ico{background:#edf8e6}.hp .nbg-more{color:#5d655f}
-.hp .tl .ttl.n,.hp .tl .ttl{color:#191919}.hp .tl .lab{color:#6b706c}.hp .tl .meta,.hp .tl .meta *{color:#6b706c}
+.hp-list{background:#0f1f0d;border:1px solid rgba(116,201,71,.14);border-radius:20px;padding:4px 6px}.hp-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 10px;color:#fff}.hp-row+.hp-row{border-top:1px solid rgba(255,255,255,.07)}
+.hp-ic{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}.hp-row.red .hp-ic{background:rgba(229,57,53,.22)}
+.hp-row b{display:block;font-size:15px;color:#fff}.hp-row em{display:block;font-style:normal;font-size:12.5px;color:rgba(255,255,255,.6);margin-top:2px;line-height:1.35}
+.hp-n{font-size:18px;font-weight:700;color:#bceaa3}
+.hp-sec{font-size:17px;font-weight:700;margin:22px 0 10px;color:#fff}.hp-sec .seg{display:inline-flex;gap:2px;background:rgba(255,255,255,.08);border-radius:16px;padding:2px}.hp-sec .seg button{font-size:12px;font-weight:600;padding:5px 10px;border-radius:14px;color:rgba(255,255,255,.6);background:none}.hp-sec .seg button.on{background:#fff;color:#191919}
+.hp-scroll{gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;align-items:flex-start}
+.hp .ia-avs .sg-av{box-shadow:0 0 0 2px #0f1f0d}.hp .ia-empty{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
 </style>`);
 tabbarDk=function(){return ''};
 /* deeper pages: one section, a back button, no tabs */

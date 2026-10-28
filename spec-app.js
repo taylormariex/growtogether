@@ -46,7 +46,7 @@ def('ac-home',()=>{spInit();const st=rstage(S.streak);const th={acorn:70,seedlin
   return {cls:'lt ach',html:`<div class="ach-scroll"><div class="ah">
    <div class="ah-top"><div class="ah-yk" role="tablist"><button class="on" role="tab" aria-selected="true">You</button><button role="tab" aria-selected="false" onclick="go('kids')">Kids</button></div>
     <button class="ah-ask" onclick="toast('Ask Acorns (existing)')">Ask <img src="${IMG.acorn}" alt=""></button>
-    <div class="ah-r"><button class="ah-ref" onclick="go('splash',{k:'invite'})" aria-label="Get $500 for referring a friend">Get $500</button><button class="ah-prof" onclick="go('profile')" aria-label="Profile">${ic2('prof',26)}</button></div></div>
+    <div class="ah-r"><button class="ah-ref" onclick="go('ac-refer')" aria-label="Get $500 for referring a friend">Get $500</button><button class="ah-prof" onclick="go('profile')" aria-label="Profile">${ic2('prof',26)}</button></div></div>
    <div class="ah-val"><div>Welcome ${S.me}</div><b>Your Acorns value<br>is ${ACI.money}</b></div>
    <div class="ah-art"><button class="ah-tree" onclick="home('gt-home')" aria-label="Your oak, ${plw(S.streak)} streak. Open Streaks."><img src="${IMG[st[2]]}" style="height:${th}px" alt=""></button></div>
    ${homeBanner()}
@@ -247,7 +247,7 @@ def('profile',()=>{spInit();const w=S.streak,st=rstage(w),nx=nextGoal(w);const p
    <button class="pf-stk" onclick="home('gt-home')" aria-label="${st[1]}, ${plw(w)} streak. Open Streaks."><span class="pf-stk-ic"><img src="${IMG[st[2]]}" alt=""></span><span class="grow"><b>${st[1]}</b><span class="pf-bar"><i style="width:${pct}%"></i></span><em>${w} week streak${nx[1]?` · ${nx[1]} in ${plw(nx[0]-w)}`:''}</em></span>${ic('chev',16,'opacity:.5')}</button>
    <div class="pf-list">
     ${row('bell2','Message Center',"toast('Existing Message Center')")}
-    ${row('uplus','Invite friends',"go('splash',{k:'invite'})",'<span class="pf-pill">Get $500</span>')}
+    ${row('uplus','Invite friends',"go('ac-refer')",'<span class="pf-pill">Get $500</span>')}
     ${row('gift','Benefits',"toast('Existing Benefits')")}
     ${row('gear2','Settings',"toast('Existing Settings')")}
     ${row('help','Get help',"toast('Existing Get help')")}

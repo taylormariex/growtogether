@@ -43,6 +43,16 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ox-ok{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:#2f7a12;background:#e3f4d8;padding:5px 10px;border-radius:13px;flex:none}
 </style>`);
 (function(){const f=SCR['gt-ch'];if(!f)return;SCR['gt-ch']=p=>{const r=f(p);r.html=r.html.replace('onclick="home(\'gt-grove\')" aria-label="Back to grove"','onclick="if(stack.length>1)back();else{HPIV=\'people\';home(\'gt-home\')}" aria-label="Back"').replace(/<button class="iconbtn" onclick="protoMenu\(\)"/,'<button class="iconbtn" onclick="T={chp:[]};go(\'gt-ch-new\')" aria-label="Start a challenge">'+ic('plus',22)+'</button><button class="iconbtn" onclick="protoMenu()"');return r}})();
+def('ac-refer',()=>({cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Referrals</b><span></span></div>
+ <div class="sg-body sgx-body"><div class="rf-hero"><em>Acorns Referrals</em><b>Get $500</b><span>Invite five friends who each open an account and invest. The bonus lands in your Invest account, per the Referrals program terms.</span></div>
+  <div class="so-card mt16"><div class="so-row"><div class="grow"><em>Your link</em><b>acorns.com/r/jordan-rivera</b></div><button class="sgx-edit" onclick="toast('Copied')">Copy</button></div></div>
+  <button class="btn sg-cta" style="height:48px;margin-top:16px" onclick="toast('Share sheet (prototype)')">${ic('share',16)} Share your link</button>
+  <div class="rf-bridge"><img src="${stageSrc(2)}" alt=""><div><b>They land in your grove, too</b><em>A referred friend’s first investment is what plants their tree beside yours. The referral is Acorns’; the grove is what happens after.</em><button class="fo-blink" onclick="GSEL=null;home('gt-grove')">See your grove</button></div></div>
+  <p class="sgx-priv">${ic('lock',12)} Placeholder terms. Referral bonuses depend on the current program.</p></div>`}));
+document.head.insertAdjacentHTML('beforeend',`<style>
+.rf-hero{border-radius:22px;padding:22px 20px;background:linear-gradient(165deg,#17411a,#0b2110);color:#fff}.rf-hero em{display:block;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#bceaa3}.rf-hero b{display:block;font-size:40px;letter-spacing:-1.2px;line-height:1;margin-top:8px}.rf-hero span{display:block;font-size:14px;line-height:1.45;color:rgba(255,255,255,.78);margin-top:10px}
+.rf-bridge{display:flex;gap:14px;align-items:flex-start;margin-top:22px;padding:0 4px}.rf-bridge img{height:40px;flex:none}.rf-bridge b{display:block;font-size:15px}.rf-bridge em{display:block;font-style:normal;font-size:13px;line-height:1.45;color:#6b706c;margin-top:3px}.rf-bridge .fo-blink{margin-top:6px;font-size:13px}
+</style>`);
 /* Home: four pivots, You · People · Everyone. One hero and a few rows each. No bento, no row of squares. */
 window.HPIV=window.HPIV||'you';
 function hpRow(vis,t,sub,js,cls){return `<button class="hp-row ${cls||''}" onclick="${js}"><span class="hp-ic">${vis}</span><span class="grow"><b>${t}</b><em>${sub}</em></span>${ic('chev',16,'opacity:.35')}</button>`}
@@ -62,7 +72,7 @@ function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in'
  return `${r.acorns.have?`<div class="hp-acorn"><div class="hp-acb"><img src="${stageSrc(0)}" alt=""></div><div class="grow"><em>You’ve earned an acorn</em><b>$5 to plant in someone’s first goal</b><span>Acorns’ money, not yours. Give it, or in 30 days it goes back.</span><div class="hp-aca"><button onclick="go('rt-acorn')">Plant it</button><small>${r.acorns.sent.length?`${r.acorns.sent.filter(a=>a.goal).length} of ${r.acorns.sent.length} became goals`:'4 a year'}</small></div></div></div>`:''}
  <div class="hp-list ${r.acorns.have?'mt16':''}">
    ${hpRow(`<img src="${stageSrc(6)}" alt="">`,'Your grove',open.length?`<i class="hp-blue">${nm(open[0].id)} hasn’t invested yet</i>`:gr.length||inv.length?`${gr.length+inv.length} growing with you · ${ch} challenges`:'Invite someone to grow with you',"GSEL=null;home('gt-grove')")}
-   ${hpRow(`<span class="hp-ref">$500</span>`,'Invite someone','Plants a tree · pays the referral bonus',"T={};go('inv-pick')")}
+   ${hpRow(`<span class="hp-ref">$500</span>`,'Referrals','Invite friends to Acorns · get $500',"go('ac-refer')")}
    ${hpRow(`<span class="hp-avs">${sgAv('priya',24)}${sgAv('sam',24)}</span>`,'Shared goals',`${sgAll().length} goals · with Priya and Sam`,"go('sg-list')")}
    ${hpRow(`<img src="${stageSrc(2)}" alt="">`,'Family',`${ft.kid.name}’s ${ft.kid.goal.toLowerCase()} · ${Object.keys(ft.rel).length||2} relatives watching`,"go('ft-home',{only:'seed'})")}
    ${hpRow(`<img src="${IMG.earn}" alt="">`,'Challenges',`${ch} running${(S.invites||[]).length?` · ${S.invites.length} invite${S.invites.length===1?'':'s'} waiting`:''}`,"HPIV='people';go('gt-ch')")}

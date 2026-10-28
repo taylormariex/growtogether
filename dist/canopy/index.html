@@ -3007,7 +3007,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 7:06 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 7:07 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -6085,11 +6085,12 @@ function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=M
    ${hpRow(`<span class="ia-tf">${[7,5,7].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[24,18,27][k]}px;margin-left:${k?-8:0}px" alt="">`).join('')}</span>`,'The Forest',fo.red?'Red day · Canopy is open':'3,100 people with your goal · nurse trees on',"go('fo-grove')",fo.red?'red':'')}
    ${hpRow(`<b class="hp-n">41k</b>`,'The Friday Count','41,206 kept their promise this week',"go('rt-home',{only:'you'})")}
   </div>`}
-(function(){SCR['gt-home']=p=>{spInit();const P=window.HPIV;
+(function(){SCR['gt-home']=p=>{spInit();NBG_LOADED=true;const P=window.HPIV;
  const piv=[['you','You'],['people','People'],['everyone','Everyone']].map(([k,t])=>`<button class="${P===k?'on':''}" role="tab" aria-selected="${P===k}" onclick="HPIV='${k}';refresh()">${t}</button>`).join('');
  return {cls:'lt hp',html:`<div class="hp-top"><div class="hp-av">${S.me[0]}</div><div class="hp-hello">Hello, ${S.me}</div><div class="hp-tr"><button class="iconbtn" onclick="go('gt-notes')" aria-label="Notifications">${ic('bell',22)}</button><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
    <div class="hp-piv" role="tablist">${piv}</div></div>
-  <div class="body hp-body">${P==='people'?hpPeople():P==='everyone'?hpEveryone():hpYou()}<div style="height:110px"></div></div>${whClock([['It’s Friday','rtFriday()']])}`}}})();
+  <div class="body hp-body">${P==='people'?hpPeople():P==='everyone'?hpEveryone():hpYou()}<div style="height:110px"></div></div>${whClock([['It’s Friday','rtFriday()']])}`,
+  mount(el){const iv=S.grove.find(x=>x.status==='invited'&&PEOPLE[x.id].on);if(iv&&!S.ffDone&&!iv.seen){iv.seen=1;setTimeout(()=>{if(cur().dataset.id!=='gt-home')return;S.friendJoined=iv.id;save();banner(`${nm(iv.id)} signed up`,'Their tree sprouts after their first investment.',()=>groveSheet('half'));refresh()},2600)}}}}})();
 document.head.insertAdjacentHTML('beforeend',`<style>
 .scr.hp{background:#f4f6f1;color:#191919}
 .hp-top{position:relative;padding:calc(var(--safeTop) + 10px) 20px 0;background:linear-gradient(170deg,#6fbe3a 0%,#4f9c2b 70%,#3d8a22 100%);color:#fff;border-radius:0 0 26px 26px}

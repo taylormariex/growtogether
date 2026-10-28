@@ -37,6 +37,7 @@ function iaBento(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in')
   tok('Family',`<span class="ia-tf"><img src="${stageSrc(6)}" style="height:40px" alt=""><img src="${stageSrc(2)}" style="height:26px;margin-left:-6px" alt=""></span>`,"go('ft-home',{only:'seed'})"),
   tok('The Forest',`<span class="ia-tf">${[7,5,7].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[30,22,34][k]}px;margin-left:${k?-10:0}px" alt="">`).join('')}</span>`,"go('fo-grove')",fo.red?'red':'')].join('');
  r.html=r.html.replace(/<div class="sk-sec"><div class="h4">Ways to grow<\/div><\/div>\s*<div class="row"[^>]*>/,m=>m+ours);
+ r.html=r.html.replace(/<div class="bnt" onclick="home\('gt-oak'\)"><div class="bh">Your oak<\/div>/,'<div class="bnt" onclick="go(\'streaks\')"><div class="bh">Your streak</div>');
  r.html+=whClock([['It’s Friday','rtFriday()']]);return r}})();
 document.head.insertAdjacentHTML('beforeend',`<style>
 .ia-tok .im{display:flex;align-items:center;justify-content:center;overflow:hidden}.ia-tok .im img{width:auto;max-width:none}
@@ -76,13 +77,13 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 
 /* ---------- the front screen: one list, grouped the way the prototype is built ---------- */
-(function(){const S0=[['Witnessed Habit',[['Witness','One person who sees you show up',"go('splash',{k:'witness'})"],['The Friday Count','You’re one of them',"go('splash',{k:'fridaycount'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['Rings','The card, not the balance',"go('splash',{k:'rings'})"],['Drop an Acorn','$5 you can’t keep',"go('splash',{k:'acorn'})"],['Seedling','Grandpa never downloads anything',"go('splash',{k:'seedling'})"],['Same Tree','Nothing pooled, everyone in',"go('splash',{k:'sametree'})"],['The Grove','No names, no rankings',"go('splash',{k:'grove'})"],['Canopy','Ask, don’t sell',"go('splash',{k:'canopy'})"]]],
+(function(){const S0=[['Witnessed Habit',[['Witness','One person who sees you show up · the Friday Count',"go('splash',{k:'witness'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['Rings','The card, not the balance · Drop an Acorn',"go('splash',{k:'rings'})"],['Family','Seedling for Grandpa · Same Tree for a goal',"go('splash',{k:'seedling'})"],['The Forest','The Grove, no names · Canopy, ask don’t sell',"go('splash',{k:'grove'})"]]],
  ['Grow Together',[['Skip and Invest','Skip a spend, invest it right away',"go('splash',{k:'skip-and-stash'})"],['Shared goals','Save for a goal with someone, your way',"go('splash',{k:'split'})"],['Acorns Year','Weeks and cards, never amounts',"go('splash',{k:'year'})"],['Invite to your grove','Their first investment plants a tree',"go('splash',{k:'invite'})"],['Know yourself','Short quizzes, a minute each',"go('splash',{k:'money-type'})"]]]];
  window.__RVG=S0;RV_GO.length=0;S0.forEach(([g,items])=>items.forEach(x=>RV_GO.push(x)));
  const f=rvHTML;rvHTML=function(first){let h=f(first);
   const idx={};let n=0;const html=S0.map(([g,items])=>`<div class="rv-sec">${g}</div><div class="rv-g">${items.map(x=>{const i=n++;return `<button class="rv-i" onclick="rvRun(${i},'go')"><span><b>${x[0]}</b><em>${x[1]}</em></span>${ic('chev',16,'opacity:.35')}</button>`}).join('')}</div>`).join('');
   h=h.replace(/<div class="rv-sec">(The ideas|Explore)<\/div><div class="rv-g">[\s\S]*?<\/div>\s*(?=<div class="rv-sec">|<div class="rv-foot">)/,html);
-  h=h.replace('A feature concept that lives inside the current Acorns app. Start on Home and tap into it the way a customer would.','Community at Acorns, built on Streaks. One pill, three places: Oak is you, Grove is your people, Forest is everyone. Start on Home and tap in the way a customer would.');
+  h=h.replace('A feature concept that lives inside the current Acorns app. Start on Home and tap into it the way a customer would.','Community at Acorns, a layer in front of Streaks. Home is you, the Grove is your people, the Forest is everyone. Start on Home and tap in the way a customer would.');
   return h}})();
 document.head.insertAdjacentHTML('beforeend','<style>.gvs .sk-pill{z-index:60;top:calc(var(--safeTop) + 58px)}.gvs .gv-hud{z-index:61}</style>');
 

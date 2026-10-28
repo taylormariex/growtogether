@@ -22,9 +22,11 @@ Inside their screens we add rather than fork: Oak gets witness and ring rows, th
 
 ## Links
 
-Witnessed Habit, one link per concept (the three bets group them in the doc, not here): `witness/`, `friday-count/`, `bloom/`, `rings/`, `drop-an-acorn/`, `seedling/`, `same-tree/`, `the-grove/`, `canopy/`. Each opens on its story and lands on the page where it lives; Home is one tap back.
+Witnessed Habit, one link per place it lives: `witness/` (Witness and the Friday Count), `bloom/`, `rings/` (Rings and Drop an Acorn), `seedling/` and `same-tree/` (both land on Family), `the-grove/` (the Grove, with Canopy inside). `friday-count/`, `drop-an-acorn/` and `canopy/` still build for the doc and land on their parent page. Each opens on its story; Home is one tap back.
 
 Grow Together, the five pieces the system places: `skip-and-invest/`, `shared-goals/`, `acorns-year/`, `invite/`, `know-yourself/`.
+
+Streaks (`streaks`) is the Streaks team's page as they designed it, reached from the Home tile. Nothing of ours is injected there; our layer sits in front of it.
 
 ## Files
 
@@ -33,6 +35,7 @@ Grow Together, the five pieces the system places: `skip-and-invest/`, `shared-go
 - `spec-roots.js`, `spec-family.js`, `spec-forest.js` — the three bets' screens and state (`rtSt`, `ftSt`, `foSt`).
 - `spec-wh-stories.js` — every story's cards and art, the hub tabs, the prototype clock (demo moves live in the yellow pill, never in product UI).
 - `spec-ia.js` — the IA: Oak injections, Grove dock rows, Forest naming, where each story lands, the front guide.
+- `spec-streaks.js` — the Streaks team's page, untouched by our injections.
 - `spec-polish.js` — the visual system: eight stage illustrations (`art/stage-*.png`), milestone seals (`art/seal-*.png`) plus an SVG seal generator, the dark share card (`dkCard`), one "Share your progress" sheet (`progressShare`), the invite time-lapse and the jar opener.
 - `focus.js` — standalone guard rails; does nothing in the full build.
 

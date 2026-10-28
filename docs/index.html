@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:36 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:45 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5315,6 +5315,44 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 
 
+/* Streaks — the Streaks team's page, as they designed it. Nothing of ours is injected here. */
+def('streaks',()=>{spInit();const w=S.streak,i=stageIdx(w),nx=nextGoal(w),best=Math.max(w,S.best||24);
+  const pct=nx[1]?Math.min(100,Math.max(6,Math.round(w/nx[0]*100))):100;
+  const done=RSTAGES.filter((r,k)=>k>0&&k<=i).length;
+  const row=(r,k)=>{const on=k<=i;return `<div class="stk-r ${on?'on':''}"><span class="stk-ic">${on?`<img src="${stageSrc(k)}" alt="">`:ic('lock',16)}</span><div class="grow"><b>${r[1]}</b><em>${r[0]} Week Streak</em></div><span class="stk-ck">${on?ic('check',12):''}</span></div>`};
+  return {cls:'dark',html:`<div class="stk-hero"><div class="stk-sky"></div><div class="stk-pines">${[[6,38,90],[16,48,120],[28,30,70],[70,44,110],[82,34,84],[92,42,100]].map(([x,wd,h])=>`<i style="left:${x}%;width:${wd}px;height:${h}px"></i>`).join('')}</div><div class="stk-hill"></div><img class="stk-stage" src="${stageSrc(i)}" alt="">
+   <div class="top"><button class="iconbtn" onclick="back()" aria-label="Close">${ic('close')}</button><button class="iconbtn" onclick="toast('Invest every week to grow your streak')" aria-label="Help"><span class="stk-q">?</span></button></div></div>
+  <div class="body stk-body">
+   <div class="center"><div class="stk-h1"><span>${w}</span> Week Streak</div><p class="stk-sub">Your daily $5 recurring investment keeps your streak alive. Your future self thanks you!</p></div>
+   <div class="stk-bar"><i style="width:${pct}%"></i><span class="stk-pip" style="left:${pct}%">${ic2('flame',12)}</span></div>
+   <div class="row between stk-labs"><span>${w} Weeks</span><span>${nx[1]?`${nx[0]} Weeks`:'Ancient Oak'}</span></div>
+   <div class="row between stk-ach"><b>Achievements</b><span>${done}/${RSTAGES.length-1} Complete</span></div>
+   <div class="stk-tiles"><div class="stk-t"><span class="stk-tic">${ic2('flame',18)}</span><b>${w}</b><em>Current Streak</em></div><div class="stk-t"><span class="stk-tic">${sgGlyph('trophy',18,'#fff')}</span><b>${best}</b><em>Best Streak</em></div></div>
+   <div class="stk-list">${RSTAGES.slice(1).map((r,k)=>row(r,k+1)).join('')}</div><div style="height:40px"></div></div>`}});
+document.head.insertAdjacentHTML('beforeend',`<style>
+.stk-hero{position:relative;height:300px;overflow:hidden;background:#0d1f0d;flex:none}
+.stk-sky{position:absolute;inset:0;background:radial-gradient(120% 70% at 50% 92%,#2d5a1f 0%,#163416 38%,#0b1a0b 72%,#07120a 100%)}
+.stk-pines{position:absolute;inset:0;opacity:.28}.stk-pines i{position:absolute;bottom:88px;background:#0a1c0a;clip-path:polygon(50% 0,100% 100%,0 100%);filter:blur(.6px)}
+.stk-hill{position:absolute;left:-20%;right:-20%;bottom:-120px;height:220px;border-radius:50%;background:radial-gradient(60% 60% at 50% 20%,#3b7a2a 0%,#1f4a18 55%,#13300f 100%);box-shadow:0 -10px 40px rgba(116,201,71,.18)}
+.stk-stage{position:absolute;left:50%;bottom:76px;transform:translateX(-50%);height:118px;width:auto;filter:drop-shadow(0 14px 18px rgba(0,0,0,.45))}
+.stk-hero .top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:14px 16px 0}
+.stk-q{font-size:17px;font-weight:700;color:#fff;line-height:1}
+.stk-body{padding:12px 24px 0!important}
+.stk-h1{font-size:30px;font-weight:700;letter-spacing:-.6px;color:#fff;margin-top:4px}.stk-h1 span{color:#8fd867}
+.stk-sub{font-size:12.5px;line-height:1.45;color:rgba(255,255,255,.85);margin:10px auto 0;max-width:300px}
+.stk-bar{position:relative;height:12px;border-radius:7px;background:rgba(255,255,255,.1);margin-top:26px}.stk-bar i{display:block;height:100%;border-radius:7px;background:#74c947}
+.stk-pip{position:absolute;top:50%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:#8fd867;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 0 0 3px #0d1f0d}
+.stk-labs{font-size:11px;font-weight:700;color:#fff;margin-top:10px}
+.stk-ach{margin-top:30px;align-items:baseline}.stk-ach b{font-size:16px;color:#fff}.stk-ach span{font-size:11.5px;color:rgba(255,255,255,.7)}
+.stk-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.stk-t{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:18px 12px 14px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.stk-tic{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:#fff}.stk-t b{font-size:22px;color:#fff;margin-top:10px}.stk-t em{font-style:normal;font-size:10.5px;color:rgba(255,255,255,.7);margin-top:2px}
+.stk-list{margin-top:18px}.stk-r{display:flex;align-items:center;gap:14px;padding:12px 0;position:relative}.stk-r+.stk-r:before{content:'';position:absolute;left:25px;top:-14px;height:18px;border-left:1.5px dotted rgba(255,255,255,.35)}
+.stk-ic{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.75);flex:none;overflow:hidden}.stk-r.on .stk-ic{background:#0d1f0d;box-shadow:0 0 0 2px #74c947}.stk-r.on .stk-ic img{height:44px;width:auto}
+.stk-r b{display:block;font-size:14px;color:#fff}.stk-r em{display:block;font-style:normal;font-size:10.5px;color:rgba(255,255,255,.7);margin-top:2px}.stk-r:not(.on) b{color:rgba(255,255,255,.8)}
+.stk-ck{width:22px;height:22px;border-radius:50%;border:1.5px dashed rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;flex:none}.stk-r.on .stk-ck{border:0;background:#74c947;color:#0d1f0d}
+</style>`);
+
+
 /* =====================================================================
    Social layer · shared pieces for Clubs, Friends, Monthly challenges,
    Live rooms and the Server. People, posts, threads, boards, polls, chat.
@@ -5608,12 +5646,13 @@ def('ft-home',()=>{spInit();const f=ftSt();const k=f.kid;const pc=Math.round(k.s
     ${rels.map(id=>{const r=f.rel[id];return `<div class="so-row"><span class="ft-rav">${r.name.split(' ').pop()[0]}</span><div class="grow"><b>${r.name}</b><em>${!k.watchOK?'Paused by you':r.follow?`Follows through the gift link · ${r.stickers} sticker${r.stickers===1?'':'s'} sent`:'Gave once · not watching'}</em></div>${r.msg?`<span class="ft-msg ${f.reached?'open':''}" onclick="${f.reached?`go('ft-capsule',{id:'${id}'})`:`toast('Locked until ${k.name} gets there')`}">${ic(f.reached?'ff':'lock',12)} ${r.msg.len}</span>`:''}</div>`}).join('')}</div>
    ${f.reached?`<button class="btn sg-cta" style="height:46px;margin-top:12px" onclick="go('ft-capsule',{id:'lou'})">${ic('ff',16)} Play Grandpa’s message for ${k.name}</button>`:''}</div>
   <div class="so-sec" data-sec="same"><b>Same Tree</b><button onclick="ftAddMember()">Invite someone</button></div>
-  <div class="so-card"><div class="sgx-ch"><div><b>${sh.name} · ${spc}%</b><em>$${tot.toLocaleString()} of $${sh.target.toLocaleString()} · ${sh.members.length} accounts, nothing pooled · nobody owns it</em></div>${svgSeal({top:'Same tree',bottom:sh.name,glyph:'rings',size:48,on:sh.badge})}</div>
+  <div class="so-card ft-same"><div class="ft-sh"><div class="grow"><b>${sh.name}</b><em><strong>$${tot.toLocaleString()}</strong> of $${sh.target.toLocaleString()} · ${spc}%</em></div>${svgSeal({top:'Same tree',bottom:sh.name,glyph:'rings',size:44,on:sh.badge})}</div>
    <div class="ft-stack">${sh.members.map((m,i)=>`<i style="width:${Math.round(m.part/sh.target*100)}%;background:${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'][i%4]}"></i>`).join('')}</div>
-   ${sh.members.map((m,i)=>`<div class="so-row"><span class="ft-dot" style="background:${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'][i%4]}"></span>${soAv(m.id,32)}<div class="grow"><b>${m.id==='me'?'You':SO[m.id].n.split(' ')[0]}</b><em>${m.id==='me'?`Others see: ${m.show==='part'?'your part':'only the total'}`:m.show==='part'?'Shows their part':'Shows only the total'}</em></div><b class="ft-part">${m.id==='me'||m.show==='part'?'$'+m.part.toLocaleString():'—'}</b></div>`).join('')}
-   ${sh.log.slice(0,3).map(e=>`<div class="ft-ev">${soAv(e.id,22)}<span>${e.t}</span>${e.stk?`<i>${e.stk}</i>`:e.id!=='me'?`<button onclick="ftSticker(${sh.log.indexOf(e)})">Send a sticker</button>`:''}</div>`).join('')}
-   <button class="btn sg-cta" style="height:46px;margin-top:12px" onclick="ftAdd()">${ic('plus',16)} Add $100 from my account</button>
-   <div class="rt-wacts"><button onclick="ftShow()">${ic('eye',14)} ${sh.members[0].show==='part'?'Show only my total':'Show my part'}</button><button onclick="ftLeave()">Leave, keep my money</button></div></div>
+   <div class="ft-note">${sh.members.length} accounts. Nothing pooled, nobody owns it.</div>
+   ${sh.members.map((m,i)=>`<div class="so-row ft-mem"><span class="ft-dot" style="background:${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'][i%4]}"></span>${soAv(m.id,32)}<div class="grow"><b>${m.id==='me'?'You':SO[m.id].n.split(' ')[0]}</b><em>${m.show==='part'?'Sharing their part':'Sharing the total only'}</em></div><b class="ft-part">${m.id==='me'||m.show==='part'?'$'+m.part.toLocaleString():'—'}</b></div>`).join('')}
+   ${sh.log.slice(0,3).map(e=>`<div class="ft-ev"><span class="ft-evav">${soAv(e.id,22)}</span><span>${e.t}</span>${e.stk?`<i>${e.stk}</i>`:e.id!=='me'?`<button onclick="ftSticker(${sh.log.indexOf(e)})">Send a sticker</button>`:''}</div>`).join('')}
+   <button class="btn sg-cta" style="height:46px;margin-top:14px" onclick="ftAdd()">${ic('plus',16)} Add $100 from my account</button>
+   <div class="ft-foot"><button onclick="ftShow()">${ic('eye',14)} ${sh.members[0].show==='part'?'Share only my total':'Share my part'}</button><span>·</span><button onclick="ftLeave()">Leave, keep my money</button></div></div>
   <div class="so-sec" data-sec="learn"><b>Learn Together</b><button onclick="go('fo-learn')">Pick a lesson</button></div>
   <button class="so-card fo-gc" onclick="go('fo-learn',{pair:1})"><div class="sgx-ch" style="margin:0"><div><b>Do a lesson with someone. It counts for all of you.</b><em>Each on your own phone. Paired lessons ask each of you privately, then show every answer at once. A badge for everyone when you finish.</em></div>${svgSeal({top:'Together',bottom:'4 lessons',glyph:'sprout',size:48,on:Object.keys((soState().fo||{learn:{}}).learn||{}).length>=1})}</div></button>
   <p class="sgx-priv">${ic('lock',12)} No joint account. No custody question. Each of you keeps your own money and history. Mom decides whether relatives can watch at all.</p></div>`}});
@@ -5649,6 +5688,10 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .tog{width:44px;height:26px;border-radius:13px;background:#d3d9cf;position:relative;flex:none;cursor:pointer}.tog:after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:10px;background:#fff;transition:left .2s}.tog.on{background:#74c947}.tog.on:after{left:21px}
 .ft-stack{display:flex;height:12px;border-radius:6px;background:#eef1ec;overflow:hidden;gap:2px}.ft-stack i{display:block;height:100%;transition:width .6s cubic-bezier(.2,.8,.2,1)}
 .ft-dot{width:10px;height:10px;border-radius:5px;flex:none}.ft-part{font-size:15px}
+.ft-sh{display:flex;align-items:flex-start;gap:12px}.ft-sh b{display:block;font-size:19px;letter-spacing:-.3px}.ft-sh em{display:block;font-style:normal;font-size:14px;color:#6b706c;margin-top:3px}.ft-sh em strong{color:#191919;font-weight:700}
+.ft-note{font-size:12.5px;color:#6b706c;margin:8px 0 4px}.ft-mem em{font-size:12.5px}
+.ft-evav{display:inline-flex;flex:none}.ft-evav .so-av,.ft-evav .sg-av{width:22px!important;height:22px!important}
+.ft-foot{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:12px;font-size:13px;color:#9aa09b}.ft-foot button{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:#2f7a12;background:none;padding:4px 2px;height:auto}
 .ft-ev{display:flex;align-items:center;gap:8px;padding:8px 0;font-size:13px;color:#3d453f;border-top:1px solid #f0f2ee}.ft-ev span{flex:1}.ft-ev button{height:28px;padding:0 10px;border-radius:14px;background:#e3f4d8;color:#2f7a12;font-size:12px;font-weight:700}.ft-ev i{font-style:normal;font-size:18px}
 .ft-cap{position:absolute;inset:0;background:linear-gradient(180deg,#0e2a0c,#0a1d08);display:flex;flex-direction:column}.ft-capc{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 28px 0}
 .ft-wave{display:flex;align-items:center;gap:3px;height:60px;margin-top:22px}.ft-wave i{width:5px;height:var(--h);border-radius:3px;background:rgba(188,234,163,.4)}.ft-wave.on i{animation:ftW .9s ease-in-out infinite;background:#74c947}@keyframes ftW{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1.4)}}
@@ -5719,13 +5762,25 @@ def('fo-learn',p=>{const f=foSt();const L=T.fol||(T.fol={lesson:p&&p.pair?'money
   <div class="sg-foot"><button class="btn sg-cta" onclick="foSt().learn['${les[0]}']=1;save();haptic(14);ART.confetti($('#screen'),50);setTimeout(()=>{T.fol=null;back()},900)">Finish together</button></div>`}});
 /* Canopy */
 function foRed(){foSt().red=true;save();haptic(10);refresh();setTimeout(()=>banner('Market opened down 6%','Canopy is open. Tasha and Dee are on.',()=>go('fo-canopy')),500)}
-def('fo-canopy',()=>{const f=foSt();const c=f.canopy;
- return {cls:'lt sgs sgx so fo-rd',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Canopy</b>${f.red?`<span class="so-chip live"><i></i>−6%</span>`:`<span class="so-chip">Quiet day</span>`}</div>
- <div class="sg-body sgx-body"><div class="fo-duty"><div class="sgx-ch" style="margin:0"><div><b>On duty right now</b><em>${f.red?'The whole bench is on. Answers within the hour.':'Someone’s always on. Answers within a day on quiet days, within the hour when the market drops.'} Members who held through at least three drops, paid per answer and for whether you’re still depositing a month from now.</em></div></div><div class="wh-people" style="margin:14px 0 4px">${[['kim','@tasha_holds','6 years in'],['dee','@dee_since_2018','8 years in']].map(([id,n,y])=>`<span>${soAv(id,44)}<b>${n}</b><em>${y}</em></span>`).join('')}</div></div>
-  <div class="so-card"><div class="sgx-ch"><div><b>Your math today</b><em>Pulled from your own account, so the answer is about you</em></div></div>${(f.red?[['Your balance drop','−$36 (6% of $600)'],['Your next three weeks','$30 in deposits'],['Covered by','Week 3']]:[['Market today','Flat · nothing to cover'],['Your next three weeks','$30 in deposits'],['Weeks in a row',`${S.streak||5}`]]).map(([k,v])=>`<div class="so-kv"><span>${k}</span><b>${v}</b></div>`).join('')}</div>
-  ${c?`<div class="so-card fo-qa"><em class="fo-by">You · ${c.t}</em><b>${c.q}</b>${c.a?`<div class="fo-ans">${soAv('kim',28)}<div><em>Tasha <span class="fo-mark">${ic('spark',10)} Canopy</span> · 11 min</em><p>${c.a}</p></div></div><div class="fo-badge">${ic('check',14)} You asked instead of selling. That stays on your goal.</div>`:`<div class="rt-wait" style="justify-content:flex-start"><i></i><i></i><i></i></div><small class="ft-small">Someone answers within the hour. Usually sooner on days like this.</small>`}</div>`
-  :`<div class="so-card"><div class="h2">Ask one question.</div><p class="sm mt8">About the habit, not what to buy. Tasha answers from lines compliance already approved, with your numbers in them.</p><textarea id="foCa" class="fd-ta" style="min-height:90px;background:#f3f6f0;border:0;outline:0" placeholder="${f.red?'Should I move it to the emergency fund until this is over?':'Is it dumb to keep $10 a week going while I pay off a card?'}"></textarea><button class="btn sg-cta" style="height:48px;margin-top:10px" onclick="foAskCanopy()">Ask</button></div>`}
-  <p class="sgx-priv">${ic('lock',12)} ${f.red?'By Friday the red-day bench stands down. What’s left is the badge, and Tasha’s $14 from eleven people who didn’t sell either.':'Nothing you ask here is a recommendation to buy or sell. It’s a person who kept going, telling you how.'}</p></div>`}});
+def('fo-canopy',()=>{const f=foSt();const c=f.canopy;const red=f.red;
+ const math=red?[['Your balance drop','−$36 · 6% of $600'],['Your next three weeks','$30 in deposits'],['Covered by','Week 3']]:[['Market today','Flat'],['Next three weeks','$30 in deposits'],['Weeks in a row',`${S.streak||5}`]];
+ const ask=`<div class="fo-ask"><label class="fo-askl" for="foCa">Ask one question</label><textarea id="foCa" class="fd-ta fo-ta" placeholder="${red?'Should I move it to the emergency fund until this is over?':'Is it dumb to keep $10 a week going while I pay off a card?'}"></textarea><div class="fo-askf"><span>About the habit, not what to buy</span><button class="btn fo-askb" onclick="foAskCanopy()">Ask</button></div></div>`;
+ const qa=`<div class="so-card fo-qa"><em class="fo-by">You · ${c&&c.t}</em><b>${c&&c.q}</b>${c&&c.a?`<div class="fo-ans">${soAv('kim',28)}<div><em>Tasha <span class="fo-mark">${ic('spark',10)} Canopy</span> · 11 min</em><p>${c.a}</p></div></div><div class="fo-badge">${ic('check',14)} You asked instead of selling. That stays on your goal.</div>`:`<div class="rt-wait" style="justify-content:flex-start"><i></i><i></i><i></i></div><small class="ft-small">Someone answers within the hour. Usually sooner on days like this.</small>`}</div>`;
+ return {cls:'lt sgs sgx so fo-rd',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Canopy</b>${red?`<span class="so-chip live"><i></i>−6%</span>`:`<span class="so-chip">Quiet day</span>`}</div>
+ <div class="sg-body sgx-body">
+  ${red?`<div class="so-card fo-mathc"><div class="fo-mathh"><b>Your math today</b><em>From your own account, so the answer is about you</em></div>${math.map(([k,v])=>`<div class="so-kv"><span>${k}</span><b>${v}</b></div>`).join('')}</div>`:''}
+  ${c?qa:ask}
+  <div class="fo-bench">${soAvs(['kim','dee'],26)}<div><b>Tasha and Dee are on${red?' · the whole bench today':''}</b><em>6 and 8 years in. Held through three drops. Paid per answer, and for whether you’re still depositing a month from now.</em></div></div>
+  ${red?'':`<div class="fo-mathl">${ic('spark',12)} Answered with your numbers: ${math.map(([k,v])=>`${k.toLowerCase()} ${v.toLowerCase()}`).join(', ')}.</div>`}
+  <p class="sgx-priv">${ic('lock',12)} ${red?'By Friday the red-day bench stands down. What’s left is the badge, and Tasha’s $14 from eleven people who didn’t sell either.':'Nothing you ask here is a recommendation to buy or sell. It’s a person who kept going, telling you how.'}</p></div>`}});
+document.head.insertAdjacentHTML('beforeend',`<style>
+.fo-ask{background:#fff;border-radius:20px;padding:16px 16px 12px}.fo-askl{display:block;font-size:17px;font-weight:700;color:#191919;letter-spacing:-.2px}
+.fo-ta{min-height:96px;background:#f3f6f0;border:0;outline:0;margin-top:12px;font-size:16px;line-height:1.4}
+.fo-askf{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}.fo-askf>span{font-size:12.5px;color:#6b706c}.fo-askb{height:40px;padding:0 22px;border-radius:20px;font-size:15px;font-weight:700;width:auto;background:#74c947;color:#0a1d08;display:inline-flex;align-items:center}
+.fo-bench{display:flex;gap:12px;align-items:flex-start;padding:14px 4px 0}.fo-bench .so-avs{flex:none;margin-top:1px;display:inline-flex;gap:4px}.fo-bench .so-avs .so-av{margin-left:0;width:26px;height:26px;flex:none}.fo-bench b{display:block;font-size:14px;color:#191919}.fo-bench em{display:block;font-style:normal;font-size:12.5px;line-height:1.45;color:#6b706c;margin-top:3px}
+.fo-mathl{display:flex;gap:6px;align-items:flex-start;font-size:12.5px;line-height:1.45;color:#6b706c;padding:14px 4px 0}.fo-mathl svg{flex:none;margin-top:3px;color:#5c9a3a}
+.fo-mathc{margin-bottom:12px}.fo-mathh{margin-bottom:6px}.fo-mathh b{display:block;font-size:17px}.fo-mathh em{display:block;font-style:normal;font-size:12.5px;color:#6b706c;margin-top:2px}
+</style>`);
 function foAskCanopy(){const red=foSt().red;const v=($('#foCa').value||(red?'Should I move it to the emergency fund until this is over?':'Is it dumb to keep $10 a week going while I pay off a card?')).trim();foSt().canopy={q:v,t:'just now',a:null};save();haptic(10);refresh();
  setTimeout(()=>{const f=foSt();if(!f.canopy)return;f.canopy.a=red?'I asked the same thing in 2022. Your drop today is $36. Your next three weeks of $10 cover it. I’d leave it, and I did.':'Not dumb. I kept $5 going through two years of card payments. The habit was the thing I couldn’t restart later. Card first, $10 stays.';f.badge=red;save();if(cur()&&cur().dataset.id==='fo-canopy')refresh();banner('Tasha answered',red?'“Your drop today is $36. Your next three weeks cover it.”':'“Not dumb. Card first, $10 stays.”',()=>go('fo-canopy'))},3500)}
 document.head.insertAdjacentHTML('beforeend',`<style>
@@ -5995,6 +6050,7 @@ function iaBento(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in')
   tok('Family',`<span class="ia-tf"><img src="${stageSrc(6)}" style="height:40px" alt=""><img src="${stageSrc(2)}" style="height:26px;margin-left:-6px" alt=""></span>`,"go('ft-home',{only:'seed'})"),
   tok('The Forest',`<span class="ia-tf">${[7,5,7].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[30,22,34][k]}px;margin-left:${k?-10:0}px" alt="">`).join('')}</span>`,"go('fo-grove')",fo.red?'red':'')].join('');
  r.html=r.html.replace(/<div class="sk-sec"><div class="h4">Ways to grow<\/div><\/div>\s*<div class="row"[^>]*>/,m=>m+ours);
+ r.html=r.html.replace(/<div class="bnt" onclick="home\('gt-oak'\)"><div class="bh">Your oak<\/div>/,'<div class="bnt" onclick="go(\'streaks\')"><div class="bh">Your streak</div>');
  r.html+=whClock([['It’s Friday','rtFriday()']]);return r}})();
 document.head.insertAdjacentHTML('beforeend',`<style>
 .ia-tok .im{display:flex;align-items:center;justify-content:center;overflow:hidden}.ia-tok .im img{width:auto;max-width:none}
@@ -6034,13 +6090,13 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 
 /* ---------- the front screen: one list, grouped the way the prototype is built ---------- */
-(function(){const S0=[['Witnessed Habit',[['Witness','One person who sees you show up',"go('splash',{k:'witness'})"],['The Friday Count','You’re one of them',"go('splash',{k:'fridaycount'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['Rings','The card, not the balance',"go('splash',{k:'rings'})"],['Drop an Acorn','$5 you can’t keep',"go('splash',{k:'acorn'})"],['Seedling','Grandpa never downloads anything',"go('splash',{k:'seedling'})"],['Same Tree','Nothing pooled, everyone in',"go('splash',{k:'sametree'})"],['The Grove','No names, no rankings',"go('splash',{k:'grove'})"],['Canopy','Ask, don’t sell',"go('splash',{k:'canopy'})"]]],
+(function(){const S0=[['Witnessed Habit',[['Witness','One person who sees you show up · the Friday Count',"go('splash',{k:'witness'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['Rings','The card, not the balance · Drop an Acorn',"go('splash',{k:'rings'})"],['Family','Seedling for Grandpa · Same Tree for a goal',"go('splash',{k:'seedling'})"],['The Forest','The Grove, no names · Canopy, ask don’t sell',"go('splash',{k:'grove'})"]]],
  ['Grow Together',[['Skip and Invest','Skip a spend, invest it right away',"go('splash',{k:'skip-and-stash'})"],['Shared goals','Save for a goal with someone, your way',"go('splash',{k:'split'})"],['Acorns Year','Weeks and cards, never amounts',"go('splash',{k:'year'})"],['Invite to your grove','Their first investment plants a tree',"go('splash',{k:'invite'})"],['Know yourself','Short quizzes, a minute each',"go('splash',{k:'money-type'})"]]]];
  window.__RVG=S0;RV_GO.length=0;S0.forEach(([g,items])=>items.forEach(x=>RV_GO.push(x)));
  const f=rvHTML;rvHTML=function(first){let h=f(first);
   const idx={};let n=0;const html=S0.map(([g,items])=>`<div class="rv-sec">${g}</div><div class="rv-g">${items.map(x=>{const i=n++;return `<button class="rv-i" onclick="rvRun(${i},'go')"><span><b>${x[0]}</b><em>${x[1]}</em></span>${ic('chev',16,'opacity:.35')}</button>`}).join('')}</div>`).join('');
   h=h.replace(/<div class="rv-sec">(The ideas|Explore)<\/div><div class="rv-g">[\s\S]*?<\/div>\s*(?=<div class="rv-sec">|<div class="rv-foot">)/,html);
-  h=h.replace('A feature concept that lives inside the current Acorns app. Start on Home and tap into it the way a customer would.','Community at Acorns, built on Streaks. One pill, three places: Oak is you, Grove is your people, Forest is everyone. Start on Home and tap in the way a customer would.');
+  h=h.replace('A feature concept that lives inside the current Acorns app. Start on Home and tap into it the way a customer would.','Community at Acorns, a layer in front of Streaks. Home is you, the Grove is your people, the Forest is everyone. Start on Home and tap in the way a customer would.');
   return h}})();
 document.head.insertAdjacentHTML('beforeend','<style>.gvs .sk-pill{z-index:60;top:calc(var(--safeTop) + 58px)}.gvs .gv-hud{z-index:61}</style>');
 

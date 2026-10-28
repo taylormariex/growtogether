@@ -29,9 +29,7 @@ const WH_STORIES={
   ['witask','So we ask one thing. Who would notice if you stopped? Not the most supportive person. The one who’d actually say something.'],
   ['witsms','They see exactly what they’d get: your goal’s name, and a yes or no every Friday. Never the balance. They decide if they’re in.'],
   ['witfri','Friday your $10 moves. They tap a sticker. That’s the whole thing, and it’s more than it sounds.'],
-  ['witpause','Rough month? Pause. Your streak freezes instead of breaking, and they get one note they can send.'],
-  ['fcnum','And every Friday, Home opens on one number: how many of us kept a promise this week. If you did, it says so.'],
-  ['fcq','Under it, one question a day. You only see the answer by answering.']]},
+  ['witpause','Rough month? Pause. Your streak freezes instead of breaking, and they get one note they can send.']]},
  bloom:{name:'Bloom',t:'Bloom',cta:'Join this month’s Bloom',s:'A month, a target, all of us.',where:'The first of every month.',go:"T={};go('rt-home',{focus:'bloom'})",beats:[
   ['blnov','One a month. The whole room takes on one target together. November: 300,000 skipped purchases, 48,000 of us.'],
   ['bltap','Every skip is one tap. The money moves to your goal, and the bar moves a little.'],
@@ -43,9 +41,7 @@ const WH_STORIES={
   ['rgcard','Goal, club, start date, cadence. One line of math. No balance unless you turn it on.'],
   ['rgguest','Post it anywhere. Whoever taps it lands on your goal as a guest. Two buttons: ask to witness, or start their own.'],
   ['rgtwo','Only you see this part: how many people started from your card.'],
-  ['rgyear','Every January, the big one. Your year of Fridays, your comeback, who saw it. A year of behavior, never a number.'],
-  ['acget','Every milestone also hands you an acorn. $5 of our money that you can’t keep.'],
-  ['acdrop','You can only plant it in someone’s first goal. They open a link, name a goal, and you’re their witness from Friday one.']]},
+  ['rgyear','Every January, the big one. Your year of Fridays, your comeback, who saw it. A year of behavior, never a number.']]},
  acorn:{name:'Drop an Acorn',t:'Drop an Acorn',cta:'Plant one',s:'$5 you can’t keep.',where:'Every milestone.',go:"T={};go('rt-home',{focus:'acorn'})",beats:[
   ['acget','Every milestone hands you an acorn. $5 of our money that you can’t keep.'],
   ['acwho','You can only plant it in someone’s first goal. The person who keeps saying “I should do that.”'],

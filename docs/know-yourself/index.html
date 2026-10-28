@@ -3007,7 +3007,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:24 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:25 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5781,9 +5781,7 @@ const WH_STORIES={
   ['witask','So we ask one thing. Who would notice if you stopped? Not the most supportive person. The one who’d actually say something.'],
   ['witsms','They see exactly what they’d get: your goal’s name, and a yes or no every Friday. Never the balance. They decide if they’re in.'],
   ['witfri','Friday your $10 moves. They tap a sticker. That’s the whole thing, and it’s more than it sounds.'],
-  ['witpause','Rough month? Pause. Your streak freezes instead of breaking, and they get one note they can send.'],
-  ['fcnum','And every Friday, Home opens on one number: how many of us kept a promise this week. If you did, it says so.'],
-  ['fcq','Under it, one question a day. You only see the answer by answering.']]},
+  ['witpause','Rough month? Pause. Your streak freezes instead of breaking, and they get one note they can send.']]},
  bloom:{name:'Bloom',t:'Bloom',cta:'Join this month’s Bloom',s:'A month, a target, all of us.',where:'The first of every month.',go:"T={};go('rt-home',{focus:'bloom'})",beats:[
   ['blnov','One a month. The whole room takes on one target together. November: 300,000 skipped purchases, 48,000 of us.'],
   ['bltap','Every skip is one tap. The money moves to your goal, and the bar moves a little.'],
@@ -5795,9 +5793,7 @@ const WH_STORIES={
   ['rgcard','Goal, club, start date, cadence. One line of math. No balance unless you turn it on.'],
   ['rgguest','Post it anywhere. Whoever taps it lands on your goal as a guest. Two buttons: ask to witness, or start their own.'],
   ['rgtwo','Only you see this part: how many people started from your card.'],
-  ['rgyear','Every January, the big one. Your year of Fridays, your comeback, who saw it. A year of behavior, never a number.'],
-  ['acget','Every milestone also hands you an acorn. $5 of our money that you can’t keep.'],
-  ['acdrop','You can only plant it in someone’s first goal. They open a link, name a goal, and you’re their witness from Friday one.']]},
+  ['rgyear','Every January, the big one. Your year of Fridays, your comeback, who saw it. A year of behavior, never a number.']]},
  acorn:{name:'Drop an Acorn',t:'Drop an Acorn',cta:'Plant one',s:'$5 you can’t keep.',where:'Every milestone.',go:"T={};go('rt-home',{focus:'acorn'})",beats:[
   ['acget','Every milestone hands you an acorn. $5 of our money that you can’t keep.'],
   ['acwho','You can only plant it in someone’s first goal. The person who keeps saying “I should do that.”'],
@@ -6005,12 +6001,12 @@ tabbarDk=function(){return ''};
 /* ---- Forest: nurse trees ---- */
 (function(){const f=SCR['fo-grove'];SCR['fo-grove']=p=>{const r=f(p);r.html=r.html.replace('<b>Canopy · on duty in the forest</b>','<b>Nurse trees · on duty</b>').replace('Members a year in with a streak, paid per answer and for whether you’re still depositing a month later. Answers within a day; within the hour on red days.','Old trees the seedlings grow out of: a year in, a streak, paid when the people they help keep going. Answers within a day. On a red day they form the Canopy and answer within the hour.');return r}})();
 /* ---- the stories land in the new places ---- */
-Object.assign(SPL.witness,{go:"T={};home('gt-home');go('rt-home',{only:'you'})"});Object.assign(SPL.fridaycount,{go:"T={};go('gt-home')"});Object.assign(SPL.rings,{go:"T={};home('gt-home');go('rt-home',{only:'rings'})"});Object.assign(SPL.acorn,{go:"T={};go('gt-home',{focus:'rings'})"});Object.assign(SPL.roots,{go:"T={};home('gt-home')"});
+Object.assign(SPL.witness,{go:"T={};home('gt-home');go('rt-home',{only:'you'})"});Object.assign(SPL.fridaycount,{go:"T={};home('gt-home');go('rt-home',{only:'you',focus:'fc'})"});Object.assign(SPL.rings,{go:"T={};home('gt-home');go('rt-home',{only:'rings'})"});Object.assign(SPL.acorn,{go:"T={};home('gt-home');go('rt-home',{only:'rings'})"});Object.assign(SPL.roots,{go:"T={};home('gt-home')"});
 Object.assign(SPL.bloom,{go:"T={};home('gt-home');go('rt-home',{only:'bloom'})"});Object.assign(SPL.family,{go:"T={};GSEL=null;home('gt-grove')"});Object.assign(SPL.forest,{go:"T={};go('fo-grove')"});
-LFX.witness=[ 'rt-home',{only:'you'}].concat(LFX.witness.slice(2));LFX.rings=['rt-home',{only:'rings'}].concat(LFX.rings.slice(2));LFX.bloom=['rt-home',{only:'bloom'}].concat(LFX.bloom.slice(2));LFX.family[0]='gt-grove';LFX.forest[0]='fo-grove';
-window.__iaFocus=function(){Object.assign(FOCUS_SPEC.witness,{hub:'rt-home',hubLabel:'Open Witnesses',go:"T={};home('gt-home');go('rt-home',{only:'you'})",allow:['gt-home']});Object.assign(FOCUS_SPEC.fridaycount,{hub:'gt-home',hubLabel:'Open Home',go:"T={};go('gt-home')",allow:['gt-home']});Object.assign(FOCUS_SPEC.rings,{hub:'rt-home',hubLabel:'Open my cards',go:"T={};home('gt-home');go('rt-home',{only:'rings'})",allow:['gt-home']});Object.assign(FOCUS_SPEC.acorn,{hub:'gt-home',hubLabel:'Open Home',go:"T={};go('gt-home',{focus:'rings'})",allow:['gt-home']});Object.assign(FOCUS_SPEC.roots,{hub:'gt-home',hubLabel:'Open Home',go:"T={};home('gt-home')",allow:['gt-home']});Object.assign(FOCUS_SPEC.forest,{hub:'fo-grove',hubLabel:'Find my forest',go:"T={};go('fo-grove')",allow:['gt-home']});
+LFX.fridaycount=['rt-home',{only:'you'}].concat(LFX.fridaycount.slice(2));LFX.acorn=['rt-home',{only:'rings'}].concat(LFX.acorn.slice(2));LFX.witness=[ 'rt-home',{only:'you'}].concat(LFX.witness.slice(2));LFX.rings=['rt-home',{only:'rings'}].concat(LFX.rings.slice(2));LFX.bloom=['rt-home',{only:'bloom'}].concat(LFX.bloom.slice(2));LFX.family[0]='gt-grove';LFX.forest[0]='fo-grove';
+window.__iaFocus=function(){Object.assign(FOCUS_SPEC.witness,{hub:'rt-home',hubLabel:'Open Witnesses',go:"T={};home('gt-home');go('rt-home',{only:'you'})",allow:['gt-home']});Object.assign(FOCUS_SPEC.fridaycount,{hub:'rt-home',hubLabel:'See the count',go:"T={};home('gt-home');go('rt-home',{only:'you'})",allow:['gt-home']});Object.assign(FOCUS_SPEC.rings,{hub:'rt-home',hubLabel:'Open my cards',go:"T={};home('gt-home');go('rt-home',{only:'rings'})",allow:['gt-home']});Object.assign(FOCUS_SPEC.acorn,{hub:'rt-home',hubLabel:'Open my cards',go:"T={};home('gt-home');go('rt-home',{only:'rings'})",allow:['gt-home']});Object.assign(FOCUS_SPEC.roots,{hub:'gt-home',hubLabel:'Open Home',go:"T={};home('gt-home')",allow:['gt-home']});Object.assign(FOCUS_SPEC.forest,{hub:'fo-grove',hubLabel:'Find my forest',go:"T={};go('fo-grove')",allow:['gt-home']});
 Object.assign(FOCUS_SPEC.bloom,{hub:'rt-home',hubLabel:'Open the Bloom',go:"T={};home('gt-home');go('rt-home',{only:'bloom'})",allow:['gt-home']});Object.assign(FOCUS_SPEC.family,{hub:'gt-grove',hubLabel:'Open my grove',go:"T={};GSEL=null;home('gt-grove')",allow:['gt-home']});
-FOCUS_HUBS.delete('gt-home');};
+['seedling','sametree','grove','canopy'].forEach(k=>{FOCUS_SPEC[k].allow=['gt-home']});FOCUS_HUBS.delete('gt-home');};
 document.head.insertAdjacentHTML('beforeend',`<style>
 .ia-card{margin-top:12px;padding:16px;border-radius:22px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff}.ia-card p{margin:8px 0 14px;font-size:14px;line-height:1.45;color:rgba(255,255,255,.7)}.ia-q{font-size:20px;font-weight:600;letter-spacing:-.3px;line-height:1.15}.ia-card .rt-alt{color:#bceaa3}
 .ia-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px}.ia-h b{display:block;font-size:16px}.ia-h em{display:block;font-style:normal;font-size:12px;color:rgba(255,255,255,.6);margin-top:2px}.ia-card .sgx-edit{background:rgba(255,255,255,.1);color:#fff}
@@ -6025,7 +6021,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 
 /* ---------- the front screen: one list, grouped the way the prototype is built ---------- */
-(function(){const S0=[['Witnessed Habit · one link per square',[['Witness','Who sees you show up, and the Friday Count',"go('splash',{k:'witness'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['Rings','Your cards, the Year Ring, acorns to plant',"go('splash',{k:'rings'})"],['Family Tree','Seedling and Same Tree, in your grove',"go('splash',{k:'family'})"],['The Forest','The Grove and Canopy, for when nobody comes to mind',"go('splash',{k:'forest'})"]]],
+(function(){const S0=[['Witnessed Habit',[['Witness','One person who sees you show up',"go('splash',{k:'witness'})"],['The Friday Count','You’re one of them',"go('splash',{k:'fridaycount'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['Rings','The card, not the balance',"go('splash',{k:'rings'})"],['Drop an Acorn','$5 you can’t keep',"go('splash',{k:'acorn'})"],['Seedling','Grandpa never downloads anything',"go('splash',{k:'seedling'})"],['Same Tree','Nothing pooled, everyone in',"go('splash',{k:'sametree'})"],['The Grove','No names, no rankings',"go('splash',{k:'grove'})"],['Canopy','Ask, don’t sell',"go('splash',{k:'canopy'})"]]],
  ['Grow Together',[['Skip and Invest','Skip a spend, invest it right away',"go('splash',{k:'skip-and-stash'})"],['Shared goals','Save for a goal with someone, your way',"go('splash',{k:'split'})"],['Acorns Year','Weeks and cards, never amounts',"go('splash',{k:'year'})"],['Invite to your grove','Their first investment plants a tree',"go('splash',{k:'invite'})"],['Know yourself','Short quizzes, a minute each',"go('splash',{k:'money-type'})"]]]];
  window.__RVG=S0;RV_GO.length=0;S0.forEach(([g,items])=>items.forEach(x=>RV_GO.push(x)));
  const f=rvHTML;rvHTML=function(first){let h=f(first);

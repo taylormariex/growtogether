@@ -21,7 +21,7 @@ Home (`gt-home`) is a light dashboard of six squares, in the Acorns app style. E
 
 ## Links
 
-Witnessed Habit, one link per square on Home: `witness/` (with the Friday Count), `bloom/`, `rings/` (with Drop an Acorn), `family-tree/` (Seedling and Same Tree, in the grove), `forest/` (the Grove and Canopy).
+Witnessed Habit, one link per concept (the three bets group them in the doc, not here): `witness/`, `friday-count/`, `bloom/`, `rings/`, `drop-an-acorn/`, `seedling/`, `same-tree/`, `the-grove/`, `canopy/`. Each opens on its story and lands on the page where it lives; Home is one tap back.
 
 Grow Together, the five pieces the system places: `skip-and-invest/`, `shared-goals/`, `acorns-year/`, `invite/`, `know-yourself/`.
 

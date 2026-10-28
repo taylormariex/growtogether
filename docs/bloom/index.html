@@ -3007,7 +3007,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:15 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:17 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5970,15 +5970,16 @@ function oakRings(){const r=rtSt();const i=stageIdx(S.streak);const w=r.witnesse
   <div class="ia-rings">${[['Your stage',sealImg(i,64),RSTAGES[i][1],`${S.streak} weeks in a row`,"rtShareRing()"],['Every January',svgSeal({top:'2026',bottom:'47 of 52',glyph:'trophy',size:64}),'The Year Ring',w.length?`Witnessed by ${w.join(' and ')}`:'Add a witness and their name goes on it',"go('rt-year')"]].map(([k,im,t,d,js])=>`<button class="ia-ring" onclick="${js}"><em>${k}</em>${im}<b>${t}</b><span>${d}</span><i>${ic('share',14)} Share</i></button>`).join('')}</div>
   <button class="ia-acorn" onclick="${r.acorns.have?"go('rt-acorn')":"toast('The next milestone hands you one')"}"><span class="rt-acorn ${r.acorns.have?'':'dim'}">${stageImg(0,40)}</span><div class="grow"><b>${r.acorns.have?'You’ve got an acorn':r.acorns.sent.length?`${r.acorns.sent.filter(a=>a.goal).length} of ${r.acorns.sent.length} acorns became goals`:'No acorn right now'}</b><em>${r.acorns.have?'$5 you can only plant in someone’s first goal':'Milestones hand you one · 4 a year'}</em></div>${r.acorns.have?`<span class="so-join">Plant it</span>`:ic('chev',16,'opacity:.4')}</button>`}
 /* ---- Home is a dashboard of squares. Tap one to go deeper; deeper pages have a back button, no tabs. ---- */
-function iaTile(cls,title,body,js){return `<button class="bnt ia-t ${cls||''}" onclick="${js}"><div class="bh">${title}</div>${body}</button>`}
-function iaBento(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in');const gr=growing();const open=gr.filter(x=>x.open);const i=stageIdx(S.streak);const s=r.season;const sh=ftSt().shared;const tot=sh.members.reduce((a,m)=>a+m.part,0);const fo=foSt();
- return `<div class="bento mt20">
-  ${iaTile('',`Your oak`,`<div class="ia-tart">${stageImg(S.streak,64)}</div><div class="bs">${RSTAGES[i][1]} · ${S.streak} wk</div>`,"home('gt-oak')")}
-  ${iaTile('',`Your grove`,`<div class="avr">${gr.slice(0,3).map(g=>`<div style="position:relative">${ringAv(g.id,g.open?0:1)}${g.open?`<span class="dropbadge" style="position:absolute;right:-3px;top:-3px">${ic('drop',11,'color:#fff')}</span>`:''}</div>`).join('')}</div><div class="bs" style="${open.length?'color:#8cc4f7':''}">${open.length?`${nm(open[0].id)} hasn’t invested yet`:'Everyone invested'}</div>`,"GSEL=null;home('gt-grove')")}
-  ${iaTile('',`Witnesses`,ws.length?`<div class="avr">${ws.slice(0,3).map(w=>soAv(w.id,36)).join('')}</div><div class="bs">${ws.map(w=>w.name).join(', ')} see your Fridays</div>`:`<div class="ia-tq">Who would notice if you stopped?</div><div class="bs" style="color:#bceaa3">Pick someone</div>`,"go('rt-home',{only:'you'})")}
-  ${iaTile('',`This month’s Bloom`,`<div class="ia-tbar"><i style="width:${Math.min(100,Math.round(s.bar/s.target*100))}%"></i></div><div class="bs">No-Spend November · ${s.joined?(s.done?'finished':'you’re in'):'48,000 of us'}</div>`,"go('rt-home',{only:'bloom'})")}
-  ${iaTile('',`Your cards`,`<div class="ia-tart">${sealImg(i,56)}</div><div class="bs">${r.acorns.have?'An acorn to plant':'Milestones and the Year Ring'}</div>`,"go('rt-home',{only:'rings'})")}
-  ${iaTile(fo.red?'red':'',`The Forest`,`<div class="avr"><span class="fo-anon" style="margin-top:4px">${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'].map(c=>`<i style="background:${c};width:30px;height:30px;border-radius:15px;box-shadow:0 0 0 2px #0a1a08"></i>`).join('')}</span></div><div class="bs">${fo.red?'Red day · Canopy is open':'3,100 people with your goal · no names'}</div>`,"go('fo-grove')")}
+function iaTile(cls,title,vis,meta,js){return `<button class="bnt ia-t ${cls||''}" onclick="${js}"><div class="bh">${title}</div><div class="ia-v">${vis}</div><div class="bs">${meta}</div></button>`}
+function iaAvs(ids,sz){return `<span class="ia-avs">${ids.map(id=>sgAv(id,sz||36)).join('')}</span>`}
+function iaBento(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in');const gr=growing();const open=gr.filter(x=>x.open);const i=stageIdx(S.streak);const s=r.season;const fo=foSt();
+ return `<div class="bento ia-grid">
+  ${iaTile('',`Your oak`,stageImg(S.streak,60),`${RSTAGES[i][1]} · ${S.streak} weeks`,"home('gt-oak')")}
+  ${iaTile('',`Your grove`,iaAvs(gr.slice(0,4).map(g=>g.id)),open.length?`<span class="ia-blue">${nm(open[0].id)} hasn’t invested yet</span>`:'Everyone invested this week',"GSEL=null;home('gt-grove')")}
+  ${iaTile('',`Witnesses`,ws.length?iaAvs(ws.slice(0,4).map(w=>w.id)):`<span class="ia-empty">${ic('user',18)}</span>`,ws.length?`${ws.map(w=>w.name).join(', ')} see your Fridays`:`<span class="ia-green">Pick who’d notice if you stopped</span>`,"go('rt-home',{only:'you'})")}
+  ${iaTile('',`This month’s Bloom`,`<div class="ia-tbar"><i style="width:${Math.min(100,Math.round(s.bar/s.target*100))}%"></i></div>`,`No-Spend November · ${s.done?'finished':s.joined?'you’re in':'48,000 of us'}`,"go('rt-home',{only:'bloom'})")}
+  ${iaTile('',`Your cards`,sealImg(i,60),r.acorns.have?`<span class="ia-green">An acorn to plant</span>`:'Milestones and the Year Ring',"go('rt-home',{only:'rings'})")}
+  ${iaTile(fo.red?'red':'',`The Forest`,`<span class="ia-avs">${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'].map(c=>`<i style="background:${c}"></i>`).join('')}</span>`,fo.red?'Red day · Canopy is open':'3,100 people with your goal',"go('fo-grove')")}
  </div>`}
 (function(){const f=SCR['gt-home'];SCR['gt-home']=p=>{const r=f(p);
  const k=r.html.indexOf('<div class="bento mt16">');if(k>0)r.html=r.html.slice(0,k)+iaBento()+'<div style="height:24px"></div></div>';
@@ -6025,14 +6026,24 @@ document.head.insertAdjacentHTML('beforeend',`<style>
   return h}})();
 document.head.insertAdjacentHTML('beforeend','<style>.gvs .sk-pill{z-index:60;top:calc(var(--safeTop) + 58px)}.gvs .gv-hud{z-index:61}</style>');
 
-document.head.insertAdjacentHTML('beforeend',`<style>.ia-t{min-height:150px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:14px}.ia-t .bh{font-size:15px}.ia-t .bs{margin-top:auto;font-size:12px;line-height:1.35;color:rgba(255,255,255,.65)}.ia-t .big{font-size:30px;letter-spacing:-.8px;color:#bceaa3;margin-top:auto}.ia-t .avr{margin-top:12px}.ia-tart{display:flex;align-items:flex-end;height:70px;margin-top:4px}.ia-tq{font-size:15px;font-weight:600;line-height:1.2;margin-top:10px;color:#fff}.ia-tbar{width:100%;height:10px;border-radius:5px;background:rgba(255,255,255,.12);margin-top:auto;overflow:hidden}.ia-tbar i{display:block;height:100%;background:linear-gradient(90deg,#9bd77a,#3d9a1f)}.ia-t.red{background:linear-gradient(160deg,#2a0f0f,#0a1d08)}.bento .ia-t:nth-child(2n){margin-top:0}</style>`);
+document.head.insertAdjacentHTML('beforeend',`<style>
+.ia-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}.ia-grid .bnt{margin:0}
+.ia-t{height:156px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:16px;border-radius:22px}.ia-t .bh{font-size:15px;font-weight:600;letter-spacing:-.1px}
+.ia-v{flex:1;display:flex;align-items:center;width:100%;padding:6px 0}.ia-v img.stg{height:60px;width:auto}.ia-v .seal-im{width:60px;height:60px}
+.ia-avs{display:inline-flex;align-items:center}.ia-avs .so-av,.ia-avs .sg-av,.ia-avs i{width:36px!important;height:36px!important;font-size:14px!important;border-radius:50%;margin-left:-8px;box-shadow:0 0 0 2px #fff;display:inline-flex;align-items:center;justify-content:center;flex:none}.ia-avs .so-av:first-child,.ia-avs .sg-av:first-child,.ia-avs i:first-child{margin-left:0}
+.ia-empty{width:36px;height:36px;border-radius:50%;background:#eef1ec;color:#9aa69c;display:inline-flex;align-items:center;justify-content:center}
+.ia-t .bs{font-size:13px;line-height:1.3;color:#6b706c;margin:0}.ia-blue{color:#1d5fa8}.ia-green{color:#2f7a12;font-weight:600}
+.ia-tbar{width:100%;height:10px;border-radius:5px;background:#eef1ec;overflow:hidden}.ia-tbar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#9bd77a,#3d9a1f)}
+.ia-t.red{background:#fdecea;border-color:#f5c6c2}.ia-t.red .bs{color:#c62828}
+.scr.iahome .body{padding-bottom:calc(var(--safeBot) + 170px)!important}
+</style>`);
 
 /* ---------- Home follows the Acorns app: light. Oak and Grove stay the dark scene screens. ---------- */
 (function(){const f=SCR['gt-home'];SCR['gt-home']=p=>{window.__LIGHT=true;let r;try{r=f(p)}finally{window.__LIGHT=false}r.cls=(r.cls||'').replace(/\bdark\b/,'').trim()+' acl iahome';return r}})();
 document.head.insertAdjacentHTML('beforeend',`<style>
 .scr.iahome{background:#f5f7f2!important}.scr.iahome .hm-hello,.scr.iahome .hm-hello b{color:#191919}.scr.iahome .hm-hello em{color:#2f7a12}.scr.iahome .hm-av{background:#191919;color:#fff}
-.scr.iahome .bento .ia-t{background:#fff;border:1px solid #e4e9e1;color:#191919;box-shadow:0 1px 0 rgba(0,0,0,.03)}.scr.iahome .ia-t .bh{color:#191919}.scr.iahome .ia-t .bs{color:#6b706c}.scr.iahome .ia-t .big{color:#2f7a12}.scr.iahome .ia-tq{color:#191919}.scr.iahome .ia-tbar{background:#eef1ec}.scr.iahome .ia-t.red{background:#fdecea;border-color:#f5c6c2}.scr.iahome .ia-t.red .bs{color:#c62828}
-.scr.iahome .ia-t .fo-anon i{box-shadow:0 0 0 2px #fff}.scr.iahome .ia-t .so-av{box-shadow:0 0 0 2px #fff}.scr.iahome .ringAv svg circle:first-child{stroke:rgba(0,0,0,.1)}
+.scr.iahome .bento .ia-t{background:#fff;border:1px solid #e4e9e1;color:#191919;box-shadow:0 1px 0 rgba(0,0,0,.03)}.scr.iahome .ia-t .bh{color:#191919}.scr.iahome .ia-t .bs{color:#6b706c}
+
 .scr.iahome .wh-clock{border-color:#e0d3a0}
 .scr.iahome .nbg-more,.scr.iahome [onclick*="nbgMore"]{color:#5d655f}
 </style>`);

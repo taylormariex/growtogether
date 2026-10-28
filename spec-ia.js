@@ -65,7 +65,7 @@ function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=M
  return {cls:'dark hp',html:`<div class="top"><button class="iconbtn" onclick="home('menu')" aria-label="Close">${ic('close')}</button><div style="flex:1"></div><button class="iconbtn" onclick="go('gt-notes')" aria-label="Notifications">${ic('bell',22)}</button><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
   <div class="body hp-body" style="padding-top:4px">
    <div class="hm-av">${S.me[0]}</div>
-   <div class="hm-hello mt16">${hmHello()}</div>
+   <div class="hm-hello mt16">Hello, ${S.me}<br>${(()=>{const s=skState();const W=['zero','one','two','three','four','five','six','seven','eight','nine','ten'];const n=w=>W[w]||w;const w=S.streak;if(s==='reset')return 'A new acorn. <em>This Friday counts.</em>';if(s==='done')return `${n(w)[0].toUpperCase()+n(w).slice(1)} Friday${w===1?'':'s'} in a row. <em>See you next week.</em>`;return `${n(w)[0].toUpperCase()+n(w).slice(1)} Friday${w===1?'':'s'} in a row. <em>This one’s open.</em>`})()}</div>
    <div class="mt16">${streakChip()}</div>
    <div class="hp-piv mt24" role="tablist">${piv}</div>
    ${fo.red?`<button class="fo-red hp-red" onclick="go('fo-canopy')"><span class="so-chip live"><i></i>Red day · −6%</span><b>Canopy is open</b><em>Ask one question. Someone who held through three drops answers within the hour.</em>${ic('chev',16,'opacity:.5')}</button>`:''}

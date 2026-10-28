@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:18 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:21 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -6122,7 +6122,7 @@ function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in'
    ${hpRow(`<img src="${stageSrc(6)}" alt="">`,'Your grove',open.length?`<i class="hp-blue">${nm(open[0].id)} hasn’t invested yet</i>`:gr.length||inv.length?`${gr.length+inv.length} growing with you · ${ch} challenges`:'Invite someone to grow with you',"GSEL=null;home('gt-grove')")}
    ${hpRow(`<span class="hp-avs">${sgAv('priya',24)}${sgAv('sam',24)}</span>`,'Shared goals',`${sgAll().length} goals · with Priya and Sam`,"go('sg-list')")}
    ${hpRow(`<img src="${stageSrc(2)}" alt="">`,'Family',`${ft.kid.name}’s ${ft.kid.goal.toLowerCase()} · ${Object.keys(ft.rel).length||2} relatives watching`,"go('ft-home',{only:'seed'})")}
-   ${hpRow(`<img src="${IMG.learn}" alt="">`,'Learn together','A two-minute lesson, read with someone',"go('fo-learn')")}
+   ${hpRow(`<img src="${IMG.earn}" alt="">`,'Grove challenges',`${ch} running${(S.invites||[]).length?` · ${S.invites.length} invite${S.invites.length===1?'':'s'} waiting`:''}`,"home('gt-ch')")}
    ${r.acorns.have?hpRow(`<img src="${stageSrc(0)}" alt="">`,'Drop an acorn','$5 to give someone starting out',"go('rt-acorn')"):''}
   </div>`}
 function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=Math.min(100,Math.round(s.bar/s.target*100));

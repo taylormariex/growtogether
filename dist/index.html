@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:10 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:11 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5720,7 +5720,7 @@ const FO_Q=[{id:'q1',by:'@quiet_otter · 23',q:'Is $10 a week even worth the $4 
 function foSt(){const st=soState();if(!st.fo)st.fo={shared:false,asked:[],red:false,canopy:null,learn:{},marks:0,badge:false};return st.fo}
 def('fo-home',p=>SCR['fo-grove'](p));
 def('fo-grove',()=>{spInit();const f=foSt();const spread=[6,11,18,22,17,11,8,4,2,1];
- return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="home('ac-home')" aria-label="Home">${ic('back',24)}</button><b>Your room</b><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
+ return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="home('ac-home')" aria-label="Home">${ic('back',24)}</button><b>The Forest</b><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
  <div class="sg-body sgx-body">
   ${f.red?`<button class="fo-red" onclick="go('fo-canopy')"><span class="so-chip live"><i></i>Red day · −6%</span><b>Canopy moved to the top of Home</b><em>The whole bench is on. Ask one question; someone who held through three drops answers within the hour.</em>${ic('chev',16,'opacity:.5')}</button>`:''}
   <div class="fo-hero"><div class="fo-hh"><div><em>Your room · 3,100 people · month three</em><b>First job · 20 to 25 · Emergency fund</b><span>You’re <u>@${(S.me||'jordan').toLowerCase()}_grows</u>, a handle nobody can trace.</span></div><span class="fo-anon">${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'].map(c=>`<i style="background:${c}"></i>`).join('')}</span></div>
@@ -6093,7 +6093,7 @@ function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=M
  return `<div class="hp-fc">${rtFridayCount({q:true})}</div>
   <button class="hp-hero bloom" onclick="go('rt-home',{only:'bloom'})"><div class="hp-ht wide"><em>This month’s Bloom · day 12 of 30</em><b>No-Spend November</b><span>${s.done?'Finished. $5 landed.':s.joined?'You’re in · '+s.people.toLocaleString()+' of us':s.people.toLocaleString()+' of us, going for '+s.target.toLocaleString()}</span><div class="hp-hbar"><i style="width:${pc}%"></i></div></div><img class="hp-bart" src="${stageSrc(4)}" alt=""></button>
   <div class="hp-list mt16">
-   ${hpRow(`<img src="${stageSrc(7)}" alt="">`,'Your room',fo.shared?'3,100 with your goal · no names':'3,100 with your goal · see the spread',"go('fo-grove')")}
+   ${hpRow(`<img src="${stageSrc(7)}" alt="">`,'The Forest',fo.shared?'3,100 with your goal · no names':'3,100 with your goal · see the spread',"go('fo-grove')")}
    ${hpRow(`<span class="hp-avs">${soAv('kim',22)}${soAv('dee',22)}</span>`,'Canopy',fo.red?'Red day · the whole bench is on':'Tasha and Dee are on · ask, don’t sell',"go('fo-canopy')",fo.red?'red':'')}
   </div>`}
 (function(){SCR['gt-home']=p=>{spInit();NBG_LOADED=true;const P=window.HPIV;const fo=foSt();
@@ -6155,7 +6155,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 /* ---------- the front screen: one list, grouped the way the prototype is built ---------- */
 (function(){const S0=[['You',[['Your goal','What you invest toward, and who sees your Fridays',"go('splash',{k:'witness'})"],['Your achievements','The card, not the balance · the Year Ring · recaps',"go('splash',{k:'rings'})"],['Your oak','What grows on it, and the habits that grow it',"T={};home('gt-home');home('gt-oak')"],]],
  ['People',[['Family','Grandpa never downloads anything',"go('splash',{k:'seedling'})"],['Learn together','One lesson, two of you',"T={};home('gt-home');go('fo-learn')"],['Drop an acorn','$5 you can’t keep',"go('splash',{k:'acorn'})"]]],
- ['Everyone',[['The Friday Count','How many of us kept a promise this week',"go('splash',{k:'fridaycount'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['Your room','Everyone with your goal, no names',"go('splash',{k:'grove'})"],['Canopy','Ask, don’t sell',"go('splash',{k:'canopy'})"]]],
+ ['Everyone',[['The Friday Count','How many of us kept a promise this week',"go('splash',{k:'fridaycount'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['The Forest','Everyone with your goal, no names',"go('splash',{k:'grove'})"],['Canopy','Ask, don’t sell',"go('splash',{k:'canopy'})"]]],
  ['Grow Together',[['Skip and Invest','Skip a spend, invest it right away',"go('splash',{k:'skip-and-stash'})"],['Shared goals','Save for a goal with someone, your way',"go('splash',{k:'split'})"],['Acorns Year','Weeks and cards, never amounts',"go('splash',{k:'year'})"],['Invite to your grove','Their first investment plants a tree',"go('splash',{k:'invite'})"],['Know yourself','Short quizzes, a minute each',"go('splash',{k:'money-type'})"]]]];
  window.__RVG=S0;RV_GO.length=0;S0.forEach(([g,items])=>items.forEach(x=>RV_GO.push(x)));
  const f=rvHTML;rvHTML=function(first){let h=f(first);

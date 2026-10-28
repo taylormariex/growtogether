@@ -69,7 +69,7 @@ function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=M
  return `<div class="hp-fc">${rtFridayCount({q:true})}</div>
   <button class="hp-hero bloom" onclick="go('rt-home',{only:'bloom'})"><div class="hp-ht wide"><em>This month’s Bloom · day 12 of 30</em><b>No-Spend November</b><span>${s.done?'Finished. $5 landed.':s.joined?'You’re in · '+s.people.toLocaleString()+' of us':s.people.toLocaleString()+' of us, going for '+s.target.toLocaleString()}</span><div class="hp-hbar"><i style="width:${pc}%"></i></div></div><img class="hp-bart" src="${stageSrc(4)}" alt=""></button>
   <div class="hp-list mt16">
-   ${hpRow(`<img src="${stageSrc(7)}" alt="">`,'Your room',fo.shared?'3,100 with your goal · no names':'3,100 with your goal · see the spread',"go('fo-grove')")}
+   ${hpRow(`<img src="${stageSrc(7)}" alt="">`,'The Forest',fo.shared?'3,100 with your goal · no names':'3,100 with your goal · see the spread',"go('fo-grove')")}
    ${hpRow(`<span class="hp-avs">${soAv('kim',22)}${soAv('dee',22)}</span>`,'Canopy',fo.red?'Red day · the whole bench is on':'Tasha and Dee are on · ask, don’t sell',"go('fo-canopy')",fo.red?'red':'')}
   </div>`}
 (function(){SCR['gt-home']=p=>{spInit();NBG_LOADED=true;const P=window.HPIV;const fo=foSt();
@@ -131,7 +131,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 /* ---------- the front screen: one list, grouped the way the prototype is built ---------- */
 (function(){const S0=[['You',[['Your goal','What you invest toward, and who sees your Fridays',"go('splash',{k:'witness'})"],['Your achievements','The card, not the balance · the Year Ring · recaps',"go('splash',{k:'rings'})"],['Your oak','What grows on it, and the habits that grow it',"T={};home('gt-home');home('gt-oak')"],]],
  ['People',[['Family','Grandpa never downloads anything',"go('splash',{k:'seedling'})"],['Learn together','One lesson, two of you',"T={};home('gt-home');go('fo-learn')"],['Drop an acorn','$5 you can’t keep',"go('splash',{k:'acorn'})"]]],
- ['Everyone',[['The Friday Count','How many of us kept a promise this week',"go('splash',{k:'fridaycount'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['Your room','Everyone with your goal, no names',"go('splash',{k:'grove'})"],['Canopy','Ask, don’t sell',"go('splash',{k:'canopy'})"]]],
+ ['Everyone',[['The Friday Count','How many of us kept a promise this week',"go('splash',{k:'fridaycount'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['The Forest','Everyone with your goal, no names',"go('splash',{k:'grove'})"],['Canopy','Ask, don’t sell',"go('splash',{k:'canopy'})"]]],
  ['Grow Together',[['Skip and Invest','Skip a spend, invest it right away',"go('splash',{k:'skip-and-stash'})"],['Shared goals','Save for a goal with someone, your way',"go('splash',{k:'split'})"],['Acorns Year','Weeks and cards, never amounts',"go('splash',{k:'year'})"],['Invite to your grove','Their first investment plants a tree',"go('splash',{k:'invite'})"],['Know yourself','Short quizzes, a minute each',"go('splash',{k:'money-type'})"]]]];
  window.__RVG=S0;RV_GO.length=0;S0.forEach(([g,items])=>items.forEach(x=>RV_GO.push(x)));
  const f=rvHTML;rvHTML=function(first){let h=f(first);

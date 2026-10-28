@@ -10,7 +10,7 @@ const FO_Q=[{id:'q1',by:'@quiet_otter · 23',q:'Is $10 a week even worth the $4 
 function foSt(){const st=soState();if(!st.fo)st.fo={shared:false,asked:[],red:false,canopy:null,learn:{},marks:0,badge:false};return st.fo}
 def('fo-home',p=>SCR['fo-grove'](p));
 def('fo-grove',()=>{spInit();const f=foSt();const spread=[6,11,18,22,17,11,8,4,2,1];
- return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="home('ac-home')" aria-label="Home">${ic('back',24)}</button><b>Your room</b><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
+ return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="home('ac-home')" aria-label="Home">${ic('back',24)}</button><b>The Forest</b><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
  <div class="sg-body sgx-body">
   ${f.red?`<button class="fo-red" onclick="go('fo-canopy')"><span class="so-chip live"><i></i>Red day · −6%</span><b>Canopy moved to the top of Home</b><em>The whole bench is on. Ask one question; someone who held through three drops answers within the hour.</em>${ic('chev',16,'opacity:.5')}</button>`:''}
   <div class="fo-hero"><div class="fo-hh"><div><em>Your room · 3,100 people · month three</em><b>First job · 20 to 25 · Emergency fund</b><span>You’re <u>@${(S.me||'jordan').toLowerCase()}_grows</u>, a handle nobody can trace.</span></div><span class="fo-anon">${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'].map(c=>`<i style="background:${c}"></i>`).join('')}</span></div>

@@ -2091,7 +2091,7 @@ def('gt-why3',()=>({cls:'dark',html:whyShell(2,`${whyScene(`
   <p class="p rise d2 mt12">Your grove is everyone growing with you. You see their oaks. They see yours. Nobody sees a balance.</p>`,'gt-why4')}));
 
 /* ---------- Challenges tab in the Streak world ---------- */
-def('gt-ch',()=>({cls:'dark',html:`<div class="top"><button class="iconbtn" onclick="home('gt-grove')" aria-label="Back to grove">${ic('back')}</button><div class="h3" style="flex:1;text-align:center;color:#fff">Grove challenges</div><button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button></div>
+def('gt-ch',()=>({cls:'dark',html:`<div class="top"><button class="iconbtn" onclick="home('gt-grove')" aria-label="Back to grove">${ic('back')}</button><div class="h3" style="flex:1;text-align:center;color:#fff">Challenges</div><button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button></div>
   <div class="body"><p class="sk-sub" style="text-align:left;margin:0;max-width:none">Run as many as you like. One investment counts toward every one it fits.</p>
   ${S.invites.length?`<div class="sk-sec"><div class="h4">Invitations</div></div>${S.invites.map(v=>skRow(`<img src="${IMG.learn}">`,`${v.title}`,`${nm(v.from)} invited you · ${v.len} ${v.unit}`,'nav',`go('gt-ch-invite',{id:'${v.id}'})`)).join('')}`:''}
   <div class="sk-sec"><div class="h4">Running</div><span class="sm">${S.challenges.length}</span></div>
@@ -6124,7 +6124,7 @@ function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in'
    ${hpRow(`<img src="${stageSrc(6)}" alt="">`,'Your grove',open.length?`<i class="hp-blue">${nm(open[0].id)} hasn’t invested yet</i>`:gr.length||inv.length?`${gr.length+inv.length} growing with you · ${ch} challenges`:'Invite someone to grow with you',"GSEL=null;home('gt-grove')")}
    ${hpRow(`<span class="hp-avs">${sgAv('priya',24)}${sgAv('sam',24)}</span>`,'Shared goals',`${sgAll().length} goals · with Priya and Sam`,"go('sg-list')")}
    ${hpRow(`<img src="${stageSrc(2)}" alt="">`,'Family',`${ft.kid.name}’s ${ft.kid.goal.toLowerCase()} · ${Object.keys(ft.rel).length||2} relatives watching`,"go('ft-home',{only:'seed'})")}
-   ${hpRow(`<img src="${IMG.earn}" alt="">`,'Grove challenges',`${ch} running${(S.invites||[]).length?` · ${S.invites.length} invite${S.invites.length===1?'':'s'} waiting`:''}`,"HPIV='people';go('gt-ch')")}
+   ${hpRow(`<img src="${IMG.earn}" alt="">`,'Challenges',`${ch} running${(S.invites||[]).length?` · ${S.invites.length} invite${S.invites.length===1?'':'s'} waiting`:''}`,"HPIV='people';go('gt-ch')")}
    ${r.acorns.have?hpRow(`<img src="${stageSrc(0)}" alt="">`,'Drop an acorn','$5 to give someone starting out',"go('rt-acorn')"):''}
   </div>`}
 function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=Math.min(100,Math.round(s.bar/s.target*100));

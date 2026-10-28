@@ -190,7 +190,7 @@ def('gt-why3',()=>({cls:'dark',html:whyShell(2,`${whyScene(`
   <p class="p rise d2 mt12">Your grove is everyone growing with you. You see their oaks. They see yours. Nobody sees a balance.</p>`,'gt-why4')}));
 
 /* ---------- Challenges tab in the Streak world ---------- */
-def('gt-ch',()=>({cls:'dark',html:`<div class="top"><button class="iconbtn" onclick="home('gt-grove')" aria-label="Back to grove">${ic('back')}</button><div class="h3" style="flex:1;text-align:center;color:#fff">Grove challenges</div><button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button></div>
+def('gt-ch',()=>({cls:'dark',html:`<div class="top"><button class="iconbtn" onclick="home('gt-grove')" aria-label="Back to grove">${ic('back')}</button><div class="h3" style="flex:1;text-align:center;color:#fff">Challenges</div><button class="iconbtn" onclick="protoMenu()">${ic('menu',22)}</button></div>
   <div class="body"><p class="sk-sub" style="text-align:left;margin:0;max-width:none">Run as many as you like. One investment counts toward every one it fits.</p>
   ${S.invites.length?`<div class="sk-sec"><div class="h4">Invitations</div></div>${S.invites.map(v=>skRow(`<img src="${IMG.learn}">`,`${v.title}`,`${nm(v.from)} invited you · ${v.len} ${v.unit}`,'nav',`go('gt-ch-invite',{id:'${v.id}'})`)).join('')}`:''}
   <div class="sk-sec"><div class="h4">Running</div><span class="sm">${S.challenges.length}</span></div>

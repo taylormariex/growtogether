@@ -185,7 +185,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 /* ---------- two groves: yours (people you know, trees, rain, challenges) and the Grove (everyone with your goal, no names) ---------- */
 tabbarDk=function(on){if(on==='gt-ch')return '';const t=[['gt-home','Oak'],['gt-grove','Grove'],['fo-grove','Forest']];const cur0=on==='gt-oak'?'gt-home':on;
   return `<div class="sk-pill three" role="tablist" aria-label="Grow Together">${t.map(([id,l])=>`<button class="${cur0===id?'on':''}" role="tab" aria-selected="${cur0===id}" onclick="home('${id}')">${l}</button>`).join('')}</div>`};
-(function(){const f=SCR['fo-grove'];SCR['fo-grove']=p=>{const r=f(p);r.cls=(r.cls||'')+' fog';r.html=r.html.replace('<div class="sg-top">','<div class="sg-top fog-top">').replace(/<b>The Grove<\/b>/,'<b></b>')+tabbarDk('fo-grove');return r}})();
+(function(){const f=SCR['fo-grove'];SCR['fo-grove']=p=>{const r=f(p);r.cls=(r.cls||'')+' fog';r.html=r.html.replace('<div class="sg-top">','<div class="sg-top fog-top">')+tabbarDk('fo-grove');return r}})();
 document.head.insertAdjacentHTML('beforeend',`<style>
 .sk-pill.three{width:300px}
 .fog .sk-pill{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--safeTop) + 6px);margin:0;z-index:9;background:#e9ede4;border:0}.fog .sk-pill button{color:#5d655f}.fog .sk-pill button.on{background:#fff;color:#191919;box-shadow:0 2px 8px rgba(0,0,0,.08)}

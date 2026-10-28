@@ -225,3 +225,12 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ssx-setup{margin-top:12px}.ssx-setup .sgx-ch{margin-bottom:2px}
 .ssx-review{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:12px 14px;border-radius:18px;background:#fff;text-align:left;color:#191919}.ssx-review b{display:block;font-size:15px}.ssx-review em{display:block;font-style:normal;font-size:12px;color:#6b706c;margin-top:2px}
 </style>`);
+
+/* ---------- grove: the world ends where the dock begins, whatever the dock holds ---------- */
+(function(){const f=SCR['gt-grove'];if(!f)return;SCR['gt-grove']=p=>{const r=f(p);const m=r.mount;r.mount=el=>{if(m)m(el);const fit=()=>{const d=$('#gvd',el);if(d)el.style.setProperty('--dockH',d.offsetHeight+'px')};fit();setTimeout(fit,250)};return r}})();
+(function(){const f=gvDock;gvDock=function(id){const h=f(id);setTimeout(()=>{const el=cur();const d=el&&$('#gvd',el);if(d)el.style.setProperty('--dockH',d.offsetHeight+'px')},30);return h}})();
+document.head.insertAdjacentHTML('beforeend',`<style>
+.gvs .gv-world{bottom:calc(var(--safeBot) + 92px + var(--dockH,230px))!important}
+.gvs .gv-far{background:linear-gradient(180deg,#2f6e2c 0%,#2a6627 55%,#3f8e2b 100%)}
+.gvs .gv-slope{box-shadow:inset 0 2px 0 rgba(242,227,184,.18)}
+</style>`);

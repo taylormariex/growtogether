@@ -6,26 +6,26 @@
 const WH_STORIES={
  /* ---- bets ---- */
  roots:{name:'Roots',t:'Roots',cta:'See this Friday’s count',s:'One person who sees you show up.',where:'Every Friday, right on Home.',go:"T={};go('rt-home')",beats:[
-  ['fcnum','Every Friday, Home opens on one number: how many of us kept a promise this week. If you did, it says so. If you didn’t, it says nothing about you.'],
-  ['witask','You’ve been showing up for your goal. Nobody knows. So we ask one thing: who would notice if you stopped? Pick that person.'],
-  ['blbar','Once a month the whole room takes on one target. Every skip is a tap, the money goes to your goal, and the bar moves. Nobody is ranked.'],
-  ['rgcard','Cross a milestone and we make you the card. Goal, club, one line of math. Never the balance. Every January, your whole year.'],
-  ['acdrop','Milestones hand you an acorn: $5 you can’t keep, only plant in someone’s first goal. You’re their witness from the first Friday.']]},
+  ['fcnum','Every Friday, Home opens on one number: how many of us kept a promise this week. If you did, it says so.'],
+  ['witask','You’ve been showing up for your goal, and nobody knows. So we ask: who would notice if you stopped?'],
+  ['blbar','Once a month the whole room takes on one target. Every skip is a tap toward your goal. Nobody is ranked.'],
+  ['rgcard','Cross a milestone and we make you the card. Goal, club, one line of math. Never the balance.'],
+  ['acdrop','Milestones hand you an acorn: $5 you can only plant in someone’s first goal. You’re their witness from Friday one.']]},
  family:{name:'Family Tree',t:'Family Tree',cta:'Open my family tree',s:'The people Acorns already holds both sides of.',where:'Gift links, Early accounts, and “Share this goal.”',go:"T={};go('ft-home')",beats:[
-  ['sdgift','Grandpa taps the gift link and $25 goes to Ava’s bike fund. This year there’s one more line under it: want to see how Ava’s doing?'],
+  ['sdgift','Grandpa taps the gift link and $25 goes to Ava’s bike fund. This year, one more line: want to see how Ava’s doing?'],
   ['sdmonth','Once a month his phone says Ava added to her bike fund. He taps the sticker. He never downloads anything.'],
   ['sdcap','When she’s close, he leaves her a message for the day she gets there. Locked until she does. Then you hand her the phone.'],
-  ['stgoal','One goal, two accounts, nothing pooled. Share it, they say yes, and it adds up what each of you put in. You each choose what the other sees.'],
+  ['stgoal','One goal, two accounts, nothing pooled. Share it, they say yes, and it adds up what each of you put in.'],
   ['ststk','When they add without saying anything, your phone tells you first. Send the sticker. That’s the money talk.']]},
  forest:{name:'The Forest',t:'The Forest',cta:'Find my grove',s:'For when nobody comes to mind.',where:'When you can’t name a witness, and on red days.',go:"T={};go('fo-grove')",beats:[
   ['grnobody','Who would notice if you stopped? If the honest answer is nobody, you’re not alone in that either.'],
-  ['grspread','So we put you with a few thousand people your age with your goal, on handles nobody can trace. Share a percent to see the spread. It shows where the room is, never where you are in it.'],
+  ['grspread','So we put you with a few thousand people your age with your goal, on handles nobody can trace. A spread, never a rank.'],
   ['grask','Ask the question you’ve been embarrassed about since the download. If someone already answered it, you’ll see that first.'],
-  ['cnbench','Some of the people answering have a year in and a streak. They’re on duty, and they’re paid when the people they help are still depositing a month later.'],
+  ['cnbench','Some of the people answering have a year in and a streak. They’re on duty, and paid when the people they help keep going.'],
   ['cnred','On the day the market drops, that bench moves to the top of Home. Ask instead of selling, and a badge stays on your goal.']]},
  /* ---- Roots concepts ---- */
  witness:{name:'Witness',t:'Witness',cta:'Pick who’d notice',s:'One person who sees you show up.',where:'When you name a goal, and every Friday after.',go:"T={};go('rt-home',{focus:'wit'})",beats:[
-  ['witgoal','You’ve shown up for your goal fourteen weeks in a row. Nobody knows. Not a secret. There’s just nobody it would occur to you to tell.'],
+  ['witgoal','Fourteen weeks in a row on your goal. Nobody knows. There’s just nobody it would occur to you to tell.'],
   ['witask','So we ask one thing. Who would notice if you stopped? Not the most supportive person. The one who’d actually say something.'],
   ['witsms','They see exactly what they’d get: your goal’s name, and a yes or no every Friday. Never the balance. They decide if they’re in.'],
   ['witfri','Friday your $10 moves. They tap a sticker. That’s the whole thing, and it’s more than it sounds.'],
@@ -49,12 +49,12 @@ const WH_STORIES={
   ['acfri','Their first Friday, you’re the witness. You tap the sticker. Nobody paid you, and nobody will.']]},
  fridaycount:{name:'The Friday Count',t:'The Friday Count',cta:'See this Friday’s count',s:'How many of us kept a promise this week.',where:'Home, every Friday.',go:"T={};go('rt-home')",beats:[
   ['fcnum','Every Friday, Home opens on one number: how many of us kept a promise this week.'],
-  ['fcyou','If you deposited, it says you’re one of them. If you didn’t, it says nothing about you. Nobody who missed a week is named, counted or nudged.'],
+  ['fcyou','If you deposited, it says you’re one of them. If you didn’t, it says nothing about you. No one is named or nudged.'],
   ['fcq','Under it, one question a day. You only see the answer by answering.'],
   ['fcans','Did your family talk about money growing up? 61% said no. For once the answer to a money question isn’t embarrassing.']]},
  /* ---- Family Tree concepts ---- */
  seedling:{name:'Seedling',t:'Seedling',cta:'See Grandpa’s side',s:'The gift link grows two lines.',where:'Every gift to an Early account.',go:"T={};go('ft-home',{focus:'seed'})",beats:[
-  ['sdgift','Grandpa taps the gift link. $25 goes to Ava’s bike fund with a note that says he’s proud. Then it disappears on him.'],
+  ['sdgift','Grandpa taps the gift link. $25 goes to Ava’s bike fund, with a note that says he’s proud. Then it’s gone.'],
   ['sdline','This year, one more line under the gift: want to see how Ava’s doing?'],
   ['sdmonth','Once a month his phone says Ava added to her bike fund. He taps the sticker. He never downloads anything.'],
   ['sdcap','When she’s close: leave Ava a message for the day she gets there. Locked until she does.'],
@@ -76,7 +76,7 @@ const WH_STORIES={
   ['cnbench','Inside your grove, a few people have a year in and a streak. They’re on duty. Ask them anything about the habit.'],
   ['cnred','On the day the market drops, your group chat is asking whether to sell. The bench moves to the top of Home.'],
   ['cnmath','Ask one question. The answer comes with your own math in it: your drop is $36, your next three weeks cover it.'],
-  ['cnbadge','Ask instead of selling and a badge stays on your goal. The person who answered gets paid if you’re still depositing a month later.']]}};
+  ['cnbadge','Ask instead of selling and a badge stays on your goal. Whoever answered gets paid if you’re still depositing a month later.']]}};
 Object.keys(WH_STORIES).forEach(k=>{const w=WH_STORIES[k];LANDERS[k]={name:w.name,beats:w.beats,t:w.t,s:w.s,where:w.where,cta:w.cta};SPL[k]={t:w.t,e:'Witnessed Habit',img:'oak',what:w.s,why:'',where:w.where,go:w.go,cta:w.cta};w.beats.forEach(b=>LD_MOCK.add(b[0]))});
 Object.assign(LF,{roots:['Someone who notices','Roots','banner'],family:['The goal is the thing you share','Family Tree','banner'],forest:['For when nobody comes to mind','The Forest','banner'],witness:['Someone who notices','Witness','banner'],bloom:['A month, a target, all of us','Bloom','banner'],rings:['The card, not the balance','Rings','banner'],acorn:['$5 you can’t keep','Drop an Acorn','banner'],fridaycount:['You’re one of them','The Friday Count','banner'],seedling:['Grandpa never downloads anything','Seedling','banner'],sametree:['Nothing pooled, everyone in','Same Tree','banner'],grove:['No names, no rankings','The Grove','banner'],canopy:['Ask, don’t sell','Canopy','banner']});
 const WH_LX={roots:()=>`<div class="lx lx-card"><span class="lx-av" style="background:#e8a45c">J</span><div><em class="lx-k">Your witness</em><b>Jess said yes</b><em>Sees “Car fund” · a yes or no each Friday</em></div></div>`,
@@ -115,7 +115,7 @@ LV.rgcross=()=>lvOne(`${whGoal('Your goal','$15 a day · just crossed $1,000')}<
 LV.rgcard=()=>lvOne(`<div class="rise" style="width:300px">${rtRingCard({name:'Move out',club:'$1k club',start:'Started August',cad:'$15 a day',math:'$15 a day is $5,475 a year, before it grows.',by:'me'})}</div>`);
 LV.rgguest=()=>lvOne(whCard(`<div class="rt-guestnote" style="margin:0 0 10px">${ic('eye',14)} Guest · no account</div><b style="display:block;font-size:18px">Move out · $1k club</b><em style="display:block;font-style:normal;font-size:12px;color:#6b706c;margin-top:2px">Balance not shared</em><div style="display:flex;gap:8px;margin-top:14px"><span class="so-join" style="flex:1;justify-content:center;background:#eef1ec;color:#191919">Ask to witness</span><span class="so-join" style="flex:1;justify-content:center">Start my own</span></div>`));
 LV.rgtwo=()=>lvOne(whCard(`${whRow(`<span class="so-ai">${ic('eye',16)}</span>`,'2 people started from this','Only you see this')}<div style="display:flex;gap:6px;margin-top:12px">${soAv('nina',28)}${soAv('leo',28)}<span class="so-chip" style="margin-left:auto">Ring at 3</span></div>`));
-LV.rgyear=()=>lvOne(`<div class="rise" style="transform:scale(.82);transform-origin:50% 50%">${dkCard({seal:svgSeal({top:'2026',bottom:'47 of 52',glyph:'trophy',size:140}),title:'47 of 52 Fridays',sub:'One comeback · witnessed by Jess'})}</div>`,'tight');
+LV.rgyear=()=>lvOne(`<div class="rise" style="transform:scale(.76);transform-origin:50% 50%;margin:-50px 0">${dkCard({cls:'tall',seal:svgSeal({top:'2026',bottom:'47 of 52',glyph:'trophy',size:140}),title:'47 of 52 Fridays',sub:'One comeback · witnessed by Jess'})}</div>`,'tight');
 /* Drop an Acorn */
 LV.acget=()=>lvOne(whCard(`${whRow(`<span class="rt-acorn">${stageImg(0,40)}</span>`,'You’ve got an acorn','$5 of our money. You can’t keep it.',`<span class="so-chip">1 of 4</span>`)}`));
 LV.acwho=()=>lvOne(whCard(`<b style="display:block;font-size:17px">Who gets it?</b>${[['nina','Dani','Has said “I should do that” for a year',1],['marcus','Marcus','First real job',0]].map(([id,n,d,on])=>`<div class="so-row" style="padding:8px 0">${soAv(id,34)}<div class="grow"><b style="font-size:14px">${n}</b><em style="font-size:12px">${d}</em></div><span class="cl-radio ${on?'on':''}"></span></div>`).join('')}`));
@@ -132,21 +132,41 @@ LV.stgoal=()=>lvOne(whCard(`<div class="sgx-ch" style="margin-bottom:10px"><div>
 LV.stshare=()=>lvOne(whCard(`${whRow(soAv('priya',36),'Share “Wedding” with Priya','She accepts from her own app',`<span class="so-join on">${ic('check',12)} Yes</span>`)}`));
 LV.stsee=()=>lvOne(whCard(`<b style="display:block;font-size:15px">Priya sees</b>${[['Your part · $2,100',1],['Only the total',0]].map(([t,on])=>`<div class="so-row" style="padding:10px 0"><b style="font-size:14px;flex:1">${t}</b><span class="cl-radio ${on?'on':''}"></span></div>`).join('')}`));
 LV.ststk=()=>lvOne(whCard(`${whRow(soAv('priya',36),'Priya added $800 to Wedding','Thursday · 4:12 PM',`<span class="rt-stk pop" style="animation-delay:.7s">💚</span>`)}`));
-LV.stfive=()=>lvOne(whCard(`<div class="sgx-ch" style="margin-bottom:10px"><div><b>Lisbon · 5 of us</b><em>Each from their own account</em></div></div><div class="ft-stack">${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f','#3a6ea5'].map((c,i)=>`<i style="width:${[14,11,9,8,6][i]}%;background:${c}"></i>`).join('')}</div><div style="display:flex;gap:4px;margin-top:12px">${['me','priya','sam','mom','leo'].map(id=>soAv(id,28)).join('')}<span class="so-chip" style="margin-left:auto">Anyone can leave</span></div>`));
+LV.stfive=()=>lvOne(whCard(`<div class="sgx-ch" style="margin-bottom:10px"><div><b>Lisbon · 5 of us</b><em>Each from their own account</em></div></div><div class="ft-stack">${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f','#3a6ea5'].map((c,i)=>`<i style="width:${[14,11,9,8,6][i]}%;background:${c}"></i>`).join('')}</div><div style="display:flex;gap:4px;margin-top:12px">${['me','priya','sam','mom','leo'].map(id=>soAv(id,28)).join('')}</div><div class="so-chip" style="margin-top:10px">${ic('lock',12)} Anyone can leave, with their own money</div>`));
 /* Grove + Canopy */
 LV.grnobody=()=>lvOne(whCard(`<div class="rt-q" style="font-size:19px">Who would notice if you stopped?</div><div class="so-row" style="margin-top:10px;padding:8px 0"><span class="so-ai" style="background:#f3f6f0;color:#9aa69c">${ic('user',16)}</span><div class="grow"><b style="font-size:14px">Nobody</b><em style="font-size:12px">The honest answer</em></div><span class="cl-radio on"></span></div>`));
 LV.grhandle=()=>lvOne(whCard(`${whRow(`<span class="fo-anon">${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'].map(c=>`<i style="background:${c}"></i>`).join('')}</span>`,'First job · 20 to 25 · Emergency fund','3,100 people · you’re @quiet_otter')}<div class="so-join on" style="margin-top:12px;display:inline-flex">${ic('check',12)} Shared · 38%, 5 weeks</div>`));
 LV.grspread=()=>lvOne(whCard(`<div class="rt-spread" style="margin:0"><em>Where the room is</em><div class="rt-hist">${[6,11,18,22,17,11,8,4,2,1].map((v,i)=>`<i style="height:${v*3.4}px" class="${i>=1&&i<=4?'hi':''}"></i>`).join('')}</div><div class="rt-hl"><span>0%</span><span>Most are between 10% and 40%</span><span>100%</span></div><small>Never where you are in it.</small></div>`));
 LV.grask=()=>lvOne(whCard(`<em class="fo-by">@quiet_otter · 23</em><b style="display:block;font-size:16px;line-height:1.3;margin-top:4px">Is $10 a week even worth the $4 fee?</b><div class="fo-ans rise d3"><span class="fo-anonav"></span><div><em>@tasha_holds · six years in</em><p>Yes, if you’d otherwise do $0. The fee matters less every month you keep going.</p></div></div>`));
 LV.grmark=()=>lvOne(whCard(`${whRow(`<span class="so-ai">${ic('spark',16)}</span>`,'Your answer helped 48 people','A mark toward a Canopy shift',`<span class="fo-mark">${ic('spark',10)} 1 of 3</span>`)}`));
-LV.cnbench=()=>lvOne(whCard(`<b style="display:block;font-size:15px">Canopy · on duty in your grove</b><div class="fo-dav" style="justify-content:flex-start;gap:14px;margin-top:10px">${[['kim','@tasha_holds','since 2020'],['dee','@dee_since_2018','since 2018']].map(([id,n,y])=>`<span>${soAv(id,36)}<b style="font-size:12px">${n}</b><em>${y}</em></span>`).join('')}<span class="so-join" style="margin-left:auto">Ask them</span></div>`));
+LV.cnbench=()=>lvOne(whCard(`<b style="display:block;font-size:15px">Canopy · on duty in your grove</b><div class="fo-dav" style="justify-content:flex-start;gap:18px;margin-top:12px">${[['kim','@tasha_holds','since 2020'],['dee','@dee_since_2018','since 2018']].map(([id,n,y])=>`<span>${soAv(id,36)}<b style="font-size:12px">${n}</b><em>${y}</em></span>`).join('')}</div><span class="so-join" style="display:flex;justify-content:center;margin-top:14px">Ask them</span>`));
 LV.cnred=()=>lvOne(`<div class="fo-red rise" style="width:300px;margin:0"><span class="so-chip live" style="background:rgba(229,57,53,.9);color:#fff"><i></i>Red day · −6%</span><b>Canopy moved to the top of Home</b><em>The whole bench is on</em></div>`);
 LV.cnmath=()=>lvOne(whCard(`<div class="fo-ans" style="margin:0">${soAv('kim',28)}<div><em>@tasha_holds · 11 min</em><p>“Your drop today is $36. Your next three weeks of $10 cover it. I’d leave it, and I did.”</p></div></div>`));
 LV.cnbadge=()=>lvOne(whCard(`<div style="display:flex;align-items:center;gap:12px">${svgSeal({top:'Asked',bottom:'Not sold',glyph:'peak',size:64})}<div><b style="font-size:15px">Asked instead of selling</b><em style="display:block;font-style:normal;font-size:12px;color:#6b706c">Stays on your goal</em></div></div>`));
 
-/* land on a section when a concept story opens the hub */
-['rt-home','ft-home'].forEach(id=>{const f=SCR[id];SCR[id]=p=>{const r=f(p);const m=r.mount;r.mount=el=>{if(m)m(el);const k=p&&p.focus;if(!k)return;const t=el.querySelector(`[data-sec="${k}"]`);const b=el.querySelector('.sg-body');if(t&&b)setTimeout(()=>{b.scrollTo({top:Math.max(0,t.offsetTop-12),behavior:'smooth'})},80)};return r}});
-
+/* hubs are tabbed, like Oak · Grove: no endless scroll */
+const WH_TABS={'rt-home':{key:'rtTab',tabs:[['friday','Friday'],['wit','Witness'],['bloom','Bloom'],['rings','Rings']],secs:['wit','bloom','rings','acorn'],map:{friday:['head'],wit:['goal','wit'],bloom:['bloom'],rings:['rings','acorn']},goalIn:['wit']},
+ 'ft-home':{key:'ftTab',tabs:[['seed','Seedling'],['same','Same Tree'],['learn','Learn']],secs:['seed','same','learn'],map:{seed:['seed'],same:['same'],learn:['learn']}},
+ 'fo-grove':{key:'foTab',tabs:[['grove','Grove'],['ask','Ask'],['canopy','Canopy']],secs:['canopy','ask'],map:{grove:['head'],ask:['ask'],canopy:['canopy']}}};
+Object.keys(WH_TABS).forEach(id=>{const C=WH_TABS[id];const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);if(p&&p.focus){T[C.key]={seed:'seed',same:'same',learn:'learn',wit:'wit',bloom:'bloom',rings:'rings',acorn:'rings',canopy:'canopy',ask:'ask'}[p.focus]||C.tabs[0][0]}const tab=T[C.key]||C.tabs[0][0];
+  const open=r.html.indexOf('<div class="sg-body sgx-body">');if(open<0)return r;const bodyStart=open+'<div class="sg-body sgx-body">'.length;const bodyEnd=r.html.lastIndexOf('</div>');let body=r.html.slice(bodyStart,bodyEnd);const tail=r.html.slice(bodyEnd);
+  /* the privacy line goes on every tab */
+  let priv='';const pm=body.match(/<p class="sgx-priv">[\s\S]*?<\/p>\s*$/);if(pm){priv=pm[0];body=body.slice(0,pm.index)}
+  const chunks={};let rest=body;let cur='head';const re=/<div class="so-sec"[^>]*data-sec="([a-z]+)"|<div data-sec="([a-z]+)"><\/div>|<div class="so-card fo-bench" data-sec="([a-z]+)">/g;let m,last=0;const parts=[];while((m=re.exec(body))){parts.push([cur,body.slice(last,m.index)]);cur=m[1]||m[2]||m[3];last=m.index}parts.push([cur,body.slice(last)]);
+  parts.forEach(([k,h])=>{chunks[k]=(chunks[k]||'')+h});
+  /* the goal card lives in the head chunk for Roots; share it with the Witness tab */
+  if(id==='rt-home'){const gm=chunks.head.match(/<div class="rt-goal">[\s\S]*?<\/button><\/div>/);if(gm){chunks.goal=gm[0];chunks.head=chunks.head.replace(gm[0],'')}}
+  const seg=`<div class="ssx-seg wh-seg" style="width:${C.tabs.length>3?'330px':'280px'}">${C.tabs.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="T.${C.key}='${k}';refresh()">${l}</button>`).join('')}</div>`;
+  const content=(C.map[tab]||[]).map(k=>chunks[k]||'').join('');
+  r.html=r.html.slice(0,open)+seg+'<div class="sg-body sgx-body" style="top:calc(var(--safeTop) + 104px)"><div class="ssx-sec" key="'+tab+'">'+content+priv+'</div>'+tail;
+  const m0=r.mount;r.mount=el=>{if(m0)m0(el);if(p&&p.focus)delete p.focus};return r}});
+/* the prototype clock, the same yellow pill as the Year: demo moves live here, never in the product UI */
+function whClock(list){list=list.filter(Boolean);if(!list.length)return '';return `<div class="yr-clock wh-clock"><span>Prototype</span>${list.map(([l,js])=>`<button onclick="${js}">${ic('ff',12)} ${l}</button>`).join('')}</div>`}
+const WH_DEMOS={'rt-home':()=>{const r=rtSt();const t=T.rtTab||'friday';return [(t==='friday'||t==='wit')&&['It’s Friday','rtFriday()'],t==='bloom'&&(rtSt().season.done?['Reset the Bloom','rtSt().season.done=false;rtSt().season.bar=212480;rtSt().season.mine=0;save();refresh()']:['Jump to Nov 30','rtFinishSeason()']),t==='rings'&&!r.acorns.have&&['New milestone','rtSt().acorns.have=1;save();refresh();toast(\'Milestone. You’ve got an acorn.\')']]},
+ 'ft-home':()=>{const f=ftSt();const t=T.ftTab||'seed';return [t==='seed'&&!f.reached&&['Ava reaches the goal','ftReach()'],t==='same'&&['Priya’s bonus lands','ftTheirs()']]},
+ 'fo-grove':()=>{const f=foSt();return [!f.red&&['Market drops 6%','foRed()'],f.red&&['Market recovers','foSt().red=false;save();refresh()']]}};
+Object.keys(WH_DEMOS).forEach(id=>{const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);r.html+=whClock(WH_DEMOS[id]());return r}});
+document.head.insertAdjacentHTML('beforeend',`<style>.wh-clock{bottom:calc(var(--safeBot) + 74px)!important;z-index:6}.scr:has(.wh-clock) .sg-body{padding-bottom:84px!important}.wh-clock button{margin-left:6px}.wh-clock button:first-of-type{margin-left:auto}.wh-seg button{font-size:13px}.ssx-sec>.so-sec:first-child{margin-top:4px}.ssx-sec>.rt-fc{margin-top:4px}</style>`);
 if(typeof RV_GO!=='undefined')RV_GO.push(['Roots','Witness, Bloom, Rings, Drop an Acorn, Friday Count',"go('splash',{k:'roots'})"],['Family Tree','Seedling, Same Tree, Learn Together',"go('splash',{k:'family'})"],['The Forest','The Grove, with Canopy inside',"go('splash',{k:'forest'})"]);
 if(typeof FORYOU!=='undefined')FORYOU.push(['roots','Roots','One person who sees you show up.','oak'],['family','Family Tree','The relationships Acorns already holds.','oak'],['forest','The Forest','For when nobody comes to mind.','oak']);
 document.head.insertAdjacentHTML('beforeend',`<style>
@@ -154,6 +174,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .so-lvk{display:block;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5d655f}
 .so-lvhost{display:flex;flex-direction:column;align-items:center;text-align:center;color:#fff}.so-lvhost b{display:block;font-size:18px;margin-top:16px}.so-lvhost em{font-style:normal;font-size:12px;color:rgba(255,255,255,.65)}.so-lvhost p{margin:14px 0 0;max-width:280px;font-size:15px;line-height:1.45;color:rgba(255,255,255,.9)}
 .scr.ldr .rt-sms p,.scr.ldr .so-lvc p,.scr.ldr .rt-note p,.scr.ldr .fo-ans p{color:#191919}.scr.ldr .rt-sms em{color:#6b706c}
+.scr.ldr .rt-ring,.scr.ldr .rt-ring b,.scr.ldr .rt-ring p{color:#163d0c}.scr.ldr .rt-ring .rt-rm span{color:#3d453f}
 .wh-one{display:flex;flex-direction:column;align-items:center;gap:10px;max-height:100%}.wh-one.tight{gap:0}
 .wh-under{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:14px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.75);font-size:12px;font-weight:600}
 .scr.ldr .ld-art .lv-mid{justify-content:center}

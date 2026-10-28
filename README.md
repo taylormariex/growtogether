@@ -14,7 +14,7 @@ Sorted by what the customer is doing, not by who wrote the concept. Home (`gt-ho
 
 - **You** (my habit): streak hero → Streaks (the Streaks team's page) · the week's card · Your achievements (the milestone cards to share) · Your oak (the nine extras) · Your year (monthly recaps, the Acorns Year film in December, the Year Ring in January) · Skip and Invest · Know yourself · the timeline.
 - **People** (people who know me): Your grove (the hillside, with its challenges inside) · Witnesses · Shared goals (the Grow Together list; Same Tree's Wedding is one of the goals in it, and "Someone new" or + starts another) · Family (Seedling: the kid's account and the relatives who watch) · Learn together (one lesson, read with someone who has your goal) · Drop an acorn, when you have one to give.
-- **Everyone** (the crowd): the Friday Count with Today's question (you see the answer by answering) · this month's Bloom as the hero · The Forest (your anonymous room, share a percent to see the spread, nurse trees on duty → Canopy).
+- **Everyone** (the crowd): the Friday Count with Today's question (you see the answer by answering) · This month's Bloom · Your room (the anonymous room for your goal; share a percent to see the spread) · Canopy (the nurse trees; ask, don't sell).
 - On a red day a Canopy banner sits above every tab.
 - Everything below Home is light (`spec-day.js` flips the dark system to day; the Grove gets a daytime sky). Home and Streaks stay dark; the Acorns Year film and the Year Ring card stay dark because they are a film and a card.
 

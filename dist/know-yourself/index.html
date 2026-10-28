@@ -3007,7 +3007,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 7:46 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 7:48 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5726,7 +5726,7 @@ const FO_Q=[{id:'q1',by:'@quiet_otter · 23',q:'Is $10 a week even worth the $4 
 function foSt(){const st=soState();if(!st.fo)st.fo={shared:false,asked:[],red:false,canopy:null,learn:{},marks:0,badge:false};return st.fo}
 def('fo-home',p=>SCR['fo-grove'](p));
 def('fo-grove',()=>{spInit();const f=foSt();const spread=[6,11,18,22,17,11,8,4,2,1];
- return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="home('ac-home')" aria-label="Home">${ic('back',24)}</button><b>The Forest</b><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
+ return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="home('ac-home')" aria-label="Home">${ic('back',24)}</button><b>Your room</b><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
  <div class="sg-body sgx-body">
   ${f.red?`<button class="fo-red" onclick="go('fo-canopy')"><span class="so-chip live"><i></i>Red day · −6%</span><b>Canopy moved to the top of Home</b><em>The whole bench is on. Ask one question; someone who held through three drops answers within the hour.</em>${ic('chev',16,'opacity:.5')}</button>`:''}
   <div class="fo-hero"><div class="fo-hh"><div><em>Your room · 3,100 people · month three</em><b>First job · 20 to 25 · Emergency fund</b><span>You’re <u>@${(S.me||'jordan').toLowerCase()}_grows</u>, a handle nobody can trace.</span></div><span class="fo-anon">${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'].map(c=>`<i style="background:${c}"></i>`).join('')}</span></div>
@@ -6086,9 +6086,11 @@ function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in'
    ${r.acorns.have?hpRow(`<img src="${stageSrc(0)}" alt="">`,'Drop an acorn','$5 to give someone starting out',"go('rt-acorn')"):''}
   </div>`}
 function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=Math.min(100,Math.round(s.bar/s.target*100));
- return `<div class="hp-fc">${rtFridayCount({q:true})}</div><button class="hp-hero bloom" onclick="go('rt-home',{only:'bloom'})"><div class="hp-ht wide"><em>This month’s Bloom · day 12 of 30</em><b>No-Spend November</b><span>${s.done?'Finished. $5 landed.':s.joined?'You’re in · '+s.people.toLocaleString()+' of us':s.people.toLocaleString()+' of us, going for '+s.target.toLocaleString()}</span><div class="hp-hbar"><i style="width:${pc}%"></i></div></div><img class="hp-bart" src="${stageSrc(4)}" alt=""></button>
-  <div class="hp-list mt16">
-   ${hpRow(`<span class="ia-tf">${[7,5,7].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[24,18,27][k]}px;margin-left:${k?-8:0}px" alt="">`).join('')}</span>`,'The Forest',fo.red?'Red day · Canopy is open':'3,100 with your goal · nurse trees on',"go('fo-grove')",fo.red?'red':'')}
+ return `<div class="hp-fc">${rtFridayCount({q:true})}</div>
+  <div class="hp-list">
+   ${hpRow(`<img src="${stageSrc(4)}" alt="">`,'This month’s Bloom',s.done?'No-Spend November · finished':s.joined?`No-Spend November · you’re in · ${pc}%`:`No-Spend November · ${pc}% there`,"go('rt-home',{only:'bloom'})")}
+   ${hpRow(`<img src="${stageSrc(7)}" alt="">`,'Your room',fo.shared?'3,100 with your goal · no names':'3,100 with your goal · see the spread',"go('fo-grove')")}
+   ${hpRow(`<span class="hp-avs">${soAv('kim',22)}${soAv('dee',22)}</span>`,'Canopy',fo.red?'Red day · the whole bench is on':'Tasha and Dee are on · ask, don’t sell',"go('fo-canopy')",fo.red?'red':'')}
   </div>`}
 (function(){SCR['gt-home']=p=>{spInit();NBG_LOADED=true;const P=window.HPIV;const fo=foSt();
  const piv=[['you','You'],['people','People'],['everyone','Everyone']].map(([k,t])=>`<button class="${P===k?'on':''}" role="tab" aria-selected="${P===k}" onclick="HPIV='${k}';refresh()">${t}</button>`).join('');
@@ -6111,7 +6113,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .hp-hero.bloom{background:linear-gradient(165deg,#17411a 0%,#0b2110 60%,#081a0c 100%);padding-right:96px}.hp-bart{position:absolute;right:-4px;top:-4px;height:100px;width:auto;opacity:.95}
 .hp-list{background:#0f1f0d;border:1px solid rgba(116,201,71,.14);border-radius:20px;padding:4px 8px}.hp-row{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:14px 6px 14px 8px;color:#fff}.hp-row+.hp-row{border-top:1px solid rgba(255,255,255,.07)}.hp-row .grow{min-width:0}
 .hp-ic{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}.hp-ic img{height:30px;width:auto;max-width:36px;object-fit:contain}.hp-ic .seal{height:34px}.hp-row.red .hp-ic{background:rgba(229,57,53,.22)}
-.hp-avs{display:inline-flex;gap:2px}.hp-avs .sg-av{width:22px!important;height:22px!important;font-size:10px!important;margin:0!important;box-shadow:none}.hp-seat{width:26px;height:26px;border-radius:50%;border:1.5px dashed rgba(255,255,255,.4)}
+.hp-avs{display:inline-flex;gap:2px}.hp-avs .sg-av,.hp-avs .so-av{width:22px!important;height:22px!important;font-size:10px!important;margin:0!important;box-shadow:none}.hp-seat{width:26px;height:26px;border-radius:50%;border:1.5px dashed rgba(255,255,255,.4)}
 .hp-row b{display:block;font-size:16px;letter-spacing:-.2px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hp-row em{display:block;font-style:normal;font-size:13px;color:rgba(255,255,255,.62);margin-top:3px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hp-row em .hp-blue{font-style:normal;color:#8cc4f7}
 .hp-n{font-size:18px;font-weight:700;color:#bceaa3}
 .hp-sec{font-size:17px;font-weight:700;margin:22px 0 10px;color:#fff}.hp-sec .seg{display:inline-flex;gap:2px;background:rgba(255,255,255,.08);border-radius:16px;padding:2px}.hp-sec .seg button{font-size:12px;font-weight:600;padding:5px 10px;border-radius:14px;color:rgba(255,255,255,.6);background:none}.hp-sec .seg button.on{background:#fff;color:#191919}

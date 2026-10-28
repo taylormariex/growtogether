@@ -18,9 +18,7 @@ One pill on top, three places:
 
 ## Links
 
-Witnessed Habit, the three bets: `roots/`, `family-tree/`, `forest/`.
-
-Each concept on its own: `witness/`, `bloom/`, `rings/`, `drop-an-acorn/`, `friday-count/`, `seedling/`, `same-tree/`, `the-grove/`, `canopy/`.
+Witnessed Habit, each concept on its own: `witness/`, `bloom/`, `rings/`, `drop-an-acorn/`, `friday-count/`, `seedling/`, `same-tree/`, `the-grove/`, `canopy/`.
 
 Grow Together, the five pieces the system places: `skip-and-invest/`, `shared-goals/`, `acorns-year/`, `invite/`, `know-yourself/`.
 

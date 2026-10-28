@@ -10,14 +10,14 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 
 ## The IA
 
-Organized around the doc's three bets. Home (`gt-home`) keeps its dark header (greeting, week chip) with three tabs under it; deeper pages have a back button and no tabs.
+Sorted by what the customer is doing, not by who wrote the concept. Home (`gt-home`) keeps its dark header (greeting, week chip) with three tabs; every deeper page has a back button and no tabs.
 
-- **You** (your side of the witness bet, plus the Acorns pieces): streak hero (opens Streaks, the Streaks team's page), the week's card, Today's question (from the Friday Count: you see the answer by answering), then Your achievements (the milestone card to share, the Year Ring, acorns to plant), Your oak (the nine extras), Skip and Invest, Know yourself, Acorns Year, the timeline.
-- **People** (the witness and the family): your grove as the hero (the hillside; shared goals, family and challenges live in its dock), then Witnesses, Family Tree (Seedling, Same Tree, Learn Together, its own three tabs), Grove challenges.
-- **Everyone** (the room): the Friday Count as one line, this month's Bloom as the hero (the Bloom page: hero, the room's spread, how we're doing), then The Forest (your anonymous room, share a percent to see the spread, nurse trees on duty, Canopy).
+- **You** (my habit): streak hero → Streaks (the Streaks team's page) · the week's card · Your achievements (the milestone cards to share) · Your oak (the nine extras) · Your year (monthly recaps, the Acorns Year film in December, the Year Ring in January) · Skip and Invest · Know yourself · the timeline.
+- **People** (people who know me): grove hero → the hillside, with its challenges inside · Witnesses · Shared goals (Same Tree is shared goals: one goal, separate accounts, up to five) · Family (Seedling: the kid's account and the relatives who watch) · Learn together (one lesson, read with someone who has your goal) · Drop an acorn, when you have one to give.
+- **Everyone** (the crowd): the Friday Count with Today's question (you see the answer by answering) · this month's Bloom as the hero · The Forest (your anonymous room, share a percent to see the spread, nurse trees on duty → Canopy).
 - On a red day a Canopy banner sits above every tab.
 
-Not in the prototype on purpose: dares between witnesses, the Bloom pinned inside Grove challenges, a live ticker, Forest stats and a Q&A board, a Friday Count page. Those were glue, not concepts.
+Family Tree no longer has inner tabs; its three parts are three rows under People. The Grove dock holds challenges only.
 
 ## Links
 

@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:25 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:32 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5986,9 +5986,23 @@ function iaBento(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in')
   ${iaTile('',`Your cards`,sealImg(i,60),r.acorns.have?`<span class="ia-green">An acorn to plant</span>`:'Milestones and the Year Ring',"go('rt-home',{only:'rings'})")}
   ${iaTile(fo.red?'red':'',`The Forest`,`<span class="ia-forest">${[7,5,6,7,5,6,7,5,6].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[30,24,27,32,22,26,30,23,27][k]}px;margin-left:${k?-10:0}px;z-index:${k%2?2:1}" alt="">`).join('')}</span>`,fo.red?'Red day · Canopy is open':'3,100 people with your goal',"go('fo-grove')")}
  </div>`}
-(function(){const f=SCR['gt-home'];SCR['gt-home']=p=>{const r=f(p);
- const k=r.html.indexOf('<div class="bento mt16">');if(k>0)r.html=r.html.slice(0,k)+iaBento()+'<div style="height:24px"></div></div>';
+/* Their Home stays as built. Our pieces join "Ways to grow" as the same squares, first in the row. */
+(function(){const f=SCR['gt-home'];SCR['gt-home']=p=>{const r=f(p);const x=rtSt();const ws=x.witnesses.filter(w=>w.state==='in');const i=stageIdx(S.streak);const fo=foSt();
+ const tok=(t,vis,js,cls)=>`<div class="fl-tok ia-tok ${cls||''}" style="width:78px" onclick="${js}"><div class="im" style="width:78px">${vis}</div><div class="nm">${t}</div></div>`;
+ const ours=[tok('Witnesses',ws.length?`<span class="ia-avs">${ws.slice(0,2).map(w=>sgAv(w.id,30)).join('')}</span>`:`<span class="ia-empty">${ic('user',18)}</span>`,"go('rt-home',{only:'you'})"),
+  tok('Bloom',`<img src="${stageSrc(4)}" style="height:52px" alt="">`,"go('rt-home',{only:'bloom'})"),
+  tok('Your cards',sealImg(i,46),"go('rt-home',{only:'rings'})"),
+  tok('Family',`<span class="ia-tf"><img src="${stageSrc(6)}" style="height:40px" alt=""><img src="${stageSrc(2)}" style="height:26px;margin-left:-6px" alt=""></span>`,"go('ft-home',{only:'seed'})"),
+  tok('The Forest',`<span class="ia-tf">${[7,5,7].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[30,22,34][k]}px;margin-left:${k?-10:0}px" alt="">`).join('')}</span>`,"go('fo-grove')",fo.red?'red':'')].join('');
+ r.html=r.html.replace(/<div class="sk-sec"><div class="h4">Ways to grow<\/div><\/div>\s*<div class="row"[^>]*>/,m=>m+ours);
  r.html+=whClock([['It’s Friday','rtFriday()']]);return r}})();
+document.head.insertAdjacentHTML('beforeend',`<style>
+.ia-tok .im{display:flex;align-items:center;justify-content:center;overflow:hidden}.ia-tok .im img{width:auto;max-width:none}
+.ia-tok.red .im{box-shadow:inset 0 0 0 1.5px rgba(229,57,53,.6)}
+.ia-tok .ia-avs{display:flex}.ia-tok .ia-avs .sg-av{width:30px!important;height:30px!important;font-size:12px!important;box-shadow:0 0 0 2px #0a1a08}.ia-tok .ia-avs .sg-av+.sg-av{margin-left:-8px}
+.ia-tok .ia-empty{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center}
+.ia-tf{display:flex;align-items:flex-end}
+</style>`);
 tabbarDk=function(){return ''};
 /* deeper pages: one section, a back button, no tabs */
 ['rt-home','ft-home'].forEach(id=>{const f=SCR[id];SCR[id]=p=>{if(p&&p.only){T[id==='rt-home'?'rtTab':'ftTab']=p.only}const r=f(p);if(p&&p.only){r.html=r.html.replace(/<div class="ssx-seg wh-seg"[\s\S]*?<\/div>/,'').replace(/<div class="so-sec"[^>]*data-sec="[a-z]+"><b>[^<]*<\/b>(<button[^>]*>[^<]*<\/button>)?<\/div>/,(m,btn)=>btn?`<div class="so-sec ia-only">${btn}</div>`:'').replace('style="top:calc(var(--safeTop) + 104px)"','').replace(/<b>(Roots|Family Tree)<\/b>/,`<b>${{you:'Your goal',bloom:'Bloom',rings:'Your cards',seed:'Family',same:'Shared goal',learn:'Learn together'}[p.only]||''}</b>`).replace('onclick="home(\'ac-home\')"','onclick="back()"')}return r}});
@@ -6042,18 +6056,17 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ia-tbar{width:100%;height:10px;border-radius:5px;background:#eef1ec;overflow:hidden}.ia-tbar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#9bd77a,#3d9a1f)}
 .ia-t.red{background:#fdecea;border-color:#f5c6c2}.ia-t.red .bs{color:#c62828}
 .so-sec.ia-only{justify-content:flex-end;margin-top:6px}
-.scr.iahome .body{padding-bottom:calc(var(--safeBot) + 170px)!important}
+.scr:has(.wh-clock)>.body{padding-bottom:calc(var(--safeBot) + 150px)!important}
+.bento .bnt.red{background:#2a0f0f}.bento .ia-tbar{background:rgba(255,255,255,.12)}
 </style>`);
 
-/* ---------- Home follows the Acorns app: light. Oak and Grove stay the dark scene screens. ---------- */
-(function(){const f=SCR['gt-home'];SCR['gt-home']=p=>{window.__LIGHT=true;let r;try{r=f(p)}finally{window.__LIGHT=false}r.cls=(r.cls||'').replace(/\bdark\b/,'').trim()+' acl iahome';return r}})();
-document.head.insertAdjacentHTML('beforeend',`<style>
-.scr.iahome{background:#f5f7f2!important}.scr.iahome .hm-hello,.scr.iahome .hm-hello b{color:#191919}.scr.iahome .hm-hello em{color:#2f7a12}.scr.iahome .hm-av{background:#191919;color:#fff}
-.scr.iahome .bento .ia-t{background:#fff;border:1px solid #e4e9e1;color:#191919;box-shadow:0 1px 0 rgba(0,0,0,.03)}.scr.iahome .ia-t .bh{color:#191919}.scr.iahome .ia-t .bs{color:#6b706c}
 
-.scr.iahome .wh-clock{border-color:#e0d3a0}
-.scr.iahome .nbg-more,.scr.iahome [onclick*="nbgMore"]{color:#5d655f}
-</style>`);
+
+/* ---------- the Streaks entry on Profile opens the whole dashboard now, so it says what's inside ---------- */
+(function(){const f=SCR['profile'];if(!f)return;SCR['profile']=p=>{const r=f(p);const ws=rtSt().witnesses.filter(w=>w.state==='in');const gr=growing();const open=gr.filter(x=>x.open);const i=stageIdx(S.streak);
+ r.html=r.html.replace(/<button class="pf-stk"[\s\S]*?<\/button>/,`<button class="pf-stk ia-pf" onclick="home('gt-home')" aria-label="Your oak and your people. Open Streaks."><span class="pf-stk-ic">${stageImg(S.streak,40)}</span><span class="grow"><b>${RSTAGES[i][1]} · ${S.streak} week${S.streak===1?'':'s'}</b><span class="pf-bar"><i style="width:${Math.max(4,Math.round(S.streak/(nextGoal(S.streak)[0]||1)*100))}%"></i></span><em>${[gr.length?`${gr.length} in your grove${open.length?' · '+nm(open[0].id)+' hasn’t invested yet':''}`:'Your grove is empty',ws.length?`${ws.length} witness${ws.length===1?'':'es'}`:'No witness yet',rtSt().season.joined?'In this month’s Bloom':'A Bloom this month'].join(' · ')}</em></span><span class="ia-pfavs">${gr.slice(0,3).map(g=>sgAv(g.id,22)).join('')}</span>${ic('chev',16,'opacity:.5')}</button>`);
+ return r}})();
+document.head.insertAdjacentHTML('beforeend',`<style>.ia-pf .pf-stk-ic{display:flex;align-items:flex-end;justify-content:center;overflow:hidden}.ia-pf em{white-space:normal;line-height:1.35}.ia-pfavs{display:inline-flex;margin-right:4px}.ia-pfavs .sg-av{margin-left:-6px;box-shadow:0 0 0 2px #fff;width:22px!important;height:22px!important;font-size:10px!important}.ia-pfavs .sg-av:first-child{margin-left:0}</style>`);
 
 
 /* =====================================================================

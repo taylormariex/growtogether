@@ -10,14 +10,15 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 
 ## The IA
 
-Home (`gt-home`) is a light dashboard of six squares, in the Acorns app style. Each square is a summary; tapping it goes one level deeper, and deeper pages have a back button and no tabs.
+Home (`gt-home`) is the Streaks team's page, untouched: hello, streak chip, the grow-your-week block, their bento (Your grove, Grove challenges, Your oak, Oak extras), "Ways to grow", timeline. Our pieces join "Ways to grow" as the first five squares in that row. Each opens one level deeper; deeper pages have a back button and no tabs.
 
-- **Your oak** (`gt-oak`): streak, stage, achievements. Dark scene screen.
-- **Your grove** (`gt-grove`): people you know on the hillside; rain, cheers, challenges with this month's Bloom pinned, shared goals and family watching in the dock. Dark scene screen.
-- **Witnesses** (`rt-home` · your goal): the Friday Count, your goal, who sees you show up.
-- **This month's Bloom** (`rt-home` · bloom): the whole room, one target.
+- **Witnesses** (`rt-home` · you): your goal, who sees your Fridays, the Friday Count.
+- **Bloom** (`rt-home` · bloom): this month's room, one target, how the community did.
 - **Your cards** (`rt-home` · rings): milestone card, Year Ring, acorns to plant.
-- **The Forest** (`fo-grove`): everyone with your goal, no names; nurse trees on duty, Canopy on red days.
+- **Family** (`ft-home` · seedling): the Seedling, Same Tree, Learn Together.
+- **The Forest** (`fo-grove`): everyone with your goal, no names; nurse trees on duty, Canopy open on red days (the square goes red).
+
+Inside their screens we add rather than fork: Oak gets witness and ring rows, the Grove dock gets shared goals and family, the Profile streak card opens Home. Demo moves (It's Friday, red day, finish the season) live only in the yellow prototype pill.
 
 ## Links
 

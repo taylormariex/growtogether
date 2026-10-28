@@ -29,7 +29,7 @@ function iaBento(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in')
   ${iaTile(fo.red?'red':'',`The Forest`,`<span class="ia-forest">${[7,5,6,7,5,6,7,5,6].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[30,24,27,32,22,26,30,23,27][k]}px;margin-left:${k?-10:0}px;z-index:${k%2?2:1}" alt="">`).join('')}</span>`,fo.red?'Red day · Canopy is open':'3,100 people with your goal',"go('fo-grove')")}
  </div>`}
 (function(){const f=SCR['gt-oak'];if(!f)return;SCR['gt-oak']=p=>{const r=f(p);const ff=(S.flourishes||[]).length;
- r.html=r.html.replace(/<div class="body" style="padding-top:8px"><div class="center">[\s\S]*?<div class="sk-sec"><div class="h4">Oak extras<\/div>/,`<div class="body" style="padding-top:8px"><div class="center"><div class="eyebrow">Your oak</div><div class="h1 mt8" style="color:#fff">${ff?`${ff} of 9 extras growing`:'Give it roots'}</div></div><div class="sk-sec" style="margin-top:20px"><div class="h4">Oak extras</div>`);
+ r.html=r.html.replace(/<div class="body" style="padding-top:8px"><div class="center">[\s\S]*?<div class="oflg">/,`<div class="body" style="padding-top:8px"><div class="row between" style="align-items:baseline"><div class="h2" style="color:#fff">Your oak</div><span class="sm" style="color:var(--sk-sub)">${ff} of 9 extras</span></div><p class="sm" style="color:var(--sk-sub);margin:6px 0 16px;line-height:1.45">Your streak sets the height. Other habits add extras, like roots for Recurring or a nest for an Emergency Fund. Your grove sees the extras, never amounts.</p><div class="oflg">`);
  return r}})();
 /* Home: four pivots, You · People · Everyone. One hero and a few rows each. No bento, no row of squares. */
 window.HPIV=window.HPIV||'you';
@@ -42,7 +42,8 @@ function hpYou(){const r=rtSt();const i=stageIdx(S.streak);const nx=nextGoal(S.s
    ${hpRow(sealImg(i,40),'Your achievements',`${RSTAGES[i][1]} card to share${r.acorns.have?' · an acorn to plant':' · Year Ring in January'}`,"go('rt-home',{only:'rings'})")}
    ${hpRow(`<img src="${IMG.seedling}" style="height:30px" alt="">`,'Your oak',ff?`${ff} of 9 extras growing`:'Extras that grow your oak',"home('gt-oak')")}
    ${hpRow(`<img src="${IMG.roundup}" style="height:30px" alt="">`,'Skip and Invest','Skip a spend, invest it right away',"go('ss2-pick')")}
-   ${hpRow(`<img src="${IMG.oak}" style="height:30px" alt="">`,'Your year','Monthly recaps · the Acorns Year in December',"go('journal')")}
+   ${hpRow(`<img src="${IMG.seedling}" style="height:30px" alt="">`,'Know yourself','Short quizzes, a minute each',"go('qz-hub')")}
+   ${hpRow(`<img src="${IMG.oak}" style="height:30px" alt="">`,'Acorns Year','Monthly recaps, and your year in December',"go('journal')")}
   </div>
   <div class="hp-sec row between"><span>Timeline</span><span class="seg"><button class="${TLV==='hi'?'on':''}" onclick="TLV='hi';refresh()">Highlights</button><button class="${TLV==='la'?'on':''}" onclick="TLV='la';refresh()">Latest</button></span></div>
   <div class="hp-tl">${tlItems().map(tlCard).join('')}</div>`}
@@ -54,18 +55,12 @@ function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in'
    ${hpRow(`<b class="hp-n">${ch}</b>`,'Grove challenges',`${ch} running at once`,"home('gt-ch')")}
   </div>`}
 function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=Math.min(100,Math.round(s.bar/s.target*100));
- return `<button class="hp-hero bloom" onclick="go('rt-home',{only:'bloom'})"><div class="hp-ht wide"><em>This month’s Bloom · day 12 of 30</em><b>No-Spend November</b><span>${s.done?'Finished. $5 landed.':s.joined?'You’re in · '+s.people.toLocaleString()+' of us':s.people.toLocaleString()+' of us, going for '+s.target.toLocaleString()}</span><div class="hp-hbar"><i style="width:${pc}%"></i></div></div><img class="hp-bart" src="${stageSrc(4)}" alt=""></button>
+ return `<div class="hp-count"><b>41,206</b> of us kept our promise this week${r.fc.deposited?' · you’re one of them':''}</div><button class="hp-hero bloom" onclick="go('rt-home',{only:'bloom'})"><div class="hp-ht wide"><em>This month’s Bloom · day 12 of 30</em><b>No-Spend November</b><span>${s.done?'Finished. $5 landed.':s.joined?'You’re in · '+s.people.toLocaleString()+' of us':s.people.toLocaleString()+' of us, going for '+s.target.toLocaleString()}</span><div class="hp-hbar"><i style="width:${pc}%"></i></div></div><img class="hp-bart" src="${stageSrc(4)}" alt=""></button>
   <div class="hp-list mt16">
-   ${hpRow(`<span class="ia-tf">${[7,5,7].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[24,18,27][k]}px;margin-left:${k?-8:0}px" alt="">`).join('')}</span>`,'The Forest',fo.red?'Red day · Canopy is open':'3,100 people with your goal · nurse trees on',"go('fo-grove')",fo.red?'red':'')}
-   ${hpRow(`<b class="hp-n">41k</b>`,'The Friday Count','41,206 kept their promise this week',"go('rt-count')")}
-  </div>`}
-function hpLearn(){return `<button class="hp-hero learn" onclick="go('fo-learn')"><div class="hp-hsc"><img src="${IMG.learn}" alt=""></div><div class="hp-ht"><em>Learn together</em><b>One lesson, two of you</b><span>Pick a two-minute lesson and someone with your goal reads it too. Compare notes after.</span></div></button>
-  <div class="hp-list mt16">
-   ${hpRow(`<img src="${IMG.seedling}" style="height:30px" alt="">`,'Know yourself','Short quizzes, a minute each',"go('qz-hub')")}
-   ${hpRow(`<img src="${IMG.learn}" style="height:30px" alt="">`,'Future Club','What kind of saver you’re becoming',"go('fc-types')")}
+   ${hpRow(`<span class="ia-tf">${[7,5,7].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[24,18,27][k]}px;margin-left:${k?-8:0}px" alt="">`).join('')}</span>`,'The Forest',fo.red?'Red day · Canopy is open':'3,100 people with your goal · nurse trees on · Canopy',"go('fo-grove')",fo.red?'red':'')}
   </div>`}
 (function(){SCR['gt-home']=p=>{spInit();NBG_LOADED=true;const P=window.HPIV;const fo=foSt();
- const piv=[['you','You'],['people','People'],['everyone','Everyone'],['learn','Learn']].map(([k,t])=>`<button class="${P===k?'on':''}" role="tab" aria-selected="${P===k}" onclick="HPIV='${k}';refresh()">${t}</button>`).join('');
+ const piv=[['you','You'],['people','People'],['everyone','Everyone']].map(([k,t])=>`<button class="${P===k?'on':''}" role="tab" aria-selected="${P===k}" onclick="HPIV='${k}';refresh()">${t}</button>`).join('');
  return {cls:'dark hp',html:`<div class="top"><button class="iconbtn" onclick="home('menu')" aria-label="Close">${ic('close')}</button><div style="flex:1"></div><button class="iconbtn" onclick="go('gt-notes')" aria-label="Notifications">${ic('bell',22)}</button><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
   <div class="body hp-body" style="padding-top:4px">
    <div class="hm-av">${S.me[0]}</div>
@@ -73,7 +68,7 @@ function hpLearn(){return `<button class="hp-hero learn" onclick="go('fo-learn')
    <div class="mt16">${streakChip()}</div>
    <div class="hp-piv mt24" role="tablist">${piv}</div>
    ${fo.red?`<button class="fo-red hp-red" onclick="go('fo-canopy')"><span class="so-chip live"><i></i>Red day · −6%</span><b>Canopy is open</b><em>Ask one question. Someone who held through three drops answers within the hour.</em>${ic('chev',16,'opacity:.5')}</button>`:''}
-   ${P==='people'?hpPeople():P==='everyone'?hpEveryone():P==='learn'?hpLearn():hpYou()}<div style="height:110px"></div></div>${whClock([['It’s Friday','rtFriday()']])}`,
+   ${P==='people'?hpPeople():P==='everyone'?hpEveryone():hpYou()}<div style="height:110px"></div></div>${whClock([['It’s Friday','rtFriday()']])}`,
   mount(el){const iv=S.grove.find(x=>x.status==='invited'&&PEOPLE[x.id].on);if(iv&&!S.ffDone&&!iv.seen){iv.seen=1;setTimeout(()=>{if(cur().dataset.id!=='gt-home')return;S.friendJoined=iv.id;save();banner(`${nm(iv.id)} signed up`,'Their tree sprouts after their first investment.',()=>groveSheet('half'));refresh()},2600)}}}}})();
 document.head.insertAdjacentHTML('beforeend',`<style>
 .hp-piv{display:flex;gap:24px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:16px}.hp-piv button{position:relative;font-size:15px;font-weight:600;color:rgba(255,255,255,.55);height:40px;background:none;padding:0}.hp-piv button.on{color:#fff}.hp-piv button.on::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:2px 2px 0 0;background:#74c947}
@@ -90,6 +85,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .hp-sec{font-size:17px;font-weight:700;margin:22px 0 10px;color:#fff}.hp-sec .seg{display:inline-flex;gap:2px;background:rgba(255,255,255,.08);border-radius:16px;padding:2px}.hp-sec .seg button{font-size:12px;font-weight:600;padding:5px 10px;border-radius:14px;color:rgba(255,255,255,.6);background:none}.hp-sec .seg button.on{background:#fff;color:#191919}
 .hp-scroll{gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;align-items:flex-start}
 .hp .ia-avs .sg-av{box-shadow:0 0 0 2px #0f1f0d}
+.hp-count{font-size:13px;color:rgba(255,255,255,.7);margin:0 2px 12px}.hp-count b{color:#bceaa3;font-size:15px}
 .hp-q .rt-fcq{margin:0;background:#0f1f0d;border:1px solid rgba(116,201,71,.14);border-radius:20px;padding:14px 16px}.hp-red{margin:0 0 16px}.hp-hero.learn{background:linear-gradient(160deg,#1a3f2a,#0b2110)}.hp .ia-empty{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
 </style>`);
 tabbarDk=function(){return ''};

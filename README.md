@@ -10,15 +10,14 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 
 ## The IA
 
-Home (`gt-home`) keeps its dark header (avatar, the greeting with the streak, the week chip) with three tabs under it, the same pattern as the app Home's You | Kids. Each pivot is one hero and a few rows; deeper pages have a back button and no tabs.
+Organized around the doc's three bets. Home (`gt-home`) keeps its dark header (greeting, week chip) with three tabs under it; deeper pages have a back button and no tabs.
 
-- **You**: streak hero (opens Streaks), the week's card, Today's question (the one daily question in the system; you see the answer by answering), then Your achievements (the card to share, the Year Ring, acorns), Your oak (extras only; the streak itself is Streaks'), Skip and Invest, Your year (monthly recaps and the Acorns Year), the timeline.
-- **People**: your grove as the hero (opens the Grove), then Witnesses, Family (the whole Family Tree: Seedling, Same Tree, Learn), Grove challenges.
-- **Everyone**: this month's Bloom as the hero, then The Forest and the Friday Count (its own page).
-- **Learn**: Learn Together as the hero, then Know yourself and Future Club.
+- **You** (your side of the witness bet, plus the Acorns pieces): streak hero (opens Streaks, the Streaks team's page), the week's card, Today's question (from the Friday Count: you see the answer by answering), then Your achievements (the milestone card to share, the Year Ring, acorns to plant), Your oak (the nine extras), Skip and Invest, Know yourself, Acorns Year, the timeline.
+- **People** (the witness and the family): your grove as the hero (the hillside; shared goals, family and challenges live in its dock), then Witnesses, Family Tree (Seedling, Same Tree, Learn Together, its own three tabs), Grove challenges.
+- **Everyone** (the room): the Friday Count as one line, this month's Bloom as the hero (the Bloom page: hero, the room's spread, how we're doing), then The Forest (your anonymous room, share a percent to see the spread, nurse trees on duty, Canopy).
 - On a red day a Canopy banner sits above every tab.
 
-Inside their screens we add rather than fork: the Grove dock gets shared goals and family, the Profile streak card opens Home. Demo moves (It's Friday, red day, finish the season) live only in the yellow prototype pill.
+Not in the prototype on purpose: dares between witnesses, the Bloom pinned inside Grove challenges, a live ticker, Forest stats and a Q&A board, a Friday Count page. Those were glue, not concepts.
 
 ## Links
 

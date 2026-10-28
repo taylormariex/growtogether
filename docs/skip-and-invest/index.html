@@ -2946,7 +2946,7 @@ function gvDock(id){const gr=growing();const open=gr.filter(x=>x.open&&!S.watere
   if(!id){const done=gr.filter(x=>!x.open).length+(S.invested?1:0),tot=gr.length+1;const notyet=gr.filter(x=>x.open);
     return `<div class="row"><div class="grow"><div class="h4" style="color:#fff">${done} of ${tot} grew this week</div><div class="sm" style="color:var(--sk-sub)">${notyet.length?`${notyet.map(x=>nm(x.id)).join(' and ')} ${notyet.length>1?'haven’t':'hasn’t'} invested yet.`:'Everyone’s in.'} Tap a tree to do something together.</div></div>${ringSvg(done/Math.max(1,tot),36)}</div>
     ${(()=>{const n=(S.challenges||[]).length;return n?`<button class="gv-chrow" onclick="home('gt-ch')"><span class="ic">${ic('flag',16)}</span><b>${n} challenge${n===1?'':'s'} running</b><em>${S.challenges.slice(0,2).map(c=>c.title).join(' · ')}</em>${ic('chev',14,'opacity:.5')}</button>`:''})()}
-    ${acts([S.invested?['check','Counted',"toast('This week already counts')"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['user','Invite',"T={};go('inv-pick')"],['flag','Challenge',"T={chp:[]};go('gt-ch-new')"],open.length?['drop',`Rain all (${open.length})`,`gvRainAll()`,'blue']:['share','Share grove',"shareOak()"]])}`}
+    ${acts([S.invested?['check','Counted',"toast('This week already counts')"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['user','Invite',"T={};go('inv-pick')"],['share','Share grove',"shareOak()"]])}`}
   /* you */
   if(id==='me'){const st=rstage(S.streak);return `<div class="row">${sgAv('me',40)}<div class="grow"><div class="h4" style="color:#fff">You · ${st[1]}</div><div class="sm" style="color:var(--sk-sub)">${plw(S.streak)} streak · ${S.flourishes.length} oak extras</div></div><button class="iconbtn" onclick="gvSel(null)" aria-label="Back to grove">${ic('close',18)}</button></div>
     ${acts([S.invested?['check','Counted',"toast('This week already counts')"]:['plus','Invest',"T={};S.afterCount='gt-grove';S.ret='gt-grove';go('inv-1')",'hot'],['oak','My oak',"home('gt-oak')"],['share','Share',"shareOak()"],['eye','Privacy',"go('gt-privacy')"]])}`}
@@ -2958,7 +2958,7 @@ function gvDock(id){const gr=growing();const open=gr.filter(x=>x.open&&!S.watere
   /* a friend's tree: everything here is about them */
   const W=wk(id),st=rstage(W);const can=S.waterOK[id]&&!S.mutedWater[id];const sent=S.watered[id];const she=p.name==='Mom';
   return `<div class="row">${sgAv(id,40)}<div class="grow"><div class="h4" style="color:#fff">${p.full}</div><div class="sm" style="color:var(--sk-sub)">${st[1]} · ${plw(g.side||0)} side by side</div></div><button class="iconbtn" onclick="gvSel(null)" aria-label="Back to grove">${ic('close',18)}</button></div>
-   <div class="gv-note ${g.open?'':'ok'}">${g.open?ic('drop',16,'color:#4da1ef'):ic('check',16,'color:#74c947')}<div class="grow">${g.open?(sent?`Rain sent. It only counts when ${she?'she':'they'} invest${she?'s':''}.`:can?`Hasn’t invested yet this week. A little rain is a gentle nudge.`:`Hasn’t invested yet. ${p.name} keeps rain off, so cheer instead.`):`Invested this week. ${plw(g.side||0)} growing beside you.`}${g.open?` <span class="sim" style="margin-left:6px" onclick="gvInvests('${id}')">${ic('ff',12)} Demo: invests</span>`:''}</div></div>
+   <div class="gv-note ${g.open?'':'ok'}">${g.open?ic('drop',16,'color:#4da1ef'):ic('check',16,'color:#74c947')}<div class="grow">${g.open?(sent?`Rain sent. It only counts when ${she?'she':'they'} invest${she?'s':''}.`:can?`Hasn’t invested yet this week. A little rain is a gentle nudge.`:`Hasn’t invested yet. ${p.name} keeps rain off, so cheer instead.`):`Invested this week. ${plw(g.side||0)} growing beside you.`}</div></div>
    ${acts([g.open?(sent?['check','Sent',"toast('One rain per friend per week')"]:can?['drop','Rain',`gvRain('${id}')`,'blue']:['drop','Rain off',"toast('They keep rain off')"]):['drop','Rain',`toast('${p.name} already invested this week')`],['spark','Cheer',`gvCheer('${id}')`],['flag','Challenge',`T={chp:['${id}']};go('gt-ch-new')`],['share','Our weeks',`personShare('${id}')`]])}`}
 function personShare(id){const g=inGrove(id),p=PEOPLE[id];const n=g.side||0;share({title:`${plw(n)} side by side`,people:[id],story:storyCard({eyebrow:'Side by side',title:`${p.name} and me: ${plw(n)} growing together.`,art:`<div style="display:flex;align-items:flex-end;gap:14px">${treeImg(S.streak,110)}${treeImg(wk(id),100)}</div>`})})}
 document.head.insertAdjacentHTML('beforeend',`<style>
@@ -3007,7 +3007,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:23 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:27 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -6017,9 +6017,10 @@ Object.keys(WH_TABS).forEach(id=>{const C=WH_TABS[id];const f=SCR[id];if(!f)retu
 function whClock(list){list=list.filter(Boolean);if(!list.length)return '';return `<div class="yr-clock wh-clock"><span>Prototype</span>${list.map(([l,js])=>`<button onclick="${js}">${ic('ff',12)} ${l}</button>`).join('')}</div>`}
 const WH_DEMOS={'rt-home':()=>{const r=rtSt();const t=T.rtTab||'you';return [t==='you'&&['It’s Friday','rtFriday()'],t==='bloom'&&(rtSt().season.done?['Reset the Bloom','rtSt().season.done=false;rtSt().season.bar=212480;rtSt().season.mine=0;save();refresh()']:['Jump to Nov 30','rtFinishSeason()']),t==='rings'&&!r.acorns.have&&['New milestone','rtSt().acorns.have=1;save();refresh();toast(\'Milestone. You’ve got an acorn.\')']]},
  'ft-home':()=>{const f=ftSt();const t=T.ftTab||'seed';return [t==='seed'&&!f.reached&&['Ava reaches the goal','ftReach()']]},
+ 'gt-grove':()=>{const g=(typeof growing==='function'?growing():[]).find(x=>x.open);return [g&&[`${nm(g.id)} invests`,`gvInvests('${g.id}')`]]},
  'fo-grove':()=>{const f=foSt();return [!f.red&&['Market drops 6%','foRed()'],f.red&&['Market recovers','foSt().red=false;save();refresh()']]}};
 Object.keys(WH_DEMOS).forEach(id=>{const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);r.html+=whClock(WH_DEMOS[id]());return r}});
-document.head.insertAdjacentHTML('beforeend',`<style>.wh-clock{bottom:calc(var(--safeBot) + 74px)!important;z-index:6}.scr:has(.wh-clock) .sg-body{padding-bottom:84px!important}.wh-clock button{margin-left:6px}.wh-clock button:first-of-type{margin-left:auto}.wh-seg button{font-size:13px}.ssx-sec>.so-sec:first-child{margin-top:4px}.ssx-sec>.rt-fc{margin-top:4px}</style>`);
+document.head.insertAdjacentHTML('beforeend',`<style>.wh-clock{bottom:calc(var(--safeBot) + 74px)!important;z-index:6}.gvs .wh-clock{bottom:calc(var(--safeBot) + 92px + var(--dockH,230px) + 10px)!important;z-index:9}.scr:has(.wh-clock) .sg-body{padding-bottom:84px!important}.wh-clock button{margin-left:6px}.wh-clock button:first-of-type{margin-left:auto}.wh-seg button{font-size:13px}.ssx-sec>.so-sec:first-child{margin-top:4px}.ssx-sec>.rt-fc{margin-top:4px}</style>`);
 if(typeof RV_GO!=='undefined')RV_GO.push(['Roots','Witness, Bloom, Rings, Drop an Acorn, Friday Count',"go('splash',{k:'roots'})"],['Family Tree','Seedling, Same Tree, Learn Together',"go('splash',{k:'family'})"],['The Forest','The Grove, with Canopy inside',"go('splash',{k:'forest'})"]);
 if(typeof FORYOU!=='undefined')FORYOU.push(['roots','Roots','One person who sees you show up.','oak'],['family','Family Tree','The relationships Acorns already holds.','oak'],['forest','The Forest','For when nobody comes to mind.','oak']);
 document.head.insertAdjacentHTML('beforeend',`<style>
@@ -6103,7 +6104,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ox-row b{display:block;font-size:16px;letter-spacing:-.2px}.ox-row b small{font-size:13px;font-weight:500;color:#6b706c;margin-left:4px}.ox-row em{display:block;font-style:normal;font-size:13px;color:#6b706c;line-height:1.35;margin-top:3px}
 .ox-ok{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:#2f7a12;background:#e3f4d8;padding:5px 10px;border-radius:13px;flex:none}
 </style>`);
-(function(){const f=SCR['gt-ch'];if(!f)return;SCR['gt-ch']=p=>{const r=f(p);r.html=r.html.replace('onclick="home(\'gt-grove\')" aria-label="Back to grove"','onclick="if(stack.length>1)back();else{HPIV=\'people\';home(\'gt-home\')}" aria-label="Back"');return r}})();
+(function(){const f=SCR['gt-ch'];if(!f)return;SCR['gt-ch']=p=>{const r=f(p);r.html=r.html.replace('onclick="home(\'gt-grove\')" aria-label="Back to grove"','onclick="if(stack.length>1)back();else{HPIV=\'people\';home(\'gt-home\')}" aria-label="Back"').replace(/<button class="iconbtn" onclick="protoMenu\(\)"/,'<button class="iconbtn" onclick="T={chp:[]};go(\'gt-ch-new\')" aria-label="Start a challenge">'+ic('plus',22)+'</button><button class="iconbtn" onclick="protoMenu()"');return r}})();
 /* Home: four pivots, You · People · Everyone. One hero and a few rows each. No bento, no row of squares. */
 window.HPIV=window.HPIV||'you';
 function hpRow(vis,t,sub,js,cls){return `<button class="hp-row ${cls||''}" onclick="${js}"><span class="hp-ic">${vis}</span><span class="grow"><b>${t}</b><em>${sub}</em></span>${ic('chev',16,'opacity:.35')}</button>`}
@@ -6274,6 +6275,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 /* grove HUD */
 .scr.day.gvs .gv-ht{color:#191919;text-shadow:none}.scr.day.gvs .gv-hs{color:#3d453f}.scr.day.gvs .gv-hb{background:rgba(255,255,255,.7)!important;color:#191919}
 .scr.day.gvs .gv-tag{background:#fff;color:#191919}
+.scr.day.gvs .gv-note{color:#191919;background:rgba(77,161,239,.14)}.scr.day.gvs .gv-note.ok{background:rgba(116,201,71,.16)}
 /* list rows (notifications and the like) */
 .scr.day .li .ttl,.scr.day .li b{color:#191919}.scr.day .li .sub,.scr.day .li .sm{color:#6b706c}.scr.day .li{border-color:#e3e8df}
 .scr.day .shimmer{background:#e9ede5}

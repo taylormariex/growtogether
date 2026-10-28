@@ -45,6 +45,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 /* grove HUD */
 .scr.day.gvs .gv-ht{color:#191919;text-shadow:none}.scr.day.gvs .gv-hs{color:#3d453f}.scr.day.gvs .gv-hb{background:rgba(255,255,255,.7)!important;color:#191919}
 .scr.day.gvs .gv-tag{background:#fff;color:#191919}
+.scr.day.gvs .gv-note{color:#191919;background:rgba(77,161,239,.14)}.scr.day.gvs .gv-note.ok{background:rgba(116,201,71,.16)}
 /* list rows (notifications and the like) */
 .scr.day .li .ttl,.scr.day .li b{color:#191919}.scr.day .li .sub,.scr.day .li .sm{color:#6b706c}.scr.day .li{border-color:#e3e8df}
 .scr.day .shimmer{background:#e9ede5}

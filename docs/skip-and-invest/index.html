@@ -3007,7 +3007,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 7:48 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 7:50 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5518,7 +5518,6 @@ function rtClaim(id){const a=rtSt().acorns.sent.find(x=>x.id===id);a.goal=(T.rtg
 def('rt-home',()=>{spInit();const r=rtSt();const g=r.goal;const s=r.season;const pc=Math.min(100,Math.round(s.bar/s.target*100));
  return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="home('ac-home')" aria-label="Home">${ic('back',24)}</button><b>Roots</b><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
  <div class="sg-body sgx-body">
-  ${rtFridayCount()}
   <div class="rt-goal"><div class="rt-gi">${stageImg(g.weeks,54)}</div><div class="grow"><em>Your goal</em><b>${g.name}</b><span>$${g.amt} a week · ${g.weeks} weeks ${g.paused?'<i class="so-chip">frozen</i>':'in a row'}</span></div><button class="sgx-edit" onclick="toast('Only you see the balance')">${ic('lock',12)}</button></div>
   <div data-sec="wit"></div>${rtWitnessCard()}
   <div class="so-sec" data-sec="bloom"><b>This month’s Bloom</b></div>
@@ -5656,14 +5655,6 @@ def('ft-home',()=>{spInit();const f=ftSt();const k=f.kid;const pc=Math.round(k.s
    <div class="ft-rels"><div class="sgx-ch" style="margin:14px 0 6px"><div><b style="font-size:14px">Relatives who watch</b><em>One update a month and a sticker to send. Never the balance.</em></div><span class="tog ${k.watchOK?'on':''}" onclick="ftSt().kid.watchOK=!ftSt().kid.watchOK;save();refresh();toast(ftSt().kid.watchOK?'Relatives can watch':'Watching is off for everyone')"></span></div>
     ${rels.map(id=>{const r=f.rel[id];return `<div class="so-row"><span class="ft-rav">${r.name.split(' ').pop()[0]}</span><div class="grow"><b>${r.name}</b><em>${!k.watchOK?'Paused by you':r.follow?`Follows through the gift link · ${r.stickers} sticker${r.stickers===1?'':'s'} sent`:'Gave once · not watching'}</em></div>${r.msg?`<span class="ft-msg ${f.reached?'open':''}" onclick="${f.reached?`go('ft-capsule',{id:'${id}'})`:`toast('Locked until ${k.name} gets there')`}">${ic(f.reached?'ff':'lock',12)} ${r.msg.len}</span>`:''}</div>`}).join('')}</div>
    ${f.reached?`<button class="btn sg-cta" style="height:46px;margin-top:12px" onclick="go('ft-capsule',{id:'lou'})">${ic('ff',16)} Play Grandpa’s message for ${k.name}</button>`:''}</div>
-  <div class="so-sec" data-sec="same"><b>Same Tree</b><button onclick="ftAddMember()">Invite someone</button></div>
-  <div class="so-card ft-same"><div class="ft-sh"><div class="grow"><b>${sh.name}</b><em><strong>$${tot.toLocaleString()}</strong> of $${sh.target.toLocaleString()} · ${spc}%</em></div>${svgSeal({top:'Same tree',bottom:sh.name,glyph:'rings',size:44,on:sh.badge})}</div>
-   <div class="ft-stack">${sh.members.map((m,i)=>`<i style="width:${Math.round(m.part/sh.target*100)}%;background:${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'][i%4]}"></i>`).join('')}</div>
-   <div class="ft-note">${sh.members.length} accounts. Nothing pooled, nobody owns it.</div>
-   ${sh.members.map((m,i)=>`<div class="so-row ft-mem"><span class="ft-dot" style="background:${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'][i%4]}"></span>${soAv(m.id,32)}<div class="grow"><b>${m.id==='me'?'You':SO[m.id].n.split(' ')[0]}</b><em>${m.show==='part'?'Sharing their part':'Sharing the total only'}</em></div><b class="ft-part">${m.id==='me'||m.show==='part'?'$'+m.part.toLocaleString():'—'}</b></div>`).join('')}
-   ${sh.log.slice(0,3).map(e=>`<div class="ft-ev"><span class="ft-evav">${soAv(e.id,22)}</span><span>${e.t}</span>${e.stk?`<i>${e.stk}</i>`:e.id!=='me'?`<button onclick="ftSticker(${sh.log.indexOf(e)})">Send a sticker</button>`:''}</div>`).join('')}
-   <button class="btn sg-cta" style="height:46px;margin-top:14px" onclick="ftAdd()">${ic('plus',16)} Add $100 from my account</button>
-   <div class="ft-foot"><button onclick="ftShow()">${ic('eye',14)} ${sh.members[0].show==='part'?'Share only my total':'Share my part'}</button><span>·</span><button onclick="ftLeave()">Leave, keep my money</button></div></div>
   <div class="so-sec" data-sec="learn"><b>Learn Together</b><button onclick="go('fo-learn')">Pick a lesson</button></div>
   <button class="so-card fo-gc" onclick="go('fo-learn',{pair:1})"><div class="sgx-ch" style="margin:0"><div><b>Do a lesson with someone. It counts for all of you.</b><em>Each on your own phone. Paired lessons ask each of you privately, then show every answer at once. A badge for everyone when you finish.</em></div>${svgSeal({top:'Together',bottom:'4 lessons',glyph:'sprout',size:48,on:Object.keys((soState().fo||{learn:{}}).learn||{}).length>=1})}</div></button>
   <p class="sgx-priv">${ic('lock',12)} No joint account. No custody question. Each of you keeps your own money and history. Mom decides whether relatives can watch at all.</p></div>`}});
@@ -5882,7 +5873,7 @@ const WH_STORIES={
   ['sdmonth','Once a month his phone says Ava added to her bike fund. He taps the sticker. He never downloads anything.'],
   ['sdcap','When she’s close: leave Ava a message for the day she gets there. Locked until she does.'],
   ['sdplay','The day she gets the bike, you hand her the phone. It’s Grandpa, from four months ago, telling her he knew she’d do it.']]},
- sametree:{name:'Same Tree',t:'Same Tree',cta:'Share a goal',s:'One goal. Separate accounts. Everyone in.',where:'Any goal → Share this goal.',go:"T={};go('ft-home',{focus:'same'})",beats:[
+ sametree:{name:'Same Tree',t:'Same Tree',cta:'Share a goal',s:'One goal. Separate accounts. Everyone in.',where:'Any goal → Share this goal.',go:"T={};go('sg-list')",beats:[
   ['stgoal','You’ve never merged your money. You don’t have to. One goal, your account, their account, nothing pooled.'],
   ['stshare','Share this goal. They say yes. It shows in both apps and adds up what each of you put in.'],
   ['stsee','You each decide what the other sees. Your part, or only the total. Nothing else.'],
@@ -5969,7 +5960,7 @@ LV.cnbadge=()=>lvOne(whCard(`<div style="display:flex;align-items:center;gap:12p
 
 /* hubs are tabbed, like Oak · Grove: no endless scroll */
 const WH_TABS={'rt-home':{key:'rtTab',tabs:[['you','Your goal'],['bloom','Bloom'],['rings','Achievements']],secs:['wit','bloom','rings','acorn'],map:{you:['head','goal','wit'],bloom:['bloom'],rings:['rings','acorn']}},
- 'ft-home':{key:'ftTab',tabs:[['seed','Seedling'],['same','Same Tree'],['learn','Learn']],secs:['seed','same','learn'],map:{seed:['seed'],same:['same'],learn:['learn']}}};
+ 'ft-home':{key:'ftTab',tabs:[['seed','Seedling'],['learn','Learn']],secs:['seed','learn'],map:{seed:['seed'],learn:['learn']}}};
 Object.keys(WH_TABS).forEach(id=>{const C=WH_TABS[id];const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);if(p&&p.focus){T[C.key]={seed:'seed',same:'same',learn:'learn',wit:'you',bloom:'bloom',rings:'rings',acorn:'rings',canopy:'canopy',ask:'ask'}[p.focus]||C.tabs[0][0]}const tab=T[C.key]||C.tabs[0][0];
   const open=r.html.indexOf('<div class="sg-body sgx-body">');if(open<0)return r;const bodyStart=open+'<div class="sg-body sgx-body">'.length;const bodyEnd=r.html.lastIndexOf('</div>');let body=r.html.slice(bodyStart,bodyEnd);const tail=r.html.slice(bodyEnd);
   /* the privacy line goes on every tab */
@@ -5985,7 +5976,7 @@ Object.keys(WH_TABS).forEach(id=>{const C=WH_TABS[id];const f=SCR[id];if(!f)retu
 /* the prototype clock, the same yellow pill as the Year: demo moves live here, never in the product UI */
 function whClock(list){list=list.filter(Boolean);if(!list.length)return '';return `<div class="yr-clock wh-clock"><span>Prototype</span>${list.map(([l,js])=>`<button onclick="${js}">${ic('ff',12)} ${l}</button>`).join('')}</div>`}
 const WH_DEMOS={'rt-home':()=>{const r=rtSt();const t=T.rtTab||'you';return [t==='you'&&['It’s Friday','rtFriday()'],t==='bloom'&&(rtSt().season.done?['Reset the Bloom','rtSt().season.done=false;rtSt().season.bar=212480;rtSt().season.mine=0;save();refresh()']:['Jump to Nov 30','rtFinishSeason()']),t==='rings'&&!r.acorns.have&&['New milestone','rtSt().acorns.have=1;save();refresh();toast(\'Milestone. You’ve got an acorn.\')']]},
- 'ft-home':()=>{const f=ftSt();const t=T.ftTab||'seed';return [t==='seed'&&!f.reached&&['Ava reaches the goal','ftReach()'],t==='same'&&['Priya’s bonus lands','ftTheirs()']]},
+ 'ft-home':()=>{const f=ftSt();const t=T.ftTab||'seed';return [t==='seed'&&!f.reached&&['Ava reaches the goal','ftReach()']]},
  'fo-grove':()=>{const f=foSt();return [!f.red&&['Market drops 6%','foRed()'],f.red&&['Market recovers','foSt().red=false;save();refresh()']]}};
 Object.keys(WH_DEMOS).forEach(id=>{const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);r.html+=whClock(WH_DEMOS[id]());return r}});
 document.head.insertAdjacentHTML('beforeend',`<style>.wh-clock{bottom:calc(var(--safeBot) + 74px)!important;z-index:6}.scr:has(.wh-clock) .sg-body{padding-bottom:84px!important}.wh-clock button{margin-left:6px}.wh-clock button:first-of-type{margin-left:auto}.wh-seg button{font-size:13px}.ssx-sec>.so-sec:first-child{margin-top:4px}.ssx-sec>.rt-fc{margin-top:4px}</style>`);
@@ -6068,6 +6059,7 @@ function hpYou(){const r=rtSt();const i=stageIdx(S.streak);const nx=nextGoal(S.s
  return `<button class="hp-hero" onclick="go('streaks')"><div class="hp-hsc"><img src="${stageSrc(i)}" alt=""></div><div class="hp-ht"><em>${RSTAGES[i][1]}</em><b>${S.streak} week streak</b><span>Best ${Math.max(S.streak,S.best||24)} weeks · open Streaks</span><div class="hp-hbar"><i style="width:${Math.min(100,Math.round(S.streak/(nx[0]||S.streak)*100))}%"></i></div></div></button>
   <div class="mt12" id="nbgW">${nbgBlock()}</div>
   <div class="hp-list mt16">
+   ${(()=>{const g=r.goal;const ws=r.witnesses.filter(w=>w.state==='in');return hpRow(`<img src="${stageSrc(stageIdx(g.weeks))}" alt="">`,'Your goal',`${g.name} · $${g.amt} a week · ${ws.length?`${ws.map(w=>w.name).join(' and ')} witness${ws.length===1?'es':''}`:'no witness yet'}`,"go('rt-home',{only:'you'})")})()}
    ${hpRow(sealImg(i,40),'Your achievements',`${RSTAGES[i][1]} · your card to share`,"go('rt-home',{only:'rings'})")}
    ${hpRow(`<img src="${IMG.seedling}" alt="">`,'Your oak',ff?`${ff} of 9 extras growing`:'Extras that grow your oak',"home('gt-oak')")}
    ${hpRow(`<img src="${IMG.oak}" alt="">`,'Your year','Monthly recaps, the film, the Year Ring',"go('journal')")}
@@ -6079,7 +6071,6 @@ function hpYou(){const r=rtSt();const i=stageIdx(S.streak);const nx=nextGoal(S.s
 function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in');const gr=growing(),inv=S.grove.filter(x=>x.status==='invited');const open=gr.filter(x=>x.open);const ft=ftSt();const sh=ft.shared;const tot=sh.members.reduce((a,m)=>a+m.part,0);const ch=(typeof chRunning==='function'?chRunning():3);
  return `<div class="hp-list">
    ${hpRow(`<img src="${stageSrc(6)}" alt="">`,'Your grove',open.length?`<i class="hp-blue">${nm(open[0].id)} hasn’t invested yet</i>`:gr.length||inv.length?`${gr.length+inv.length} growing with you · ${ch} challenges`:'Invite someone to grow with you',"GSEL=null;home('gt-grove')")}
-   ${hpRow(ws.length?`<span class="hp-avs">${ws.slice(0,2).map(w=>sgAv(w.id,24)).join('')}</span>`:`<span class="hp-seat"></span>`,'Witnesses',ws.length?`${ws.map(w=>w.name).join(' and ')} see your Fridays`:'Pick who’d notice if you stopped',"go('rt-home',{only:'you'})")}
    ${hpRow(`<span class="hp-avs">${sgAv('priya',24)}${sgAv('sam',24)}</span>`,'Shared goals',`${sgAll().length} goals · with Priya and Sam`,"go('sg-list')")}
    ${hpRow(`<img src="${stageSrc(2)}" alt="">`,'Family',`${ft.kid.name}’s ${ft.kid.goal.toLowerCase()} · ${Object.keys(ft.rel).length||2} relatives watching`,"go('ft-home',{only:'seed'})")}
    ${hpRow(`<img src="${IMG.learn}" alt="">`,'Learn together','A two-minute lesson, read with someone',"go('fo-learn')")}
@@ -6129,7 +6120,7 @@ tabbarDk=function(){return ''};
 /* ---- Grove: shared goals and family watching live in the dock ---- */
 /* ---- Forest: nurse trees ---- */
 /* ---- the stories land in the new places ---- */
-Object.assign(SPL.witness,{go:"T={};home('gt-home');go('rt-home',{only:'you'})"});Object.assign(SPL.fridaycount,{go:"T={};home('gt-home');go('rt-home',{only:'you',focus:'fc'})"});Object.assign(SPL.rings,{go:"T={};home('gt-home');go('rt-home',{only:'rings'})"});Object.assign(SPL.acorn,{go:"T={};home('gt-home');go('rt-home',{only:'rings'})"});Object.assign(SPL.roots,{go:"T={};home('gt-home')"});
+Object.assign(SPL.witness,{go:"T={};home('gt-home');go('rt-home',{only:'you'})"});Object.assign(SPL.fridaycount,{go:"T={};HPIV='everyone';home('gt-home')"});Object.assign(SPL.rings,{go:"T={};home('gt-home');go('rt-home',{only:'rings'})"});Object.assign(SPL.acorn,{go:"T={};home('gt-home');go('rt-home',{only:'rings'})"});Object.assign(SPL.roots,{go:"T={};home('gt-home')"});
 Object.assign(SPL.bloom,{go:"T={};home('gt-home');go('rt-home',{only:'bloom'})"});Object.assign(SPL.family,{go:"T={};GSEL=null;home('gt-grove')"});Object.assign(SPL.forest,{go:"T={};go('fo-grove')"});
 LFX.fridaycount=['rt-home',{only:'you'}].concat(LFX.fridaycount.slice(2));LFX.acorn=['rt-home',{only:'rings'}].concat(LFX.acorn.slice(2));LFX.witness=[ 'rt-home',{only:'you'}].concat(LFX.witness.slice(2));LFX.rings=['rt-home',{only:'rings'}].concat(LFX.rings.slice(2));LFX.bloom=['rt-home',{only:'bloom'}].concat(LFX.bloom.slice(2));LFX.family[0]='gt-grove';LFX.forest[0]='fo-grove';
 window.__iaFocus=function(){Object.assign(FOCUS_SPEC.witness,{hub:'rt-home',hubLabel:'Open Witnesses',go:"T={};home('gt-home');go('rt-home',{only:'you'})",allow:['gt-home']});Object.assign(FOCUS_SPEC.fridaycount,{hub:'rt-home',hubLabel:'See the count',go:"T={};home('gt-home');go('rt-home',{only:'you'})",allow:['gt-home']});Object.assign(FOCUS_SPEC.rings,{hub:'rt-home',hubLabel:'Open my cards',go:"T={};home('gt-home');go('rt-home',{only:'rings'})",allow:['gt-home']});Object.assign(FOCUS_SPEC.acorn,{hub:'rt-home',hubLabel:'Open my cards',go:"T={};home('gt-home');go('rt-home',{only:'rings'})",allow:['gt-home']});Object.assign(FOCUS_SPEC.roots,{hub:'gt-home',hubLabel:'Open Home',go:"T={};home('gt-home')",allow:['gt-home']});Object.assign(FOCUS_SPEC.forest,{hub:'fo-grove',hubLabel:'Find my forest',go:"T={};go('fo-grove')",allow:['gt-home']});
@@ -6269,7 +6260,7 @@ const FOCUS_SPEC={
  acorn:{title:'Drop an Acorn',hub:'rt-home',hubLabel:'Open Roots',go:"T={};go('rt-home',{focus:'acorn'})",side:'$5 you can only plant in someone’s first goal. You’re their witness from the first Friday.'},
  fridaycount:{title:'The Friday Count',hub:'rt-home',hubLabel:'Open Roots',go:"T={};go('rt-home')",side:'Every Friday, Home opens on how many of us kept a promise this week, and one question you answer to see.'},
  seedling:{title:'Seedling',hub:'ft-home',hubLabel:'Open Family Tree',go:"T={};go('ft-home',{focus:'seed'})",side:'The gift link grows two lines: watch a kid’s goal, and leave a message for the day she gets there.'},
- sametree:{title:'Same Tree',hub:'ft-home',hubLabel:'Open Family Tree',go:"T={};go('ft-home',{focus:'same'})",side:'One goal, separate accounts, up to five people, nothing pooled.'},
+ sametree:{title:'Same Tree',hub:'sg-list',hubLabel:'Open shared goals',go:"T={};go('sg-list')",allow:['sg-list','sg-home','sg-new','sg-review','sg-sent','sg-add','sg-added','sg-join'],side:'One goal, separate accounts, up to five people, nothing pooled.'},
  grove:{title:'The Grove',hub:'fo-grove',hubLabel:'Open the Grove',go:"T={};go('fo-grove')",side:'An anonymous group with your goal and your age. A spread, never a rank. Canopy on duty inside it.'},
  canopy:{title:'Canopy',hub:'fo-grove',hubLabel:'Open the Grove',go:"T={};go('fo-canopy')",side:'Ask someone who’s been through it. Inside your grove every day; on top of Home on red days.'},
  roots:{title:'Roots',hub:'rt-home',hubLabel:'Open Roots',go:"T={};go('rt-home')",side:'One person who sees you show up. Witness: a yes or no every Friday, never the balance. Seasons: a month, a target, all of us. Rings: the card, not the balance.'},

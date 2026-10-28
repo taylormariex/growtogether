@@ -35,7 +35,6 @@ function rtClaim(id){const a=rtSt().acorns.sent.find(x=>x.id===id);a.goal=(T.rtg
 def('rt-home',()=>{spInit();const r=rtSt();const g=r.goal;const s=r.season;const pc=Math.min(100,Math.round(s.bar/s.target*100));
  return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="home('ac-home')" aria-label="Home">${ic('back',24)}</button><b>Roots</b><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
  <div class="sg-body sgx-body">
-  ${rtFridayCount()}
   <div class="rt-goal"><div class="rt-gi">${stageImg(g.weeks,54)}</div><div class="grow"><em>Your goal</em><b>${g.name}</b><span>$${g.amt} a week · ${g.weeks} weeks ${g.paused?'<i class="so-chip">frozen</i>':'in a row'}</span></div><button class="sgx-edit" onclick="toast('Only you see the balance')">${ic('lock',12)}</button></div>
   <div data-sec="wit"></div>${rtWitnessCard()}
   <div class="so-sec" data-sec="bloom"><b>This month’s Bloom</b></div>

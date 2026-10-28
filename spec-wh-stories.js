@@ -59,7 +59,7 @@ const WH_STORIES={
   ['sdmonth','Once a month his phone says Ava added to her bike fund. He taps the sticker. He never downloads anything.'],
   ['sdcap','When she’s close: leave Ava a message for the day she gets there. Locked until she does.'],
   ['sdplay','The day she gets the bike, you hand her the phone. It’s Grandpa, from four months ago, telling her he knew she’d do it.']]},
- sametree:{name:'Same Tree',t:'Same Tree',cta:'Share a goal',s:'One goal. Separate accounts. Everyone in.',where:'Any goal → Share this goal.',go:"T={};go('ft-home',{focus:'same'})",beats:[
+ sametree:{name:'Same Tree',t:'Same Tree',cta:'Share a goal',s:'One goal. Separate accounts. Everyone in.',where:'Any goal → Share this goal.',go:"T={};go('sg-list')",beats:[
   ['stgoal','You’ve never merged your money. You don’t have to. One goal, your account, their account, nothing pooled.'],
   ['stshare','Share this goal. They say yes. It shows in both apps and adds up what each of you put in.'],
   ['stsee','You each decide what the other sees. Your part, or only the total. Nothing else.'],
@@ -146,7 +146,7 @@ LV.cnbadge=()=>lvOne(whCard(`<div style="display:flex;align-items:center;gap:12p
 
 /* hubs are tabbed, like Oak · Grove: no endless scroll */
 const WH_TABS={'rt-home':{key:'rtTab',tabs:[['you','Your goal'],['bloom','Bloom'],['rings','Achievements']],secs:['wit','bloom','rings','acorn'],map:{you:['head','goal','wit'],bloom:['bloom'],rings:['rings','acorn']}},
- 'ft-home':{key:'ftTab',tabs:[['seed','Seedling'],['same','Same Tree'],['learn','Learn']],secs:['seed','same','learn'],map:{seed:['seed'],same:['same'],learn:['learn']}}};
+ 'ft-home':{key:'ftTab',tabs:[['seed','Seedling'],['learn','Learn']],secs:['seed','learn'],map:{seed:['seed'],learn:['learn']}}};
 Object.keys(WH_TABS).forEach(id=>{const C=WH_TABS[id];const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);if(p&&p.focus){T[C.key]={seed:'seed',same:'same',learn:'learn',wit:'you',bloom:'bloom',rings:'rings',acorn:'rings',canopy:'canopy',ask:'ask'}[p.focus]||C.tabs[0][0]}const tab=T[C.key]||C.tabs[0][0];
   const open=r.html.indexOf('<div class="sg-body sgx-body">');if(open<0)return r;const bodyStart=open+'<div class="sg-body sgx-body">'.length;const bodyEnd=r.html.lastIndexOf('</div>');let body=r.html.slice(bodyStart,bodyEnd);const tail=r.html.slice(bodyEnd);
   /* the privacy line goes on every tab */
@@ -162,7 +162,7 @@ Object.keys(WH_TABS).forEach(id=>{const C=WH_TABS[id];const f=SCR[id];if(!f)retu
 /* the prototype clock, the same yellow pill as the Year: demo moves live here, never in the product UI */
 function whClock(list){list=list.filter(Boolean);if(!list.length)return '';return `<div class="yr-clock wh-clock"><span>Prototype</span>${list.map(([l,js])=>`<button onclick="${js}">${ic('ff',12)} ${l}</button>`).join('')}</div>`}
 const WH_DEMOS={'rt-home':()=>{const r=rtSt();const t=T.rtTab||'you';return [t==='you'&&['It’s Friday','rtFriday()'],t==='bloom'&&(rtSt().season.done?['Reset the Bloom','rtSt().season.done=false;rtSt().season.bar=212480;rtSt().season.mine=0;save();refresh()']:['Jump to Nov 30','rtFinishSeason()']),t==='rings'&&!r.acorns.have&&['New milestone','rtSt().acorns.have=1;save();refresh();toast(\'Milestone. You’ve got an acorn.\')']]},
- 'ft-home':()=>{const f=ftSt();const t=T.ftTab||'seed';return [t==='seed'&&!f.reached&&['Ava reaches the goal','ftReach()'],t==='same'&&['Priya’s bonus lands','ftTheirs()']]},
+ 'ft-home':()=>{const f=ftSt();const t=T.ftTab||'seed';return [t==='seed'&&!f.reached&&['Ava reaches the goal','ftReach()']]},
  'fo-grove':()=>{const f=foSt();return [!f.red&&['Market drops 6%','foRed()'],f.red&&['Market recovers','foSt().red=false;save();refresh()']]}};
 Object.keys(WH_DEMOS).forEach(id=>{const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);r.html+=whClock(WH_DEMOS[id]());return r}});
 document.head.insertAdjacentHTML('beforeend',`<style>.wh-clock{bottom:calc(var(--safeBot) + 74px)!important;z-index:6}.scr:has(.wh-clock) .sg-body{padding-bottom:84px!important}.wh-clock button{margin-left:6px}.wh-clock button:first-of-type{margin-left:auto}.wh-seg button{font-size:13px}.ssx-sec>.so-sec:first-child{margin-top:4px}.ssx-sec>.rt-fc{margin-top:4px}</style>`);

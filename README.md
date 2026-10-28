@@ -10,11 +10,14 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 
 ## The IA
 
-One pill on top, three places:
+Home (`gt-home`) is a light dashboard of six squares, in the Acorns app style. Each square is a summary; tapping it goes one level deeper, and deeper pages have a back button and no tabs.
 
-- **Oak** (`gt-home`) is you: streak and stage, the Friday Count, your witnesses, your cards (milestone card, Year Ring) and acorns to plant.
-- **Grove** (`gt-grove`) is people you know: the hillside, rain and cheers, challenges with this month's Bloom pinned, shared goals (Same Tree) and family watching a kid's goal (Seedling) in the dock.
-- **Forest** (`fo-grove`) is everyone: an anonymous room with your goal and age, the daily question, nurse trees on duty, Canopy on red days.
+- **Your oak** (`gt-oak`): streak, stage, achievements. Dark scene screen.
+- **Your grove** (`gt-grove`): people you know on the hillside; rain, cheers, challenges with this month's Bloom pinned, shared goals and family watching in the dock. Dark scene screen.
+- **Witnesses** (`rt-home` · your goal): the Friday Count, your goal, who sees you show up.
+- **This month's Bloom** (`rt-home` · bloom): the whole room, one target.
+- **Your cards** (`rt-home` · rings): milestone card, Year Ring, acorns to plant.
+- **The Forest** (`fo-grove`): everyone with your goal, no names; nurse trees on duty, Canopy on red days.
 
 ## Links
 

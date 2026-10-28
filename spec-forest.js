@@ -13,7 +13,8 @@ def('fo-grove',()=>{spInit();const f=foSt();const spread=[6,11,18,22,17,11,8,4,2
  return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="home('ac-home')" aria-label="Home">${ic('back',24)}</button><b>The Forest</b><button class="iconbtn" onclick="protoMenu()" aria-label="Prototype menu">${ic('menu',22)}</button></div>
  <div class="sg-body sgx-body">
   ${f.red?`<button class="fo-red" onclick="go('fo-canopy')"><span class="so-chip live"><i></i>Red day · −6%</span><b>Canopy moved to the top of Home</b><em>The whole bench is on. Ask one question; someone who held through three drops answers within the hour.</em>${ic('chev',16,'opacity:.5')}</button>`:''}
-  <div class="fo-hero"><div class="fo-hh"><div><em>Your room · 3,100 people · month three</em><b>First job · 20 to 25 · Emergency fund</b><span>You’re <u>@${(S.me||'jordan').toLowerCase()}_grows</u>, a handle nobody can trace.</span></div><span class="fo-anon">${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'].map(c=>`<i style="background:${c}"></i>`).join('')}</span></div>
+  ${f.joined?'':`<div class="fo-hero"><div class="fo-hh"><div><em>The Forest</em><b>People with your goal, at your stage.</b><span>Rooms are made from what you’re saving for and where you are in life. No names, no balances. You bring a percent and a streak, and you see the room’s.</span></div></div><p class="fo-hp">Yours would be <b>${(f.stage||'First job · 20 to 25')} · ${(f.goalK||'Emergency fund')}</b>: 3,100 people, in month three.</p><button class="btn fo-hcta" onclick="go('fo-join1')">Find my room</button></div>`}
+  <div class="fo-hero" ${f.joined?'':'style="display:none"'}><div class="fo-hh"><div><em>Your room · 3,100 people · month three</em><b>${f.stage||'First job · 20 to 25'} · ${f.goalK||'Emergency fund'}</b><span>You’re <u>@${f.handle||(S.me||'jordan').toLowerCase()+'_grows'}</u>, a handle nobody can trace.</span></div><span class="fo-anon">${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'].map(c=>`<i style="background:${c}"></i>`).join('')}</span></div>
    ${f.shared?`<div class="rt-spread fo-hsp"><em>Where the room is · percent to goal</em><div class="rt-hist">${spread.map((v,i)=>`<i style="height:${v*4}px" class="${i>=1&&i<=4?'hi':''}"></i>`).join('')}</div><div class="rt-hl"><span>0%</span><span>Most are between 10% and 40%</span><span>100%</span></div></div>`
    :`<p class="fo-hp">Share your own progress to see the group’s. A percent and a streak. Never a dollar, never your name.</p><button class="btn fo-hcta" onclick="foSt().shared=true;save();haptic(8);refresh();toast('Shared as a percent. Nobody sees your place.')">Share mine · 38%, 5 weeks</button>`}</div>
   <div class="fo-bnch" data-sec="canopy"><span class="so-avs">${soAv('kim',26)}${soAv('dee',26)}</span><div class="grow"><b>Nurse trees · ${f.red?'the whole bench is on':'Tasha and Dee are on'}</b><em>${f.red?'Red day. Answers within the hour.':'A year in with a streak. Paid per answer, and for whether you’re still depositing a month on.'} <button class="fo-blink" onclick="go('fo-canopy')">Ask them</button></em></div>${f.badge?svgSeal({top:'Asked',bottom:'Not sold',glyph:'peak',size:40}):''}</div>
@@ -102,4 +103,37 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .fo-bench .rt-alt{font-size:12px}
 .fo-duty{margin-top:6px;padding:14px 16px;border-radius:20px;background:#fff}.fo-dav{display:flex;gap:16px;margin-top:12px}.fo-dav span{display:flex;flex-direction:column;align-items:center}.fo-dav b{font-size:13px;margin-top:4px}.fo-dav em{font-style:normal;font-size:11px;color:#6b706c}
 .fo-path{margin-top:10px}
+</style>`);
+
+/* ---- joining the Forest: room, handle, what you share ---- */
+const FO_STAGES=['First job · 20 to 25','Mid-career · 25 to 40','Parents','Starting over','Retired'];
+const FO_GOALS=['Emergency fund','Car','First apartment','Trip','Wedding','Debt gone'];
+const FO_HANDLES=['grows','holds','keeps','plants','saves','climbs','rows','roots'];
+function foHandle(){const a=['quiet','steady','early','late','slow','small','green','patient'];const b=['otter','fern','oak','acorn','moss','heron','pine','wren'];return `${a[Math.floor(Math.random()*a.length)]}_${b[Math.floor(Math.random()*b.length)]}`}
+def('fo-join1',()=>{const f=foSt();if(!T.fj)T.fj={stage:f.stage||FO_STAGES[0],goal:f.goalK||FO_GOALS[0],handle:f.handle||foHandle(),pct:true,streak:true};const j=T.fj;
+ return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Your room</b><span class="fo-step">1 of 3</span></div>
+ <div class="sg-body sgx-body"><div class="h2">Which room?</div><p class="sm mt8" style="color:#6b706c">Rooms are made of two things. We guessed from your goal; change either.</p>
+  <div class="fo-lab">Saving for</div><div class="chips mt8">${FO_GOALS.map(g=>`<button class="chip ${j.goal===g?'on':''}" onclick="T.fj.goal='${g}';refresh()">${g}</button>`).join('')}</div>
+  <div class="fo-lab">Where you are</div><div class="chips mt8">${FO_STAGES.map(g=>`<button class="chip ${j.stage===g?'on':''}" onclick="T.fj.stage='${g}';refresh()">${g}</button>`).join('')}</div>
+  <div class="so-card mt24"><div class="sgx-ch" style="margin:0"><div><em class="so-lvk">Your room</em><b>${j.stage} · ${j.goal}</b><em>${[3100,2400,1800,900,1200][FO_GOALS.indexOf(j.goal)%5].toLocaleString()} people · month three · 41% missed a week in October too</em></div></div></div>
+  <button class="btn sg-cta" style="height:48px;margin-top:20px" onclick="go('fo-join2')">Continue</button></div>`}});
+def('fo-join2',()=>{const j=T.fj;
+ return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Your handle</b><span class="fo-step">2 of 3</span></div>
+ <div class="sg-body sgx-body"><div class="h2">Nobody can trace this to you.</div><p class="sm mt8" style="color:#6b706c">Not your name, not your email, not your Acorns account. You can change it any time, and nobody is told.</p>
+  <div class="fo-handle"><span>@</span><input class="inp" value="${j.handle}" oninput="T.fj.handle=this.value.replace(/[^a-z0-9_]/g,'')" aria-label="Handle"><button class="sgx-edit" onclick="T.fj.handle=foHandle();refresh()">${ic('ff',12)} Another</button></div>
+  <button class="btn sg-cta" style="height:48px;margin-top:20px" onclick="go('fo-join3')">Continue</button></div>`}});
+def('fo-join3',()=>{const j=T.fj;const g=rtSt().goal;const pc=38;
+ return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>What the room sees</b><span class="fo-step">3 of 3</span></div>
+ <div class="sg-body sgx-body"><div class="h2">A percent and a streak.</div><p class="sm mt8" style="color:#6b706c">Never a dollar. This is all anyone in the room sees of you, and it’s what lets you see the room.</p>
+  <div class="so-card mt16"><div class="so-row"><div class="grow"><b>${pc}% to goal</b><em>${g.name} · how far along, not how much</em></div><label class="sw"><input type="checkbox" ${j.pct?'checked':''} onchange="T.fj.pct=this.checked"><i></i></label></div>
+   <div class="so-row"><div class="grow"><b>${S.streak} weeks in a row</b><em>Your streak, as a number</em></div><label class="sw"><input type="checkbox" ${j.streak?'checked':''} onchange="T.fj.streak=this.checked"><i></i></label></div>
+   <div class="so-row"><div class="grow"><b>Nothing else</b><em>No balance, no deposits, no name. Ever.</em></div>${ic('lock',16,'color:#6b706c')}</div></div>
+  <button class="btn sg-cta" style="height:48px;margin-top:20px" onclick="foJoin()">Enter as @${j.handle}</button>
+  <p class="sgx-priv">${ic('lock',12)} Leave any time. Leaving deletes your percent and streak from the room.</p></div>`}});
+function foJoin(){const f=foSt();const j=T.fj;f.joined=true;f.shared=true;f.stage=j.stage;f.goalK=j.goal;f.handle=j.handle;save();haptic(10);T.fj=null;back2('fo-grove');toast('You’re in. Nobody knows it’s you.')}
+document.head.insertAdjacentHTML('beforeend',`<style>
+.fo-step{font-size:12px;font-weight:700;color:#6b706c}.fo-lab{font-size:12px;font-weight:700;color:#6b706c;margin-top:18px;letter-spacing:.04em;text-transform:uppercase}
+.fo-handle{display:flex;align-items:center;gap:8px;margin-top:18px;background:#fff;border:1px solid #dfe5da;border-radius:16px;padding:8px 8px 8px 16px}.fo-handle>span{font-size:18px;color:#6b706c}.fo-handle .inp{flex:1;border:0;background:none;font-size:18px;font-weight:600;padding:8px 0;margin:0;color:#191919}
+.sw{position:relative;width:44px;height:26px;flex:none}.sw input{opacity:0;width:0;height:0}.sw i{position:absolute;inset:0;border-radius:13px;background:#dfe5da;transition:.2s}.sw i:after{content:'';position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}.sw input:checked+i{background:#74c947}.sw input:checked+i:after{transform:translateX(18px)}
+.fo-hp b{color:#fff}
 </style>`);

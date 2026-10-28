@@ -69,7 +69,7 @@ function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=M
  return `<div class="hp-fc">${rtFridayCount({q:true})}</div>
   <button class="hp-hero bloom" onclick="go('rt-home',{only:'bloom'})"><div class="hp-ht wide"><em>This month’s Bloom · day 12 of 30</em><b>No-Spend November</b><span>${s.done?'Finished. $5 landed.':s.joined?'You’re in · '+s.people.toLocaleString()+' of us':s.people.toLocaleString()+' of us, going for '+s.target.toLocaleString()}</span><div class="hp-hbar"><i style="width:${pc}%"></i></div></div><img class="hp-bart" src="${stageSrc(4)}" alt=""></button>
   <div class="hp-list mt16">
-   ${hpRow(`<img src="${stageSrc(7)}" alt="">`,'The Forest',fo.shared?'3,100 with your goal · no names':'3,100 with your goal · see the spread',"go('fo-grove')")}
+   ${hpRow(`<img src="${stageSrc(7)}" alt="">`,'The Forest',fo.joined?`${fo.stage||'First job'} · ${fo.goalK||'Emergency fund'} · no names`:'Find the room with your goal',"go('fo-grove')")}
    ${hpRow(`<span class="hp-avs">${soAv('kim',22)}${soAv('dee',22)}</span>`,'Canopy',fo.red?'Red day · the whole bench is on':'Tasha and Dee are on · ask, don’t sell',"go('fo-canopy')",fo.red?'red':'')}
   </div>`}
 (function(){SCR['gt-home']=p=>{spInit();NBG_LOADED=true;const P=window.HPIV;const fo=foSt();

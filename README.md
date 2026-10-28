@@ -14,7 +14,8 @@ Sorted by what the customer is doing, not by who wrote the concept. Home (`gt-ho
 
 - **You** (my habit): streak hero → Streaks (the Streaks team's page) · the week's card · Your goal (what you're investing toward; adding a witness is part of it) · Your achievements (your milestone card to share, the Year Ring, the Acorns Year film, monthly recaps) · Your oak (the nine extras) · Skip and Invest · Know yourself · the timeline.
 - **People** (people who know me): Your grove (the hillside, with its challenges inside) · Shared goals (the Grow Together list; Same Tree's Wedding is one of the goals in it, and "Someone new" or + starts another) · Family (Seedling: the kid's account and the relatives who watch) · Learn together (one lesson, read with someone who has your goal) · Drop an acorn, when you have one to give.
-- **Everyone** (the crowd): the Friday Count with Today's question (you see the answer by answering) · this month's Bloom as the hero · The Forest (the anonymous room for your goal; share a percent to see the spread) · Canopy (the nurse trees; ask, don't sell).
+- **Everyone** (the crowd): the Friday Count with Today's question (you see the answer by answering) · this month's Bloom as the hero · The Forest (find your room: goal and life stage, an untraceable handle, a percent and a streak; then the room's spread) · Canopy (the nurse trees; ask, don't sell).
+- Bloom's Skip and Invest runs the real Quick Invest flow and comes back with the skip counted.
 - On a red day a Canopy banner sits above every tab.
 - Everything below Home is light (`spec-day.js` flips the dark system to day; the Grove gets a daytime sky). Home and Streaks stay dark; the Acorns Year film and the Year Ring card stay dark because they are a film and a card.
 

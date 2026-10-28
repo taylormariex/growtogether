@@ -145,10 +145,10 @@ LV.cnmath=()=>lvOne(whCard(`<div class="fo-ans" style="margin:0">${soAv('kim',28
 LV.cnbadge=()=>lvOne(whCard(`<div style="display:flex;align-items:center;gap:12px">${svgSeal({top:'Asked',bottom:'Not sold',glyph:'peak',size:64})}<div><b style="font-size:15px">Asked instead of selling</b><em style="display:block;font-style:normal;font-size:12px;color:#6b706c">Stays on your goal</em></div></div>`));
 
 /* hubs are tabbed, like Oak · Grove: no endless scroll */
-const WH_TABS={'rt-home':{key:'rtTab',tabs:[['friday','Friday'],['wit','Witness'],['bloom','Bloom'],['rings','Rings']],secs:['wit','bloom','rings','acorn'],map:{friday:['head'],wit:['goal','wit'],bloom:['bloom'],rings:['rings','acorn']},goalIn:['wit']},
+const WH_TABS={'rt-home':{key:'rtTab',tabs:[['you','Your goal'],['bloom','Bloom'],['rings','Rings']],secs:['wit','bloom','rings','acorn'],map:{you:['head','goal','wit'],bloom:['bloom'],rings:['rings','acorn']}},
  'ft-home':{key:'ftTab',tabs:[['seed','Seedling'],['same','Same Tree'],['learn','Learn']],secs:['seed','same','learn'],map:{seed:['seed'],same:['same'],learn:['learn']}},
  'fo-grove':{key:'foTab',tabs:[['grove','Grove'],['ask','Ask'],['canopy','Canopy']],secs:['canopy','ask'],map:{grove:['head'],ask:['ask'],canopy:['canopy']}}};
-Object.keys(WH_TABS).forEach(id=>{const C=WH_TABS[id];const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);if(p&&p.focus){T[C.key]={seed:'seed',same:'same',learn:'learn',wit:'wit',bloom:'bloom',rings:'rings',acorn:'rings',canopy:'canopy',ask:'ask'}[p.focus]||C.tabs[0][0]}const tab=T[C.key]||C.tabs[0][0];
+Object.keys(WH_TABS).forEach(id=>{const C=WH_TABS[id];const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);if(p&&p.focus){T[C.key]={seed:'seed',same:'same',learn:'learn',wit:'you',bloom:'bloom',rings:'rings',acorn:'rings',canopy:'canopy',ask:'ask'}[p.focus]||C.tabs[0][0]}const tab=T[C.key]||C.tabs[0][0];
   const open=r.html.indexOf('<div class="sg-body sgx-body">');if(open<0)return r;const bodyStart=open+'<div class="sg-body sgx-body">'.length;const bodyEnd=r.html.lastIndexOf('</div>');let body=r.html.slice(bodyStart,bodyEnd);const tail=r.html.slice(bodyEnd);
   /* the privacy line goes on every tab */
   let priv='';const pm=body.match(/<p class="sgx-priv">[\s\S]*?<\/p>\s*$/);if(pm){priv=pm[0];body=body.slice(0,pm.index)}
@@ -156,13 +156,13 @@ Object.keys(WH_TABS).forEach(id=>{const C=WH_TABS[id];const f=SCR[id];if(!f)retu
   parts.forEach(([k,h])=>{chunks[k]=(chunks[k]||'')+h});
   /* the goal card lives in the head chunk for Roots; share it with the Witness tab */
   if(id==='rt-home'){const gm=chunks.head.match(/<div class="rt-goal">[\s\S]*?<\/button><\/div>/);if(gm){chunks.goal=gm[0];chunks.head=chunks.head.replace(gm[0],'')}}
-  const seg=`<div class="ssx-seg wh-seg" style="width:${C.tabs.length>3?'330px':'280px'}">${C.tabs.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="T.${C.key}='${k}';refresh()">${l}</button>`).join('')}</div>`;
+  const seg=`<div class="ssx-seg wh-seg" style="width:300px">${C.tabs.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="T.${C.key}='${k}';refresh()">${l}</button>`).join('')}</div>`;
   const content=(C.map[tab]||[]).map(k=>chunks[k]||'').join('');
   r.html=r.html.slice(0,open)+seg+'<div class="sg-body sgx-body" style="top:calc(var(--safeTop) + 104px)"><div class="ssx-sec" key="'+tab+'">'+content+priv+'</div>'+tail;
   const m0=r.mount;r.mount=el=>{if(m0)m0(el);if(p&&p.focus)delete p.focus};return r}});
 /* the prototype clock, the same yellow pill as the Year: demo moves live here, never in the product UI */
 function whClock(list){list=list.filter(Boolean);if(!list.length)return '';return `<div class="yr-clock wh-clock"><span>Prototype</span>${list.map(([l,js])=>`<button onclick="${js}">${ic('ff',12)} ${l}</button>`).join('')}</div>`}
-const WH_DEMOS={'rt-home':()=>{const r=rtSt();const t=T.rtTab||'friday';return [(t==='friday'||t==='wit')&&['It’s Friday','rtFriday()'],t==='bloom'&&(rtSt().season.done?['Reset the Bloom','rtSt().season.done=false;rtSt().season.bar=212480;rtSt().season.mine=0;save();refresh()']:['Jump to Nov 30','rtFinishSeason()']),t==='rings'&&!r.acorns.have&&['New milestone','rtSt().acorns.have=1;save();refresh();toast(\'Milestone. You’ve got an acorn.\')']]},
+const WH_DEMOS={'rt-home':()=>{const r=rtSt();const t=T.rtTab||'you';return [t==='you'&&['It’s Friday','rtFriday()'],t==='bloom'&&(rtSt().season.done?['Reset the Bloom','rtSt().season.done=false;rtSt().season.bar=212480;rtSt().season.mine=0;save();refresh()']:['Jump to Nov 30','rtFinishSeason()']),t==='rings'&&!r.acorns.have&&['New milestone','rtSt().acorns.have=1;save();refresh();toast(\'Milestone. You’ve got an acorn.\')']]},
  'ft-home':()=>{const f=ftSt();const t=T.ftTab||'seed';return [t==='seed'&&!f.reached&&['Ava reaches the goal','ftReach()'],t==='same'&&['Priya’s bonus lands','ftTheirs()']]},
  'fo-grove':()=>{const f=foSt();return [!f.red&&['Market drops 6%','foRed()'],f.red&&['Market recovers','foSt().red=false;save();refresh()']]}};
 Object.keys(WH_DEMOS).forEach(id=>{const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);r.html+=whClock(WH_DEMOS[id]());return r}});
@@ -178,7 +178,17 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .so-lvc{padding:18px}.so-lvc>b:first-child,.so-lvc>.rt-q{font-size:18px;line-height:1.2;letter-spacing:-.2px}.so-lvc .so-row{padding:10px 0}.so-lvc .so-row b{font-size:15px}.so-lvc .so-row em{font-size:12px;margin-top:1px}
 .wh-people{display:flex;justify-content:center;gap:36px;margin:16px 0 18px}.wh-people span{display:flex;flex-direction:column;align-items:center;gap:6px}.wh-people b{font-size:13px}.wh-people em{font-style:normal;font-size:12px;color:#6b706c;margin-top:-2px}
 .wh-btn{display:flex;align-items:center;justify-content:center;height:46px;font-size:15px}
-.wh-one{display:flex;flex-direction:column;align-items:center;gap:10px;max-height:100%}.wh-one.tight{gap:0}
+.wh-one{display:flex;flex-direction:column;align-items:center;gap:12px;max-height:100%;transform:scale(1.12)}.scr.ldr .rt-goal b,.scr.ldr .rt-goal span{color:#191919}.scr.ldr .rt-goal span{color:#6b706c}.wh-one.tight{gap:0}
 .wh-under{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:14px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.75);font-size:12px;font-weight:600}
 .scr.ldr .ld-art .lv-mid{justify-content:center}
+</style>`);
+
+/* ---------- two groves: yours (people you know, trees, rain, challenges) and the Grove (everyone with your goal, no names) ---------- */
+tabbarDk=function(on){if(on==='gt-ch')return '';const t=[['gt-home','Oak'],['gt-grove','My grove'],['fo-grove','The Grove']];const cur0=on==='gt-oak'?'gt-home':on;
+  return `<div class="sk-pill three" role="tablist" aria-label="Grow Together">${t.map(([id,l])=>`<button class="${cur0===id?'on':''}" role="tab" aria-selected="${cur0===id}" onclick="home('${id}')">${l}</button>`).join('')}</div>`};
+(function(){const f=SCR['fo-grove'];SCR['fo-grove']=p=>{const r=f(p);r.cls=(r.cls||'')+' fog';r.html=r.html.replace('<div class="sg-top">','<div class="sg-top fog-top">').replace(/<b>The Grove<\/b>/,'<b></b>')+tabbarDk('fo-grove');return r}})();
+document.head.insertAdjacentHTML('beforeend',`<style>
+.sk-pill.three{width:300px}
+.fog .sk-pill{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--safeTop) + 6px);margin:0;z-index:9;background:#e9ede4;border:0}.fog .sk-pill button{color:#5d655f}.fog .sk-pill button.on{background:#fff;color:#191919;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.fog .wh-seg{top:calc(var(--safeTop) + 56px)}.fog .sg-body{top:calc(var(--safeTop) + 106px)!important}
 </style>`);

@@ -59,12 +59,12 @@ function hpYou(){const r=rtSt();const i=stageIdx(S.streak);const nx=nextGoal(S.s
   <div class="hp-sec row between"><span>Timeline</span><span class="seg"><button class="${TLV==='hi'?'on':''}" onclick="TLV='hi';refresh()">Highlights</button><button class="${TLV==='la'?'on':''}" onclick="TLV='la';refresh()">Latest</button></span></div>
   <div class="hp-tl">${tlItems().map(tlCard).join('')}</div>`}
 function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in');const gr=growing(),inv=S.grove.filter(x=>x.status==='invited');const open=gr.filter(x=>x.open);const ft=ftSt();const sh=ft.shared;const tot=sh.members.reduce((a,m)=>a+m.part,0);const ch=(typeof chRunning==='function'?chRunning():3);
- return `<div class="hp-list">
+ return `${r.acorns.have?`<button class="nbg hp-acorn" onclick="go('rt-acorn')"><div class="k">You’ve earned an acorn</div><div class="t">$5 to plant in someone’s first goal.</div><div class="s">Acorns’ money, not yours. You can’t keep it; you can only give it. Unplanted after 30 days, it goes back.</div><div class="acts"><span class="pbtn">Plant it</span><span class="sbtn">${r.acorns.sent.length?`${r.acorns.sent.filter(a=>a.goal).length} of ${r.acorns.sent.length} became goals`:'4 a year, from the referral budget'}</span></div><div class="ico"><img src="${stageSrc(0)}" alt=""></div></button>`:''}
+ <div class="hp-list ${r.acorns.have?'mt16':''}">
    ${hpRow(`<img src="${stageSrc(6)}" alt="">`,'Your grove',open.length?`<i class="hp-blue">${nm(open[0].id)} hasn’t invested yet</i>`:gr.length||inv.length?`${gr.length+inv.length} growing with you · ${ch} challenges`:'Invite someone to grow with you',"GSEL=null;home('gt-grove')")}
    ${hpRow(`<span class="hp-avs">${sgAv('priya',24)}${sgAv('sam',24)}</span>`,'Shared goals',`${sgAll().length} goals · with Priya and Sam`,"go('sg-list')")}
    ${hpRow(`<img src="${stageSrc(2)}" alt="">`,'Family',`${ft.kid.name}’s ${ft.kid.goal.toLowerCase()} · ${Object.keys(ft.rel).length||2} relatives watching`,"go('ft-home',{only:'seed'})")}
    ${hpRow(`<img src="${IMG.earn}" alt="">`,'Challenges',`${ch} running${(S.invites||[]).length?` · ${S.invites.length} invite${S.invites.length===1?'':'s'} waiting`:''}`,"HPIV='people';go('gt-ch')")}
-   ${r.acorns.have?hpRow(`<img src="${stageSrc(0)}" alt="">`,'Drop an acorn','$5 to give someone starting out',"go('rt-acorn')"):''}
   </div>`}
 function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=Math.min(100,Math.round(s.bar/s.target*100));
  return `<div class="hp-fc">${rtFridayCount({q:true})}</div>
@@ -100,7 +100,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .hp-sec{font-size:17px;font-weight:700;margin:22px 0 10px;color:#fff}.hp-sec .seg{display:inline-flex;gap:2px;background:rgba(255,255,255,.08);border-radius:16px;padding:2px}.hp-sec .seg button{font-size:12px;font-weight:600;padding:5px 10px;border-radius:14px;color:rgba(255,255,255,.6);background:none}.hp-sec .seg button.on{background:#fff;color:#191919}
 .hp-scroll{gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;align-items:flex-start}
 .hp .ia-avs .sg-av{box-shadow:0 0 0 2px #0f1f0d}
-.hp-fc{margin-bottom:12px}.hp-fc .rt-fc{margin:0}
+.hp-fc{margin-bottom:12px}.hp-acorn{display:block;width:100%;text-align:left}.hp-acorn .ico img{height:34px}.hp-fc .rt-fc{margin:0}
 .hp-q .rt-fcq{margin:0;background:#0f1f0d;border:1px solid rgba(116,201,71,.14);border-radius:20px;padding:14px 16px}.hp-red{margin:0 0 16px}.hp-hero.learn{background:linear-gradient(160deg,#1a3f2a,#0b2110)}.hp .ia-empty{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
 </style>`);
 tabbarDk=function(){return ''};

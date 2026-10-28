@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:27 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:29 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5823,31 +5823,55 @@ const FO_GOALS=['Emergency fund','Car','First apartment','Trip','Wedding','Debt 
 const FO_HANDLES=['grows','holds','keeps','plants','saves','climbs','rows','roots'];
 function foHandle(){const a=['quiet','steady','early','late','slow','small','green','patient'];const b=['otter','fern','oak','acorn','moss','heron','pine','wren'];return `${a[Math.floor(Math.random()*a.length)]}_${b[Math.floor(Math.random()*b.length)]}`}
 def('fo-join1',()=>{const f=foSt();if(!T.fj)T.fj={stage:f.stage||FO_STAGES[0],goal:f.goalK||FO_GOALS[0],handle:f.handle||foHandle(),pct:true,streak:true};const j=T.fj;
- return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Your room</b><span class="fo-step">1 of 3</span></div>
+ return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Your room</b><span class="fo-step">1 of 5</span></div>
  <div class="sg-body sgx-body"><div class="h2">Which room?</div><p class="sm mt8" style="color:#6b706c">Rooms are made of two things. We guessed from your goal; change either.</p>
   <div class="fo-lab">Saving for</div><div class="chips mt8">${FO_GOALS.map(g=>`<button class="chip ${j.goal===g?'on':''}" onclick="T.fj.goal='${g}';refresh()">${g}</button>`).join('')}</div>
   <div class="fo-lab">Where you are</div><div class="chips mt8">${FO_STAGES.map(g=>`<button class="chip ${j.stage===g?'on':''}" onclick="T.fj.stage='${g}';refresh()">${g}</button>`).join('')}</div>
   <div class="so-card mt24"><div class="sgx-ch" style="margin:0"><div><em class="so-lvk">Your room</em><b>${j.stage} · ${j.goal}</b><em>${[3100,2400,1800,900,1200][FO_GOALS.indexOf(j.goal)%5].toLocaleString()} people · month three · 41% missed a week in October too</em></div></div></div>
   <button class="btn sg-cta" style="height:48px;margin-top:20px" onclick="go('fo-join2')">Continue</button></div>`}});
 def('fo-join2',()=>{const j=T.fj;
- return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Your handle</b><span class="fo-step">2 of 3</span></div>
+ return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>Your handle</b><span class="fo-step">2 of 5</span></div>
  <div class="sg-body sgx-body"><div class="h2">Nobody can trace this to you.</div><p class="sm mt8" style="color:#6b706c">Not your name, not your email, not your Acorns account. You can change it any time, and nobody is told.</p>
   <div class="fo-handle"><span>@</span><input class="inp" value="${j.handle}" oninput="T.fj.handle=this.value.replace(/[^a-z0-9_]/g,'')" aria-label="Handle"><button class="sgx-edit" onclick="T.fj.handle=foHandle();refresh()">${ic('ff',12)} Another</button></div>
   <button class="btn sg-cta" style="height:48px;margin-top:20px" onclick="go('fo-join3')">Continue</button></div>`}});
 def('fo-join3',()=>{const j=T.fj;const g=rtSt().goal;const pc=38;
- return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>What the room sees</b><span class="fo-step">3 of 3</span></div>
+ return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>What the room sees</b><span class="fo-step">3 of 5</span></div>
  <div class="sg-body sgx-body"><div class="h2">A percent and a streak.</div><p class="sm mt8" style="color:#6b706c">Never a dollar. This is all anyone in the room sees of you, and it’s what lets you see the room.</p>
   <div class="so-card mt16"><div class="so-row"><div class="grow"><b>${pc}% to goal</b><em>${g.name} · how far along, not how much</em></div><label class="sw"><input type="checkbox" ${j.pct?'checked':''} onchange="T.fj.pct=this.checked"><i></i></label></div>
    <div class="so-row"><div class="grow"><b>${S.streak} weeks in a row</b><em>Your streak, as a number</em></div><label class="sw"><input type="checkbox" ${j.streak?'checked':''} onchange="T.fj.streak=this.checked"><i></i></label></div>
    <div class="so-row"><div class="grow"><b>Nothing else</b><em>No balance, no deposits, no name. Ever.</em></div>${ic('lock',16,'color:#6b706c')}</div></div>
-  <button class="btn sg-cta" style="height:48px;margin-top:20px" onclick="foJoin()">Enter as @${j.handle}</button>
+  <button class="btn sg-cta" style="height:48px;margin-top:20px" onclick="go('fo-join4')">Continue</button>
   <p class="sgx-priv">${ic('lock',12)} Leave any time. Leaving deletes your percent and streak from the room.</p></div>`}});
-function foJoin(){const f=foSt();const j=T.fj;f.joined=true;f.shared=true;f.stage=j.stage;f.goalK=j.goal;f.handle=j.handle;save();haptic(10);T.fj=null;back2('fo-grove');toast('You’re in. Nobody knows it’s you.')}
+def('fo-join4',()=>{const j=T.fj;if(j.red===undefined){j.red=true;j.recap=true;j.answer=false}
+ return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>How the room reaches you</b><span class="fo-step">4 of 5</span></div>
+ <div class="sg-body sgx-body"><div class="h2">Quiet by default.</div><p class="sm mt8" style="color:#6b706c">The room never pings you to invest. It only speaks on three occasions, and you pick which.</p>
+  <div class="so-card mt16"><div class="so-row"><span class="fo-ni" style="background:#fde8e6;color:#c62828">${ic('bell',16)}</span><div class="grow"><b>Red days</b><em>When the market drops, Canopy opens on top of Home. One tap to ask someone who held.</em></div><label class="sw"><input type="checkbox" ${j.red?'checked':''} onchange="T.fj.red=this.checked"><i></i></label></div>
+   <div class="so-row"><span class="fo-ni">${ic('cal',16)}</span><div class="grow"><b>Friday recap</b><em>Where the room moved this week. One line, no names.</em></div><label class="sw"><input type="checkbox" ${j.recap?'checked':''} onchange="T.fj.recap=this.checked"><i></i></label></div>
+   <div class="so-row"><span class="fo-ni">${ic('chat',16)}</span><div class="grow"><b>Questions you could answer</b><em>A year in with a streak, you can be a nurse tree. Paid per answer. Not yet, for you.</em></div><label class="sw off"><input type="checkbox" disabled><i></i></label></div></div>
+  <button class="btn sg-cta" style="height:48px;margin-top:20px" onclick="go('fo-join5')">Continue</button></div>`}});
+def('fo-join5',()=>{const j=T.fj;
+ return {cls:'lt sgs sgx so',html:`<div class="sg-top"><button class="iconbtn" onclick="back()" aria-label="Back">${ic('back',24)}</button><b>The rules</b><span class="fo-step">5 of 5</span></div>
+ <div class="sg-body sgx-body"><div class="h2">Three rules, both ways.</div><p class="sm mt8" style="color:#6b706c">They hold for you and for everyone in the room.</p>
+  <div class="fo-rules">${[['No names','You’re a handle. So is everyone. Nobody is told who anyone is, ever.'],['No balances','A percent and a streak. Never a dollar, never a rank, never “you’re behind.”'],['Ask, don’t sell','Questions are about the habit. Nobody here tells you what to buy, and nobody is paid to.']].map(([t,d],k)=>`<div class="fo-rule"><span>${k+1}</span><div><b>${t}</b><em>${d}</em></div></div>`).join('')}</div>
+  <button class="btn sg-cta" style="height:48px;margin-top:20px" onclick="foJoin()">I’m in as @${j.handle}</button>
+  <p class="sgx-priv">${ic('lock',12)} Break a rule and you’re out of the room, quietly. Nobody else is told.</p></div>`}});
+def('fo-joined',()=>{const f=foSt();const g=rtSt().goal;
+ return {cls:'lt sgs sgx so',html:`<div class="sg-top"><span></span><b></b><button class="iconbtn" onclick="back2('fo-grove')" aria-label="Close">${ic('close',22)}</button></div>
+ <div class="sg-body sgx-body" style="text-align:center;padding-top:30px"><div class="fo-jtrees">${[7,5,6,7,5].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[34,26,30,38,26][k]}px" alt="">`).join('')}</div>
+  <div class="h2 mt16">You’re in.</div><p class="sm mt8" style="color:#6b706c">${f.stage} · ${f.goalK}. 3,100 people, and none of them know it’s you.</p>
+  <div class="so-card mt20" style="text-align:left"><div class="so-row"><div class="grow"><em>In the room you’re</em><b>@${f.handle}</b></div></div><div class="so-row"><div class="grow"><em>They see</em><b>38% to goal · ${S.streak} weeks in a row</b></div></div><div class="so-row"><div class="grow"><em>They never see</em><b>${g.name}, a dollar, or your name</b></div></div></div>
+  <button class="btn sg-cta" style="height:48px;margin-top:20px" onclick="back2('fo-grove')">See the room</button>
+  <button class="rt-alt" onclick="back2('fo-grove');setTimeout(()=>go('fo-canopy'),300)">Ask Canopy something first</button></div>`}});
+function foJoin(){const f=foSt();const j=T.fj;f.joined=true;f.shared=true;f.stage=j.stage;f.goalK=j.goal;f.handle=j.handle;f.notify={red:j.red,recap:j.recap};save();haptic(10);T.fj=null;go('fo-joined')}
 document.head.insertAdjacentHTML('beforeend',`<style>
 .fo-step{font-size:12px;font-weight:700;color:#6b706c}.fo-lab{font-size:12px;font-weight:700;color:#6b706c;margin-top:18px;letter-spacing:.04em;text-transform:uppercase}
 .fo-handle{display:flex;align-items:center;gap:8px;margin-top:18px;background:#fff;border:1px solid #dfe5da;border-radius:16px;padding:8px 8px 8px 16px}.fo-handle>span{font-size:18px;color:#6b706c}.fo-handle .inp{flex:1;border:0;background:none;font-size:18px;font-weight:600;padding:8px 0;margin:0;color:#191919}
 .sw{position:relative;width:44px;height:26px;flex:none}.sw input{opacity:0;width:0;height:0}.sw i{position:absolute;inset:0;border-radius:13px;background:#dfe5da;transition:.2s}.sw i:after{content:'';position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}.sw input:checked+i{background:#74c947}.sw input:checked+i:after{transform:translateX(18px)}
 .fo-hp b{color:#fff}
+.fo-ni{width:32px;height:32px;border-radius:10px;background:#f3f6f0;color:#2f7a12;display:flex;align-items:center;justify-content:center;flex:none}.sw.off{opacity:.35}
+.fo-rules{margin-top:16px;background:#fff;border-radius:20px;padding:4px 16px}.fo-rule{display:flex;gap:14px;padding:14px 0}.fo-rule+.fo-rule{border-top:1px solid #f0f2ee}.fo-rule>span{width:28px;height:28px;border-radius:50%;background:#e3f4d8;color:#2f7a12;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none}.fo-rule b{display:block;font-size:15px}.fo-rule em{display:block;font-style:normal;font-size:13px;line-height:1.45;color:#6b706c;margin-top:3px}
+.fo-jtrees{display:flex;justify-content:center;align-items:flex-end;gap:2px}.fo-jtrees img{width:auto}
+.so-row .grow em{display:block;font-style:normal;font-size:12px;color:#6b706c}.so-row .grow b{display:block;font-size:15px}
 </style>`);
 
 
@@ -6120,12 +6144,12 @@ function hpYou(){const r=rtSt();const i=stageIdx(S.streak);const nx=nextGoal(S.s
   <div class="hp-sec row between"><span>Timeline</span><span class="seg"><button class="${TLV==='hi'?'on':''}" onclick="TLV='hi';refresh()">Highlights</button><button class="${TLV==='la'?'on':''}" onclick="TLV='la';refresh()">Latest</button></span></div>
   <div class="hp-tl">${tlItems().map(tlCard).join('')}</div>`}
 function hpPeople(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in');const gr=growing(),inv=S.grove.filter(x=>x.status==='invited');const open=gr.filter(x=>x.open);const ft=ftSt();const sh=ft.shared;const tot=sh.members.reduce((a,m)=>a+m.part,0);const ch=(typeof chRunning==='function'?chRunning():3);
- return `<div class="hp-list">
+ return `${r.acorns.have?`<button class="nbg hp-acorn" onclick="go('rt-acorn')"><div class="k">You’ve earned an acorn</div><div class="t">$5 to plant in someone’s first goal.</div><div class="s">Acorns’ money, not yours. You can’t keep it; you can only give it. Unplanted after 30 days, it goes back.</div><div class="acts"><span class="pbtn">Plant it</span><span class="sbtn">${r.acorns.sent.length?`${r.acorns.sent.filter(a=>a.goal).length} of ${r.acorns.sent.length} became goals`:'4 a year, from the referral budget'}</span></div><div class="ico"><img src="${stageSrc(0)}" alt=""></div></button>`:''}
+ <div class="hp-list ${r.acorns.have?'mt16':''}">
    ${hpRow(`<img src="${stageSrc(6)}" alt="">`,'Your grove',open.length?`<i class="hp-blue">${nm(open[0].id)} hasn’t invested yet</i>`:gr.length||inv.length?`${gr.length+inv.length} growing with you · ${ch} challenges`:'Invite someone to grow with you',"GSEL=null;home('gt-grove')")}
    ${hpRow(`<span class="hp-avs">${sgAv('priya',24)}${sgAv('sam',24)}</span>`,'Shared goals',`${sgAll().length} goals · with Priya and Sam`,"go('sg-list')")}
    ${hpRow(`<img src="${stageSrc(2)}" alt="">`,'Family',`${ft.kid.name}’s ${ft.kid.goal.toLowerCase()} · ${Object.keys(ft.rel).length||2} relatives watching`,"go('ft-home',{only:'seed'})")}
    ${hpRow(`<img src="${IMG.earn}" alt="">`,'Challenges',`${ch} running${(S.invites||[]).length?` · ${S.invites.length} invite${S.invites.length===1?'':'s'} waiting`:''}`,"HPIV='people';go('gt-ch')")}
-   ${r.acorns.have?hpRow(`<img src="${stageSrc(0)}" alt="">`,'Drop an acorn','$5 to give someone starting out',"go('rt-acorn')"):''}
   </div>`}
 function hpEveryone(){const r=rtSt();const s=r.season;const fo=foSt();const pc=Math.min(100,Math.round(s.bar/s.target*100));
  return `<div class="hp-fc">${rtFridayCount({q:true})}</div>
@@ -6161,7 +6185,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .hp-sec{font-size:17px;font-weight:700;margin:22px 0 10px;color:#fff}.hp-sec .seg{display:inline-flex;gap:2px;background:rgba(255,255,255,.08);border-radius:16px;padding:2px}.hp-sec .seg button{font-size:12px;font-weight:600;padding:5px 10px;border-radius:14px;color:rgba(255,255,255,.6);background:none}.hp-sec .seg button.on{background:#fff;color:#191919}
 .hp-scroll{gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;align-items:flex-start}
 .hp .ia-avs .sg-av{box-shadow:0 0 0 2px #0f1f0d}
-.hp-fc{margin-bottom:12px}.hp-fc .rt-fc{margin:0}
+.hp-fc{margin-bottom:12px}.hp-acorn{display:block;width:100%;text-align:left}.hp-acorn .ico img{height:34px}.hp-fc .rt-fc{margin:0}
 .hp-q .rt-fcq{margin:0;background:#0f1f0d;border:1px solid rgba(116,201,71,.14);border-radius:20px;padding:14px 16px}.hp-red{margin:0 0 16px}.hp-hero.learn{background:linear-gradient(160deg,#1a3f2a,#0b2110)}.hp .ia-empty{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
 </style>`);
 tabbarDk=function(){return ''};

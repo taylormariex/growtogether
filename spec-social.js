@@ -13,9 +13,9 @@ const SO={
  nina:{n:'Nina Alvarez',h:'@ninaa',tag:'Single mom · Later',c:'#c2185b'},
  ana:{n:'Ana Ruiz',h:'@anar',tag:'Nurse · Tempe',c:'#6d4c41'},
  tom:{n:'Tom Okafor',h:'@tomo',tag:'Teacher',c:'#455a64'},
- dee:{n:'Dee Chen',h:'@deec',tag:'Phoenix FIRE admin',c:'#00897b'},
+ dee:{n:'Dee Chen',h:'@dee_since_2018',tag:'Eight years in',c:'#00897b'},
  ray:{n:'Ray Patel',h:'@rayp',tag:'Round-Ups every day',c:'#5e35b1'},
- kim:{n:'Kim Osei',h:'@kimo',tag:'Acorns coach',c:'#0a1d08'},
+ kim:{n:'Tasha Reed',h:'@tasha_holds',tag:'Six years in',c:'#0a1d08'},
  val:{n:'Val Moreno',h:'@valm',tag:'Creator · 41k',c:'#8e24aa'}};
 function soAv(id,sz){const p=SO[id]||SO.sam;sz=sz||36;const l=p.n[0];return `<span class="so-av" style="background:${p.c};width:${sz}px;height:${sz}px;font-size:${Math.round(sz*.42)}px">${l}</span>`}
 function soN(id){return id==='me'?'You':SO[id].n.split(' ')[0]}

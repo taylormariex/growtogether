@@ -15,7 +15,7 @@ CSS = ['styles.css', 'theme.css', 'spec.css']
 JS = ['art.js', 'assets1.js', 'assets2.js', 'assets3.js', 'assets4.js', 'theme-art.js',
       'core.js', 'flows.js', 'gt.js', 'ideas.js', 'theme.js',
       'spec-core.js', 'spec-flows1.js', 'spec-flows2.js', 'spec-grove.js', 'spec-year.js',
-      'spec-app.js', 'spec-lander.js', 'spec-rules.js', 'spec-nav.js', 'spec-clock.js', 'spec-quiz.js', 'spec-polish.js', 'spec-streaks.js', 'spec-social.js', 'spec-roots.js', 'spec-family.js', 'spec-forest.js', 'spec-wh-stories.js', 'spec-ia.js', 'focus.js']
+      'spec-app.js', 'spec-lander.js', 'spec-rules.js', 'spec-nav.js', 'spec-clock.js', 'spec-quiz.js', 'spec-polish.js', 'spec-streaks.js', 'spec-social.js', 'spec-roots.js', 'spec-family.js', 'spec-forest.js', 'spec-wh-stories.js', 'spec-ia.js', 'spec-day.js', 'focus.js']
 
 # slug → (lander key, page title)
 FOCUS = {

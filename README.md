@@ -16,6 +16,7 @@ Sorted by what the customer is doing, not by who wrote the concept. Home (`gt-ho
 - **People** (people who know me): Your grove (the hillside, with its challenges inside) · Witnesses · Shared goals (Same Tree is shared goals: one goal, separate accounts, up to five) · Family (Seedling: the kid's account and the relatives who watch) · Learn together (one lesson, read with someone who has your goal) · Drop an acorn, when you have one to give.
 - **Everyone** (the crowd): the Friday Count with Today's question (you see the answer by answering) · this month's Bloom as the hero · The Forest (your anonymous room, share a percent to see the spread, nurse trees on duty → Canopy).
 - On a red day a Canopy banner sits above every tab.
+- Everything below Home is light (`spec-day.js` flips the dark system to day; the Grove gets a daytime sky). Home and Streaks stay dark; the Acorns Year film and the Year Ring card stay dark because they are a film and a card.
 
 Family Tree no longer has inner tabs; its three parts are three rows under People. The Grove dock holds challenges only.
 
@@ -36,6 +37,7 @@ Streaks (`streaks`) is the Streaks team's page as they designed it, reached from
 - `spec-roots.js`, `spec-family.js`, `spec-forest.js` — the three bets' screens and state (`rtSt`, `ftSt`, `foSt`).
 - `spec-wh-stories.js` — every story's cards and art, the hub tabs, the prototype clock (demo moves live in the yellow pill, never in product UI).
 - `spec-ia.js` — the IA: Oak injections, Grove dock rows, Forest naming, where each story lands, the front guide.
+- `spec-day.js` — the light treatment for every layer below Home.
 - `spec-streaks.js` — the Streaks team's page, untouched by our injections.
 - `spec-polish.js` — the visual system: eight stage illustrations (`art/stage-*.png`), milestone seals (`art/seal-*.png`) plus an SVG seal generator, the dark share card (`dkCard`), one "Share your progress" sheet (`progressShare`), the invite time-lapse and the jar opener.
 - `focus.js` — standalone guard rails; does nothing in the full build.

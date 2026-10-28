@@ -61,9 +61,9 @@ function hpYou(){const r=rtSt();const i=stageIdx(S.streak);const nx=nextGoal(S.s
   <div class="mt12" id="nbgW">${nbgBlock()}</div>
   <div class="hp-list mt16">
    ${(()=>{const g=r.goal;const ws=r.witnesses.filter(w=>w.state==='in');return hpRow(`<img src="${stageSrc(stageIdx(g.weeks))}" alt="">`,'Your goal',`${g.name} · $${g.amt} a week · ${ws.length?`${ws.map(w=>w.name).join(' and ')} witness${ws.length===1?'es':''}`:'no witness yet'}`,"go('rt-home',{only:'you'})")})()}
-   ${hpRow(sealImg(i,40),'Your achievements',`${RSTAGES[i][1]} card · the Year Ring · recaps`,"go('journal')")}
-   ${hpRow(`<img src="${IMG.seedling}" alt="">`,'Your oak',ff?`${ff} of 7 growing`:'What grows on it',"home('gt-oak')")}
    ${hpRow(`<img src="${IMG.roundup}" alt="">`,'Skip and Invest','Skip a spend, invest it right away',"go('ss2-pick')")}
+   ${hpRow(`<img src="${IMG.seedling}" alt="">`,'Your oak',ff?`${ff} of 7 growing`:'What grows on it',"home('gt-oak')")}
+   ${hpRow(sealImg(i,40),'Your achievements',`${RSTAGES[i][1]} card · the Year Ring · recaps`,"go('journal')")}
    ${hpRow(`<img src="${IMG.learn}" alt="">`,'Know yourself','Short quizzes, a minute each',"go('qz-hub')")}
   </div>
   <div class="hp-sec row between"><span>Timeline</span><span class="seg"><button class="${TLV==='hi'?'on':''}" onclick="TLV='hi';refresh()">Highlights</button><button class="${TLV==='la'?'on':''}" onclick="TLV='la';refresh()">Latest</button></span></div>

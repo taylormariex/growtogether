@@ -12,7 +12,7 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 
 Home (`gt-home`) keeps its dark header (avatar, the greeting with the streak, the week chip) with three tabs under it, the same pattern as the app Home's You | Kids. Each pivot is one hero and a few rows; deeper pages have a back button and no tabs.
 
-- **You**: streak hero (opens Streaks), the week's card, Today's question (the one daily question in the system; you see the answer by answering), then Your achievements (the card to share, the Year Ring, acorns), Your oak (extras only; the streak itself is Streaks'), Skip and Invest, Journal, the timeline.
+- **You**: streak hero (opens Streaks), the week's card, Today's question (the one daily question in the system; you see the answer by answering), then Your achievements (the card to share, the Year Ring, acorns), Your oak (extras only; the streak itself is Streaks'), Skip and Invest, Your year (monthly recaps and the Acorns Year), the timeline.
 - **People**: your grove as the hero (opens the Grove), then Witnesses, Family (the whole Family Tree: Seedling, Same Tree, Learn), Grove challenges.
 - **Everyone**: this month's Bloom as the hero, then The Forest and the Friday Count (its own page).
 - **Learn**: Learn Together as the hero, then Know yourself and Future Club.

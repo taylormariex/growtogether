@@ -42,7 +42,7 @@ function hpYou(){const r=rtSt();const i=stageIdx(S.streak);const nx=nextGoal(S.s
    ${hpRow(sealImg(i,40),'Your achievements',`${RSTAGES[i][1]} card to share${r.acorns.have?' · an acorn to plant':' · Year Ring in January'}`,"go('rt-home',{only:'rings'})")}
    ${hpRow(`<img src="${IMG.seedling}" style="height:30px" alt="">`,'Your oak',ff?`${ff} of 9 extras growing`:'Extras that grow your oak',"home('gt-oak')")}
    ${hpRow(`<img src="${IMG.roundup}" style="height:30px" alt="">`,'Skip and Invest','Skip a spend, invest it right away',"go('ss2-pick')")}
-   ${hpRow(`<img src="${IMG.oak}" style="height:30px" alt="">`,'Journal','What you noticed this week',"go('journal')")}
+   ${hpRow(`<img src="${IMG.oak}" style="height:30px" alt="">`,'Your year','Monthly recaps · the Acorns Year in December',"go('journal')")}
   </div>
   <div class="hp-sec row between"><span>Timeline</span><span class="seg"><button class="${TLV==='hi'?'on':''}" onclick="TLV='hi';refresh()">Highlights</button><button class="${TLV==='la'?'on':''}" onclick="TLV='la';refresh()">Latest</button></span></div>
   <div class="hp-tl">${tlItems().map(tlCard).join('')}</div>`}

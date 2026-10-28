@@ -2634,7 +2634,7 @@ def('inv-pick',()=>{spInit();if(!S.notThem)S.notThem={};const sug=SUGG.filter(([
   ${skRow(ic('link',18,'color:#74c947'),'Share a link','Anyone with it can take this spot','nav',"T.ivp='link';T.day=S.day;go('inv-day')")}`:''}
   <div style="height:20px"></div></div>
   ${foot(btn(`${ic('oak',18)} See my grove`,"GSEL=null;home('gt-grove')",'line','style="color:#fff"'),btn('Invite later',"home('gt-grove');toast('You can invite anyone from your grove, anytime')",'ghost'))}`}});
-function invStart(id){if(PEOPLE[id].on&&!inGrove(id)&&id!=='mom'&&id!=='dad'&&id!=='priya'){go('inv-existing',{id});return}T.ivp=id;T.day=S.day;T.msg='Saved you a spot in my grove. One small investment a week and we both grow.';go('inv-day')}
+function invStart(id){if(PEOPLE[id].on&&!inGrove(id)&&id!=='mom'&&id!=='dad'&&id!=='priya'){go('inv-existing',{id});return}T.ivp=id;T.day=S.day;T.msg='A pact: one small investment a week, each of us. I’m on Fridays. We both grow.';go('inv-day')}
 def('inv-perm',()=>({cls:'dark',html:`${topbar({close:true})}<div class="body center" style="display:flex;flex-direction:column;justify-content:center;align-items:center">
   <div class="sk-badge" style="width:72px;height:72px;border-radius:36px">${ic('user',30,'color:#74c947')}</div><div class="h2 mt24" style="color:#fff">Who’s already here?</div>
   <p class="p mt8" style="max-width:300px">We use contacts only to show who’s already on Acorns. We never message anyone. You send the invite yourself.</p></div>
@@ -2649,18 +2649,18 @@ def('inv-existing',p=>({cls:'dark',html:`${topbar({close:true})}<div class="body
   ${av(p.id,'l')}<div class="h2 mt16" style="color:#fff">${nm(p.id)} already has Acorns.</div><p class="p mt8" style="max-width:300px">No invite needed. Add them as a grove friend and they’ll get a request in their app. Referral rewards are for new investors only.</p></div>
   ${foot(btn('Add as grove friend',`S.grove.push({id:'${p.id}',status:'invited',day:S.day,req:1});save();toast('Request sent in the app');back()`,'wh'),btn('Not now','back()','ghost'))}`}));
 def('inv-day',()=>{const who=T.ivp==='link'?'them':nm(T.ivp);const sug='Fri';if(!T.day)T.day=S.day;
-  return {cls:'dark',html:`${topbar({title:''})}<div class="body"><div class="h2" style="color:#fff">Pick ${T.ivp==='link'?'their':nm(T.ivp)+'’s'} day.</div><p class="p mt8">A shared rhythm, not a rule. Any day they invest still counts.</p>
+  return {cls:'dark',html:`${topbar({title:''})}<div class="body"><div class="h2" style="color:#fff">Make a pact with ${T.ivp==='link'?'them':nm(T.ivp)}.</div><p class="p mt8">One small investment a week, each of you, on a day you pick together. It’s a rhythm you share, not a rule: any day still counts.</p>
   ${hillRow([{html:`<img src="${IMG[rstage(S.streak)[2]]}" style="height:${rstage(S.streak)[2]==='acorn'?52:80}px">`,label:`You · ${S.day}`,me:1},{html:spot(`<img src="${IMG.acorn}" style="height:24px">`),label:`${who} · ${T.day}`}],{h:200})}
-  <div class="chips mt16"><button class="chip ${T.day===S.day?'on':''}" onclick="T.day=S.day;refresh()">Same day as me</button><button class="chip ${T.day===sug&&T.day!==S.day?'on':''}" onclick="T.day='${sug}';refresh()">${ic('spark',14)} Fridays often work for paydays</button></div>
+  <div class="chips mt16"><button class="chip ${T.day===S.day?'on':''}" onclick="T.day=S.day;refresh()">${({Mon:'Mondays',Tue:'Tuesdays',Wed:'Wednesdays',Thu:'Thursdays',Fri:'Fridays',Sat:'Saturdays',Sun:'Sundays'})[S.day]||S.day}, like me</button><button class="chip ${T.day===sug&&T.day!==S.day?'on':''}" onclick="T.day='${sug}';refresh()">${ic('spark',14)} Fridays often work for paydays</button></div>
   <div class="days mt12">${DAYS7.map(d=>`<button class="${T.day===d?'on':''}" onclick="T.day='${d}';haptic(5);refresh()">${d}${d===S.day?'<span class="me"></span>':''}</button>`).join('')}</div>
-  <div class="sm mt24" style="color:var(--sk-sub)">Message (optional)</div><textarea class="msgbox mt8" maxlength="160" oninput="T.msg=this.value" aria-label="Message">${T.msg||''}</textarea></div>
-  ${foot(btn('Review','go(\'inv-review\')','wh'))}`}});
-def('inv-review',()=>{const who=T.ivp==='link'?null:T.ivp;const card=storyCard({eyebrow:'Grow with me',title:`${S.me} saved you a spot.`,sub:`I invest on ${({Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'})[T.day]||T.day}s. Pick your day too.`,foot:'acorns.com/j/jordan'});
+  <div class="sm mt24" style="color:var(--sk-sub)">Message (optional)</div><textarea class="msgbox mt8" maxlength="160" oninput="T.msg=this.value" aria-label="Message" placeholder="A pact: one small investment a week, each of us. We both grow.">${T.msg||''}</textarea></div>
+  ${foot(btn('Review the pact','go(\'inv-review\')','wh'))}`}});
+def('inv-review',()=>{const who=T.ivp==='link'?null:T.ivp;const card=storyCard({eyebrow:'Grow with me',title:`A pact with ${S.me}.`,sub:`One small investment a week, each of us. I invest on ${({Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'})[T.day]||T.day}s. Pick your day too.`,foot:'acorns.com/j/jordan'});
   return {cls:'dark',html:`${topbar({title:'Review'})}<div class="body"><div style="width:190px;margin:0 auto">${card}</div>
   <div class="sk-list mt16"><div class="li"><div class="grow k">To</div><div class="v">${who?PEOPLE[who].full:'Anyone with the link'}</div></div><div class="li"><div class="grow k">Their day</div><div class="v">${T.day}</div></div><div class="li"><div class="grow k">Message</div><div class="v" style="max-width:190px;font-weight:500">${(T.msg||'None')}</div></div></div>
   <p class="sm mt12" style="color:var(--sk-sub)">You send it from your own Messages. The card never shows amounts. Their tree appears after their first investment.</p></div>
-  ${foot(btn(`${ic('share',18)} Send invite`,"invSend()",'wh'))}`}});
-function invSend(){const id=T.ivp==='link'?'nina':T.ivp;const card=storyCard({eyebrow:'Grow with me',title:`${S.me} saved you a spot.`,sub:`I invest on ${({Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'})[T.day]||T.day}s.`});
+  ${foot(btn(`${ic('share',18)} Send the pact`,"invSend()",'wh'))}`}});
+function invSend(){const id=T.ivp==='link'?'nina':T.ivp;const card=storyCard({eyebrow:'Grow with me',title:`A pact with ${S.me}.`,sub:`One small investment a week, each of us. I invest on ${({Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'})[T.day]||T.day}s.`});
   share({title:`${S.me} saved you a spot`,story:card,people:T.ivp==='link'?undefined:[id],text:T.msg,done:()=>{if(!inGrove(id))S.grove.push({id,status:'invited',day:T.day,sent:Date.now()});save();go('inv-waiting',{id})}})}
 def('inv-waiting',p=>{const g=inGrove(p.id)||{day:'Fri'};return {cls:'dark',html:`${topbar({close:"home('gt-home')",title:''})}<div class="body">
   ${hillRow([{html:`<img src="${IMG[rstage(S.streak)[2]]}" style="height:${rstage(S.streak)[2]==='acorn'?52:84}px">`,label:'You',me:1},{html:spot(ic('oak',18)),label:'Waiting'}],{h:230})}
@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:44 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:47 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}

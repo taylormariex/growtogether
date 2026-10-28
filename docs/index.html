@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:05 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 8:09 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -6155,8 +6155,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 /* ---------- the front screen: one list, grouped the way the prototype is built ---------- */
 (function(){const S0=[['You',[['Your goal','What you invest toward, and who sees your Fridays',"go('splash',{k:'witness'})"],['Your achievements','The card, not the balance · the Year Ring · recaps',"go('splash',{k:'rings'})"],['Acorns Year','Your year as a film, every December',"go('splash',{k:'year'})"],['Your oak','What grows on it, and the habits that grow it',"T={};home('gt-home');home('gt-oak')"],['Skip and Invest','Skip a spend, invest it right away',"go('splash',{k:'skip-and-stash'})"],['Know yourself','Short quizzes, a minute each',"go('splash',{k:'money-type'})"]]],
  ['People',[['Your grove','Their first investment plants a tree',"go('splash',{k:'invite'})"],['Shared goals','One goal, separate accounts, up to five',"go('splash',{k:'split'})"],['Family','Grandpa never downloads anything',"go('splash',{k:'seedling'})"],['Learn together','One lesson, two of you',"T={};home('gt-home');go('fo-learn')"],['Drop an acorn','$5 you can’t keep',"go('splash',{k:'acorn'})"]]],
- ['Everyone',[['The Friday Count','How many of us kept a promise this week',"go('splash',{k:'fridaycount'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['Your room','Everyone with your goal, no names',"go('splash',{k:'grove'})"],['Canopy','Ask, don’t sell',"go('splash',{k:'canopy'})"]]],
- ['Streaks',[['Streaks','The Streaks team’s page, as designed',"T={};home('gt-home');go('streaks')"]]]];
+ ['Everyone',[['The Friday Count','How many of us kept a promise this week',"go('splash',{k:'fridaycount'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['Your room','Everyone with your goal, no names',"go('splash',{k:'grove'})"],['Canopy','Ask, don’t sell',"go('splash',{k:'canopy'})"]]]];
  window.__RVG=S0;RV_GO.length=0;S0.forEach(([g,items])=>items.forEach(x=>RV_GO.push(x)));
  const f=rvHTML;rvHTML=function(first){let h=f(first);
   const idx={};let n=0;const html=S0.map(([g,items])=>`<div class="rv-sec">${g}</div><div class="rv-g">${items.map(x=>{const i=n++;return `<button class="rv-i" onclick="rvRun(${i},'go')"><span><b>${x[0]}</b><em>${x[1]}</em></span>${ic('chev',16,'opacity:.35')}</button>`}).join('')}</div>`).join('');

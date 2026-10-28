@@ -24,18 +24,11 @@ FOCUS = {
     'acorns-year':    ('year',           'Acorns Year'),
     'invite':         ('invite',         'Invite to your grove'),
     'know-yourself':  ('money-type',     'Know yourself'),
-    'roots':          ('roots',          'Roots'),
     'family-tree':    ('family',         'Family Tree'),
     'forest':         ('forest',         'The Forest'),
     'witness':        ('witness',        'Witness'),
     'bloom':          ('bloom',          'Bloom'),
     'rings':          ('rings',          'Rings'),
-    'drop-an-acorn':  ('acorn',          'Drop an Acorn'),
-    'friday-count':   ('fridaycount',    'The Friday Count'),
-    'seedling':       ('seedling',       'Seedling'),
-    'same-tree':      ('sametree',       'Same Tree'),
-    'the-grove':      ('grove',          'The Grove'),
-    'canopy':         ('canopy',         'Canopy'),
 }
 
 def read(name):

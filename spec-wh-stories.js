@@ -145,7 +145,7 @@ LV.cnmath=()=>lvOne(whCard(`<div class="fo-ans" style="margin:0">${soAv('kim',28
 LV.cnbadge=()=>lvOne(whCard(`<div style="display:flex;align-items:center;gap:12px">${svgSeal({top:'Asked',bottom:'Not sold',glyph:'peak',size:64})}<div><b style="font-size:15px">Asked instead of selling</b><em style="display:block;font-style:normal;font-size:12px;color:#6b706c">Stays on your goal</em></div></div>`));
 
 /* hubs are tabbed, like Oak · Grove: no endless scroll */
-const WH_TABS={'rt-home':{key:'rtTab',tabs:[['you','Your goal'],['bloom','Bloom'],['rings','Rings']],secs:['wit','bloom','rings','acorn'],map:{you:['head','goal','wit'],bloom:['bloom'],rings:['rings','acorn']}},
+const WH_TABS={'rt-home':{key:'rtTab',tabs:[['you','Your goal'],['bloom','Bloom'],['rings','Achievements']],secs:['wit','bloom','rings','acorn'],map:{you:['head','goal','wit'],bloom:['bloom'],rings:['rings','acorn']}},
  'ft-home':{key:'ftTab',tabs:[['seed','Seedling'],['same','Same Tree'],['learn','Learn']],secs:['seed','same','learn'],map:{seed:['seed'],same:['same'],learn:['learn']}}};
 Object.keys(WH_TABS).forEach(id=>{const C=WH_TABS[id];const f=SCR[id];if(!f)return;SCR[id]=p=>{const r=f(p);if(p&&p.focus){T[C.key]={seed:'seed',same:'same',learn:'learn',wit:'you',bloom:'bloom',rings:'rings',acorn:'rings',canopy:'canopy',ask:'ask'}[p.focus]||C.tabs[0][0]}const tab=T[C.key]||C.tabs[0][0];
   const open=r.html.indexOf('<div class="sg-body sgx-body">');if(open<0)return r;const bodyStart=open+'<div class="sg-body sgx-body">'.length;const bodyEnd=r.html.lastIndexOf('</div>');let body=r.html.slice(bodyStart,bodyEnd);const tail=r.html.slice(bodyEnd);

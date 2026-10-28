@@ -3007,7 +3007,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 5:57 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:02 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5997,6 +5997,17 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .gv-fam{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
 .scr.dark .rt-fc{box-shadow:0 0 0 1px rgba(116,201,71,.25)}
 </style>`);
+
+/* ---------- the front screen: one list, grouped the way the prototype is built ---------- */
+(function(){const S0=[['Witnessed Habit',[['Roots','Witness, Bloom, Rings, Drop an Acorn, the Friday Count',"go('splash',{k:'roots'})"],['Family Tree','Seedling, Same Tree, Learn Together',"go('splash',{k:'family'})"],['The Forest','The Grove, nurse trees, Canopy',"go('splash',{k:'forest'})"]]],
+ ['Each concept on its own',[['Witness','One person who sees you show up',"go('splash',{k:'witness'})"],['Bloom','A month, a target, all of us',"go('splash',{k:'bloom'})"],['Rings','The card, not the balance',"go('splash',{k:'rings'})"],['Drop an Acorn','$5 you can’t keep',"go('splash',{k:'acorn'})"],['The Friday Count','You’re one of them',"go('splash',{k:'fridaycount'})"],['Seedling','Grandpa never downloads anything',"go('splash',{k:'seedling'})"],['Same Tree','Nothing pooled, everyone in',"go('splash',{k:'sametree'})"],['The Grove','No names, no rankings',"go('splash',{k:'grove'})"],['Canopy','Ask, don’t sell',"go('splash',{k:'canopy'})"]]],
+ ['Grow Together',[['Skip and Invest','Skip a spend, invest it right away',"go('splash',{k:'skip-and-stash'})"],['Shared goals','Save for a goal with someone, your way',"go('splash',{k:'split'})"],['Acorns Year','Weeks and cards, never amounts',"go('splash',{k:'year'})"],['Invite to your grove','Their first investment plants a tree',"go('splash',{k:'invite'})"],['Know yourself','Short quizzes, a minute each',"go('splash',{k:'money-type'})"]]]];
+ window.__RVG=S0;RV_GO.length=0;S0.forEach(([g,items])=>items.forEach(x=>RV_GO.push(x)));
+ const f=rvHTML;rvHTML=function(first){let h=f(first);
+  const idx={};let n=0;const html=S0.map(([g,items])=>`<div class="rv-sec">${g}</div><div class="rv-g">${items.map(x=>{const i=n++;return `<button class="rv-i" onclick="rvRun(${i},'go')"><span><b>${x[0]}</b><em>${x[1]}</em></span>${ic('chev',16,'opacity:.35')}</button>`}).join('')}</div>`).join('');
+  h=h.replace(/<div class="rv-sec">(The ideas|Explore)<\/div><div class="rv-g">[\s\S]*?<\/div>\s*(?=<div class="rv-sec">|<div class="rv-foot">)/,html);
+  h=h.replace('A feature concept that lives inside the current Acorns app. Start on Home and tap into it the way a customer would.','Community at Acorns, built on Streaks. One pill, three places: Oak is you, Grove is your people, Forest is everyone. Start on Home and tap in the way a customer would.');
+  return h}})();
 
 
 /* =====================================================================

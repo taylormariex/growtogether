@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:17 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:21 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5974,7 +5974,7 @@ function iaAvs(ids,sz){return `<span class="ia-avs">${ids.map(id=>sgAv(id,sz||36
 function iaBento(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in');const gr=growing();const open=gr.filter(x=>x.open);const i=stageIdx(S.streak);const s=r.season;const fo=foSt();
  return `<div class="bento ia-grid">
   ${iaTile('',`Your oak`,stageImg(S.streak,60),`${RSTAGES[i][1]} · ${S.streak} weeks`,"home('gt-oak')")}
-  ${iaTile('',`Your grove`,iaAvs(gr.slice(0,4).map(g=>g.id)),open.length?`<span class="ia-blue">${nm(open[0].id)} hasn’t invested yet</span>`:'Everyone invested this week',"GSEL=null;home('gt-grove')")}
+  ${iaTile('grove',`Your grove`,`<span class="ia-trees">${gr.slice(0,4).map((g,k)=>`<span class="${g.open?'open':''}">${stageImg(wk(g.id),[34,46,30,40][k%4])}</span>`).join('')}</span>`,open.length?`<span class="ia-blue">${nm(open[0].id)} hasn’t invested yet</span>`:'Everyone invested this week',"GSEL=null;home('gt-grove')")}
   ${iaTile('',`Witnesses`,ws.length?iaAvs(ws.slice(0,4).map(w=>w.id)):`<span class="ia-empty">${ic('user',18)}</span>`,ws.length?`${ws.map(w=>w.name).join(', ')} see your Fridays`:`<span class="ia-green">Pick who’d notice if you stopped</span>`,"go('rt-home',{only:'you'})")}
   ${iaTile('',`This month’s Bloom`,`<div class="ia-tbar"><i style="width:${Math.min(100,Math.round(s.bar/s.target*100))}%"></i></div>`,`No-Spend November · ${s.done?'finished':s.joined?'you’re in':'48,000 of us'}`,"go('rt-home',{only:'bloom'})")}
   ${iaTile('',`Your cards`,sealImg(i,60),r.acorns.have?`<span class="ia-green">An acorn to plant</span>`:'Milestones and the Year Ring',"go('rt-home',{only:'rings'})")}
@@ -6030,6 +6030,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ia-t{height:156px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:16px;border-radius:22px}.ia-t .bh{font-size:15px;font-weight:600;letter-spacing:-.1px}
 .ia-v{flex:1;display:flex;align-items:center;width:100%;padding:6px 0}.ia-v img.stg{height:60px;width:auto}.ia-v .seal-im{width:60px;height:60px}
 .ia-avs{display:inline-flex;align-items:center}.ia-avs .so-av,.ia-avs .sg-av,.ia-avs i{width:36px!important;height:36px!important;font-size:14px!important;border-radius:50%;margin-left:-8px;box-shadow:0 0 0 2px #fff;display:inline-flex;align-items:center;justify-content:center;flex:none}.ia-avs .so-av:first-child,.ia-avs .sg-av:first-child,.ia-avs i:first-child{margin-left:0}
+.ia-trees{display:flex;align-items:flex-end;gap:2px;width:100%;height:60px;padding:0 4px 4px;border-radius:14px;background:linear-gradient(180deg,rgba(116,201,71,0),rgba(116,201,71,.22))}.ia-trees span{display:flex;align-items:flex-end}.ia-trees span.open img{filter:saturate(.4) brightness(.9);opacity:.7}.ia-trees img{width:auto}
 .ia-empty{width:36px;height:36px;border-radius:50%;background:#eef1ec;color:#9aa69c;display:inline-flex;align-items:center;justify-content:center}
 .ia-t .bs{font-size:13px;line-height:1.3;color:#6b706c;margin:0}.ia-blue{color:#1d5fa8}.ia-green{color:#2f7a12;font-weight:600}
 .ia-tbar{width:100%;height:10px;border-radius:5px;background:#eef1ec;overflow:hidden}.ia-tbar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#9bd77a,#3d9a1f)}

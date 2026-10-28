@@ -3006,7 +3006,7 @@ function rvHTML(first){const s=skState();const row=(arr,k)=>arr.map(([t,d],i)=>`
   <div class="rv-sec">Make something happen</div><div class="rv-g">${row(RV_MOMENTS,'mo')}</div>
   <div class="rv-sec">Earlier versions</div><div class="rv-g">${row(RV_OLD,'old')}</div>
   <div class="rv-foot"><button onclick="closeOv();setTimeout(()=>{resetAll();toast('Prototype reset')},250)">Start over</button></div>
-  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:21 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
+  <p class="rv-tip" style="margin-top:14px">Build Oct 27, 6:23 PM · Placeholder names, brands and prices. Best on a phone: Share → Add to Home Screen.</p>`}
 function rvRun(i,k){const js=(k==='go'?RV_GO:k==='old'?RV_OLD:RV_MOMENTS)[i][2];closeOv();setTimeout(()=>{const x=document.createElement('button');x.setAttribute('onclick',js);x.click()},250)}
 function protoMenu(){sheet(rvHTML(false),{cls:'rvs'})}
 function demoPaint(){}
@@ -5481,17 +5481,18 @@ def('rt-home',()=>{spInit();const r=rtSt();const g=r.goal;const s=r.season;const
   ${rtFridayCount()}
   <div class="rt-goal"><div class="rt-gi">${stageImg(g.weeks,54)}</div><div class="grow"><em>Your goal</em><b>${g.name}</b><span>$${g.amt} a week · ${g.weeks} weeks ${g.paused?'<i class="so-chip">frozen</i>':'in a row'}</span></div><button class="sgx-edit" onclick="toast('Only you see the balance')">${ic('lock',12)}</button></div>
   <div data-sec="wit"></div>${rtWitnessCard()}
-  <div class="so-sec" data-sec="bloom"><b>This month’s Bloom</b><button onclick="go('rt-season')">How we’re doing</button></div>
-  <div class="so-card rt-season"><div class="sgx-ch"><div><b>No-Spend November</b><em>${s.people.toLocaleString()} of us, going for ${s.target.toLocaleString()} skipped purchases</em></div><span class="so-chip">${s.done?'Finished':'Day 12'}</span></div>
-   <div class="rt-bar"><i style="width:${pc}%"></i><b style="left:${pc}%">${pc}%</b></div><div class="mc-pl"><span>${s.bar.toLocaleString()} skipped</span><span>${s.target.toLocaleString()}</span></div>
-   <div class="rt-comm"><div class="rt-cs"><b>${s.hour.toLocaleString()}</b><em>in the last hour</em></div><div class="rt-cs"><b>${Math.round(s.people*.71).toLocaleString()}</b><em>still in</em></div><div class="rt-cs"><b>${s.done?s.people.toLocaleString():'—'}</b><em>finishers</em></div></div>
-   <div class="rt-spread"><em>Where the room is · skips so far</em><div class="rt-hist">${[4,9,16,24,21,13,8,5].map((v,i)=>`<i style="height:${v*3.6}px" class="${i>=2&&i<=4?'hi':''}"></i>`).join('')}</div><div class="rt-hl"><span>0</span><span>Most of us are here</span><span>40+</span></div><small>The spread shows where the room is, never where you are in it. 28% missed a day and are still in.</small></div>
-   <div class="rt-tick" id="rtTick">${['Someone in Tempe skipped takeout','Someone in Mesa skipped a rideshare','Someone in Phoenix made coffee at home'].map((t,i)=>`<div class="${i?'':'new'}"><i></i>${t} · just now</div>`).join('')}</div>
-   ${s.done?`<div class="rt-fin">${svgSeal({top:'Finished',bottom:'November',glyph:'star',size:64})}<div><b>$5 landed in ${g.name}</b><em>$5 base from the monthly pool; more only when a sponsor funds it. Your card says “finished${Object.keys(s.dared).length?' with '+Object.keys(s.dared).map(id=>(r.witnesses.find(w=>w.id===id)||{name:id}).name).join(' and '):''}.” Nobody saw how many days anyone slipped.</em></div></div><button class="btn sg-cta" style="height:46px;margin-top:12px" onclick="rtShareSeason()">${ic('share',16)} Share the card</button>`
+  <div class="so-sec" data-sec="bloom"><b>This month’s Bloom</b></div>
+  <div class="so-card rt-season"><div class="rt-bh"><div><em class="so-lvk">Day 12 of 30</em><b>No-Spend November</b></div><button class="sgx-edit" onclick="go('rt-season')">${s.done?'How we did':'The room'}</button></div>
+   <p class="rt-bsub">${s.people.toLocaleString()} of us, going for ${s.target.toLocaleString()} skipped purchases.</p>
+   <div class="rt-bar"><i style="width:${pc}%"></i></div><div class="rt-bl"><b>${s.bar.toLocaleString()}</b><span>${pc}% of ${s.target.toLocaleString()}</span></div>
+   ${s.done?`<div class="rt-fin">${svgSeal({top:'Finished',bottom:'November',glyph:'star',size:64})}<div><b>$5 landed in ${g.name}</b><em>Your card says “finished${Object.keys(s.dared).length?' with '+Object.keys(s.dared).map(id=>(r.witnesses.find(w=>w.id===id)||{name:id}).name).join(' and '):''}.” Nobody saw how many days anyone slipped.</em></div></div><button class="btn sg-cta" style="height:46px;margin-top:14px" onclick="rtShareSeason()">${ic('share',16)} Share the card</button>`
    :s.joined?`<div class="rt-mine"><div><b>${s.mine}</b><em>skips, each one invested in ${g.name} · only you and your witnesses see this</em></div></div>
     ${r.witnesses.filter(w=>w.state==='in').length?`<div class="rt-dares">${r.witnesses.filter(w=>w.state==='in').map(w=>`<button class="so-join ${s.dared[w.id]?'on':''}" onclick="rtDare('${w.id}')">${s.dared[w.id]?ic('check',12)+' '+w.name+'’s in':'Dare '+w.name}</button>`).join('')}<small>A dare only counts if you both finish.</small></div>`:''}
-    <button class="btn sg-cta" style="height:46px;margin-top:12px" onclick="rtSkip()">${ic('plus',16)} Skip and Invest</button>`
-   :`<p class="rt-p" style="margin-top:14px">The whole room chases one target. Every skipped purchase is one Skip and Invest tap: the money moves to your goal and the bar moves a little. Your own count shows only to you and your witnesses. Hit it together and every finisher gets $5 into their goal. Miss it and nobody loses anything; the badge still goes to everyone who finished their part.</p><button class="btn sg-cta" style="height:46px" onclick="rtJoin()">Join the Bloom</button>`}</div>
+    <button class="btn sg-cta" style="height:46px;margin-top:14px" onclick="rtSkip()">${ic('plus',16)} Skip and Invest</button>`
+   :`<p class="rt-p" style="margin-top:14px">Every skipped purchase is one Skip and Invest tap: the money moves to your goal and the bar moves. Your own count shows only to you and your witnesses. Hit it together and every finisher gets $5. Miss it and nobody loses anything.</p><button class="btn sg-cta" style="height:46px" onclick="rtJoin()">Join the Bloom</button>`}</div>
+  <div class="so-card"><div class="sgx-ch"><div><b>The room</b><em>Never where you are in it</em></div></div><div class="rt-comm" style="margin-top:0"><div class="rt-cs"><b>${s.hour.toLocaleString()}</b><em>in the last hour</em></div><div class="rt-cs"><b>${Math.round(s.people*.71).toLocaleString()}</b><em>still in</em></div><div class="rt-cs"><b>${s.done?s.people.toLocaleString():'—'}</b><em>finishers</em></div></div>
+   <div class="rt-spread"><em>Skips so far</em><div class="rt-hist">${[4,9,16,24,21,13,8,5].map((v,i)=>`<i style="height:${v*3.6}px" class="${i>=2&&i<=4?'hi':''}"></i>`).join('')}</div><div class="rt-hl"><span>0</span><span>Most of us are here</span><span>40+</span></div><small>28% missed a day and are still in.</small></div></div>
+  <div class="so-card"><div class="sgx-ch"><div><b>Right now</b><em>Nobody’s name, ever</em></div></div><div class="rt-tick" id="rtTick">${['Someone in Tempe skipped takeout','Someone in Mesa skipped a rideshare','Someone in Phoenix made coffee at home'].map((t,i)=>`<div class="${i?'':'new'}"><i></i>${t} · just now</div>`).join('')}</div></div>
   <div class="so-sec" data-sec="rings"><b>Rings</b><button onclick="go('rt-guest',{who:'jess'})">See one as a guest</button></div>
   <div class="so-card"><div class="sgx-ch"><div><b>At a milestone, the app makes the card.</b><em>Goal, club, start date, cadence, one line of math. No balance unless you turn it on.</em></div></div>
    ${rtRingCard({name:'Move out',club:'$1k club',start:'Started August',cad:'$15 a day',math:'$15 a day is $5,475 a year, before it grows.',by:'jess'})}
@@ -5580,6 +5581,11 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .rt-yr{display:block;width:100%;text-align:left;background:linear-gradient(160deg,#163d0c,#0a1d08);color:#fff}.rt-yr b{display:block;font-size:18px;margin-top:2px}.rt-yr span{display:block;font-size:12px;color:rgba(255,255,255,.7);margin-top:4px;line-height:1.4;padding-right:8px}
 .rt-acorn{width:56px;height:56px;border-radius:18px;background:#eef3e8;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;flex:none}.rt-acorn.dim{opacity:.4}
 .rt-acbig{display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 0 6px}
+
+.rt-bh{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.rt-bh b{display:block;font-size:20px;letter-spacing:-.3px;margin-top:2px}.rt-bh .so-chip{flex:none;white-space:nowrap}
+.rt-bsub{margin:8px 0 18px;font-size:14px;line-height:1.45;color:#5d655f}
+.rt-bl{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px}.rt-bl b{font-size:15px}.rt-bl span{font-size:12px;color:#6b706c}
+.rt-bar b{display:none}
 </style>`);
 
 
@@ -5978,14 +5984,14 @@ function iaBento(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in')
   ${iaTile('',`Witnesses`,ws.length?iaAvs(ws.slice(0,4).map(w=>w.id)):`<span class="ia-empty">${ic('user',18)}</span>`,ws.length?`${ws.map(w=>w.name).join(', ')} see your Fridays`:`<span class="ia-green">Pick who’d notice if you stopped</span>`,"go('rt-home',{only:'you'})")}
   ${iaTile('',`This month’s Bloom`,`<div class="ia-tbar"><i style="width:${Math.min(100,Math.round(s.bar/s.target*100))}%"></i></div>`,`No-Spend November · ${s.done?'finished':s.joined?'you’re in':'48,000 of us'}`,"go('rt-home',{only:'bloom'})")}
   ${iaTile('',`Your cards`,sealImg(i,60),r.acorns.have?`<span class="ia-green">An acorn to plant</span>`:'Milestones and the Year Ring',"go('rt-home',{only:'rings'})")}
-  ${iaTile(fo.red?'red':'',`The Forest`,`<span class="ia-avs">${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'].map(c=>`<i style="background:${c}"></i>`).join('')}</span>`,fo.red?'Red day · Canopy is open':'3,100 people with your goal',"go('fo-grove')")}
+  ${iaTile(fo.red?'red':'',`The Forest`,`<span class="ia-forest">${[7,5,6,7,5,6,7,5,6].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[30,24,27,32,22,26,30,23,27][k]}px;margin-left:${k?-10:0}px;z-index:${k%2?2:1}" alt="">`).join('')}</span>`,fo.red?'Red day · Canopy is open':'3,100 people with your goal',"go('fo-grove')")}
  </div>`}
 (function(){const f=SCR['gt-home'];SCR['gt-home']=p=>{const r=f(p);
  const k=r.html.indexOf('<div class="bento mt16">');if(k>0)r.html=r.html.slice(0,k)+iaBento()+'<div style="height:24px"></div></div>';
  r.html+=whClock([['It’s Friday','rtFriday()']]);return r}})();
 tabbarDk=function(){return ''};
 /* deeper pages: one section, a back button, no tabs */
-['rt-home','ft-home'].forEach(id=>{const f=SCR[id];SCR[id]=p=>{if(p&&p.only){T[id==='rt-home'?'rtTab':'ftTab']=p.only}const r=f(p);if(p&&p.only){r.html=r.html.replace(/<div class="ssx-seg wh-seg"[\s\S]*?<\/div>/,'').replace('style="top:calc(var(--safeTop) + 104px)"','').replace(/<b>(Roots|Family Tree)<\/b>/,`<b>${{you:'Your goal',bloom:'Bloom',rings:'Your cards',seed:'Family',same:'Shared goal',learn:'Learn together'}[p.only]||''}</b>`).replace('onclick="home(\'ac-home\')"','onclick="back()"')}return r}});
+['rt-home','ft-home'].forEach(id=>{const f=SCR[id];SCR[id]=p=>{if(p&&p.only){T[id==='rt-home'?'rtTab':'ftTab']=p.only}const r=f(p);if(p&&p.only){r.html=r.html.replace(/<div class="ssx-seg wh-seg"[\s\S]*?<\/div>/,'').replace(/<div class="so-sec"[^>]*data-sec="[a-z]+"><b>[^<]*<\/b>(<button[^>]*>[^<]*<\/button>)?<\/div>/,(m,btn)=>btn?`<div class="so-sec ia-only">${btn}</div>`:'').replace('style="top:calc(var(--safeTop) + 104px)"','').replace(/<b>(Roots|Family Tree)<\/b>/,`<b>${{you:'Your goal',bloom:'Bloom',rings:'Your cards',seed:'Family',same:'Shared goal',learn:'Learn together'}[p.only]||''}</b>`).replace('onclick="home(\'ac-home\')"','onclick="back()"')}return r}});
 (function(){const f=SCR['fo-grove'];SCR['fo-grove']=p=>{const r=f(p);r.html=r.html.replace('onclick="home(\'ac-home\')" aria-label="Home"','onclick="home(\'gt-home\')" aria-label="Back"').replace(/<div class="sk-pill[\s\S]*?<\/div>/,'');r.cls=(r.cls||'').replace(' fog','');return r}})();
 /* ---- Grove: shared goals and family watching live in the dock ---- */
 (function(){const f=gvDock;gvDock=function(id){let h=f(id);if(id)return h;const sh=ftSt().shared;const tot=sh.members.reduce((a,m)=>a+m.part,0);const k=ftSt().kid;
@@ -6031,10 +6037,12 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ia-v{flex:1;display:flex;align-items:center;width:100%;padding:6px 0}.ia-v img.stg{height:60px;width:auto}.ia-v .seal-im{width:60px;height:60px}
 .ia-avs{display:inline-flex;align-items:center}.ia-avs .so-av,.ia-avs .sg-av,.ia-avs i{width:36px!important;height:36px!important;font-size:14px!important;border-radius:50%;margin-left:-8px;box-shadow:0 0 0 2px #fff;display:inline-flex;align-items:center;justify-content:center;flex:none}.ia-avs .so-av:first-child,.ia-avs .sg-av:first-child,.ia-avs i:first-child{margin-left:0}
 .ia-trees{display:flex;align-items:flex-end;gap:2px;width:100%;height:60px;padding:0 4px 4px;border-radius:14px;background:linear-gradient(180deg,rgba(116,201,71,0),rgba(116,201,71,.22))}.ia-trees span{display:flex;align-items:flex-end}.ia-trees span.open img{filter:saturate(.4) brightness(.9);opacity:.7}.ia-trees img{width:auto}
+.ia-forest{display:flex;align-items:flex-end;width:100%;height:60px;padding:0 6px 4px;border-radius:14px;background:linear-gradient(180deg,rgba(116,201,71,0),rgba(116,201,71,.22));overflow:hidden}.ia-forest img{width:auto;filter:saturate(.85)}
 .ia-empty{width:36px;height:36px;border-radius:50%;background:#eef1ec;color:#9aa69c;display:inline-flex;align-items:center;justify-content:center}
 .ia-t .bs{font-size:13px;line-height:1.3;color:#6b706c;margin:0}.ia-blue{color:#1d5fa8}.ia-green{color:#2f7a12;font-weight:600}
 .ia-tbar{width:100%;height:10px;border-radius:5px;background:#eef1ec;overflow:hidden}.ia-tbar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#9bd77a,#3d9a1f)}
 .ia-t.red{background:#fdecea;border-color:#f5c6c2}.ia-t.red .bs{color:#c62828}
+.so-sec.ia-only{justify-content:flex-end;margin-top:6px}
 .scr.iahome .body{padding-bottom:calc(var(--safeBot) + 170px)!important}
 </style>`);
 

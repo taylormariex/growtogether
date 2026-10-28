@@ -26,14 +26,14 @@ function iaBento(){const r=rtSt();const ws=r.witnesses.filter(w=>w.state==='in')
   ${iaTile('',`Witnesses`,ws.length?iaAvs(ws.slice(0,4).map(w=>w.id)):`<span class="ia-empty">${ic('user',18)}</span>`,ws.length?`${ws.map(w=>w.name).join(', ')} see your Fridays`:`<span class="ia-green">Pick who’d notice if you stopped</span>`,"go('rt-home',{only:'you'})")}
   ${iaTile('',`This month’s Bloom`,`<div class="ia-tbar"><i style="width:${Math.min(100,Math.round(s.bar/s.target*100))}%"></i></div>`,`No-Spend November · ${s.done?'finished':s.joined?'you’re in':'48,000 of us'}`,"go('rt-home',{only:'bloom'})")}
   ${iaTile('',`Your cards`,sealImg(i,60),r.acorns.have?`<span class="ia-green">An acorn to plant</span>`:'Milestones and the Year Ring',"go('rt-home',{only:'rings'})")}
-  ${iaTile(fo.red?'red':'',`The Forest`,`<span class="ia-avs">${['#2f7a12','#7a5af5','#e8a45c','#2a9d8f'].map(c=>`<i style="background:${c}"></i>`).join('')}</span>`,fo.red?'Red day · Canopy is open':'3,100 people with your goal',"go('fo-grove')")}
+  ${iaTile(fo.red?'red':'',`The Forest`,`<span class="ia-forest">${[7,5,6,7,5,6,7,5,6].map((t,k)=>`<img src="${stageSrc(t)}" style="height:${[30,24,27,32,22,26,30,23,27][k]}px;margin-left:${k?-10:0}px;z-index:${k%2?2:1}" alt="">`).join('')}</span>`,fo.red?'Red day · Canopy is open':'3,100 people with your goal',"go('fo-grove')")}
  </div>`}
 (function(){const f=SCR['gt-home'];SCR['gt-home']=p=>{const r=f(p);
  const k=r.html.indexOf('<div class="bento mt16">');if(k>0)r.html=r.html.slice(0,k)+iaBento()+'<div style="height:24px"></div></div>';
  r.html+=whClock([['It’s Friday','rtFriday()']]);return r}})();
 tabbarDk=function(){return ''};
 /* deeper pages: one section, a back button, no tabs */
-['rt-home','ft-home'].forEach(id=>{const f=SCR[id];SCR[id]=p=>{if(p&&p.only){T[id==='rt-home'?'rtTab':'ftTab']=p.only}const r=f(p);if(p&&p.only){r.html=r.html.replace(/<div class="ssx-seg wh-seg"[\s\S]*?<\/div>/,'').replace('style="top:calc(var(--safeTop) + 104px)"','').replace(/<b>(Roots|Family Tree)<\/b>/,`<b>${{you:'Your goal',bloom:'Bloom',rings:'Your cards',seed:'Family',same:'Shared goal',learn:'Learn together'}[p.only]||''}</b>`).replace('onclick="home(\'ac-home\')"','onclick="back()"')}return r}});
+['rt-home','ft-home'].forEach(id=>{const f=SCR[id];SCR[id]=p=>{if(p&&p.only){T[id==='rt-home'?'rtTab':'ftTab']=p.only}const r=f(p);if(p&&p.only){r.html=r.html.replace(/<div class="ssx-seg wh-seg"[\s\S]*?<\/div>/,'').replace(/<div class="so-sec"[^>]*data-sec="[a-z]+"><b>[^<]*<\/b>(<button[^>]*>[^<]*<\/button>)?<\/div>/,(m,btn)=>btn?`<div class="so-sec ia-only">${btn}</div>`:'').replace('style="top:calc(var(--safeTop) + 104px)"','').replace(/<b>(Roots|Family Tree)<\/b>/,`<b>${{you:'Your goal',bloom:'Bloom',rings:'Your cards',seed:'Family',same:'Shared goal',learn:'Learn together'}[p.only]||''}</b>`).replace('onclick="home(\'ac-home\')"','onclick="back()"')}return r}});
 (function(){const f=SCR['fo-grove'];SCR['fo-grove']=p=>{const r=f(p);r.html=r.html.replace('onclick="home(\'ac-home\')" aria-label="Home"','onclick="home(\'gt-home\')" aria-label="Back"').replace(/<div class="sk-pill[\s\S]*?<\/div>/,'');r.cls=(r.cls||'').replace(' fog','');return r}})();
 /* ---- Grove: shared goals and family watching live in the dock ---- */
 (function(){const f=gvDock;gvDock=function(id){let h=f(id);if(id)return h;const sh=ftSt().shared;const tot=sh.members.reduce((a,m)=>a+m.part,0);const k=ftSt().kid;
@@ -79,10 +79,12 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ia-v{flex:1;display:flex;align-items:center;width:100%;padding:6px 0}.ia-v img.stg{height:60px;width:auto}.ia-v .seal-im{width:60px;height:60px}
 .ia-avs{display:inline-flex;align-items:center}.ia-avs .so-av,.ia-avs .sg-av,.ia-avs i{width:36px!important;height:36px!important;font-size:14px!important;border-radius:50%;margin-left:-8px;box-shadow:0 0 0 2px #fff;display:inline-flex;align-items:center;justify-content:center;flex:none}.ia-avs .so-av:first-child,.ia-avs .sg-av:first-child,.ia-avs i:first-child{margin-left:0}
 .ia-trees{display:flex;align-items:flex-end;gap:2px;width:100%;height:60px;padding:0 4px 4px;border-radius:14px;background:linear-gradient(180deg,rgba(116,201,71,0),rgba(116,201,71,.22))}.ia-trees span{display:flex;align-items:flex-end}.ia-trees span.open img{filter:saturate(.4) brightness(.9);opacity:.7}.ia-trees img{width:auto}
+.ia-forest{display:flex;align-items:flex-end;width:100%;height:60px;padding:0 6px 4px;border-radius:14px;background:linear-gradient(180deg,rgba(116,201,71,0),rgba(116,201,71,.22));overflow:hidden}.ia-forest img{width:auto;filter:saturate(.85)}
 .ia-empty{width:36px;height:36px;border-radius:50%;background:#eef1ec;color:#9aa69c;display:inline-flex;align-items:center;justify-content:center}
 .ia-t .bs{font-size:13px;line-height:1.3;color:#6b706c;margin:0}.ia-blue{color:#1d5fa8}.ia-green{color:#2f7a12;font-weight:600}
 .ia-tbar{width:100%;height:10px;border-radius:5px;background:#eef1ec;overflow:hidden}.ia-tbar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#9bd77a,#3d9a1f)}
 .ia-t.red{background:#fdecea;border-color:#f5c6c2}.ia-t.red .bs{color:#c62828}
+.so-sec.ia-only{justify-content:flex-end;margin-top:6px}
 .scr.iahome .body{padding-bottom:calc(var(--safeBot) + 170px)!important}
 </style>`);
 

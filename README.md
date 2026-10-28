@@ -1,24 +1,39 @@
 # Grow Together
 
-Clickable prototype for Share the wealth. Everything is plain HTML/CSS/JS; `build.py` inlines the source files into one page.
+Clickable prototype for community at Acorns. Plain HTML/CSS/JS; `build.py` inlines the source files into one page.
 
 ```
 python3 build.py
 ```
 
-Builds `docs/index.html` (every experience, served by GitHub Pages at the site root) plus four standalone builds that open on one story lander and stay inside that experience:
+Builds `docs/index.html` (every experience, served by GitHub Pages at the site root) plus a standalone build per story. Each opens on its story cards and goes straight into the working experience. `docs/skip-and-stash/` forwards to `docs/skip-and-invest/`. `dist/` mirrors `docs/`.
 
-- `docs/skip-and-invest/` — Skip and Invest (`docs/skip-and-stash/` forwards here)
-- `docs/shared-goals/` — Shared goals
-- `docs/acorns-year/` — Acorns Year and share cards
-- `docs/invite/` — Invite to your grove
-- `docs/roots/`, `docs/family-tree/`, `docs/forest/` — the three Witnessed Habit bets
-- `docs/witness/`, `docs/bloom/`, `docs/rings/`, `docs/drop-an-acorn/`, `docs/friday-count/`, `docs/seedling/`, `docs/same-tree/`, `docs/the-grove/`, `docs/canopy/` — each concept on its own
-- `docs/know-yourself/` — Know yourself (Money Type and three more quizzes)
+## The IA
 
-`focus.js` adds the standalone guard rails; it does nothing in the full build. `dist/` mirrors `docs/` for the zip upload.
+One pill on top, three places:
 
+- **Oak** (`gt-home`) is you: streak and stage, the Friday Count, your witnesses, your cards (milestone card, Year Ring) and acorns to plant.
+- **Grove** (`gt-grove`) is people you know: the hillside, rain and cheers, challenges with this month's Bloom pinned, shared goals (Same Tree) and family watching a kid's goal (Seedling) in the dock.
+- **Forest** (`fo-grove`) is everyone: an anonymous room with your goal and age, the daily question, nurse trees on duty, Canopy on red days.
 
-## Visual system (polish pass)
+## Links
 
-`spec-polish.js` loads last and applies the Acorns Streaks system everywhere: eight stage illustrations (`art/stage-*.png`) for every tree, eight milestone seals (`art/seal-*.png`) plus an SVG seal generator for non-streak milestones, the dark share card (`dkCard`), one “Share your progress” sheet (`progressShare`), real photographs in the Skip & Invest polaroids (`art/pol-*.jpg`, Unsplash license) and the time-lapse that opens the invite story. `build.py` copies `art/` into `docs/art/`.
+Witnessed Habit, the three bets: `roots/`, `family-tree/`, `forest/`.
+
+Each concept on its own: `witness/`, `bloom/`, `rings/`, `drop-an-acorn/`, `friday-count/`, `seedling/`, `same-tree/`, `the-grove/`, `canopy/`.
+
+Grow Together, the five pieces the system places: `skip-and-invest/`, `shared-goals/`, `acorns-year/`, `invite/`, `know-yourself/`.
+
+## Files
+
+- `build.py` — concatenation order and the slug → story map.
+- `spec-social.js` — shared pieces: people, avatars, polls, chat, boards, inputs.
+- `spec-roots.js`, `spec-family.js`, `spec-forest.js` — the three bets' screens and state (`rtSt`, `ftSt`, `foSt`).
+- `spec-wh-stories.js` — every story's cards and art, the hub tabs, the prototype clock (demo moves live in the yellow pill, never in product UI).
+- `spec-ia.js` — the IA: Oak injections, Grove dock rows, Forest naming, where each story lands, the front guide.
+- `spec-polish.js` — the visual system: eight stage illustrations (`art/stage-*.png`), milestone seals (`art/seal-*.png`) plus an SVG seal generator, the dark share card (`dkCard`), one "Share your progress" sheet (`progressShare`), the invite time-lapse and the jar opener.
+- `focus.js` — standalone guard rails; does nothing in the full build.
+
+## Rules of the forest
+
+Never show anyone else's balance. Never rank people against each other. Never pay anyone to recruit. Never punish a missed week. No feed.

@@ -10,15 +10,13 @@ Builds `docs/index.html` (every experience, served by GitHub Pages at the site r
 
 ## The IA
 
-Home (`gt-home`) is the Streaks team's page, untouched: hello, streak chip, the grow-your-week block, their bento (Your grove, Grove challenges, Your oak, Oak extras), "Ways to grow", timeline. Our pieces join "Ways to grow" as the first five squares in that row. Each opens one level deeper; deeper pages have a back button and no tabs.
+Home (`gt-home`) is light, in the app's style, with three pivots under the greeting, the same pattern as the app Home's You | Kids. Each pivot is one hero and a few rows; deeper pages have a back button and no tabs.
 
-- **Witnesses** (`rt-home` · you): your goal, who sees your Fridays, the Friday Count.
-- **Bloom** (`rt-home` · bloom): this month's room, one target, how the community did.
-- **Your cards** (`rt-home` · rings): milestone card, Year Ring, acorns to plant.
-- **Family** (`ft-home` · seedling): the Seedling, Same Tree, Learn Together.
-- **The Forest** (`fo-grove`): everyone with your goal, no names; nurse trees on duty, Canopy open on red days (the square goes red).
+- **You**: streak hero (opens Streaks), the week's grow-your-week card, Your cards, Oak extras, Journal, the "Ways to grow" scroller, the timeline.
+- **People**: your grove as the hero (opens the Grove), then Witnesses, Family, Grove challenges.
+- **Everyone**: this month's Bloom as the hero, then The Forest (goes red on a red day) and the Friday Count.
 
-Inside their screens we add rather than fork: Oak gets witness and ring rows, the Grove dock gets shared goals and family, the Profile streak card opens Home. Demo moves (It's Friday, red day, finish the season) live only in the yellow prototype pill.
+Inside their screens we add rather than fork: the Grove dock gets shared goals and family, the Profile streak card opens Home. Demo moves (It's Friday, red day, finish the season) live only in the yellow prototype pill.
 
 ## Links
 
